@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Webpack App</title>
+</head>
+<body>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>" type="text/javascript"></script>
+    <div id="root"></div>
+    <script>
+        var form = new Forms.FormFactory({
+            form: {
+                props: {id: 'myform', className:'someclass'},
+                children: [
+                    {element: "input", props:{type: "email", 'data-field': "email"}, label: {text: "Email", props:{}}},
+                    {
+                        element: "select", props:{'data-field': "preference"},
+                        label: {text: "Preference", props:{}},
+                        children: [
+                            {text: 'Foo', props: {value: 'Foo'}},
+                            {text: 'Bar', props: {value: 'Bar'}},
+                            {text: 'Baz', props: {value: 'Baz'}},
+                        ]
+                    }
+                ]
+            }
+        });
+        ReactDOM.render(form.render(), document.getElementById('root'));
+    </script>
+</body>
+
+</html>
