@@ -72,8 +72,9 @@ export class FormFactory extends React.Component <any, any> {
                                     <div className="field-wrapper" key={i}>
                                         { f.children.map((o, oi)=> {
                                             return
-                                            <label htmlFor={}>
-                                            <input id={`id-${oi}`} type='radio' name={field} key={oi} {...o.props}></input>
+                                            <label htmlFor={`id-${oi}`}>
+                                                <input id={`id-${oi}`} type='radio' name={field} key={oi} {...o.props}></input>
+                                            </label>
                                         })}
                                     </div>
                                 )
