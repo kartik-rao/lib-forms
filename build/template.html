@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Webpack App</title>
+    <link rel="stylesheet" href="dist/styles.css"/>
 </head>
 <body>
     <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
@@ -13,19 +14,24 @@
     <script>
         var form = new Forms.FormFactory({
             form: {
-                props: {id: 'myform', className:'someclass'},
-                children: [
-                    {element: "input", props:{type: "email", 'data-field': "email"}, label: {text: "Email", props:{}}},
-                    {
-                        element: "select", props:{'data-field': "preference"},
-                        label: {text: "Preference", props:{}},
-                        children: [
-                            {text: 'Foo', props: {value: 'Foo'}},
-                            {text: 'Bar', props: {value: 'Bar'}},
-                            {text: 'Baz', props: {value: 'Baz'}},
-                        ]
-                    }
-                ]
+                id:"foo",
+                content: {
+                    pages: [
+                        {
+                            sections: [
+                                {
+                                    fields: [
+                                        {id:"f1", name:"f1", type: "input", inputType: "text"},
+                                        {id:"f1", name:"f1", type: "select", children: [
+                                            {label: "option1", value:"1"},
+                                            {label: "option2", value:"2"}
+                                        ]}
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
             }
         });
         ReactDOM.render(form.render(), document.getElementById('root'));

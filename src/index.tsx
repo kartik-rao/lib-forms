@@ -1,5 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import './app.css';
+import "antd/dist/antd.css"
+
 import {FormComponent} from "./components/component.form";
 
 export class FormFactory extends React.Component <any, any> {
@@ -15,7 +18,6 @@ export class FormFactory extends React.Component <any, any> {
       }
 
     handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.value);
         event.preventDefault();
     }
 
@@ -30,23 +32,8 @@ export class FormFactory extends React.Component <any, any> {
     render() {
         const { initialState, ...rest } = this.props
         const { form } = this.props;
-        console.log(this);
         return (
-            <FormComponent id="foo" content={
-                {
-                    pages: [
-                        {
-                            sections: [
-                                {
-                                    fields: [
-                                        {id:"f1", name:"f1", type: "input", inputType: "text"}
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            }/>
+            <FormComponent {...form}/>
         );
   }
 }

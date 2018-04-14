@@ -4,6 +4,7 @@ import * as ReactDOM from "react-dom";
 import {Form} from "../models/model.form";
 import {Page} from "../models/model.page";
 import {PageComponent} from "./component.page";
+import {Button} from "antd";
 
 export class FormComponent extends React.Component<Form, any> {
     constructor(props: Form) {
@@ -17,6 +18,7 @@ export class FormComponent extends React.Component<Form, any> {
                 {this.props.content.pages.map((p: Page, i)=>{
                     return <PageComponent key={i} {...p}/>
                 })}
+                <Button type="primary">Button</Button>
             </form>
         )
     }

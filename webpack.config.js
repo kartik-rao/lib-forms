@@ -2,6 +2,8 @@ var path = require('path');
 var webpack = require('webpack');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const env = process.env.NODE_ENV;
 
 module.exports = {
@@ -15,8 +17,11 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: { loader: 'css-loader' },
-                exclude: /node_modules/
+                use: ExtractTextPlugin.extract({
+                    allChunks: true,
+                    fallback: "style-loader",
+                    use: "css-loader"
+                  })
             }
         ],
     },
@@ -46,7 +51,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'build/template.html',
             inject: false,
-        })
-        // new BundleAnalyzerPlugin()
+        }),
+        new ExtractTextPlugin("styles.css"),
+        new StyleExtHtmlWebpackPlugin('styles.css')
     ]
 };
