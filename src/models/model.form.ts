@@ -65,5 +65,7 @@ export interface IFormProps extends FormComponentProps {
     tenant?: FormTenant;
     status?: FormStatus;
     content?: FormContent;
-    values?: any
+    values?: any;
+    layout?: any;
+    formItemLayout?: any;
 }

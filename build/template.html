@@ -15,11 +15,14 @@
         var form = new Forms.FormFactory({
             form: {
                 id:"foo",
+                name: "A sample form",
+                layout: 'vertical',
                 content: {
                     pages: [
                         {
                             sections: [
                                 {
+                                    name: "A Section",
                                     fields: [
                                         {id:"f1", name:"f1", type: "input", inputType: "text", label:"Text Label"},
                                         {id:"f2", name:"f2", type: "select", label:"Select Label", children: [
@@ -31,6 +34,16 @@
                             ]
                         }
                     ]
+                },
+                formItemLayout : {
+                    labelCol: {
+                        xs: { span: 24 },
+                        sm: { span: 8 },
+                    },
+                    wrapperCol: {
+                        xs: { span: 24 },
+                        sm: { span: 16 }
+                    },
                 }
             }
         });

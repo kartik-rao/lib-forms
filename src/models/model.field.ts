@@ -44,6 +44,7 @@ export interface Field {
     helpPlacement?: string;
     cssClassNames?: string[]
     validateable?: boolean;
+    validations: any;
     queryParam?: string;
     saveable?: boolean;
 }

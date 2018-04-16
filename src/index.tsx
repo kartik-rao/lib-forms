@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 import './app.css';
 import "antd/dist/antd.css"
 
+import {Row, Col, Layout} from "antd";
 import FormComponent from "./components/component.form";
 
 export class FormFactory extends React.Component <any, any> {
@@ -33,7 +34,16 @@ export class FormFactory extends React.Component <any, any> {
         const { initialState, ...rest } = this.props
         const { form } = this.props;
         return (
-            <FormComponent {...form}/>
+            <Layout>
+                <Layout.Content>
+                    <Row><br/></Row>
+                    <Row gutter={8}  justify="space-around">
+                        <Col span={12} offset={1}>
+                            <FormComponent {...form}/>
+                        </Col>
+                    </Row>
+                </Layout.Content>
+            </Layout>
         );
   }
 }
