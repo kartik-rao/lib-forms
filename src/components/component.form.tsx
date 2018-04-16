@@ -49,51 +49,66 @@ class FormComponent extends React.Component<IFormProps, any> {
         </Card>
     }
 
+    onChange(e) {
+        const id = e.target.id;
+        const context = this.props.form;
+        const isTouched = context.isFieldsTouched([id]);
+        const isValidating = context.isFieldValidating(id)
+        const error = context.getFieldError(id)
+        if (isTouched) {
+            console.log(this)
+            console.log(arguments);
+            console.log(id, isTouched, isValidating, error)
+        }
+    }
+
     renderField(field: IField, fn: number) {
         const fieldType = field.type;
         const {getFieldDecorator} = this.props.form;
+        const onChange = this.onChange.bind(this);
+        const onBlur = this.handleConfirmBlur.bind(this);
 
         return <Form.Item label={field.label} key={fn} required={false} {...this.props.formItemLayout}>
             {fieldType == "input" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
-                <Input type={field.inputType} placeholder={field.placeholder} />
+                <Input onChange={onChange} type={field.inputType} placeholder={field.placeholder} />
             )}
             {fieldType == "checkbox" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
-                <Checkbox />
+                <Checkbox onChange={onChange}/>
             )}
             {fieldType == "number" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
-                <InputNumber />
+                <InputNumber onChange={onChange} />
             )}
             {fieldType == "select" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
-                <Select>
+                <Select onSelect={onChange}>
                     {field.children.map((option: RadioSelectCheckboxOption, on: number) => {
                         return <Select.Option key={on}>{option.label}</Select.Option>
                     })}
                 </Select>
             )}
             {fieldType == "radiogroup" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
-                <Radio.Group>
+                <Radio.Group onChange={onChange}>
                     {field.children.map((option: RadioSelectCheckboxOption, on: number) => {
                         return <Radio key={on}>{option.label}</Radio>
                     })}
                 </Radio.Group>
             )}
             {fieldType == "checkboxgroup" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
-                <Checkbox.Group options={field.children} />
+                <Checkbox.Group onChange={onChange} options={field.children} />
             )}
             {fieldType == "textarea" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
-                <Input.TextArea></Input.TextArea>
+                <Input.TextArea onChange={onChange}></Input.TextArea>
             )}
             {fieldType == "datepicker" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
-                <DatePicker/>
+                <DatePicker onChange={onChange}/>
             )}
             {fieldType == "monthpicker" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
-                <DatePicker.MonthPicker />
+                <DatePicker.MonthPicker onChange={onChange}/>
             )}
             {fieldType == "rangepicker" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
-               <DatePicker.RangePicker/>
+               <DatePicker.RangePicker onChange={onChange}/>
             )}
             {fieldType == "weekpicker" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
-                <DatePicker.WeekPicker/>
+                <DatePicker.WeekPicker onChange={onChange}/>
             )}
         </Form.Item>
     }
