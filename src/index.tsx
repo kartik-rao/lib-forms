@@ -34,15 +34,13 @@ export class FormFactory extends React.Component <any, any> {
         const { initialState, ...rest } = this.props
         const { form } = this.props;
         return (
-            <Layout>
-                <Layout.Content>
-                    <Row><br/></Row>
-                    <Row gutter={8}  justify="space-around">
-                        <Col span={12} offset={1}>
-                            <FormComponent {...form}/>
-                        </Col>
-                    </Row>
-                </Layout.Content>
+            <Layout style={{height:"100vh"}}>
+                <Row><br/></Row>
+                <Row justify="space-around">
+                    <Col span={16} offset={4}>
+                        <FormComponent {...form}/>
+                    </Col>
+                </Row>
             </Layout>
         );
   }

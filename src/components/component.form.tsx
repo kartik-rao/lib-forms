@@ -1,11 +1,11 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import {Form, Button, Input, Select, Radio, DatePicker, InputNumber, Card, Pagination, Row, Col} from "antd";
+import {Form, Button, Input, Select, Radio, DatePicker, InputNumber, Card, Pagination, Row, Col, Checkbox} from "antd";
 import {IFormProps} from "../models/model.form";
 
 import {Page} from "../models/model.page";
-import {Field} from "../models/model.field";
+import {IField, RadioSelectCheckboxOption} from "../models/model.field";
 import {Section} from "../models/model.section";
 
 class FormComponent extends React.Component<IFormProps, any> {
@@ -43,39 +43,57 @@ class FormComponent extends React.Component<IFormProps, any> {
     renderSection(section: Section, sn: number) {
         const numFields = section.fields.length;
         return <Card key={sn} title={section.name}>
-            { section.fields.map((field: Field, fn: number) => {
+            { section.fields.map((field: IField, fn: number) => {
                 return this.renderField(field, fn);
             })}
         </Card>
     }
 
-    renderField(field: Field, fn: number) {
+    renderField(field: IField, fn: number) {
         const fieldType = field.type;
         const {getFieldDecorator} = this.props.form;
 
-        return <Form.Item label={field.showLabel ? field.label:''} key={fn} required={false} {...this.props.formItemLayout}>
-            {fieldType == "input" && getFieldDecorator(`${field.id}`, field.validations || {}) (
-                <Input type={field.inputType} placeholder={field.label} />
+        return <Form.Item label={field.label} key={fn} required={false} {...this.props.formItemLayout}>
+            {fieldType == "input" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
+                <Input type={field.inputType} placeholder={field.placeholder} />
             )}
-            {fieldType == "number" && getFieldDecorator(`${field.id}`, field.validations || {}) (
+            {fieldType == "checkbox" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
+                <Checkbox />
+            )}
+            {fieldType == "number" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
                 <InputNumber />
             )}
-            {fieldType == "select" && getFieldDecorator(`${field.id}`, field.validations || {}) (
+            {fieldType == "select" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
                 <Select>
-                    {field.children.map((option: Field, on: number) => {
+                    {field.children.map((option: RadioSelectCheckboxOption, on: number) => {
                         return <Select.Option key={on}>{option.label}</Select.Option>
                     })}
                 </Select>
             )}
-            {fieldType == "radiogroup" && getFieldDecorator(`${field.id}`, field.validations || {})(
+            {fieldType == "radiogroup" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
                 <Radio.Group>
-                    {field.children.map((option: Field, on: number) => {
+                    {field.children.map((option: RadioSelectCheckboxOption, on: number) => {
                         return <Radio key={on}>{option.label}</Radio>
                     })}
                 </Radio.Group>
             )}
-            {fieldType == "textarea" && getFieldDecorator(`${field.id}`, field.validations || {})(
+            {fieldType == "checkboxgroup" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
+                <Checkbox.Group options={field.children} />
+            )}
+            {fieldType == "textarea" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
                 <Input.TextArea></Input.TextArea>
+            )}
+            {fieldType == "datepicker" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
+                <DatePicker/>
+            )}
+            {fieldType == "monthpicker" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
+                <DatePicker.MonthPicker />
+            )}
+            {fieldType == "rangepicker" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
+               <DatePicker.RangePicker/>
+            )}
+            {fieldType == "weekpicker" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
+                <DatePicker.WeekPicker/>
             )}
         </Form.Item>
     }
