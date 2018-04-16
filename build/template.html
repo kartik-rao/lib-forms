@@ -27,8 +27,8 @@
                                         { id:"f1", name:"f1", type: "input", inputType: "text", label:"Text Label",
                                             placeholder:'Placeholder Text',
                                             fieldOptions: { rules : [
-                                                {type: 'string', required: true, message: 'field is required'},
-                                                {min: 5, message: "Must be 5 characters"},
+                                                {type: 'string', required: true, message: 'Required validation message'},
+                                                {min: 5, message: "MinLength=5 validation message"},
                                         ]}},
                                         { id:"f2", name:"f2", type: "select", label:"Select Label", children: [
                                             {label: "option1", value:"1"},
