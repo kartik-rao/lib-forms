@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import './app.css';
 import "antd/dist/antd.css"
 
-import {FormComponent} from "./components/component.form";
+import FormComponent from "./components/component.form";
 
 export class FormFactory extends React.Component <any, any> {
     props : any = {};

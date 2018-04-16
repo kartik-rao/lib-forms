@@ -1,3 +1,4 @@
+import {FormComponentProps} from "antd/lib/form";
 import {Page} from "./model.page";
 
 export interface FormTenant {
@@ -56,7 +57,7 @@ export interface FormContent {
     trackingPixels?: any[];
 }
 
-export interface Form {
+export interface IFormProps extends FormComponentProps {
     id?: string;
     exid?: string;
     desc?: string;

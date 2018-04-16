@@ -52,7 +52,6 @@ module.exports = {
             template: 'build/template.html',
             inject: false,
         }),
-        new ExtractTextPlugin("styles.css"),
-        new StyleExtHtmlWebpackPlugin('styles.css')
+        new ExtractTextPlugin("style.css")
     ]
 };
