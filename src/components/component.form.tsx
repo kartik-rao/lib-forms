@@ -31,19 +31,19 @@ class FormComponent extends React.Component<IFormProps, any> {
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
 
+    renderPage(page: Page, pn: number) {
+        const numSections = page.sections.length;
+        return <div className="page" key={pn}>
+            {page.sections.map((section: Section, sn: number) => {
+                return this.renderSection(section, sn);
+            })}
+        </div>
+    }
+
     renderSection(section: Section, sn: number) {
         const numFields = section.fields.length;
         return <Card key={sn} title={section.name}>
             { section.fields.map((field: Field, fn: number) => {
-                const fieldType = field.type;
-                const config = {
-                    valuePropName: field.name,
-                    rules: [{ required: true, message: field.helpText }],
-                };
-                const rangeConfig = {
-                    valuePropName: field.name,
-                    rules: [{ required: true, message: field.helpText }],
-                };
                 return this.renderField(field, fn);
             })}
         </Card>
@@ -58,7 +58,7 @@ class FormComponent extends React.Component<IFormProps, any> {
                 <Input type={field.inputType} placeholder={field.label} />
             )}
             {fieldType == "number" && getFieldDecorator(`${field.id}`, field.validations || {}) (
-                <InputNumber placeholder={field.label} />
+                <InputNumber />
             )}
             {fieldType == "select" && getFieldDecorator(`${field.id}`, field.validations || {}) (
                 <Select>
@@ -90,17 +90,7 @@ class FormComponent extends React.Component<IFormProps, any> {
                 <Card title={this.props.name}>
                     <Form onSubmit={this.handleSubmit.bind(this)} layout={this.props.layout}>
                         {this.props.content.pages.map((page: Page, pn: number) => {
-                            const numSections = page.sections.length;
-                            return <div className="page" key={pn}>
-                                {page.sections.map((section: Section, sn: number) => {
-                                    const numFields = section.fields.length;
-                                    return <Card key={sn} title={section.name}>
-                                        { section.fields.map((field: Field, fn: number) => {
-                                            return this.renderField(field, fn);
-                                        })}
-                                    </Card>
-                                })}
-                            </div>
+                            return this.renderPage(page, pn);
                         })}
                         <br/>
                         <Form.Item {...this.props.formItemLayout}>
