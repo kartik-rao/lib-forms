@@ -39,6 +39,7 @@ module.exports = {
         filename: '[name].js'
     },
     devServer: {
+        compress: true,
         contentBase: path.join(__dirname, "dist/"),
         port: 8080
     },
