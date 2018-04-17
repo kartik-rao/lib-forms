@@ -6,7 +6,7 @@ import "antd/dist/antd.css"
 import {Row, Col, Layout} from "antd";
 import FormComponent from "./components/component.form";
 
-export class FormFactory extends React.Component <any, any> {
+class FormWrapper extends React.Component <any, any> {
     props : any = {};
     state : any = {};
 
@@ -29,4 +29,10 @@ export class FormFactory extends React.Component <any, any> {
             </Layout>
         );
   }
+}
+
+export class FormFactory {
+    constructor(props: any, target: string) {
+        ReactDOM.render(new FormWrapper(props).render(), document.querySelector(target));
+    }
 }

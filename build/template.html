@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="<%= htmlWebpackPlugin.files.chunks.vendor.entry %>" type="text/javascript"></script>
     <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>" type="text/javascript"></script>
     <div id="root"></div>
     <script>
         var form = new Forms.FormFactory({
+            target: '#root',
             form: {
                 id:"foo",
                 name: "A sample form",
@@ -51,8 +51,7 @@
                     },
                 }
             }
-        });
-        ReactDOM.render(form.render(), document.getElementById('root'));
+        }, "#root");
     </script>
 </body>
 

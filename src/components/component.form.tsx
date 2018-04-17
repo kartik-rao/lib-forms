@@ -67,47 +67,47 @@ class FormComponent extends React.Component<IFormProps, any> {
         const {getFieldDecorator} = this.props.form;
         const onChange = this.onChange.bind(this);
         const onBlur = this.handleConfirmBlur.bind(this);
-
+        const withDecorator = getFieldDecorator(`${field.id}`, field.fieldOptions);
         return <Form.Item label={field.label} key={fn} required={false} {...this.props.formItemLayout}>
-            {fieldType == "input" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
+            {fieldType == "input" && withDecorator(
                 <Input onChange={onChange} type={field.inputType} placeholder={field.placeholder} />
             )}
-            {fieldType == "checkbox" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
+            {fieldType == "checkbox" && withDecorator (
                 <Checkbox onChange={onChange}/>
             )}
-            {fieldType == "number" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
+            {fieldType == "number" && withDecorator (
                 <InputNumber onChange={onChange} />
             )}
-            {fieldType == "select" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
+            {fieldType == "select" && withDecorator (
                 <Select onSelect={onChange}>
                     {field.children.map((option: RadioSelectCheckboxOption, on: number) => {
                         return <Select.Option key={on}>{option.label}</Select.Option>
                     })}
                 </Select>
             )}
-            {fieldType == "radiogroup" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
+            {fieldType == "radiogroup" && withDecorator(
                 <Radio.Group onChange={onChange}>
                     {field.children.map((option: RadioSelectCheckboxOption, on: number) => {
                         return <Radio key={on}>{option.label}</Radio>
                     })}
                 </Radio.Group>
             )}
-            {fieldType == "checkboxgroup" && getFieldDecorator(`${field.id}`, field.fieldOptions) (
+            {fieldType == "checkboxgroup" && withDecorator (
                 <Checkbox.Group onChange={onChange} options={field.children} />
             )}
-            {fieldType == "textarea" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
+            {fieldType == "textarea" && withDecorator(
                 <Input.TextArea onChange={onChange}></Input.TextArea>
             )}
-            {fieldType == "datepicker" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
+            {fieldType == "datepicker" && withDecorator(
                 <DatePicker onChange={onChange}/>
             )}
-            {fieldType == "monthpicker" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
+            {fieldType == "monthpicker" && withDecorator(
                 <DatePicker.MonthPicker onChange={onChange}/>
             )}
-            {fieldType == "rangepicker" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
+            {fieldType == "rangepicker" && withDecorator(
                <DatePicker.RangePicker onChange={onChange}/>
             )}
-            {fieldType == "weekpicker" && getFieldDecorator(`${field.id}`, field.fieldOptions)(
+            {fieldType == "weekpicker" && withDecorator(
                 <DatePicker.WeekPicker onChange={onChange}/>
             )}
         </Form.Item>
