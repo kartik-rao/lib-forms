@@ -9,11 +9,10 @@
 <body>
     <script src="vendor.js" type="text/javascript"></script>
     <script src="main.js" type="text/javascript"></script>
-    <!-- <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> -->
     <div id="root"></div>
     <script>
         var form = new Forms.FormFactory({
+            target: '#root',
             form: {
                 id:"foo",
                 name: "A sample form",
@@ -52,8 +51,7 @@
                     },
                 }
             }
-        });
-        ReactDOM.render(form.render(), document.getElementById('root'));
+        }, "#root");
     </script>
 </body>
 
