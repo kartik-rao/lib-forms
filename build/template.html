@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Webpack App</title>
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
     <script src="<%= htmlWebpackPlugin.files.chunks.vendor.entry %>" type="text/javascript"></script>
     <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>" type="text/javascript"></script>
@@ -14,7 +15,7 @@
         var form = new Forms.render({
             target: '#root',
             form: {
-                id:"foo",
+                id: "foo",
                 name: "A sample form",
                 layout: 'vertical',
                 content: {
@@ -24,24 +25,33 @@
                                 {
                                     name: "A Section",
                                     fields: [
-                                        { id:"f1", name:"f1", type: "input", inputType: "text", label:"Text Label",
-                                            placeholder:'Placeholder Text',
-                                            fieldOptions: { rules : [
-                                                {type: 'string', required: true, message: 'Required validation message'},
-                                                {min: 5, message: "MinLength=5 validation message"},
-                                        ]}},
-                                        { id:"f2", name:"f2", type: "select", label:"Select Label", children: [
-                                            {label: "option1", value:"option1"},
-                                            {label: "option2", value:"option2"}
-                                        ]},
-                                        { id:"f3", name:"f3", type: "input", inputType: "text", label:"Conditional Text Label",
-                                        placeholder:'Placeholder Text',
-                                        fieldOptions: { rules : [
-                                            {type: 'string', required: true, message: 'Required validation message'}
-                                        ]},
-                                        condition: [
-                                            {targetField: "f1", condition : "eq", value: "qqqqq"}
-                                        ]
+                                        {
+                                            id: "f1", name: "f1", type: "input", inputType: "text", label: "Text Label",
+                                            placeholder: 'Placeholder Text',
+                                            fieldOptions: {
+                                                rules: [
+                                                    { type: 'string', required: true, message: 'Required validation message' },
+                                                    { min: 5, message: "MinLength=5 validation message" },
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            id: "f2", name: "f2", type: "select", label: "Select Label", children: [
+                                                { label: "option1", value: "option1" },
+                                                { label: "option2", value: "option2" }
+                                            ]
+                                        },
+                                        {
+                                            id: "f3", name: "f3", type: "input", inputType: "text", label: "Conditional Text Label",
+                                            placeholder: 'Placeholder Text',
+                                            fieldOptions: {
+                                                rules: [
+                                                    { type: 'string', required: true, message: 'Required validation message' }
+                                                ]
+                                            },
+                                            condition: [
+                                                { field: "f1", condition: "eq", value: "q" }
+                                            ]
                                         }
                                     ]
                                 }
@@ -49,7 +59,7 @@
                         }
                     ]
                 },
-                formItemLayout : {
+                formItemLayout: {
                     labelCol: {
                         xs: { span: 24 },
                         sm: { span: 8 },

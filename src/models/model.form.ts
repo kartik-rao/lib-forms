@@ -44,8 +44,10 @@ export interface FormContent {
     styles?: string[];
     datasets?: any[];
     pages?: Page[];
+    allFields: IField[];
     paginate?: boolean;
     validationDisablesPaging?: boolean;
+    dependencyMap?: any;
     css?: {
         inline: string[];
         external: string[];
@@ -71,7 +73,6 @@ export interface IFormProps extends FormComponentProps {
     layout?: any;
     formItemLayout?: any;
 }
-
 
 
 export class FormFactory {
@@ -123,6 +124,9 @@ export class FormFactory {
 
         let fieldState = {};
         content.pages = [];
+        content.allFields = [];
+        content.dependencyMap = {}
+        let conditionAncestors = {};
         data.content.pages.forEach((p: any) => {
             let page = {
                 name : p.name,
@@ -134,18 +138,26 @@ export class FormFactory {
                 wizard : p.wizard
             };
             p.sections.forEach((s: any) => {
-                let section = {
-                    id: s.id,
-                    name: s.name,
-                    fields: []
-                };
+                let section = { id: s.id, name: s.name, fields: [] };
                 s.fields.forEach((f: any) => {
-                    section.fields.push(FieldFactory.createField(f))
+                    let field = FieldFactory.createField(f);
+                    conditionAncestors[field.id] = field.condition.ancestors;
+                    section.fields.push(field);
+                    content.allFields.push(field);
                 });
                 page.sections.push(section);
             });
             content.pages.push(page);
         });
+
+        Object.keys(conditionAncestors).forEach((f) => {
+            let ancestors = conditionAncestors[f];
+            ancestors.forEach((a) => {
+                content.dependencyMap[a] = content.dependencyMap[a] ? content.dependencyMap[a] : [];
+                content.dependencyMap[a].push(f);
+            });
+        });
+        console.log(content.dependencyMap);
         form.content = content;
         return form;
     }

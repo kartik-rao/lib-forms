@@ -1,7 +1,7 @@
 import {IField} from "./model.field";
 
 export interface Section {
-    id?: string;
+    id?: number;
     name?: string;
     fields?: IField[]
 }

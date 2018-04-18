@@ -73,19 +73,31 @@ export type PredicateCondition = "eq" | "neq" | "gt" | "lt" | "gteq" | "lteq" | 
 export type PredicateOperator = "or" | "and";
 
 export class Predicate {
-    targetField: string;
+    field: string;
     condition: PredicateCondition;
     value: any;
     operator: PredicateOperator = "or";
+
+    constructor(targetField: string, condition: PredicateCondition, value?: any, operator?: any) {
+        this.field = targetField;
+        this.condition = condition;
+        this.value = value;
+        this.operator = operator;
+    }
 }
 
 export class Condition {
-    name: string;
+    fieldId: string;
     predicates: Predicate[] = [];
+    ancestors: string[] = [];
 
-    constructor(name: string, predicates: Predicate[]) {
-        this.name = name;
+    constructor(fieldId: string, predicates: Predicate[] = []) {
+        this.fieldId = fieldId;
         this.predicates = predicates;
+        let self = this;
+        this.predicates.forEach((p, i) => {
+            self.ancestors.push(p.field);
+        });
     }
 
     reduce(lhs:any, rhs:any, op: PredicateOperator) : boolean {
@@ -98,38 +110,44 @@ export class Condition {
 
     value(form: any) : boolean {
         var state: boolean;
-        console.log(`Predicates ${this.name}`, this.predicates);
-        if (!this.predicates){
+        const {fieldId} = this;
+        if (!this.predicates || this.predicates.length == 0){
             return true;
         }
         this.predicates.forEach((p, i) => {
-            console.log(`Evaluating condition [${name}] ${p.targetField} ${p.condition} ${p.value}`)
-            let currentValue = form.getFieldValue(p.targetField);
-            let expectedValue = p.value;
+            let currentValue = form.getFieldValue(p.field);
+            console.log(`Evaluating condition ${i} for [${fieldId}='${currentValue}'] on [${p.field} ${p.condition} ${p.value}]`)
             var result: any = null;
             switch(p.condition) {
                 case "eq":
-                    result = currentValue == expectedValue;
+                    result = currentValue == p.value;
+                    break;
                 case "neq":
-                    result = currentValue != expectedValue;
+                    result = currentValue != p.value;
+                    break;
                 case "gt":
-                    result = currentValue > expectedValue;
+                    result = currentValue > p.value;
+                    break;
                 case "lt":
-                    result = currentValue < expectedValue;
+                    result = currentValue < p.value;
+                    break;
                 case "gteq":
-                    result = currentValue >= expectedValue;
+                    result = currentValue >= p.value;
+                    break;
                 case "lteq":
-                    result = currentValue <= expectedValue;
+                    result = currentValue <= p.value;
+                    break;
                 case "hasval":
                     result = typeof(currentValue) != 'undefined' && currentValue != null && currentValue !== "";
+                    break;
                 case "nothasval":
                     result = typeof(currentValue) == 'undefined' || currentValue == null || currentValue == "";
+                    break;
                 default:
                     result = false;
             }
-            state = i == 0 ? result : this.reduce(state, result, p.operator);
+            state = (i == 0) ? result : this.reduce(state, result, p.operator);
         });
-        console.log(`Condition ${name} is ${state}`);
         return state;
     }
 }
@@ -157,7 +175,6 @@ export class FieldOptions {
     validateFirst?: boolean;
     validateTrigger?: string | string[];
     valuePropName?: string;
-    hidden: any = false;
 
     constructor(props: IFieldOptions) {
         this.id = props.id;
@@ -169,7 +186,6 @@ export class FieldOptions {
         this.validateFirst = valueOrDefault(props.validateFirst, false);
         this.validateTrigger = valueOrDefault(props.validateTrigger, ["onChange", "onBlur"]);
         this.valuePropName = valueOrDefault(props.valuePropName, 'value');
-        this.hidden = props.hidden;
     }
 }
 
@@ -212,8 +228,7 @@ export class FieldFactory {
         field.showLabel = valueOrDefault(props.showLabel, true);
         field.showLegend = valueOrDefault(props.showLabel, true);
         field.fieldOptions = new FieldOptions(Object.assign({id: props.id}, {...props.fieldOptions}));
-        field.fieldOptions.hidden = new Condition(props.id, props.condition);
-        console.log(field.id, field.fieldOptions)
+        field.condition = new Condition(props.id, props.condition);
         field.label = props.label;
         field.helpText = props.helpText;
         field.helpPlacement = props.helpPlacement;

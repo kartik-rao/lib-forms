@@ -9,16 +9,13 @@ import {IField, RadioSelectCheckboxOption} from "../models/model.field";
 import {Section} from "../models/model.section";
 
 class FormComponent extends React.Component<IFormProps, any> {
+
     constructor(props: IFormProps) {
         super(props);
         const state = {confirmDirty: false, render: {}}
-        props.content.pages.forEach((p: Page) => {
-            p.sections.forEach((s: Section) => {
-                s.fields.forEach((f: IField) => {
-                    state[`cond_${f.id}`] = f.fieldOptions.hidden;
-                    state[`condval_${f.id}`] = f.fieldOptions.hidden.value(this.props.form);
-                })
-            })
+        props.content.allFields.forEach((f: IField) => {
+            state[`cond_${f.id}`] = f.condition;
+            state[`condval_${f.id}`] = f.condition.value(this.props.form);
         });
         this.state = state;
     }
@@ -58,14 +55,15 @@ class FormComponent extends React.Component<IFormProps, any> {
     }
 
     onChange(id: string) {
-        const {getFieldValue, getFieldError, isFieldTouched, isFieldValidating} = this.props.form;
-        console.log("onChange state", this.state);
         let self = this;
+        const {getFieldValue, getFieldsValue, getFieldError, isFieldTouched, isFieldValidating} = this.props.form;
         setTimeout(() => {
-            let conditionResult = this.state[`cond_${id}`].value(self.props.form);
-            let conditionState = {}
-            conditionState[`condval_${id}`] = conditionResult;
-            this.setState(conditionState)
+            let deps = self.props.content.dependencyMap[id];
+            deps.forEach((d) => {
+                let conditionState = {}
+                conditionState[`condval_${d}`] = self.state[`cond_${d}`].value(self.props.form);;
+                self.setState(conditionState);
+            });
             const value = getFieldValue(id);
             const error = getFieldError(id);
             const touched = isFieldTouched(id);
@@ -82,8 +80,8 @@ class FormComponent extends React.Component<IFormProps, any> {
 
         const withDecorator = getFieldDecorator(field.id, field.fieldOptions);
         const errors = getFieldError(field.id);
-
-        return <Form.Item disabled={true} label={field.label} key={fn} {...this.props.formItemLayout}>
+        const condition = this.state[`condval_${field.id}`];
+        return condition ? <Form.Item label={field.label} key={fn} {...this.props.formItemLayout}>
             {(fieldType == "input" || fieldType == "hidden") && withDecorator(
                 <Input onChange={onChange} type={field.inputType} placeholder={field.placeholder} />
             )}
@@ -125,7 +123,7 @@ class FormComponent extends React.Component<IFormProps, any> {
             {fieldType == "weekpicker" && withDecorator(
                 <DatePicker.WeekPicker onChange={onChange}/>
             )}
-        </Form.Item>
+        </Form.Item> : ''
     }
 
     render() {
