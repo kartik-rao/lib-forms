@@ -3,7 +3,9 @@ import * as ReactDOM from "react-dom";
 import './app.css';
 import "antd/dist/antd.css"
 
+import 'airbnb-browser-shims';
 import {Row, Col, Layout} from "antd";
+import {FormFactory} from "./models/model.form";
 import FormComponent from "./components/component.form";
 
 class FormWrapper extends React.Component <any, any> {
@@ -12,7 +14,7 @@ class FormWrapper extends React.Component <any, any> {
 
     constructor(props: any) {
         super(props);
-        this.props = props;
+        this.props = {form: FormFactory.createForm(props.form)};
     }
 
     render() {
@@ -31,8 +33,6 @@ class FormWrapper extends React.Component <any, any> {
   }
 }
 
-export class FormFactory {
-    constructor(props: any, target: string) {
-        ReactDOM.render(new FormWrapper(props).render(), document.querySelector(target));
-    }
+export function render (props: any, target: string) {
+    ReactDOM.render(new FormWrapper(props).render(), document.querySelector(target));
 }

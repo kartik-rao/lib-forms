@@ -69,34 +69,95 @@ export class FieldValidation {
     }
 }
 
+export type PredicateCondition = "eq" | "neq" | "gt" | "lt" | "gteq" | "lteq" | "hasval" | "nothasval";
+export type PredicateOperator = "or" | "and";
+
+export class Predicate {
+    targetField: string;
+    condition: PredicateCondition;
+    value: any;
+    operator: PredicateOperator = "or";
+}
+
+export class Condition {
+    name: string;
+    predicates: Predicate[] = [];
+
+    constructor(name: string, predicates: Predicate[]) {
+        this.name = name;
+        this.predicates = predicates;
+    }
+
+    reduce(lhs:any, rhs:any, op: PredicateOperator) : boolean {
+        if (op == 'and') {
+            return lhs && rhs;
+        } else {
+            return lhs || rhs;
+        }
+    }
+
+    value(form: any) : boolean {
+        var state: boolean;
+        console.log(`Predicates ${this.name}`, this.predicates);
+        if (!this.predicates){
+            return true;
+        }
+        this.predicates.forEach((p, i) => {
+            console.log(`Evaluating condition [${name}] ${p.targetField} ${p.condition} ${p.value}`)
+            let currentValue = form.getFieldValue(p.targetField);
+            let expectedValue = p.value;
+            var result: any = null;
+            switch(p.condition) {
+                case "eq":
+                    result = currentValue == expectedValue;
+                case "neq":
+                    result = currentValue != expectedValue;
+                case "gt":
+                    result = currentValue > expectedValue;
+                case "lt":
+                    result = currentValue < expectedValue;
+                case "gteq":
+                    result = currentValue >= expectedValue;
+                case "lteq":
+                    result = currentValue <= expectedValue;
+                case "hasval":
+                    result = typeof(currentValue) != 'undefined' && currentValue != null && currentValue !== "";
+                case "nothasval":
+                    result = typeof(currentValue) == 'undefined' || currentValue == null || currentValue == "";
+                default:
+                    result = false;
+            }
+            state = i == 0 ? result : this.reduce(state, result, p.operator);
+        });
+        console.log(`Condition ${name} is ${state}`);
+        return state;
+    }
+}
+
 export interface IFieldOptions {
     id: string;
     getValueFromEvent?: (...args) => any;
     initialValue?: any;
     normalize?: (value: any, prevValue: any, allValues: any) => any;
     rules?: IFieldValidation[];
-    trigger: string;
-    validateFirst: boolean;
-    validateTrigger: string | string[];
-    valuePropName: string;
-}
-
-export interface FieldReflextion {
-    onField: string;
-    action: string;
-    lastResult: string;
+    trigger?: string;
+    validateFirst?: boolean;
+    validateTrigger?: string | string[];
+    valuePropName?: string;
+    hidden?: boolean | predicateFN;
 }
 
 export class FieldOptions {
     id: string = null;
     getValueFromEvent?: (...args) => any = null;
-    initialValue: any = null;
-    normalize: (value: any, prevValue: any, allValues: any) => any = null;
-    rules: IFieldValidation[];
-    trigger: string;
-    validateFirst: boolean;
-    validateTrigger: string | string[];
-    valuePropName: string;
+    initialValue?: any = null;
+    normalize?: (value: any, prevValue: any, allValues: any) => any = null;
+    rules?: IFieldValidation[];
+    trigger?: string;
+    validateFirst?: boolean;
+    validateTrigger?: string | string[];
+    valuePropName?: string;
+    hidden: any = false;
 
     constructor(props: IFieldOptions) {
         this.id = props.id;
@@ -106,12 +167,14 @@ export class FieldOptions {
         this.rules = valueOrDefault(props.rules, []);
         this.trigger = valueOrDefault(props.trigger, "onChange");
         this.validateFirst = valueOrDefault(props.validateFirst, false);
-        this.validateTrigger = valueOrDefault(props.validateTrigger, 'onChange');
-        this.valuePropName = valueOrDefault(props.valuePropName, 'value')
+        this.validateTrigger = valueOrDefault(props.validateTrigger, ["onChange", "onBlur"]);
+        this.valuePropName = valueOrDefault(props.valuePropName, 'value');
+        this.hidden = props.hidden;
     }
 }
 
 export type RadioSelectCheckboxOption = CheckboxOptionType | { label: string, value: string, disabled?: boolean };
+type predicateFN = (form: any) => boolean;
 
 export interface IField {
     id?: string;
@@ -119,13 +182,13 @@ export interface IField {
     type?: string;
     inputType?: string;
     icon?: string;
-    value?: string;
     width?: string;
     children?: RadioSelectCheckboxOption[];
+    condition?: Condition
     storage?: FieldStorage;
     showLegend?: boolean;
     showLabel?: boolean;
-    enabled?: boolean;
+    hidden?: boolean | predicateFN;
     label?: string;
     helpText?: string;
     helpPlacement?: string;
@@ -135,3 +198,28 @@ export interface IField {
     saveable?: boolean;
 }
 
+export class FieldFactory {
+    static createField(props: any) : IField {
+        let field = <IField>{};
+        field.id = props.id;
+        field.name = props.name;
+        field.type = props.type;
+        field.inputType = props.inputType;
+        field.icon  = props.icon;
+        field.width = props.width;
+        field.children = props.children;
+        field.storage = props.storage;
+        field.showLabel = valueOrDefault(props.showLabel, true);
+        field.showLegend = valueOrDefault(props.showLabel, true);
+        field.fieldOptions = new FieldOptions(Object.assign({id: props.id}, {...props.fieldOptions}));
+        field.fieldOptions.hidden = new Condition(props.id, props.condition);
+        console.log(field.id, field.fieldOptions)
+        field.label = props.label;
+        field.helpText = props.helpText;
+        field.helpPlacement = props.helpPlacement;
+        field.placeholder = props.placeholder;
+        field.queryParam = props.queryParam;
+        field.saveable = props.saveable;
+        return field;
+    }
+}

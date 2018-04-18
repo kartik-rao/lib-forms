@@ -11,17 +11,25 @@ import {Section} from "../models/model.section";
 class FormComponent extends React.Component<IFormProps, any> {
     constructor(props: IFormProps) {
         super(props);
+        const state = {confirmDirty: false, render: {}}
+        props.content.pages.forEach((p: Page) => {
+            p.sections.forEach((s: Section) => {
+                s.fields.forEach((f: IField) => {
+                    state[`cond_${f.id}`] = f.fieldOptions.hidden;
+                    state[`condval_${f.id}`] = f.fieldOptions.hidden.value(this.props.form);
+                })
+            })
+        });
+        this.state = state;
     }
-
-    state = {
-        confirmDirty: false
-    };
 
     handleSubmit(e) {
         e.preventDefault();
+        let self = this;
         this.props.form.validateFields((err, values) => {
           if (!err) {
-            console.log('Received values of form: ', values);
+                let payload = Object.assign({payload: values}, {props: self.state.innerProps});
+                console.log('Received values of form: ', payload);
           }
         });
     }
@@ -49,27 +57,34 @@ class FormComponent extends React.Component<IFormProps, any> {
         </Card>
     }
 
-    onChange(e) {
-        const id = e.target.id;
-        const context = this.props.form;
-        const isTouched = context.isFieldsTouched([id]);
-        const isValidating = context.isFieldValidating(id)
-        const error = context.getFieldError(id)
-        if (isTouched) {
-            console.log(this)
-            console.log(arguments);
-            console.log(id, isTouched, isValidating, error)
-        }
+    onChange(id: string) {
+        const {getFieldValue, getFieldError, isFieldTouched, isFieldValidating} = this.props.form;
+        console.log("onChange state", this.state);
+        let self = this;
+        setTimeout(() => {
+            let conditionResult = this.state[`cond_${id}`].value(self.props.form);
+            let conditionState = {}
+            conditionState[`condval_${id}`] = conditionResult;
+            this.setState(conditionState)
+            const value = getFieldValue(id);
+            const error = getFieldError(id);
+            const touched = isFieldTouched(id);
+            console.log(`Field ${id} touched=[${touched}] value=[${value}] error=[${error}]`);
+        });
+        return;
     }
 
     renderField(field: IField, fn: number) {
         const fieldType = field.type;
-        const {getFieldDecorator} = this.props.form;
-        const onChange = this.onChange.bind(this);
+        const {getFieldDecorator, getFieldError} = this.props.form;
+        const onChange = this.onChange.bind(this, field.id);
         const onBlur = this.handleConfirmBlur.bind(this);
-        const withDecorator = getFieldDecorator(`${field.id}`, field.fieldOptions);
-        return <Form.Item label={field.label} key={fn} required={false} {...this.props.formItemLayout}>
-            {fieldType == "input" && withDecorator(
+
+        const withDecorator = getFieldDecorator(field.id, field.fieldOptions);
+        const errors = getFieldError(field.id);
+
+        return <Form.Item disabled={true} label={field.label} key={fn} {...this.props.formItemLayout}>
+            {(fieldType == "input" || fieldType == "hidden") && withDecorator(
                 <Input onChange={onChange} type={field.inputType} placeholder={field.placeholder} />
             )}
             {fieldType == "checkbox" && withDecorator (
@@ -79,7 +94,7 @@ class FormComponent extends React.Component<IFormProps, any> {
                 <InputNumber onChange={onChange} />
             )}
             {fieldType == "select" && withDecorator (
-                <Select onSelect={onChange}>
+                <Select onChange={onChange}>
                     {field.children.map((option: RadioSelectCheckboxOption, on: number) => {
                         return <Select.Option key={on}>{option.label}</Select.Option>
                     })}
@@ -136,4 +151,4 @@ class FormComponent extends React.Component<IFormProps, any> {
     }
 }
 
-export default Form.create()(FormComponent)
+export default Form.create()(FormComponent);

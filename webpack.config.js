@@ -8,9 +8,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     mode: env,
-    entry: {
-        main: path.join(__dirname, 'src/index.tsx')
-    },
+    entry: {main: path.join(__dirname, 'src/index.tsx')},
     target: 'web',
     module: {
         rules: [
@@ -45,17 +43,11 @@ module.exports = {
     },
     plugins: [
         new CheckerPlugin(),
-        new HtmlWebpackPlugin({
-            template: 'build/template.html',
-            inject: false,
-        }),
+        new HtmlWebpackPlugin({template: 'build/template.html', inject: false}),
         new ExtractTextPlugin("style.css")
     ],
     optimization: {
         minimize: true,
-        splitChunks: {
-            chunks: "initial",
-            name: "vendor"
-        }
+        splitChunks: { chunks: "initial", name: "vendor" }
     }
 };
