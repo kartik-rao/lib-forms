@@ -103,7 +103,7 @@ export class Condition {
             return true;
         }
         this.predicates.forEach((p, i) => {
-            console.log(`Evaluating condition ${p.targetField} ${p.condition} ${p.value}`)
+            console.log(`Evaluating condition [${name}] ${p.targetField} ${p.condition} ${p.value}`)
             let currentValue = form.getFieldValue(p.targetField);
             let expectedValue = p.value;
             var result: any = null;
@@ -129,6 +129,7 @@ export class Condition {
             }
             state = i == 0 ? result : this.reduce(state, result, p.operator);
         });
+        console.log(`Condition ${name} is ${state}`);
         return state;
     }
 }
