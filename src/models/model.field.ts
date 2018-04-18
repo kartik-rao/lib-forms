@@ -162,7 +162,7 @@ export interface IFieldOptions {
     validateFirst?: boolean;
     validateTrigger?: string | string[];
     valuePropName?: string;
-    hidden?: boolean | predicateFN;
+    hidden?: boolean;
 }
 
 export class FieldOptions {
@@ -175,6 +175,7 @@ export class FieldOptions {
     validateFirst?: boolean;
     validateTrigger?: string | string[];
     valuePropName?: string;
+    hidden?: boolean;
 
     constructor(props: IFieldOptions) {
         this.id = props.id;
@@ -186,6 +187,7 @@ export class FieldOptions {
         this.validateFirst = valueOrDefault(props.validateFirst, false);
         this.validateTrigger = valueOrDefault(props.validateTrigger, ["onChange", "onBlur"]);
         this.valuePropName = valueOrDefault(props.valuePropName, 'value');
+        this.hidden = props.hidden || false;
     }
 }
 

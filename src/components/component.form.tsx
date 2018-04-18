@@ -58,7 +58,7 @@ class FormComponent extends React.Component<IFormProps, any> {
         let self = this;
         const {getFieldValue, getFieldsValue, getFieldError, isFieldTouched, isFieldValidating} = this.props.form;
         setTimeout(() => {
-            let deps = self.props.content.dependencyMap[id];
+            let deps = self.props.content.dependencyMap[id] || [];
             deps.forEach((d) => {
                 let conditionState = {}
                 conditionState[`condval_${d}`] = self.state[`cond_${d}`].value(self.props.form);;
@@ -78,9 +78,11 @@ class FormComponent extends React.Component<IFormProps, any> {
         const onChange = this.onChange.bind(this, field.id);
         const onBlur = this.handleConfirmBlur.bind(this);
 
+        const condition = this.state[`condval_${field.id}`];
+        field.fieldOptions.hidden = !condition;
         const withDecorator = getFieldDecorator(field.id, field.fieldOptions);
         const errors = getFieldError(field.id);
-        const condition = this.state[`condval_${field.id}`];
+
         return condition ? <Form.Item label={field.label} key={fn} {...this.props.formItemLayout}>
             {(fieldType == "input" || fieldType == "hidden") && withDecorator(
                 <Input onChange={onChange} type={field.inputType} placeholder={field.placeholder} />
