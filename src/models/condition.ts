@@ -7,8 +7,8 @@ export class Predicate {
     value: any;
     operator: PredicateOperator = "or";
 
-    constructor(targetField: string, condition: PredicateCondition, value?: any, operator?: any) {
-        this.field = targetField;
+    constructor(field: string, condition: PredicateCondition, value?: any, operator?: any) {
+        this.field = field;
         this.condition = condition;
         this.value = value;
         this.operator = operator;

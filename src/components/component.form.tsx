@@ -7,6 +7,7 @@ import {IFormProps} from "../models/form";
 import {IPage} from "../models/page";
 import {ISection} from "../models/section";
 import {IField, RadioSelectCheckboxOption} from "../models/field";
+import {FieldComponent} from "./component.field";
 
 class FormComponent extends React.Component<IFormProps, any> {
 
@@ -47,9 +48,13 @@ class FormComponent extends React.Component<IFormProps, any> {
 
     renderSection(section: ISection, sn: number) {
         const numFields = section.fields.length;
+        let self = this;
         return <Card key={sn} title={section.name}>
             { section.fields.map((field: IField, fn: number) => {
-                return this.renderField(field, fn);
+                const onChange = self.onChange.bind(this, field.id);
+                const onBlur = self.handleConfirmBlur.bind(this);
+                return <FieldComponent field={field} key={fn} form={this.props.form} onChange={onChange} onBlur={onBlur}/>
+                // return self.renderField(field, fn);
             })}
         </Card>
     }
