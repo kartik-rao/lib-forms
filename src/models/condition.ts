@@ -45,7 +45,6 @@ export class Condition {
         }
         this.predicates.forEach((p, i) => {
             let currentValue = form.getFieldValue(p.field);
-            console.log(`Evaluating condition ${i} for [${fieldId}='${currentValue}'] on [${p.field} ${p.condition} ${p.value}]`)
             var result: any = null;
             switch(p.condition) {
                 case "eq":
@@ -76,6 +75,7 @@ export class Condition {
                     result = false;
             }
             state = (i == 0) ? result : this.reduce(state, result, p.operator);
+            console.log(`Condition ${i} on [${fieldId}] is ${state}, rule [${p.field} ${p.condition} ${p.value}] (value is [${currentValue}])`)
         });
         return state;
     }

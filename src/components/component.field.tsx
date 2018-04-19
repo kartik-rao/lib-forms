@@ -8,65 +8,53 @@ export class FieldComponent extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.props = props;
-
-        this.state = {
-            hidden: props.field.fieldOptions.hidden,
-            condition: props.field.condition.value(props.form)
-        }
     }
 
     render() {
-        const {field, onChange} = this.props;
-        const {getFieldDecorator, getFieldError} = this.props.form;
-        const fieldType = field.type;
-        const condition = this.state.condition;
-        field.fieldOptions.hidden = !condition;
-        const withDecorator = getFieldDecorator(field.id, field.fieldOptions);
-        const errors = getFieldError(field.id);
-
-        console.log(`${field.id} ${condition}`)
-        return condition ? <Form.Item label={field.label} {...this.props.formItemLayout}>
-            {(fieldType == "input" || fieldType == "hidden") && withDecorator(
+        const {field, onChange, decorator, itemLayout} = this.props;
+        const {type, inputType, placeholder, label} = field;
+        return <Form.Item label={field.label} {...itemLayout}>
+            {(type == "input" || type == "hidden") && decorator(
                 <Input onChange={onChange} type={field.inputType} placeholder={field.placeholder} />
             )}
-            {fieldType == "checkbox" && withDecorator (
+            {type == "checkbox" && decorator (
                 <Checkbox onChange={onChange}/>
             )}
-            {fieldType == "number" && withDecorator (
+            {type == "number" && decorator (
                 <InputNumber onChange={onChange} />
             )}
-            {fieldType == "select" && withDecorator (
+            {type == "select" && decorator (
                 <Select onChange={onChange}>
                     {field.children.map((option: RadioSelectCheckboxOption, on: number) => {
                         return <Select.Option key={on}>{option.label}</Select.Option>
                     })}
                 </Select>
             )}
-            {fieldType == "radiogroup" && withDecorator(
+            {type == "radiogroup" && decorator(
                 <Radio.Group onChange={onChange}>
                     {field.children.map((option: RadioSelectCheckboxOption, on: number) => {
                         return <Radio key={on}>{option.label}</Radio>
                     })}
                 </Radio.Group>
             )}
-            {fieldType == "checkboxgroup" && withDecorator (
+            {type == "checkboxgroup" && decorator (
                 <Checkbox.Group onChange={onChange} options={field.children} />
             )}
-            {fieldType == "textarea" && withDecorator(
+            {type == "textarea" && decorator(
                 <Input.TextArea onChange={onChange}></Input.TextArea>
             )}
-            {fieldType == "datepicker" && withDecorator(
+            {type == "datepicker" && decorator(
                 <DatePicker onChange={onChange}/>
             )}
-            {fieldType == "monthpicker" && withDecorator(
+            {type == "monthpicker" && decorator(
                 <DatePicker.MonthPicker onChange={onChange}/>
             )}
-            {fieldType == "rangepicker" && withDecorator(
+            {type == "rangepicker" && decorator(
                <DatePicker.RangePicker onChange={onChange}/>
             )}
-            {fieldType == "weekpicker" && withDecorator(
+            {type == "weekpicker" && decorator(
                 <DatePicker.WeekPicker onChange={onChange}/>
             )}
-        </Form.Item> : ''
+            </Form.Item>
     }
 }

@@ -83,7 +83,7 @@ export class FormFactory {
                 content.dependencyMap[a].push(f);
             });
         });
-        console.log(content.dependencyMap);
+
         form.content = content;
         return form;
     }
