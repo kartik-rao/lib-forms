@@ -2,11 +2,11 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 import {Form, Button, Input, Select, Radio, DatePicker, InputNumber, Card, Pagination, Row, Col, Checkbox} from "antd";
-import {IFormProps} from "../models/model.form";
 
-import {Page} from "../models/model.page";
-import {IField, RadioSelectCheckboxOption} from "../models/model.field";
-import {Section} from "../models/model.section";
+import {IFormProps} from "../models/form";
+import {IPage} from "../models/page";
+import {ISection} from "../models/section";
+import {IField, RadioSelectCheckboxOption} from "../models/field";
 
 class FormComponent extends React.Component<IFormProps, any> {
 
@@ -36,16 +36,16 @@ class FormComponent extends React.Component<IFormProps, any> {
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
 
-    renderPage(page: Page, pn: number) {
+    renderPage(page: IPage, pn: number) {
         const numSections = page.sections.length;
         return <div className="page" key={pn}>
-            {page.sections.map((section: Section, sn: number) => {
+            {page.sections.map((section: ISection, sn: number) => {
                 return this.renderSection(section, sn);
             })}
         </div>
     }
 
-    renderSection(section: Section, sn: number) {
+    renderSection(section: ISection, sn: number) {
         const numFields = section.fields.length;
         return <Card key={sn} title={section.name}>
             { section.fields.map((field: IField, fn: number) => {
@@ -137,7 +137,7 @@ class FormComponent extends React.Component<IFormProps, any> {
             <div>
                 <Card title={this.props.name}>
                     <Form onSubmit={this.handleSubmit.bind(this)} layout={this.props.layout}>
-                        {this.props.content.pages.map((page: Page, pn: number) => {
+                        {this.props.content.pages.map((page: IPage, pn: number) => {
                             return this.renderPage(page, pn);
                         })}
                         <br/>

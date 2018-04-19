@@ -5,7 +5,7 @@ import "antd/dist/antd.css"
 
 import 'airbnb-browser-shims';
 import {Row, Col, Layout} from "antd";
-import {FormFactory} from "./models/model.form";
+import {FormFactory} from "./factory/form.factory";
 import FormComponent from "./components/component.form";
 
 class FormWrapper extends React.Component <any, any> {
