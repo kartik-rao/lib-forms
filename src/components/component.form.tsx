@@ -17,6 +17,8 @@ class FormComponent extends React.Component<IFormProps, any> {
         super(props);
         var state = {confirmDirty: false, currentPage: 0, numPages: props.content.pages.length}
         let self = this;
+        // TODO: In All Fields, save the page and seciton so we can send the user to
+        // the correct page when there is a validation error
         props.content.allFields.forEach((f: IField) => {
             self.evaluators[`${f.id}`] = f.condition;
             state[`${f.id}`] = {result: f.condition.value(this.props.form)}
@@ -31,6 +33,9 @@ class FormComponent extends React.Component<IFormProps, any> {
           if (!err) {
                 let payload = Object.assign({payload: values}, {props: self.state.innerProps});
                 console.log('Received values of form: ', payload);
+          } else {
+              // Handle error on page != currentPage
+              console.log(err);
           }
         });
     }
@@ -106,23 +111,26 @@ class FormComponent extends React.Component<IFormProps, any> {
         return (
             <div>
                     <Form onSubmit={this.handleSubmit.bind(this)} layout={this.props.layout}>
-                        <div className="page-content">
-                            <Card title={this.props.content.pages[this.state.currentPage].title}>
-                                {
-                                    this.renderPage(this.props.content.pages[this.state.currentPage], this.state.currentPage)
-                                }
-                            </Card>
-                        </div>
-                        <div className="page-action">
-                            <div>
-                                { this.state.currentPage === this.state.numPages - 1 && <Form.Item {...this.props.formItemLayout}>
-                                        <Button type="primary" htmlType="submit" className="action-button">Submit</Button>
-                                    </Form.Item>
-                                }
-                                { this.state.currentPage > 0 && this.state.numPages > 1 &&  <Button type="primary"  className="action-button" onClick={() => this.prev()}>Prev</Button> }
-                                { this.state.currentPage < this.state.numPages -1 && <Button type="primary"  className="action-button" onClick={() => this.next()}>Next</Button> }
+                        {
+                            this.props.content.pages.map((page: IPage, pn: number) => {
+                            let {numPages, currentPage} = this.state;
+                            return <div className="page-wrapper" key={pn} style={{'visibility': currentPage == pn ? 'visible': 'hidden', display: currentPage == pn ? 'block': 'none'}}>
+                                <div className="page-content">
+                                    <Card title={page.title}>
+                                        { this.renderPage(page, pn) }
+                                    </Card>
+                                </div>
+                                <div className="page-action">
+                                    <div>
+                                        <Form.Item {...this.props.formItemLayout}>
+                                            { <Button type="primary" htmlType="submit" className="action-button">Submit</Button> }
+                                            { currentPage < numPages -1 && <Button type="primary"  className="action-button" onClick={() => this.next()}>Next</Button> }
+                                            { currentPage > 0 && numPages > 1 &&  <Button type="primary"  className="action-button" onClick={() => this.prev()}>Prev</Button> }
+                                        </Form.Item>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        })}
                     </Form>
             </div>
         )
@@ -130,12 +138,3 @@ class FormComponent extends React.Component<IFormProps, any> {
 }
 
 export default Form.create()(FormComponent);
-
-/**
- *
-                            {this.props.content.pages.map((page: IPage, pn: number) => {
-                                return this.renderPage(page, pn);
-                            })}
-                        <br/>
-
- */
