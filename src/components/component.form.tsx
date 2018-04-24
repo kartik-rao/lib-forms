@@ -17,8 +17,6 @@ class FormComponent extends React.Component<IFormProps, any> {
         super(props);
         var state = {confirmDirty: false, currentPage: 0, numPages: props.content.pages.length}
         let self = this;
-        // TODO: In All Fields, save the page and seciton so we can send the user to
-        // the correct page when there is a validation error
         props.content.allFields.forEach((f: IField) => {
             self.evaluators[`${f.id}`] = f.condition;
             state[`${f.id}`] = {result: f.condition.value(this.props.form)}
@@ -34,8 +32,13 @@ class FormComponent extends React.Component<IFormProps, any> {
                 let payload = Object.assign({payload: values}, {props: self.state.innerProps});
                 console.log('Received values of form: ', payload);
           } else {
-              // Handle error on page != currentPage
-              console.log(err);
+              // Send user to location of first error
+              let locations = self.props.content.fieldLocation;
+              let errKeys = Object.keys(err)
+              let fieldLocation =  locations[errKeys[0]]
+              setTimeout(() => {
+                  self.setState({currentPage: fieldLocation.page});
+              })
           }
         });
     }

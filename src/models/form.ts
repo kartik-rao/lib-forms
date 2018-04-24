@@ -59,6 +59,7 @@ export interface FormContent {
         rows: any[];
     }
     trackingPixels?: any[];
+    fieldLocation: any;
 }
 
 export interface IFormProps extends FormComponentProps {

@@ -51,9 +51,10 @@ export class FormFactory {
         let fieldState = {};
         content.pages = [];
         content.allFields = [];
+        content.fieldLocation = {};
         content.dependencyMap = {}
         let conditionAncestors = {};
-        data.content.pages.forEach((p: any) => {
+        data.content.pages.forEach((p: any, pn: number) => {
             let page = {
                 name : p.name,
                 icon : p.icon,
@@ -63,13 +64,15 @@ export class FormFactory {
                 subtitle : p.subtitle,
                 wizard : p.wizard
             };
-            p.sections.forEach((s: any) => {
+            p.sections.forEach((s: any, sn: number) => {
                 let section = { id: s.id, name: s.name, fields: [] };
-                s.fields.forEach((f: any) => {
+                s.fields.forEach((f: any, fn: number) => {
                     let field = FieldFactory.createField(f);
+                    field.location = {page: pn, section: sn, field: fn}
                     conditionAncestors[field.id] = field.condition.ancestors;
                     section.fields.push(field);
                     content.allFields.push(field);
+                    content.fieldLocation[field.id] = field.location;
                 });
                 page.sections.push(section);
             });

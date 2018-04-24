@@ -36,4 +36,5 @@ export interface IField {
     fieldOptions: FieldOptions;
     queryParam?: string;
     saveable?: boolean;
+    location: any;
 }
