@@ -115,12 +115,12 @@ class FormComponent extends React.Component<IFormProps, any> {
                         </div>
                         <div className="page-action">
                             <div>
-                                { this.state.currentPage > 0 && this.state.numPages > 1 &&  <Button type="primary"  className="action-button" onClick={() => this.prev()}>Prev</Button> }
-                                { this.state.currentPage < this.state.numPages -1 && <Button type="primary"  className="action-button" onClick={() => this.next()}>Next</Button> }
                                 { this.state.currentPage === this.state.numPages - 1 && <Form.Item {...this.props.formItemLayout}>
                                         <Button type="primary" htmlType="submit" className="action-button">Submit</Button>
                                     </Form.Item>
                                 }
+                                { this.state.currentPage > 0 && this.state.numPages > 1 &&  <Button type="primary"  className="action-button" onClick={() => this.prev()}>Prev</Button> }
+                                { this.state.currentPage < this.state.numPages -1 && <Button type="primary"  className="action-button" onClick={() => this.next()}>Next</Button> }
                             </div>
                         </div>
                     </Form>
