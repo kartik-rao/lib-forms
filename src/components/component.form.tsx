@@ -34,10 +34,13 @@ class FormComponent extends React.Component<IFormProps, any> {
           } else {
               // Send user to location of first error
               let locations = self.props.content.fieldLocation;
-              let errKeys = Object.keys(err)
-              let fieldLocation =  locations[errKeys[0]]
+              let firstErrorPage = Object.keys(err).map((fieldId: string) => {
+                return locations[fieldId].page;
+              }).reduce((pn: number, initial: number) => {
+                  return initial ? (pn < initial ? pn : initial) : pn;
+              });
               setTimeout(() => {
-                  self.setState({currentPage: fieldLocation.page});
+                  self.setState({currentPage: firstErrorPage});
               })
           }
         });
