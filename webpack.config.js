@@ -8,7 +8,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     mode: env,
-    entry: {main: path.join(__dirname, 'src/index.tsx')},
+    entry: {main: path.join(__dirname, 'src/index.tsx'), style: path.join(__dirname, 'src/app.css')},
     target: 'web',
     module: {
         rules: [
@@ -17,12 +17,13 @@ module.exports = {
                 use: { loader: 'awesome-typescript-loader' },
                 exclude: /\/node_modules\//
             },
+            { test: /\.png$|\.eot$|\.woff$|\.ttf$/, loader: "url-loader?limit=100000" },
             {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
                     allChunks: true, fallback: "style-loader", use: "css-loader"
                   }),
-                include: /node_modules\/antd|src\/app.css/
+                include: /src\/app.css|node_modules\/antd\//
             }
         ],
     },
@@ -44,7 +45,7 @@ module.exports = {
     plugins: [
         new CheckerPlugin(),
         new HtmlWebpackPlugin({template: 'build/template.html', inject: false}),
-        new ExtractTextPlugin("style.css")
+        new ExtractTextPlugin({filename:"style.css", allChunks: true})
     ],
     optimization: {
         minimize: true,

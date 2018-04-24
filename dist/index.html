@@ -21,6 +21,7 @@
                 content: {
                     pages: [
                         {
+                            title: 'Page 1',
                             sections: [
                                 {
                                     name: "A Section",
@@ -52,6 +53,26 @@
                                             condition: [
                                                 { field: "f1", condition: "eq", value: "qq" }
                                             ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            title: 'Page 2',
+                            sections: [
+                                {
+                                    name: "A Section",
+                                    fields: [
+                                        {
+                                            id: "f4", name: "f4", type: "input", inputType: "text", label: "Text Label F4",
+                                            placeholder: 'Placeholder Text F4',
+                                            fieldOptions: {
+                                                rules: [
+                                                    { type: 'string', required: true, message: 'Required validation message' },
+                                                    { min: 2, message: "MinLength=2 validation message" },
+                                                ]
+                                            }
                                         }
                                     ]
                                 }

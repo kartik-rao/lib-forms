@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import {Form, Button, Input, Select, Radio, DatePicker, InputNumber, Card, Pagination, Row, Col, Checkbox} from "antd";
+import {Steps, Form, Button, Input, Select, Radio, DatePicker, InputNumber, Card, Pagination, Row, Col, Checkbox} from "antd";
 
 import {IFormProps} from "../models/form";
 import {IPage} from "../models/page";
@@ -9,11 +9,13 @@ import {ISection} from "../models/section";
 import {IField, RadioSelectCheckboxOption} from "../models/field";
 import {FieldComponent} from "./component.field";
 
+import '../app.css';
+
 class FormComponent extends React.Component<IFormProps, any> {
     evaluators: any = {}
     constructor(props: IFormProps) {
         super(props);
-        const state = {confirmDirty: false, render: {}, condition:{}}
+        var state = {confirmDirty: false, currentPage: 0, numPages: props.content.pages.length}
         let self = this;
         props.content.allFields.forEach((f: IField) => {
             self.evaluators[`${f.id}`] = f.condition;
@@ -86,6 +88,16 @@ class FormComponent extends React.Component<IFormProps, any> {
                                 decorator={decorator} key={fn} itemLayout={itemLayout}/> : ''
     }
 
+    next() {
+        const currentPage = this.state.currentPage + 1;
+        this.setState({ currentPage });
+    }
+
+    prev() {
+        const currentPage = this.state.currentPage - 1;
+        this.setState({ currentPage });
+    }
+
     render() {
         const { getFieldDecorator, getFieldError, getFieldsValue, setFieldsValue } = this.props.form;
         const numPages = this.props.content.pages.length;
@@ -93,20 +105,37 @@ class FormComponent extends React.Component<IFormProps, any> {
         const renderField = this.renderField;
         return (
             <div>
-                <Card title={this.props.name}>
                     <Form onSubmit={this.handleSubmit.bind(this)} layout={this.props.layout}>
-                        {this.props.content.pages.map((page: IPage, pn: number) => {
-                            return this.renderPage(page, pn);
-                        })}
-                        <br/>
-                        <Form.Item {...this.props.formItemLayout}>
-                            <Button type="primary" htmlType="submit">Submit</Button>
-                        </Form.Item>
+                        <div className="page-content">
+                            <Card title={this.props.content.pages[this.state.currentPage].title}>
+                                {
+                                    this.renderPage(this.props.content.pages[this.state.currentPage], this.state.currentPage)
+                                }
+                            </Card>
+                        </div>
+                        <div className="page-action">
+                            <div>
+                                { this.state.currentPage > 0 && this.state.numPages > 1 &&  <Button type="primary"  className="action-button" onClick={() => this.prev()}>Prev</Button> }
+                                { this.state.currentPage < this.state.numPages -1 && <Button type="primary"  className="action-button" onClick={() => this.next()}>Next</Button> }
+                                { this.state.currentPage === this.state.numPages - 1 && <Form.Item {...this.props.formItemLayout}>
+                                        <Button type="primary" htmlType="submit" className="action-button">Submit</Button>
+                                    </Form.Item>
+                                }
+                            </div>
+                        </div>
                     </Form>
-                </Card>
             </div>
         )
     }
 }
 
 export default Form.create()(FormComponent);
+
+/**
+ *
+                            {this.props.content.pages.map((page: IPage, pn: number) => {
+                                return this.renderPage(page, pn);
+                            })}
+                        <br/>
+
+ */
