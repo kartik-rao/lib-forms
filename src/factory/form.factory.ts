@@ -1,6 +1,7 @@
 import {FormTenant, IFormProps, FormStatus, FormContent} from "../models/form";
 import {FieldFactory} from "./field.factory";
-
+import {Column, IColumn} from "../models/column";
+import { IField } from "../models/field";
 export class FormFactory {
     static createForm(data: any) : any {
         let form = <IFormProps>{};
@@ -65,14 +66,18 @@ export class FormFactory {
                 wizard : p.wizard
             };
             p.sections.forEach((s: any, sn: number) => {
-                let section = { id: s.id, name: s.name, fields: [] };
-                s.fields.forEach((f: any, fn: number) => {
-                    let field = FieldFactory.createField(f);
-                    field.location = {page: pn, section: sn, field: fn}
-                    conditionAncestors[field.id] = field.condition.ancestors;
-                    section.fields.push(field);
-                    content.allFields.push(field);
-                    content.fieldLocation[field.id] = field.location;
+                let section = { id: s.id, name: s.name, gutter: s.gutter, columns: [] };
+                s.columns.forEach((col: IColumn, itemno: number) => {
+                    let column: Column = new Column(col.id, col.name, col.title, []);
+                    col.fields.map((f: IField, fn: number) => {
+                        let field = FieldFactory.createField(f);
+                        field.location = {page: pn, section: sn, column: itemno, field: fn}
+                        conditionAncestors[field.id] = field.condition.ancestors;
+                        column.fields.push(field);
+                        content.allFields.push(field);
+                        content.fieldLocation[field.id] = field.location;
+                    });
+                    section.columns.push(column);
                 });
                 page.sections.push(section);
             });

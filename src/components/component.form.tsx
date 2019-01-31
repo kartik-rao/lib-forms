@@ -6,6 +6,7 @@ import {Steps, Form, Button, Input, Select, Radio, DatePicker, InputNumber, Card
 import {IFormProps} from "../models/form";
 import {IPage} from "../models/page";
 import {ISection} from "../models/section";
+import {IColumn, Column} from "../models/column";
 import {IField, RadioSelectCheckboxOption} from "../models/field";
 import {FieldComponent} from "./component.field";
 
@@ -74,14 +75,29 @@ class FormComponent extends React.Component<IFormProps, any> {
         </div>
     }
 
-    renderSection(section: ISection, sn: number) {
-        const numFields = section.fields.length;
+    renderColumn(column:IColumn, cn: number, total: number = 1) {
+        let colClass = `col-${24/total}`;
         let self = this;
-        return <Card key={sn} title={section.name}>
-            { section.fields.map((field: IField, fn: number) => {
-                return self.renderField(field, fn);
-            })}
-        </Card>
+        return  <Col span={24 / total} key={cn}>
+                <Card title={column.name}>
+                    {column.fields.map((field: IField, fn:number) => {
+                        return self.renderField(field, fn);
+                    })}
+                </Card>
+            </Col>
+    }
+
+    renderSection(section: ISection, sn: number) {
+        const numColumns = section.columns.length;
+        let self = this;
+        console.log(`Section ${sn} gutter ${section.gutter}`)
+        return <Row key={sn} gutter={16}>
+            <Card title={section.name}>
+                { section.columns.map((item: IColumn, fn: number) => {
+                    return self.renderColumn(item, fn, numColumns);
+                })}
+            </Card>
+        </Row>
     }
 
     renderField(field: IField, fn: number) {

@@ -1,10 +1,11 @@
-import {FormFactory} from "../src/index";
+// import {FormWrapper} from "../src/index";
+import {FormFactory} from "../src/factory/form.factory";
 import * as Enzyme from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const Form = new FormFactory({
+const Form =  FormFactory.createForm({
     form: {
         props: {}
     },
