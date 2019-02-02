@@ -24,6 +24,7 @@ export class FieldFactory {
         field.placeholder = props.placeholder;
         field.queryParam = props.queryParam;
         field.saveable = props.saveable;
+        field.value = props.value;
         return field;
     }
 }

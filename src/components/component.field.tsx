@@ -2,7 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 import {IField, RadioSelectCheckboxOption} from "../models/field";
-import {Form, Button, Input, Select, Radio, DatePicker, InputNumber, Card, Pagination, Row, Col, Checkbox} from "antd";
+import {Form, Button, Input, Select, Radio, DatePicker, InputNumber, Checkbox} from "antd";
 
 export class FieldComponent extends React.Component<any, any> {
     constructor(props: any) {
@@ -55,6 +55,7 @@ export class FieldComponent extends React.Component<any, any> {
             {type == "weekpicker" && decorator(
                 <DatePicker.WeekPicker onChange={onChange}/>
             )}
+            {type == "textblock" && <p>{field.value}</p>}
             </Form.Item>
     }
 }

@@ -25,7 +25,7 @@ class FormComponent extends React.Component<IFormProps, any> {
         this.state = state;
     }
 
-    handleSubmit(e) {
+    handleSubmit(e : Event) {
         e.preventDefault();
         let self = this;
         this.props.form.validateFields((err, values) => {
@@ -79,11 +79,11 @@ class FormComponent extends React.Component<IFormProps, any> {
         let colClass = `col-${24/total}`;
         let self = this;
         return  <Col span={24 / total} key={cn}>
-                <Card title={column.name}>
+                {/* <Card title={column.name}> */}
                     {column.fields.map((field: IField, fn:number) => {
                         return self.renderField(field, fn);
                     })}
-                </Card>
+                {/* </Card> */}
             </Col>
     }
 
@@ -91,13 +91,13 @@ class FormComponent extends React.Component<IFormProps, any> {
         const numColumns = section.columns.length;
         let self = this;
         console.log(`Section ${sn} gutter ${section.gutter}`)
-        return <Row key={sn} gutter={16}>
-            <Card title={section.name}>
-                { section.columns.map((item: IColumn, fn: number) => {
-                    return self.renderColumn(item, fn, numColumns);
-                })}
+        return <Card title={section.name} key={sn}>
+                <Row  gutter={16}>
+                    { section.columns.map((item: IColumn, fn: number) => {
+                        return self.renderColumn(item, fn, numColumns);
+                    })}
+                </Row>
             </Card>
-        </Row>
     }
 
     renderField(field: IField, fn: number) {
@@ -131,7 +131,7 @@ class FormComponent extends React.Component<IFormProps, any> {
         let self = this;
         const renderField = this.renderField;
         return (
-            <div>
+            <div className="form-wrapper">
                     <Form onSubmit={this.handleSubmit.bind(this)} layout={this.props.layout}>
                         {
                             this.props.content.pages.map((page: IPage, pn: number) => {
