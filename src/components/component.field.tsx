@@ -1,8 +1,7 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 
-import {IField, RadioSelectCheckboxOption} from "../models/field";
-import {Form, Button, Input, Select, Radio, DatePicker, InputNumber, Checkbox} from "antd";
+import {RadioSelectCheckboxOption} from "../models/field";
+import {Form, Input, Select, Radio, DatePicker, InputNumber, Checkbox, Rate, Slider} from "antd";
 
 export class FieldComponent extends React.Component<any, any> {
     constructor(props: any) {
@@ -12,7 +11,7 @@ export class FieldComponent extends React.Component<any, any> {
 
     render() {
         const {field, onChange, decorator, itemLayout} = this.props;
-        const {type, inputType, placeholder, label} = field;
+        const {type} = field;
         return <Form.Item label={field.label} {...itemLayout}>
             {(type == "input" || type == "hidden") && decorator(
                 <Input onChange={onChange} type={field.inputType} placeholder={field.placeholder} />
@@ -54,6 +53,12 @@ export class FieldComponent extends React.Component<any, any> {
             )}
             {type == "weekpicker" && decorator(
                 <DatePicker.WeekPicker onChange={onChange}/>
+            )}
+            {type == 'rate' && decorator(
+                <Rate onChange={onChange}></Rate>
+            )}
+            {type == 'slider' && decorator(
+                <Slider onChange={onChange}></Slider>
             )}
             {type == "textblock" && <p>{field.value}</p>}
             </Form.Item>
