@@ -113,6 +113,10 @@ class FormComponent extends React.Component<IFormProps, any> {
     next() {
         let self = this;
         const currentPage = this.state.currentPage;
+        if (!this.props.formLayoutOptions.validationDisablesPaging) {
+            this.setState({ currentPage: currentPage + 1 });
+            return;
+        }
         this.props.form.validateFields(this.props.content.pages[currentPage].fieldNames, (err) => {
             if(!err) {
                 self.setState({ currentPage: currentPage + 1 });
