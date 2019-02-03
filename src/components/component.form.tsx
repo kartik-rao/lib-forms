@@ -1,13 +1,12 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 
-import {Steps, Form, Button, Input, Select, Radio, DatePicker, InputNumber, Card, Pagination, Row, Col, Checkbox} from "antd";
+import {Steps, Form, Button,  Card, Row, Col} from "antd";
 
 import {IFormProps} from "../models/form";
 import {IPage} from "../models/page";
 import {ISection} from "../models/section";
-import {IColumn, Column} from "../models/column";
-import {IField, RadioSelectCheckboxOption} from "../models/field";
+import {IColumn} from "../models/column";
+import {IField} from "../models/field";
 import {FieldComponent} from "./component.field";
 
 import '../app.css';
@@ -67,7 +66,6 @@ class FormComponent extends React.Component<IFormProps, any> {
     }
 
     renderPage(page: IPage, pn: number) {
-        const numSections = page.sections.length;
         return <div className="page" key={pn}>
             {page.sections.map((section: ISection, sn: number) => {
                 return this.renderSection(section, sn);
@@ -76,22 +74,19 @@ class FormComponent extends React.Component<IFormProps, any> {
     }
 
     renderColumn(column:IColumn, cn: number, total: number = 1) {
-        let colClass = `col-${24/total}`;
         let self = this;
         return  <Col span={24 / total} key={cn}>
-                {/* <Card title={column.name}> */}
-                    {column.fields.map((field: IField, fn:number) => {
-                        return self.renderField(field, fn);
-                    })}
-                {/* </Card> */}
+                {column.fields.map((field: IField, fn:number) => {
+                    return self.renderField(field, fn);
+                })}
             </Col>
     }
 
     renderSection(section: ISection, sn: number) {
         const numColumns = section.columns.length;
         let self = this;
-        console.log(`Section ${sn} gutter ${section.gutter}`)
-        return <Card title={section.name} key={sn}>
+        let {showSectionTitles, showSectionBorders} = this.props.formLayoutOptions;
+        return <Card bordered={showSectionBorders} title={showSectionTitles ? section.name : ""} key={sn}>
                 <Row  gutter={16}>
                     { section.columns.map((item: IColumn, fn: number) => {
                         return self.renderColumn(item, fn, numColumns);
@@ -101,7 +96,7 @@ class FormComponent extends React.Component<IFormProps, any> {
     }
 
     renderField(field: IField, fn: number) {
-        const {getFieldDecorator, getFieldError} = this.props.form;
+        const {getFieldDecorator} = this.props.form;
         const decorator = getFieldDecorator(field.id, field.fieldOptions);
 
         const onChange = this.onChange.bind(this, field.id);
@@ -109,15 +104,20 @@ class FormComponent extends React.Component<IFormProps, any> {
 
         const enabled = this.state[field.id].result;
         field.fieldOptions.hidden = !enabled;
-        const itemLayout = this.props.formItemLayout;
+        const itemLayout = this.props.formLayoutOptions;
 
         return enabled ? <FieldComponent field={field} onBlur={onBlur} onChange={onChange}
                                 decorator={decorator} key={fn} itemLayout={itemLayout}/> : ''
     }
 
     next() {
-        const currentPage = this.state.currentPage + 1;
-        this.setState({ currentPage });
+        let self = this;
+        const currentPage = this.state.currentPage;
+        this.props.form.validateFields(this.props.content.pages[currentPage].fieldNames, (err) => {
+            if(!err) {
+                self.setState({ currentPage: currentPage + 1 });
+            }
+        });
     }
 
     prev() {
@@ -130,30 +130,46 @@ class FormComponent extends React.Component<IFormProps, any> {
         const numPages = this.props.content.pages.length;
         let self = this;
         const renderField = this.renderField;
+        let {showPageTitles, showSteps} = this.props.formLayoutOptions;
         return (
             <div className="form-wrapper">
-                    <Form onSubmit={this.handleSubmit.bind(this)} layout={this.props.layout}>
-                        {
-                            this.props.content.pages.map((page: IPage, pn: number) => {
-                            let {numPages, currentPage} = this.state;
-                            return <div className="page-wrapper" key={pn} style={{'visibility': currentPage == pn ? 'visible': 'hidden', display: currentPage == pn ? 'block': 'none'}}>
-                                <div className="page-content">
-                                    <Card title={page.title}>
-                                        { this.renderPage(page, pn) }
-                                    </Card>
-                                </div>
-                                <div className="page-action">
-                                    <div>
-                                        <Form.Item {...this.props.formItemLayout}>
-                                            { <Button type="primary" htmlType="submit" className="action-button">Submit</Button> }
-                                            { currentPage < numPages -1 && <Button type="primary"  className="action-button" onClick={() => this.next()}>Next</Button> }
-                                            { currentPage > 0 && numPages > 1 &&  <Button type="primary"  className="action-button" onClick={() => this.prev()}>Prev</Button> }
-                                        </Form.Item>
+                {showSteps && <Row>
+                    <Col span={24}>
+                        <Card>
+                            <Steps size="small" current={this.state.currentPage}>
+                                {this.props.content.pages.map((page: IPage, pn: number) => {
+                                    return <Steps.Step title={page.title} key={pn}/>
+                                })}
+                            </Steps>
+                        </Card>
+                    </Col>
+                </Row>}
+                <Row>
+                    <Col span={24}>
+                        <Form onSubmit={this.handleSubmit.bind(this)} layout={this.props.layout}>
+                            {
+                                this.props.content.pages.map((page: IPage, pn: number) => {
+                                let {numPages, currentPage} = this.state;
+                                return <div className="page-wrapper" key={pn} style={{'visibility': currentPage == pn ? 'visible': 'hidden', display: currentPage == pn ? 'block': 'none'}}>
+                                    <div className="page-content">
+                                        <Card title={showPageTitles ? page.title : ""}>
+                                            { this.renderPage(page, pn) }
+                                        </Card>
+                                    </div>
+                                    <div className="page-action">
+                                        <div>
+                                            <Form.Item {...this.props.formLayoutOptions}>
+                                                { <Button type="primary" htmlType="submit" className="action-button">Submit</Button> }
+                                                { currentPage < numPages -1 && <Button type="primary"  className="action-button" onClick={() => this.next()}>Next</Button> }
+                                                { currentPage > 0 && numPages > 1 &&  <Button type="primary"  className="action-button" onClick={() => this.prev()}>Prev</Button> }
+                                            </Form.Item>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        })}
-                    </Form>
+                            })}
+                        </Form>
+                    </Col>
+                </Row>
             </div>
         )
     }
