@@ -1,6 +1,5 @@
 import {FormComponentProps} from "antd/lib/form";
 import {IPage} from "./page";
-import {ISection} from "./section";
 import {IField} from "./field";
 
 export interface FormTenant {
@@ -62,6 +61,15 @@ export interface FormContent {
     fieldLocation: any;
 }
 
+export interface FormLayoutOptions {
+    showSteps?: boolean,
+    showPageTitles?: boolean,
+    showSectionTitles?: boolean,
+    showSectionBorders? : boolean,
+    showPageBorders?: boolean,
+    validationDisablesPaging?: boolean
+}
+
 export interface IFormProps extends FormComponentProps {
     id: string;
     exid?: string;
@@ -72,5 +80,5 @@ export interface IFormProps extends FormComponentProps {
     content?: FormContent;
     values?: any;
     layout?: any;
-    formItemLayout?: any;
+    formLayoutOptions?: FormLayoutOptions;
 }
