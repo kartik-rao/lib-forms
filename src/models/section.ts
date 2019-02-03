@@ -1,4 +1,3 @@
-import {IField} from "./field";
 import {IColumn} from "./column";
 
 export interface ISection {
