@@ -8,6 +8,7 @@ export interface IPage {
     title?: string;
     subtitle?: string;
     wizard?: boolean;
+    fieldNames: string[]
 }
 
 export class Page implements IPage {
@@ -16,6 +17,7 @@ export class Page implements IPage {
     sections: ISection[];
     title: string;
     subtitle: string;
+    fieldNames: string[];
 
     constructor (name: string, icon: string, sections: ISection[], title: string, subtitle: string) {
         this.name = name || "";
