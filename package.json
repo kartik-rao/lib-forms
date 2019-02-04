@@ -2,7 +2,7 @@
   "name": "@adinfinity/ai-lib-forms",
   "version": "1.0.0",
   "description": "HOC for rendering forms",
-  "main": "index.js",
+  "main": "dist/main.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:adinfinity/ai-lib-forms.git"
