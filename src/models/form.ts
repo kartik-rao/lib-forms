@@ -67,7 +67,9 @@ export interface FormLayoutOptions {
     showSectionTitles?: boolean,
     showSectionBorders? : boolean,
     showPageBorders?: boolean,
-    validationDisablesPaging?: boolean
+    validationDisablesPaging?: boolean,
+    wrapperSpan?: number,
+    wrapperOffset?: number
 }
 
 export interface IFormProps extends FormComponentProps {

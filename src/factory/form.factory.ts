@@ -20,6 +20,8 @@ export class FormFactory {
         form.name = data.name;
 
         form.formLayoutOptions = {
+            wrapperSpan: withDefault(data.formLayoutOptions.wrapperSpan, 20),
+            wrapperOffset: withDefault(data.formLayoutOptions.wrapperOffset, 2),
             showPageBorders : withDefault(data.formLayoutOptions.showPageBorders, true),
             showSectionBorders : withDefault(data.formLayoutOptions.showSectionBorders, true),
             showPageTitles : withDefault(data.formLayoutOptions.showPageTitles, true),

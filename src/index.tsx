@@ -24,7 +24,7 @@ class FormWrapper extends React.Component <any, any> {
             <Layout style={{height:"100vh"}}>
                 <Row><br/></Row>
                 <Row justify="space-around">
-                    <Col span={16} offset={4}>
+                    <Col span={form.formLayoutOptions.wrapperSpan} offset={form.formLayoutOptions.wrapperOffset}>
                         <FormComponent {...form}/>
                     </Col>
                 </Row>
