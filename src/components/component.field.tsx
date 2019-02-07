@@ -24,14 +24,14 @@ export class FieldComponent extends React.Component<any, any> {
             )}
             {type == "select" && decorator (
                 <Select onChange={onChange}>
-                    {field.children.map((option: RadioSelectCheckboxOption, on: number) => {
+                    {field.children.map((option: RadioSelectCheckboxOption, on: string) => {
                         return <Select.Option key={on}>{option.label}</Select.Option>
                     })}
                 </Select>
             )}
             {type == "radiogroup" && decorator(
                 <Radio.Group onChange={onChange}>
-                    {field.children.map((option: RadioSelectCheckboxOption, on: number) => {
+                    {field.children.map((option: RadioSelectCheckboxOption, on: string) => {
                         return <Radio key={on}>{option.label}</Radio>
                     })}
                 </Radio.Group>

@@ -1,12 +1,7 @@
 import * as React from "react";
-
 import {Steps, Form, Button,  Card, Row, Col} from "antd";
 
-import {IFormProps} from "../models/form";
-import {IPage} from "../models/page";
-import {ISection} from "../models/section";
-import {IColumn} from "../models/column";
-import {IField} from "../models/field";
+import {IFormProps, IPage, ISection, IColumn, IField} from "@adinfinity/ai-core-forms";
 import {FieldComponent} from "./component.field";
 
 import '../app.css';
@@ -17,9 +12,12 @@ class FormComponent extends React.Component<IFormProps, any> {
         super(props);
         var state = {confirmDirty: false, currentPage: 0, numPages: props.content.pages.length}
         let self = this;
+
         props.content.allFields.forEach((f: IField) => {
-            self.evaluators[`${f.id}`] = f.condition;
-            state[`${f.id}`] = {result: f.condition.value(this.props.form)}
+            if(f.condition) {
+                self.evaluators[`${f.id}`] = f.condition;
+                state[`${f.id}`] = {result: f.condition.value(this.props.form)}
+            }
         });
         this.state = state;
     }
@@ -130,13 +128,12 @@ class FormComponent extends React.Component<IFormProps, any> {
     }
 
     render() {
-        const { getFieldDecorator, getFieldError, getFieldsValue, setFieldsValue } = this.props.form;
-        const numPages = this.props.content.pages.length;
-        let self = this;
-        const renderField = this.renderField;
         let {showPageTitles, showSteps} = this.props.formLayoutOptions;
         return (
             <div className="form-wrapper">
+                {this.props.content.title &&
+                    <Card><h2>{this.props.content.title}</h2><br/><h3>{this.props.content.subtitle}</h3></Card>
+                }
                 {showSteps && <Row>
                     <Col span={24}>
                         <Card>
@@ -161,13 +158,15 @@ class FormComponent extends React.Component<IFormProps, any> {
                                         </Card>
                                     </div>
                                     <div className="page-action">
-                                        <div>
-                                            <Form.Item {...this.props.formLayoutOptions}>
-                                                { <Button type="primary" htmlType="submit" className="action-button">Submit</Button> }
-                                                { currentPage < numPages -1 && <Button type="primary"  className="action-button" onClick={() => this.next()}>Next</Button> }
-                                                { currentPage > 0 && numPages > 1 &&  <Button type="primary"  className="action-button" onClick={() => this.prev()}>Prev</Button> }
-                                            </Form.Item>
-                                        </div>
+                                        <Card>
+                                            <Row>
+                                                <Col span={24} style={{ textAlign: 'right' }}>
+                                                    { currentPage > 0 && numPages > 1 && <Button type="primary" className="action-button" onClick={() => this.prev()}>Prev</Button> }
+                                                    { currentPage < numPages -1 && <Button type="primary"  style={{ marginLeft: 8 }} className="action-button" onClick={() => this.next()}>Next</Button> }
+                                                    { currentPage == numPages -1 && <Button type="primary" style={{ marginLeft: 8 }} htmlType="submit" className="action-button">Submit</Button> }
+                                                </Col>
+                                            </Row>
+                                        </Card>
                                     </div>
                                 </div>
                             })}

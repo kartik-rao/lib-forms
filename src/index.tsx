@@ -8,7 +8,10 @@ import {Row, Col, Layout} from "antd";
 import {FormFactory} from "./factory/form.factory";
 import FormComponent from "./components/component.form";
 
-class FormWrapper extends React.Component <any, any> {
+export {FormFactory};
+export {FormComponent};
+
+export class FormWrapper extends React.Component <any, any> {
     props : any = {};
     state : any = {};
 

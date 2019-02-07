@@ -1,24 +1,20 @@
 {
     "compilerOptions": {
-      "rootDir": ".",
       "module": "commonjs",
       "target": "es5",
       "lib": ["es6", "dom"],
-      "allowJs": true,
       "jsx": "react",
       "forceConsistentCasingInFileNames": true,
       "moduleResolution": "node",
-      "allowSyntheticDefaultImports": true
+      "allowSyntheticDefaultImports": true,
+      "outDir": "lib",
+      "declaration": true
     },
     "include": [
       "src/**/*.ts",
       "src/**/*.tsx"
     ],
     "exclude": [
-      "node_modules",
-      "datamodels",
-      "automations",
-      "acceptance-tests",
-      "webpack"
+      "node_modules"
     ]
   }

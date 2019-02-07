@@ -14,7 +14,13 @@ module.exports = {
         rules: [
             {
                 test: /\.ts(x?)$/,
-                use: { loader: 'awesome-typescript-loader' },
+                use: { loader: 'awesome-typescript-loader',
+                    options : {
+                        reportFiles: [
+                            'src/**/*.{ts,tsx}'
+                        ]
+                    }
+                },
                 exclude: /\/node_modules\//
             },
             { test: /\.png$|\.eot$|\.woff$|\.ttf$/, loader: "url-loader?limit=100000" },
@@ -44,7 +50,7 @@ module.exports = {
     },
     plugins: [
         new CheckerPlugin(),
-        new HtmlWebpackPlugin({template: 'build/template.html', inject: false}),
+        new HtmlWebpackPlugin({template: 'public/template.html', inject: false}),
         new ExtractTextPlugin({filename:"style.css", allChunks: true})
     ],
     optimization: {
