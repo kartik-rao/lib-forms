@@ -1,7 +1,5 @@
-import {valueOrDefault} from "../models/common";
-import {IField} from "../models/field";
-import {Condition} from "../models/condition";
-import {FieldOptions} from "../models/field.options";
+import {valueOrDefault} from "@adinfinity/ai-core-forms";
+import {IField, FieldOptions, Condition} from "@adinfinity/ai-core-forms";
 
 export class FieldFactory {
     static createField(props: any) : IField {

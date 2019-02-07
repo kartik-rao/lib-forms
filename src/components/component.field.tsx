@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {RadioSelectCheckboxOption} from "../models/field";
+import {RadioSelectCheckboxOption} from "@adinfinity/ai-core-forms";
 import {Form, Input, Select, Radio, DatePicker, InputNumber, Checkbox, Rate, Slider} from "antd";
 
 export class FieldComponent extends React.Component<any, any> {

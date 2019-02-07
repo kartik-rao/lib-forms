@@ -1,15 +1,5 @@
-import {FormTenant, IFormProps, FormStatus, FormContent} from "../models/form";
 import {FieldFactory} from "./field.factory";
-import {Column, IColumn} from "../models/column";
-import { IField } from "../models/field";
-
-let exists = (v: any) => {
-    return (typeof v != 'undefined' && v != null)
-}
-
-let withDefault = (t: any, d: any) => {
-    return (exists(t) ? t : d);
-}
+import {valueOrDefault, FormTenant, IFormProps, FormStatus, FormContent, Column, IColumn, IField} from "@adinfinity/ai-core-forms";
 
 export class FormFactory {
     static createForm(data: any) : any {
@@ -20,14 +10,14 @@ export class FormFactory {
         form.name = data.name;
 
         form.formLayoutOptions = {
-            wrapperSpan: withDefault(data.formLayoutOptions.wrapperSpan, 20),
-            wrapperOffset: withDefault(data.formLayoutOptions.wrapperOffset, 2),
-            showPageBorders : withDefault(data.formLayoutOptions.showPageBorders, true),
-            showSectionBorders : withDefault(data.formLayoutOptions.showSectionBorders, true),
-            showPageTitles : withDefault(data.formLayoutOptions.showPageTitles, true),
-            showSectionTitles:withDefault(data.formLayoutOptions.showSectionTitles, true),
-            showSteps:withDefault(data.formLayoutOptions.showSteps, true),
-            validationDisablesPaging: withDefault(data.formLayoutOptions.validationDisablesPaging, true),
+            wrapperSpan: valueOrDefault(data.formLayoutOptions.wrapperSpan, 20),
+            wrapperOffset: valueOrDefault(data.formLayoutOptions.wrapperOffset, 2),
+            showPageBorders : valueOrDefault(data.formLayoutOptions.showPageBorders, true),
+            showSectionBorders : valueOrDefault(data.formLayoutOptions.showSectionBorders, true),
+            showPageTitles : valueOrDefault(data.formLayoutOptions.showPageTitles, true),
+            showSectionTitles:valueOrDefault(data.formLayoutOptions.showSectionTitles, true),
+            showSteps:valueOrDefault(data.formLayoutOptions.showSteps, true),
+            validationDisablesPaging: valueOrDefault(data.formLayoutOptions.validationDisablesPaging, true),
         };
 
         let tenant = <FormTenant>{};
