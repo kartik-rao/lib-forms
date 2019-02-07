@@ -1,7 +1,5 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import './app.css';
-import "antd/dist/antd.css"
 
 import 'airbnb-browser-shims';
 import {Row, Col, Layout} from "antd";

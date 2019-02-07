@@ -1,6 +1,4 @@
 import * as React from "react";
-import './app.css';
-import "antd/dist/antd.css";
 import 'airbnb-browser-shims';
 import { FormFactory } from "./factory/form.factory";
 import FormComponent from "./components/component.form";

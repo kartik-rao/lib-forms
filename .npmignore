@@ -4,3 +4,6 @@ test
 .gitignore
 webpack.config.js
 .awcache
+public/*.js
+public/*.map
+public/*.css
