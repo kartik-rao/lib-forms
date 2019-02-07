@@ -51,6 +51,7 @@ module.exports = {
     },
     devServer: {
         compress: true,
+        hot: true,
         contentBase: [[path.join(__dirname, 'public'), path.join(__dirname, 'assets')]],
         port: 8080
     },
@@ -58,7 +59,7 @@ module.exports = {
         new CheckerPlugin(),
         new HtmlWebpackPlugin({template: 'public/template.html', inject: false}),
         new ExtractTextPlugin({filename:"style.css", allChunks: true}),
-        new BundleAnalyzerPlugin()
+        // new BundleAnalyzerPlugin()
     ],
     optimization: {
         minimize: true,

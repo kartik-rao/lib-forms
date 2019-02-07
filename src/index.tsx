@@ -15,12 +15,12 @@ export class FormWrapper extends React.Component <any, any> {
 
     constructor(props: any) {
         super(props);
-        this.props = {form: FormFactory.createForm(props.form)};
+        this.state = {form: FormFactory.createForm(props.form)};
     }
 
     render() {
         const { initialState, ...rest } = this.props
-        const { form } = this.props;
+        const { form } = this.state;
         return (
             <Layout style={{height:"100vh"}}>
                 <Row><br/></Row>

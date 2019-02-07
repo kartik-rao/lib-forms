@@ -9,15 +9,16 @@ export class FormFactory {
         form.desc = data.desc;
         form.name = data.name;
 
+        let flOptions = data.formLayoutOptions || {}
         form.formLayoutOptions = {
-            wrapperSpan: valueOrDefault(data.formLayoutOptions.wrapperSpan, 20),
-            wrapperOffset: valueOrDefault(data.formLayoutOptions.wrapperOffset, 2),
-            showPageBorders : valueOrDefault(data.formLayoutOptions.showPageBorders, true),
-            showSectionBorders : valueOrDefault(data.formLayoutOptions.showSectionBorders, true),
-            showPageTitles : valueOrDefault(data.formLayoutOptions.showPageTitles, true),
-            showSectionTitles:valueOrDefault(data.formLayoutOptions.showSectionTitles, true),
-            showSteps:valueOrDefault(data.formLayoutOptions.showSteps, true),
-            validationDisablesPaging: valueOrDefault(data.formLayoutOptions.validationDisablesPaging, true),
+            wrapperSpan: valueOrDefault(flOptions.wrapperSpan, 20),
+            wrapperOffset: valueOrDefault(flOptions.wrapperOffset, 2),
+            showPageBorders : valueOrDefault(flOptions.showPageBorders, true),
+            showSectionBorders : valueOrDefault(flOptions.showSectionBorders, true),
+            showPageTitles : valueOrDefault(flOptions.showPageTitles, true),
+            showSectionTitles:valueOrDefault(flOptions.showSectionTitles, true),
+            showSteps:valueOrDefault(flOptions.showSteps, true),
+            validationDisablesPaging: valueOrDefault(flOptions.validationDisablesPaging, true),
         };
 
         let tenant = <FormTenant>{};
@@ -65,7 +66,10 @@ export class FormFactory {
         content.fieldLocation = {};
         content.dependencyMap = {}
         let conditionAncestors = {};
-        data.content.pages.forEach((p: any, pn: number) => {
+
+        let pages = data.content.pages || [];
+
+        pages.forEach((p: any, pn: number) => {
             let page = {
                 name : p.name,
                 icon : p.icon,
