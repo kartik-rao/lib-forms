@@ -1,0 +1,6 @@
+# .npmignore
+src
+test
+.gitignore
+webpack.config.js
+.awcache

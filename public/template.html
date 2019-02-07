@@ -4,10 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Webpack App</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/public/antd.css" />
+    <link rel="stylesheet" href="dist/style.css" />
 </head>
 
 <body>
+    <script src="/public/react.development.js"></script>
+    <script src="/public/react-dom.development.js"></script>
+    <script src="/public/moment.min.js"></script>
+    <script src="/public/antd.js"></script>
+
     <script src="<%= htmlWebpackPlugin.files.chunks.vendor.entry %>" type="text/javascript"></script>
     <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>" type="text/javascript"></script>
     <div id="root"></div>

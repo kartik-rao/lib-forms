@@ -1,10 +1,10 @@
 var path = require('path');
-var webpack = require('webpack');
 
 const env = process.env.NODE_ENV;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CheckerPlugin } = require('awesome-typescript-loader')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     mode: env,
@@ -16,6 +16,7 @@ module.exports = {
                 test: /\.ts(x?)$/,
                 use: { loader: 'awesome-typescript-loader',
                     options : {
+                        useCache: true,
                         reportFiles: [
                             'src/**/*.{ts,tsx}'
                         ]
@@ -34,24 +35,30 @@ module.exports = {
         ],
     },
     devtool: 'source-map',
+    output: {
+        path: path.join(__dirname, 'dist'),
+        filename: '[name].js',
+        library: 'Forms',
+        libraryTarget: 'window'
+    },
     resolve: {
         extensions: ['.ts', '.js', '.jsx', '.tsx', '.css'],
     },
-    output: {
-        libraryTarget: 'window',
-        library: 'Forms',
-        path: path.join(__dirname, 'dist'),
-        filename: '[name].js'
+    externals: {
+        "react": "React",
+        "react-dom": "ReactDOM",
+        "antd" : "antd"
     },
     devServer: {
         compress: true,
-        contentBase: path.join(__dirname, "dist/"),
+        contentBase: [[path.join(__dirname, 'public'), path.join(__dirname, 'assets')]],
         port: 8080
     },
     plugins: [
         new CheckerPlugin(),
         new HtmlWebpackPlugin({template: 'public/template.html', inject: false}),
-        new ExtractTextPlugin({filename:"style.css", allChunks: true})
+        new ExtractTextPlugin({filename:"style.css", allChunks: true}),
+        new BundleAnalyzerPlugin()
     ],
     optimization: {
         minimize: true,
