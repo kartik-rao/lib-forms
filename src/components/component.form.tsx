@@ -4,8 +4,6 @@ import {Steps, Form, Button,  Card, Row, Col} from "antd";
 import {IFormProps, IPage, ISection, IColumn, IField} from "@adinfinity/ai-core-forms";
 import {FieldComponent} from "./component.field";
 
-import '../app.css';
-
 class FormComponent extends React.Component<IFormProps, any> {
     evaluators: any = {}
     constructor(props: IFormProps) {
