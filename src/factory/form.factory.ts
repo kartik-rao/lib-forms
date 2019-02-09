@@ -1,8 +1,8 @@
 import {FieldFactory} from "./field.factory";
 import {valueOrDefault, FormTenant, IFormProps, FormStatus, FormContent, Column, IColumn, IField} from "@adinfinity/ai-core-forms";
-
+import IForm from "@adinfinity/ai-core-forms";
 export class FormFactory {
-    static createForm(data: any) : any {
+    static createForm(data: any) : IFormProps {
         let form = <IFormProps>{};
         form.id = data.id;
         form.exid = data.exid;

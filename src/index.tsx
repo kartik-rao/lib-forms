@@ -2,16 +2,16 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 import 'airbnb-browser-shims';
-import {Row, Col, Layout} from "antd";
+
+import {IFormProps} from "@adinfinity/ai-core-forms";
+import {Row, Col, Layout, Button} from "antd";
 import {FormFactory} from "./factory/form.factory";
-import FormComponent from "./components/component.form";
+import FormComponent from "./components/Form";
 
 export {FormFactory};
 export {FormComponent};
 
 export class FormWrapper extends React.Component <any, any> {
-    props : any = {};
-    state : any = {};
 
     constructor(props: any) {
         super(props);
@@ -19,7 +19,6 @@ export class FormWrapper extends React.Component <any, any> {
     }
 
     render() {
-        const { initialState, ...rest } = this.props
         const { form } = this.state;
         return (
             <Layout style={{height:"100vh"}}>
@@ -27,11 +26,51 @@ export class FormWrapper extends React.Component <any, any> {
                 <Row justify="space-around">
                     <Col span={form.formLayoutOptions.wrapperSpan} offset={form.formLayoutOptions.wrapperOffset}>
                         <FormComponent {...form}/>
+                        <Button type="primary" style={{ marginLeft: 8 }} onClick={this.addPage} className="action-button">Add Content</Button>
                     </Col>
+                </Row>
+                <Row>
+
+
                 </Row>
             </Layout>
         );
-  }
+    }
+
+    // addPage = () => {
+    //     console.log("Ad Page")
+    //     let currentState = this.state.form;
+    //     currentState.content.pages.splice(3, 0, {
+    //         title: 'Page 4',
+    //         sections: [
+    //             {
+    //                 name: "A Section",
+    //                 columns: [
+    //                     {
+    //                         id: 1,
+    //                         name: 's1c1',
+    //                         title: 'Section 1 - Column 1',
+    //                         fields: [{
+    //                             id: "f7", name: "f7", type: "input", inputType: "text", label: "Text Label F7",
+    //                             placeholder: 'Placeholder Text F7',
+    //                             fieldOptions: {
+    //                                 rules: [
+    //                                     { type: 'string', required: true, message: 'Required validation message' },
+    //                                     { min: 2, message: "MinLength=2 validation message" },
+    //                                 ]
+    //                         }
+    //                     }]}
+    //                 ]
+    //             }
+    //         ]
+    //     });
+    //     setTimeout(()=>{this.setState({form: currentState})});
+
+    // }
+
+    // addSection(pageNo:number, index:number, section: any) {
+    //     let currentState = this.state.form;
+    // }
 }
 
 export function render (props: any, target: string) {

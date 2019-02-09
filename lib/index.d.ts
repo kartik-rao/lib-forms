@@ -1,12 +1,10 @@
 import * as React from "react";
 import 'airbnb-browser-shims';
 import { FormFactory } from "./factory/form.factory";
-import FormComponent from "./components/component.form";
+import FormComponent from "./components/Form";
 export { FormFactory };
 export { FormComponent };
 export declare class FormWrapper extends React.Component<any, any> {
-    props: any;
-    state: any;
     constructor(props: any);
     render(): JSX.Element;
 }
