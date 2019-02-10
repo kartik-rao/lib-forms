@@ -1,44 +1,66 @@
 import * as React from "react";
 import {Steps, Form, Button,  Card, Row, Col} from "antd";
-import {IPage, IField} from "@adinfinity/ai-core-forms";
+import {IPage, IField, IFormProps} from "@adinfinity/ai-core-forms";
 import {PageComponent} from "./Page";
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
-class FormComponent extends React.Component<any, any> {
+class FormComponent extends React.Component<IFormProps, any> {
     evaluators: any = {};
 
-    constructor(props: any) {
+    constructor(props: IFormProps) {
         super(props);
         let state = {
-            currentPage: props.content && props.content.pages.length > 0 ? 0 : 0,
-            numPages: props.content && props.content.pages.length > 0 ? props.content.pages.length : 0,
+            currentPage: (props.content && props.content.pages.length > 0 ? 0 : 0) as number,
+            numPages: (props.content && props.content.pages.length > 0 ? props.content.pages.length : 0) as number,
             confirmDirty: false,
-            ...this.updateConditionEvaluators(props.content.allFields)
+            fieldMeta: {
+                locations: {} as any,
+                allFields: [] as IField[],
+                pageFields : {} as any
+            }
         };
 
-        this.state = state;
+        // Store page metadata
+        props.content.pages.forEach((page, pi) => {
+            page.sections.forEach((section, si) => {
+                section.columns.forEach((column, ci) => {
+                    column.fields.forEach((field, fi)=> {
+                        state.fieldMeta.allFields.push(field);
+                        field.location = field.location = {page: pi, section: si, column: ci, field: fi};
+                        state.fieldMeta.locations[field.id] = {page: pi, section: si, column: ci, field: fi}
+                        state.fieldMeta.pageFields[pi] = state.fieldMeta.pageFields[pi] ? state.fieldMeta.pageFields[pi] : {names:[], ids:[]};
+                        state.fieldMeta.pageFields[pi].names.push(field.name);
+                    });
+                });
+            });
+        });
+
+        this.state = {...state, ...this.registerFieldConditions(state.fieldMeta.allFields)};
         console.log(state)
     }
 
-    updateConditionEvaluators(fields: any[]) : any {
-        let conditionAncestors = {};
-        let state = {dependencies: {}, conditionals: {}};
+    componentDidMount() {
+        console.log("Form Mounted");
+    }
+
+    registerFieldConditions(fields: IField[]) : any {
+        let state = {dependencies: {}, conditionals: {}, ancestors: {}};
         let self = this;
         fields.forEach((f: IField) => {
             if(f.condition) {
                 self.evaluators[`${f.id}`] = f.condition;
                 state.conditionals[`${f.id}`] = {result: f.condition.value(this.props.form.getFieldValue)}
                 if (f.condition.ancestors) {
-                    conditionAncestors[f.id] = f.condition.ancestors;
+                    state.ancestors[f.id] = f.condition.ancestors;
                 }
             }
         });
 
-        Object.keys(conditionAncestors).forEach((f) => {
-            let ancestors = conditionAncestors[f];
+        Object.keys(state.ancestors).forEach((f) => {
+            let ancestors = state.ancestors[f];
             ancestors.forEach((a: string) => {
                 state.dependencies[a] = state.dependencies[a] ? state.dependencies[a] : [];
                 state.dependencies[a].push(f);
@@ -46,6 +68,28 @@ class FormComponent extends React.Component<any, any> {
         });
 
         return state;
+    }
+
+    deregisterFieldConditions(fields: IField[]) : any {
+        let {dependencies, conditionals, ancestors} = this.state;
+        let self = this;
+        fields.forEach((f: IField) => {
+            if (self.evaluators[`${f.id}`]) {
+                delete self.evaluators[`${f.id}`];
+                delete conditionals[`${f.id}`];
+            }
+            if (f.condition.ancestors) {
+                delete ancestors[f.id];
+            }
+
+            Object.keys(dependencies).forEach(k => {
+                if (dependencies[k].indexOf(f.id) > -1) {
+                    dependencies[k] = Array.prototype.filter((v) => {v !== f.id});
+                }
+            });
+        });
+
+        return {dependencies: dependencies, conditionals: conditionals, ancestors: ancestors};
     }
 
     next() {
@@ -56,7 +100,7 @@ class FormComponent extends React.Component<any, any> {
             this.setState({ currentPage: currentPage + 1 });
             return;
         }
-        this.props.form.validateFields(this.props.content.pages[currentPage].fieldNames, (err: any) => {
+        this.props.form.validateFields(this.state.fieldMeta.pageFields[currentPage].names, (err: any) => {
             if(!err) {
                 self.setState({ currentPage: currentPage + 1 });
             }
@@ -99,7 +143,7 @@ class FormComponent extends React.Component<any, any> {
                 console.log('Received values of form: ', payload);
           } else {
               // Send user to location of first error
-              let locations = self.props.content.fieldLocation;
+              let {locations} = self.state.fieldMeta;
               let firstErrorPage = Object.keys(err).map((fieldId: string) => {
                 return locations[fieldId].page;
               }).reduce((pn: number, initial: number) => {

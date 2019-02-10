@@ -13,6 +13,7 @@ export interface FieldProps {
 }
 
 export class FieldComponent extends React.Component<FieldProps, any> {
+
     constructor(props: FieldProps) {
         super(props);
         this.props = props;

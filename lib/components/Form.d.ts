@@ -1,3 +1,4 @@
 import * as React from "react";
-declare const _default: React.ComponentClass<import("antd/lib/form/Form").RcBaseFormProps & Pick<any, string | number | symbol>>;
+import { IFormProps } from "@adinfinity/ai-core-forms";
+declare const _default: React.ComponentClass<import("antd/lib/form/Form").RcBaseFormProps & Pick<IFormProps, "id" | "exid" | "desc" | "name" | "tenant" | "status" | "content" | "values" | "layout" | "formLayoutOptions">>;
 export default _default;

@@ -1,5 +1,4 @@
-// // import {FormWrapper} from "../src/index";
-// import {FormFactory} from "../src/factory/form.factory";
+// import {FormComponent} from "../src/components/form";
 // import * as Enzyme from 'enzyme';
 // import * as Adapter from 'enzyme-adapter-react-16';
 

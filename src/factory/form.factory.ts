@@ -52,20 +52,13 @@ export class FormFactory {
         content.scripts = data.content.scripts;
         content.styles = data.content.styles;
         content.datasets = data.content.datasets;
-
         content.paginate = data.content.paginate;
-        content.validationDisablesPaging = data.content.validationDisablesPaging;
         content.css = data.content.css;
         content.header = data.content.header;
         content.footer = data.content.footer;
         content.trackingPixels = data.content.trackingPixels;
 
-        let fieldState = {};
         content.pages = [];
-        content.allFields = [];
-        content.fieldLocation = {};
-        content.dependencyMap = {}
-        let conditionAncestors = {};
 
         let pages = data.content.pages || [];
 
@@ -77,8 +70,7 @@ export class FormFactory {
                 type : p.type,
                 title : p.title,
                 subtitle : p.subtitle,
-                wizard : p.wizard,
-                fieldNames: []
+                wizard : p.wizard
             };
             p.sections.forEach((s: any, sn: number) => {
                 let section = { id: s.id, name: s.name, gutter: s.gutter, columns: [] };
@@ -86,26 +78,13 @@ export class FormFactory {
                     let column: Column = new Column(col.id, col.name, col.title, []);
                     col.fields.map((f: IField, fn: number) => {
                         let field = FieldFactory.createField(f);
-                        field.location = {page: pn, section: sn, column: itemno, field: fn}
-                        conditionAncestors[field.id] = field.condition.ancestors;
                         column.fields.push(field);
-                        content.allFields.push(field);
-                        content.fieldLocation[field.id] = field.location;
-                        page.fieldNames.push(field.name);
                     });
                     section.columns.push(column);
                 });
                 page.sections.push(section);
             });
             content.pages.push(page);
-        });
-
-        Object.keys(conditionAncestors).forEach((f) => {
-            let ancestors = conditionAncestors[f];
-            ancestors.forEach((a) => {
-                content.dependencyMap[a] = content.dependencyMap[a] ? content.dependencyMap[a] : [];
-                content.dependencyMap[a].push(f);
-            });
         });
 
         form.content = content;
