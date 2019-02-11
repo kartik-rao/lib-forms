@@ -4,9 +4,8 @@ import { FormFactory } from "../factory/form.factory";
 import FormComponent from "./Form";
 export { FormFactory };
 export { FormComponent };
-declare class App extends React.Component<any, any> {
+export declare class FormWrapper extends React.Component<any, any> {
     props: any;
     constructor(props: any);
     render(): JSX.Element;
 }
-export default App;

@@ -9,8 +9,7 @@ import FormComponent from "./Form";
 export {FormFactory};
 export {FormComponent};
 
-class App extends React.Component <any, any> {
-
+export class FormWrapper extends React.Component <any, any> {
     props: any;
     constructor(props: any) {
         super(props);
@@ -35,5 +34,3 @@ class App extends React.Component <any, any> {
         );
     }
 }
-
-export default App;

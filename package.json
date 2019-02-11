@@ -1,6 +1,6 @@
 {
   "name": "@adinfinity/ai-lib-forms",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "HOC for rendering forms",
   "main": "lib/index.js",
   "repository": {

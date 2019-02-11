@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-import App from './components/App'
+import {FormWrapper} from './components/FormWrapper';
 
-export function renderApp(selector:string, initialState: any) {
-    render(<App formData={initialState}/>, document.querySelector(selector))
+export function renderForm(selector:string, initialState: any) {
+    render(<FormWrapper formData={initialState}/>, document.querySelector(selector))
 };

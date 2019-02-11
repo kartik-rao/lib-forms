@@ -1,1 +1,1 @@
-export declare function renderApp(selector: string, initialState: any): void;
+export declare function renderForm(selector: string, initialState: any): void;
