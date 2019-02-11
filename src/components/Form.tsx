@@ -3,18 +3,21 @@ import {Steps, Form, Button,  Card, Row, Col} from "antd";
 import {IPage, IField, IFormProps} from "@adinfinity/ai-core-forms";
 import {PageComponent} from "./Page";
 
+import {FormStateHelper} from "../helpers/FormStateHelper";
+
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
-class FormComponent extends React.Component<IFormProps, any> {
+class FormComponent extends React.Component<any, any> {
     evaluators: any = {};
 
-    constructor(props: IFormProps) {
+    constructor(props: any) {
         super(props);
+        let {formData} = props;
         let state = {
-            currentPage: (props.content && props.content.pages.length > 0 ? 0 : 0) as number,
-            numPages: (props.content && props.content.pages.length > 0 ? props.content.pages.length : 0) as number,
+            currentPage: (formData.content && formData.content.pages.length > 0 ? 0 : 0) as number,
+            numPages: (formData.content && formData.content.pages.length > 0 ? formData.content.pages.length : 0) as number,
             confirmDirty: false,
             fieldMeta: {
                 locations: {} as any,
@@ -22,9 +25,8 @@ class FormComponent extends React.Component<IFormProps, any> {
                 pageFields : {} as any
             }
         };
-
         // Store page metadata
-        props.content.pages.forEach((page, pi) => {
+        formData.content.pages.forEach((page, pi) => {
             page.sections.forEach((section, si) => {
                 section.columns.forEach((column, ci) => {
                     column.fields.forEach((field, fi)=> {
@@ -37,66 +39,19 @@ class FormComponent extends React.Component<IFormProps, any> {
                 });
             });
         });
-
-        this.state = {...state, ...this.registerFieldConditions(state.fieldMeta.allFields)};
-        console.log(state)
+        this.state = FormStateHelper.registerFieldConditions(state.fieldMeta.allFields, state, this.evaluators, this.props.form);
+        // this.state = {...state, ...this.registerFieldConditions(state.fieldMeta.allFields)};
     }
 
     componentDidMount() {
         console.log("Form Mounted");
     }
 
-    registerFieldConditions(fields: IField[]) : any {
-        let state = {dependencies: {}, conditionals: {}, ancestors: {}};
-        let self = this;
-        fields.forEach((f: IField) => {
-            if(f.condition) {
-                self.evaluators[`${f.id}`] = f.condition;
-                state.conditionals[`${f.id}`] = {result: f.condition.value(this.props.form.getFieldValue)}
-                if (f.condition.ancestors) {
-                    state.ancestors[f.id] = f.condition.ancestors;
-                }
-            }
-        });
-
-        Object.keys(state.ancestors).forEach((f) => {
-            let ancestors = state.ancestors[f];
-            ancestors.forEach((a: string) => {
-                state.dependencies[a] = state.dependencies[a] ? state.dependencies[a] : [];
-                state.dependencies[a].push(f);
-            });
-        });
-
-        return state;
-    }
-
-    deregisterFieldConditions(fields: IField[]) : any {
-        let {dependencies, conditionals, ancestors} = this.state;
-        let self = this;
-        fields.forEach((f: IField) => {
-            if (self.evaluators[`${f.id}`]) {
-                delete self.evaluators[`${f.id}`];
-                delete conditionals[`${f.id}`];
-            }
-            if (f.condition.ancestors) {
-                delete ancestors[f.id];
-            }
-
-            Object.keys(dependencies).forEach(k => {
-                if (dependencies[k].indexOf(f.id) > -1) {
-                    dependencies[k] = Array.prototype.filter((v) => {v !== f.id});
-                }
-            });
-        });
-
-        return {dependencies: dependencies, conditionals: conditionals, ancestors: ancestors};
-    }
-
     next() {
         console.log("nextPage");
         let self = this;
         const currentPage = this.state.currentPage;
-        if (!this.props.formLayoutOptions.validationDisablesPaging) {
+        if (!this.props.formData.formLayoutOptions.validationDisablesPaging) {
             this.setState({ currentPage: currentPage + 1 });
             return;
         }
@@ -164,15 +119,16 @@ class FormComponent extends React.Component<IFormProps, any> {
     }
 
     render() {
+        let {formData} = this.props;
         return (<div className="form-wrapper">
-            {this.props.content.title &&
-                <Card><h2>{this.props.content.title}</h2><br/><h3>{this.props.content.subtitle}</h3></Card>
+            {formData.content.title &&
+                <Card><h2>{formData.content.title}</h2><br/><h3>{formData.content.subtitle}</h3></Card>
             }
-            {this.props.formLayoutOptions.showSteps && <Row>
+            {formData.formLayoutOptions.showSteps && <Row>
                 <Col span={24}>
                     <Card>
                         <Steps size="small" current={this.state.currentPage}>
-                            {this.props.content.pages.map((page: IPage, pn: number) => {
+                            {formData.content.pages.map((page: IPage, pn: number) => {
                                 return <Steps.Step title={page.title} key={pn}/>
                             })}
                         </Steps>
@@ -183,9 +139,9 @@ class FormComponent extends React.Component<IFormProps, any> {
                 <Col span={24}>
                     <Form onSubmit={this.handleSubmit} layout={this.props.layout} >
                         {
-                            this.props.content.pages.map((page: IPage, pn: number) => {
+                            formData.content.pages.map((page: IPage, pn: number) => {
                                 let {currentPage} = this.state;
-                                let {formLayoutOptions} = this.props;
+                                let {formLayoutOptions} = this.props.formData;
                                 return <div className="page-wrapper" key={pn} style={{'visibility': currentPage == pn ? 'visible': 'hidden', display: currentPage == pn ? 'block': 'none'}}>
                                     <PageComponent page={page} conditionals={this.state.conditionals} index={pn} formLayout={formLayoutOptions} decorators={this.props.form} eventHooks={this.eventHooks}></PageComponent>
                                 </div>

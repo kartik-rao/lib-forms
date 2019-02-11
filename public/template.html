@@ -17,127 +17,124 @@
     <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>" type="text/javascript"></script>
     <div id="root"></div>
     <script>
-        var form = new Forms.render({
-            target: '#root',
-            form: {
-                id: "foo",
-                name: "A sample form",
-                layout: 'vertical',
-                content: {
-                    title: 'Form title',
-                    subtitle: 'Form subtitle',
-                    pages: [
-                        {
-                            title: 'Page 1',
-                            sections: [
-                                {
-                                    gutter: 16,
-                                    name: "Section 1",
-                                    columns: [{
-                                        id: 1,
-                                        name: 's1c1',
-                                        title: 'Section 1 - Column 1',
-                                        fields: [
-                                            {
-                                                id: "f1", name: "f1", type: "input", inputType: "text", label: "Text Label",
-                                                placeholder: 'Placeholder Text',
-                                                fieldOptions: {
-                                                    rules: [
-                                                        { type: 'string', required: true, message: 'Required validation message' },
-                                                        { min: 2, message: "MinLength=2 validation message" },
-                                                    ]
-                                                }
-                                            }
-                                        ]
-                                    },{
-                                        id: 2,
-                                        name: 's1c2',
-                                        title: 'Section 1 - Column 2',
-                                        fields: [{
-                                            id: "f2", name: "f2", type: "select", label: "Select Label", children: [
-                                                { label: "option1", value: "option1" },
-                                                { label: "option2", value: "option2" }
-                                            ]
-                                        },
+        var form = new Forms.renderApp('#root', {
+            id: "foo",
+            name: "A sample form",
+            layout: 'vertical',
+            content: {
+                title: 'Form title',
+                subtitle: 'Form subtitle',
+                pages: [
+                    {
+                        title: 'Page 1',
+                        sections: [
+                            {
+                                gutter: 16,
+                                name: "Section 1",
+                                columns: [{
+                                    id: 1,
+                                    name: 's1c1',
+                                    title: 'Section 1 - Column 1',
+                                    fields: [
                                         {
-                                            id: "f3", name: "f3", type: "input", inputType: "text", label: "Conditional Text Label",
+                                            id: "f1", name: "f1", type: "input", inputType: "text", label: "Text Label",
                                             placeholder: 'Placeholder Text',
                                             fieldOptions: {
                                                 rules: [
-                                                    { type: 'string', required: true, message: 'Required validation message' }
+                                                    { type: 'string', required: true, message: 'Required validation message' },
+                                                    { min: 2, message: "MinLength=2 validation message" },
                                                 ]
-                                            },
-                                            condition: [
-                                                { field: "f1", condition: "eq", value: "qq" }
+                                            }
+                                        }
+                                    ]
+                                },{
+                                    id: 2,
+                                    name: 's1c2',
+                                    title: 'Section 1 - Column 2',
+                                    fields: [{
+                                        id: "f2", name: "f2", type: "select", label: "Select Label", children: [
+                                            { label: "option1", value: "option1" },
+                                            { label: "option2", value: "option2" }
+                                        ]
+                                    },
+                                    {
+                                        id: "f3", name: "f3", type: "input", inputType: "text", label: "Conditional Text Label",
+                                        placeholder: 'Placeholder Text',
+                                        fieldOptions: {
+                                            rules: [
+                                                { type: 'string', required: true, message: 'Required validation message' }
                                             ]
-                                        }]
+                                        },
+                                        condition: [
+                                            { field: "f1", condition: "eq", value: "qq" }
+                                        ]
                                     }]
-                                }
-                            ]
-                        },
-                        {
-                            title: 'Page 2',
-                            sections: [
-                                {
-                                    name: "A Section",
-                                    columns: [
-                                        {
-                                            id: 1,
-                                            name: 'p2s1c1',
-                                            title: 'Section 2 - Column 1',
-                                            fields: [{
-                                                id: "f5", name: "f5", type: "textblock", inputType: "textblock", label: "Text Label F5",
-                                                value: "Lorem ipsum text"
-                                            },{
-                                                id: "f4", name: "f4", type: "input", inputType: "text", label: "Text Label F4",
-                                                placeholder: 'Placeholder Text F4',
-                                                fieldOptions: {
-                                                    rules: [
-                                                        { type: 'string', required: true, message: 'Required validation message' },
-                                                        { min: 2, message: "MinLength=2 validation message" },
-                                                    ]
-                                            }
-                                        }]}
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            title: 'Page 3',
-                            sections: [
-                                {
-                                    name: "A Section",
-                                    columns: [
-                                        {
-                                            id: 1,
-                                            name: 's1c1',
-                                            title: 'Section 1 - Column 1',
-                                            fields: [{
-                                                id: "f6", name: "f6", type: "input", inputType: "text", label: "Text Label F6",
-                                                placeholder: 'Placeholder Text F6',
-                                                fieldOptions: {
-                                                    rules: [
-                                                        { type: 'string', required: true, message: 'Required validation message' },
-                                                        { min: 2, message: "MinLength=2 validation message" },
-                                                    ]
-                                            }
-                                        }]}
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                formLayoutOptions: {
-                    showSteps: true,
-                    showPageTitles : false,
-                    showSectionTitles: false,
-                    showSectionBorders : false,
-                    showPageBorders: false,
-                    validationDisablesPaging: true
-                }
+                                }]
+                            }
+                        ]
+                    },
+                    {
+                        title: 'Page 2',
+                        sections: [
+                            {
+                                name: "A Section",
+                                columns: [
+                                    {
+                                        id: 1,
+                                        name: 'p2s1c1',
+                                        title: 'Section 2 - Column 1',
+                                        fields: [{
+                                            id: "f5", name: "f5", type: "textblock", inputType: "textblock", label: "Text Label F5",
+                                            value: "Lorem ipsum text"
+                                        },{
+                                            id: "f4", name: "f4", type: "input", inputType: "text", label: "Text Label F4",
+                                            placeholder: 'Placeholder Text F4',
+                                            fieldOptions: {
+                                                rules: [
+                                                    { type: 'string', required: true, message: 'Required validation message' },
+                                                    { min: 2, message: "MinLength=2 validation message" },
+                                                ]
+                                        }
+                                    }]}
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        title: 'Page 3',
+                        sections: [
+                            {
+                                name: "A Section",
+                                columns: [
+                                    {
+                                        id: 1,
+                                        name: 's1c1',
+                                        title: 'Section 1 - Column 1',
+                                        fields: [{
+                                            id: "f6", name: "f6", type: "input", inputType: "text", label: "Text Label F6",
+                                            placeholder: 'Placeholder Text F6',
+                                            fieldOptions: {
+                                                rules: [
+                                                    { type: 'string', required: true, message: 'Required validation message' },
+                                                    { min: 2, message: "MinLength=2 validation message" },
+                                                ]
+                                        }
+                                    }]}
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            formLayoutOptions: {
+                showSteps: true,
+                showPageTitles : false,
+                showSectionTitles: false,
+                showSectionBorders : false,
+                showPageBorders: false,
+                validationDisablesPaging: true
             }
-        }, "#root");
+        });
     </script>
 </body>
 
