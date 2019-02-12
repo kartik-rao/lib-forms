@@ -9,42 +9,13 @@ function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
-class FormComponent extends React.Component<any, any> {
+export class FormComponent extends React.Component<any, any> {
     evaluators: any = {};
 
     constructor(props: any) {
         super(props);
         let {formData} = props;
-        let state = {
-            currentPage: (formData.content && formData.content.pages.length > 0 ? 0 : 0) as number,
-            numPages: (formData.content && formData.content.pages.length > 0 ? formData.content.pages.length : 0) as number,
-            confirmDirty: false,
-            fieldMeta: {
-                locations: {} as any,
-                allFields: [] as IField[],
-                pageFields : {} as any
-            }
-        };
-        // Store page metadata
-        formData.content.pages.forEach((page, pi) => {
-            page.sections.forEach((section, si) => {
-                section.columns.forEach((column, ci) => {
-                    column.fields.forEach((field, fi)=> {
-                        state.fieldMeta.allFields.push(field);
-                        field.location = field.location = {page: pi, section: si, column: ci, field: fi};
-                        state.fieldMeta.locations[field.id] = {page: pi, section: si, column: ci, field: fi}
-                        state.fieldMeta.pageFields[pi] = state.fieldMeta.pageFields[pi] ? state.fieldMeta.pageFields[pi] : {names:[], ids:[]};
-                        state.fieldMeta.pageFields[pi].names.push(field.name);
-                    });
-                });
-            });
-        });
-        this.state = FormStateHelper.registerFieldConditions(state.fieldMeta.allFields, state, this.evaluators, this.props.form);
-        // this.state = {...state, ...this.registerFieldConditions(state.fieldMeta.allFields)};
-    }
-
-    componentDidMount() {
-        console.log("Form Mounted");
+        this.state = FormStateHelper.getInitialState(formData, this.evaluators, this.props.form);
     }
 
     next() {

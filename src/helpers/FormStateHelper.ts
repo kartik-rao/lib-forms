@@ -1,6 +1,35 @@
 import {IField} from "@adinfinity/ai-core-forms";
 
 export class FormStateHelper {
+    static getInitialState(formData: any, evaluators: any, decorators: any) {
+        let state = {
+            currentPage: (formData.content && formData.content.pages.length > 0 ? 0 : 0) as number,
+            numPages: (formData.content && formData.content.pages.length > 0 ? formData.content.pages.length : 0) as number,
+            confirmDirty: false,
+            fieldMeta: {
+                locations: {} as any,
+                allFields: [] as IField[],
+                pageFields : {} as any
+            }
+        };
+        // Store page metadata
+        formData.content.pages.forEach((page, pi) => {
+            page.sections.forEach((section, si) => {
+                section.columns.forEach((column, ci) => {
+                    column.fields.forEach((field, fi)=> {
+                        state.fieldMeta.allFields.push(field);
+                        field.location = field.location = {page: pi, section: si, column: ci, field: fi};
+                        state.fieldMeta.locations[field.id] = {page: pi, section: si, column: ci, field: fi}
+                        state.fieldMeta.pageFields[pi] = state.fieldMeta.pageFields[pi] ? state.fieldMeta.pageFields[pi] : {names:[], ids:[]};
+                        state.fieldMeta.pageFields[pi].names.push(field.name);
+                    });
+                });
+            });
+        });
+
+        return FormStateHelper.registerFieldConditions(state.fieldMeta.allFields, state, evaluators, decorators);
+    }
+
     static registerFieldConditions(fields: IField[], state: any, evaluators: any, decorators: any) : any {
         state = {...state, dependencies: {}, conditionals: {}, ancestors: {}};
         fields.forEach((f: IField) => {

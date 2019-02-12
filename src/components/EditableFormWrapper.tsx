@@ -4,12 +4,11 @@ import 'airbnb-browser-shims';
 
 import {Row, Col, Layout, Button} from "antd";
 import {FormFactory} from "../factory/form.factory";
-import FormComponent from "./Form";
+import EditableFormComponent from "./editable/EdtitableForm";
+import HTML5Backend from "react-dnd-html5-backend";
+import { DragDropContext } from "react-dnd";
 
-export {FormFactory};
-export {FormComponent};
-
-export class FormWrapper extends React.Component <any, any> {
+class EditableFormWrapper extends React.Component <any, any> {
     props: any;
     constructor(props: any) {
         super(props);
@@ -23,10 +22,12 @@ export class FormWrapper extends React.Component <any, any> {
                 <Row><br/></Row>
                 <Row justify="space-around">
                     <Col span={formData.formLayoutOptions.wrapperSpan} offset={formData.formLayoutOptions.wrapperOffset}>
-                        <FormComponent formData={formData}/>
+                        <EditableFormComponent formData={formData}/>
                     </Col>
                 </Row>
             </Layout>
         );
     }
 }
+
+export default DragDropContext(HTML5Backend)(EditableFormWrapper)

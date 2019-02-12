@@ -1,8 +1,8 @@
 import * as React from "react";
 import {IField, FormLayoutOptions} from "@adinfinity/ai-core-forms";
-
 import {RadioSelectCheckboxOption} from "@adinfinity/ai-core-forms";
 import {Form, Input, Select, Radio, DatePicker, InputNumber, Checkbox, Rate, Slider} from "antd";
+
 
 export interface FieldProps {
     field: IField;
@@ -10,6 +10,7 @@ export interface FieldProps {
     decorators: any;
     eventHooks:any;
     conditionals:any;
+
 }
 
 export class FieldComponent extends React.Component<FieldProps, any> {

@@ -17,7 +17,7 @@
     <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>" type="text/javascript"></script>
     <div id="root"></div>
     <script>
-        var form = new Forms.renderForm('#root', {
+        var form = new Forms.renderEditableForm('#root', {
             id: "foo",
             name: "A sample form",
             layout: 'vertical',
@@ -53,10 +53,10 @@
                                     title: 'Section 1 - Column 2',
                                     fields: [{
                                         id: "f2", name: "f2", type: "select", label: "Select Label", children: [
-                                            { label: "option1", value: "option1" },
-                                            { label: "option2", value: "option2" }
-                                        ]
-                                    },
+                                                { label: "option1", value: "option1" },
+                                                { label: "option2", value: "option2" }
+                                            ]
+                                        },
                                     {
                                         id: "f3", name: "f3", type: "input", inputType: "text", label: "Conditional Text Label",
                                         placeholder: 'Placeholder Text',
@@ -80,7 +80,7 @@
                                 name: "A Section",
                                 columns: [
                                     {
-                                        id: 1,
+                                        id: 3,
                                         name: 'p2s1c1',
                                         title: 'Section 2 - Column 1',
                                         fields: [{
@@ -107,7 +107,7 @@
                                 name: "A Section",
                                 columns: [
                                     {
-                                        id: 1,
+                                        id: 4,
                                         name: 's1c1',
                                         title: 'Section 1 - Column 1',
                                         fields: [{
