@@ -40,8 +40,9 @@
                                             id: "f1", name: "f1", type: "input", inputType: "text", label: "Text Label",
                                             placeholder: 'Placeholder Text',
                                             fieldOptions: {
+                                                type: 'string',
                                                 rules: [
-                                                    { type: 'string', required: true, message: 'Required validation message' },
+                                                    { required: true, message: 'Required validation message' },
                                                     { min: 2, message: "MinLength=2 validation message" },
                                                 ]
                                             }
@@ -61,8 +62,9 @@
                                         id: "f3", name: "f3", type: "input", inputType: "text", label: "Conditional Text Label",
                                         placeholder: 'Placeholder Text',
                                         fieldOptions: {
+                                            type : 'string',
                                             rules: [
-                                                { type: 'string', required: true, message: 'Required validation message' }
+                                                { required: true, message: 'Required validation message' }
                                             ]
                                         },
                                         condition: [
@@ -90,8 +92,9 @@
                                             id: "f4", name: "f4", type: "input", inputType: "text", label: "Text Label F4",
                                             placeholder: 'Placeholder Text F4',
                                             fieldOptions: {
+                                                type: 'string',
                                                 rules: [
-                                                    { type: 'string', required: true, message: 'Required validation message' },
+                                                    { required: true, message: 'Required validation message' },
                                                     { min: 2, message: "MinLength=2 validation message" },
                                                 ]
                                         }
@@ -114,8 +117,10 @@
                                             id: "f6", name: "f6", type: "input", inputType: "text", label: "Text Label F6",
                                             placeholder: 'Placeholder Text F6',
                                             fieldOptions: {
+                                                type: 'string',
+                                                required: true,
                                                 rules: [
-                                                    { type: 'string', required: true, message: 'Required validation message' },
+                                                    { required: 'Required validation message' },
                                                     { min: 2, message: "MinLength=2 validation message" },
                                                 ]
                                         }

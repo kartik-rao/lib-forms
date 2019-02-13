@@ -8,9 +8,11 @@ import {DnDHelper} from "./DnDHelper";
 export interface SectionProps {
     section: ISection;
     formLayout: FormLayoutOptions;
-    decorators: any;
+    values: any;
     eventHooks: any;
     conditionals: any;
+    errors: any;
+    touched: any;
 }
 
 export class EditableSectionComponent extends React.Component<SectionProps, any> {
@@ -41,13 +43,13 @@ export class EditableSectionComponent extends React.Component<SectionProps, any>
     }
 
     render() {
-        let {section, formLayout, conditionals, decorators, eventHooks} = this.props;
+        let {section, formLayout, errors, conditionals, touched, values, eventHooks} = this.props;
         let {showSectionTitles, showSectionBorders} = formLayout;
         const numColumns = section.columns.length;
         return <Card bordered={showSectionBorders} title={showSectionTitles ? section.name : ""}>
             <Row  gutter={8}>
                 {this.state.columns.map((column: IColumn, fn: number) => {
-                    return <EditableColumnComponent formLayout={formLayout} key={fn} column={column} span={24/numColumns} conditionals={conditionals} decorators={decorators} eventHooks={eventHooks}/>
+                    return <EditableColumnComponent formLayout={formLayout} errors={errors} touched={touched} key={fn} column={column} span={24/numColumns} conditionals={conditionals} values={values} eventHooks={eventHooks}/>
                 })}
             </Row>
         </Card>

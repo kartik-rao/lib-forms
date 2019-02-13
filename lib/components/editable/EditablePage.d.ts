@@ -4,9 +4,11 @@ export interface PageProps {
     page: IPage;
     formLayout: FormLayoutOptions;
     index: number;
-    decorators: any;
+    values: any;
     eventHooks: any;
     conditionals: any;
+    errors: any;
+    touched: any;
 }
 declare class EditablePageComponent extends React.Component<PageProps, any> {
     state: any;

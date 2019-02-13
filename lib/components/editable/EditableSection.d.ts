@@ -3,9 +3,11 @@ import { ISection, FormLayoutOptions } from "@adinfinity/ai-core-forms";
 export interface SectionProps {
     section: ISection;
     formLayout: FormLayoutOptions;
-    decorators: any;
+    values: any;
     eventHooks: any;
     conditionals: any;
+    errors: any;
+    touched: any;
 }
 export declare class EditableSectionComponent extends React.Component<SectionProps, any> {
     state: any;

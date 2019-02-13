@@ -11,12 +11,14 @@ export interface ColumnProps {
     column: IColumn;
     formLayout: FormLayoutOptions;
     span: number;
-    decorators: any;
+    values: any;
     eventHooks:any;
     conditionals:any;
     canDrop: any;
     isOver: any;
+    errors: any;
     connectDropTarget: any;
+    touched: any;
 }
 
 class EditableColumnComponent extends React.Component<ColumnProps, any> {
@@ -65,7 +67,7 @@ class EditableColumnComponent extends React.Component<ColumnProps, any> {
 	}
 
     render() {
-        let {formLayout, conditionals, decorators, eventHooks} = this.props;
+        let {formLayout, conditionals, values, touched, eventHooks, errors} = this.props;
         const { fields } = this.state;
         const { canDrop, isOver, connectDropTarget } = this.props;
 
@@ -88,7 +90,9 @@ class EditableColumnComponent extends React.Component<ColumnProps, any> {
                     key={fn}
                     formLayout={formLayout}
                     conditionals={conditionals}
-                    decorators={decorators}
+                    values={values}
+                    errors={errors}
+                    touched={touched}
                     eventHooks={eventHooks}
                     removeField={this.removeField.bind(this)}
                     moveField={this.moveField.bind(this)}/>
