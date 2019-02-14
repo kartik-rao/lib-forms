@@ -2,8 +2,10 @@ import * as React from "react";
 import {Steps, Button,  Card, Row, Col} from "antd";
 import {IPage, IField, IFormProps} from "@adinfinity/ai-core-forms";
 import EditablePageComponent from "./EditablePage";
-import {Formik, withFormik} from "formik";
+import {Formik, yupToFormErrors, FormikErrors} from "formik";
 import {FormStateHelper} from "../../helpers/FormStateHelper";
+const { buildYup } = require("json-schema-to-yup");
+import Yup from "yup";
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -11,11 +13,10 @@ function hasErrors(fieldsError) {
 
 export class FormComponent extends React.Component<any, any> {
     evaluators: any = {};
-    validateForm = () => {};
     values: any = {};
+    touched: any = {};
 
     getFieldValue(id) {
-        console.log("getFieldValue", id, this);
         return this.values[id];
     }
 
@@ -24,7 +25,6 @@ export class FormComponent extends React.Component<any, any> {
         let {formData} = props;
         this.getFieldValue = this.getFieldValue.bind(this)
         this.state = FormStateHelper.getInitialState(formData, this.evaluators, {getFieldValue: this.getFieldValue});
-        console.log(this.state.validationSchema)
     }
 
     next(errors: any, touched: any, values:any, validationSchema: any) {
@@ -53,22 +53,26 @@ export class FormComponent extends React.Component<any, any> {
     prev() {
         console.log("prevPage");
         const currentPage = this.state.currentPage - 1;
-        this.setState({ currentPage });
+        this.setState({ currentPage: currentPage });
     }
 
     onChange(id: string, value: any) {
         let self = this;
         // console.log("onChange", id, value);
         this.values[id] = value;
-        setTimeout(() => {
-            let deps = self.state.dependencies[id] || [];
-            deps.forEach((d) => {
-                let state = Object.assign({}, self.state)
-                state.conditionals[d].result =  self.evaluators[d].value(this.getFieldValue)
-                self.setState(state);
-            });
-        }, 0);
+
+        let deps = self.state.dependencies[id] || [];
+        let newState = Object.assign({}, self.state);
+        deps.forEach((d) => {
+            newState.conditionals[d].result =  self.evaluators[d].value(self.getFieldValue)
+        });
+        self.setState(newState);
+
         return;
+    }
+
+    onBlur(id: string) {
+        this.touched[id] = true;
     }
 
     onSubmit = (values: any, actions: any) => {
@@ -81,12 +85,48 @@ export class FormComponent extends React.Component<any, any> {
     }
 
 
+    // Custom yup validation with context
+    validate = (values) => {
+        const context = {};
+        // Have to deep copy otherwise
+        let fields = JSON.parse(JSON.stringify(this.state.validationSchema.properties));
+        let{ conditionals} = this.state;
+        let self = this;
+
+        console.log("Validating fields", fields, conditionals);
+
+        // Disable validation for conditional fields
+        Object.keys(this.state.conditionals).forEach((fid) => {
+            const isValidateable = typeof fields[fid] !== 'undefined';
+            const isFieldEnabled = self.evaluators[fid] ? self.evaluators[fid].value(self.getFieldValue) : true;
+            const isFieldRequired = isValidateable ? fields[fid].required == true : false;
+            if (fid == "f3") {
+                console.log(`${fid} - ${JSON.stringify(fields[fid])}- validateable=${isValidateable} enabled=${isFieldEnabled} required=${isFieldRequired}`);
+            }
+            if(isValidateable && isFieldRequired) {
+                fields[fid].required = isFieldEnabled;
+            }
+        });
+
+        const validator: Yup.ObjectSchema<any> = buildYup({type:"object",  properties: fields, errMessages:this.state.validationSchema.errMessages});
+
+        try {
+            validator.validateSync(values, { abortEarly: false, context })
+            return {};
+        } catch (error) {
+            let errors = {};
+            error.inner.forEach((e)=>{
+                errors[e.path] = e.message;
+            });
+            // console.log("validation errors exist", errors)
+            return errors;
+        }
+    }
 
     render() {
         let {formData} = this.props;
         let self = this;
-        // console.log("validation", this.state.validationSchema);
-        // this.state.validationSchema
+
         return (<div className="form-wrapper">
             {formData.content.title &&
                 <Card><h2>{formData.content.title}</h2><br/><h3>{formData.content.subtitle}</h3></Card>
@@ -106,7 +146,7 @@ export class FormComponent extends React.Component<any, any> {
                 <Col span={24}>
                     <Formik onSubmit={self.onSubmit}
                             initialValues={this.state.values}
-                            validationSchema={this.state.validationSchema}
+                            validate={this.validate}
                             validateOnBlur={true}
                             validateOnChange={true} render={({
                             values,
@@ -121,7 +161,7 @@ export class FormComponent extends React.Component<any, any> {
                             isSubmitting
                     }) => (
 
-                        <form onSubmit={handleSubmit} noValidate>
+                        <form onSubmit={handleSubmit}>
                             {
                             formData.content.pages.map((page: IPage, pn: number) => {
                                 let {currentPage} = this.state;
@@ -134,6 +174,7 @@ export class FormComponent extends React.Component<any, any> {
                                             setTimeout(() => {this.onChange(name, value);})
                                         },
                                         onBlur : (name) => {
+                                            self.touched[name] = true;
                                             setFieldTouched(name);
                                             handleBlur(name);
                                         },
@@ -157,12 +198,13 @@ export class FormComponent extends React.Component<any, any> {
                                 </Row>
                             </Card>
                         </div>
+                        <div>Errors<br/>{JSON.stringify(errors)}</div>
+                        <div>Touched<br/>{JSON.stringify(touched)}</div>
+                        <div>Values<br/>{JSON.stringify(values)}</div>
+                        <div>Status<br/>{JSON.stringify(status)}</div>
                     </form>
                     )}>
-
-
                     </Formik>
-
                 </Col>
             </Row>
         </div>

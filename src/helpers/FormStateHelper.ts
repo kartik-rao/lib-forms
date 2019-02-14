@@ -1,5 +1,4 @@
 import {IField} from "@adinfinity/ai-core-forms";
-// import * as Yup from 'yup';
 const { buildYup } = require("json-schema-to-yup");
 
 export class FormStateHelper {
@@ -41,7 +40,7 @@ export class FormStateHelper {
         if (validation.validate) {
             let schema = {type:"object", properties:validation.schema};
             console.log("Validation", schema, validation.messages);
-            state.validationSchema = buildYup(schema, {errMessages: validation.messages})
+            state.validationSchema = {...schema, errMessages: validation.messages}
         }
 
         return FormStateHelper.registerFieldConditions(state.fieldMeta.allFields, state, evaluators, decorators);

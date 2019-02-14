@@ -95,10 +95,6 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
             {type == 'rate' && <Rate onChange={handleChange}></Rate>}
             {type == 'slider' && <Slider onChange={handleChange}></Slider>}
             {type == "textblock" && <p>{field.value}</p>}
-            {errors[field.id] && touched[field.id] ? (
-                <div>{errors[field.id]}</div>
-                ) : null
-            }
             </Form.Item>}
         </div>))
     }

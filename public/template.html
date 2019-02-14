@@ -41,7 +41,6 @@
                                             placeholder: 'Placeholder Text',
                                             fieldOptions: {
                                                 type: 'string',
-                                                nullable: true,
                                                 rules: [
                                                     { name: "required", value: true, message: 'Required validation message' },
                                                     { name: "minLength", value: 2, message: "MinLength=2 validation message" },
@@ -63,7 +62,7 @@
                                             fieldOptions: {
                                                 type: 'string',
                                                 rules: [
-                                                    {name: "required", value: "true", message: "f8 is required"}
+                                                    {name: "required", value: true, message: "f8 is required"}
                                                 ]
 
                                             }
@@ -73,7 +72,6 @@
                                         placeholder: 'Placeholder Text',
                                         fieldOptions: {
                                             type : 'string',
-                                            nullable: true,
                                             rules: [
                                                 { name: "required", value: true, message: 'f3 is required' }
                                             ]
@@ -104,7 +102,6 @@
                                             placeholder: 'Placeholder Text F4',
                                             fieldOptions: {
                                                 type: 'string',
-                                                nullable: true,
                                                 rules: [
                                                     { name: "required", value: true, message: 'f4 is required' },
                                                     { name: "minLength", value: 2, message: "f4 must be of minlength=2" },
@@ -130,10 +127,8 @@
                                             placeholder: 'Placeholder Text F6',
                                             fieldOptions: {
                                                 type: 'string',
-                                                nullable: true,
-                                                name: "required", value: true,
                                                 rules: [
-                                                    { required: 'Required validation message' },
+                                                    { name: "required", value: true, message: 'Required validation message' },
                                                     { name: "minLength", value: 2, message: "MinLength=2 validation message" },
                                                 ]
                                         }
