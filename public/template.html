@@ -58,6 +58,15 @@
                                                 { label: "option1", value: "option1" },
                                                 { label: "option2", value: "option2" }
                                             ]
+                                        },{
+                                            id: "f8", name: "f8", type: "datepicker", label: "Datepicker label",
+                                            fieldOptions: {
+                                                type: 'string',
+                                                rules: [
+                                                    {name: "required", value: "true", message: "f8 is required"}
+                                                ]
+
+                                            }
                                         },
                                     {
                                         id: "f3", name: "f3", type: "input", inputType: "text", label: "Conditional Text Label",
@@ -66,7 +75,7 @@
                                             type : 'string',
                                             nullable: true,
                                             rules: [
-                                                { name: "required", value: true, message: 'Required validation message' }
+                                                { name: "required", value: true, message: 'f3 is required' }
                                             ]
                                         },
                                         condition: [
@@ -97,8 +106,8 @@
                                                 type: 'string',
                                                 nullable: true,
                                                 rules: [
-                                                    { name: "required", value: true, message: 'Required validation message' },
-                                                    { name: "minLength", value: 2, message: "MinLength=2 validation message" },
+                                                    { name: "required", value: true, message: 'f4 is required' },
+                                                    { name: "minLength", value: 2, message: "f4 must be of minlength=2" },
                                                 ]
                                         }
                                     }]}

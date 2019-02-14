@@ -73,8 +73,7 @@ export class FormComponent extends React.Component<any, any> {
 
     onSubmit = (values: any, actions: any) => {
         console.log("handleSubmit", values);
-        let self = this;
-
+        // Handle dates here
         setTimeout(()=> {
             alert(JSON.stringify(values, null, 2));
             actions.setSubmitting(false);
@@ -85,7 +84,9 @@ export class FormComponent extends React.Component<any, any> {
 
     render() {
         let {formData} = this.props;
+        let self = this;
         // console.log("validation", this.state.validationSchema);
+        // this.state.validationSchema
         return (<div className="form-wrapper">
             {formData.content.title &&
                 <Card><h2>{formData.content.title}</h2><br/><h3>{formData.content.subtitle}</h3></Card>
@@ -103,7 +104,7 @@ export class FormComponent extends React.Component<any, any> {
             </Row>}
             <Row>
                 <Col span={24}>
-                    <Formik onSubmit={this.onSubmit}
+                    <Formik onSubmit={self.onSubmit}
                             initialValues={this.state.values}
                             validationSchema={this.state.validationSchema}
                             validateOnBlur={true}
@@ -120,7 +121,7 @@ export class FormComponent extends React.Component<any, any> {
                             isSubmitting
                     }) => (
 
-                        <form onSubmit={(values) => this.onSubmit(values, errors)}>
+                        <form onSubmit={handleSubmit} noValidate>
                             {
                             formData.content.pages.map((page: IPage, pn: number) => {
                                 let {currentPage} = this.state;
