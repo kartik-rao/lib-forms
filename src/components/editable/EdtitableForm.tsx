@@ -27,7 +27,7 @@ export class FormComponent extends React.Component<any, any> {
         this.state = FormStateHelper.getInitialState(formData, this.evaluators, {getFieldValue: this.getFieldValue});
     }
 
-    next(errors: any, touched: any, values:any, validationSchema: any) {
+    next(errors: any, touched: any) {
         let self = this;
         const currentPage = this.state.currentPage;
         if (!this.props.formData.formLayoutOptions.validationDisablesPaging) {
@@ -118,7 +118,6 @@ export class FormComponent extends React.Component<any, any> {
             error.inner.forEach((e)=>{
                 errors[e.path] = e.message;
             });
-            // console.log("validation errors exist", errors)
             return errors;
         }
     }
@@ -160,7 +159,6 @@ export class FormComponent extends React.Component<any, any> {
                             handleSubmit,
                             isSubmitting
                     }) => (
-
                         <form onSubmit={handleSubmit}>
                             {
                             formData.content.pages.map((page: IPage, pn: number) => {
@@ -171,7 +169,7 @@ export class FormComponent extends React.Component<any, any> {
                                         onChange: (name, value) => {
                                             setFieldValue(name, value);
                                             handleChange(name);
-                                            setTimeout(() => {this.onChange(name, value);})
+                                            this.onChange(name, value);
                                         },
                                         onBlur : (name) => {
                                             self.touched[name] = true;
@@ -192,7 +190,7 @@ export class FormComponent extends React.Component<any, any> {
                                 <Row>
                                     <Col span={24} style={{ textAlign: 'right' }}>
                                         <Button disabled={Object.keys(touched).length == 0 || hasErrors(errors) || isSubmitting} type="primary" style={{ marginLeft: 8 }} htmlType="submit" className="action-button">Submit</Button>
-                                        { this.state.currentPage < this.state.numPages -1 && <Button type="primary" style={{ marginLeft: 8 }} className="action-button" onClick={() => this.next(errors, touched, values, this.state.validationSchema)}>Next</Button> }
+                                        { this.state.currentPage < this.state.numPages -1 && <Button type="primary" style={{ marginLeft: 8 }} className="action-button" onClick={() => this.next(errors, touched)}>Next</Button> }
                                         { this.state.currentPage > 0 && this.state.numPages > 1 && <Button type="primary" className="action-button" onClick={() => this.prev()}>Prev</Button> }
                                     </Col>
                                 </Row>
