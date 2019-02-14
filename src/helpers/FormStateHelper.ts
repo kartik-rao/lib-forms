@@ -33,6 +33,7 @@ export class FormStateHelper {
                         state.fieldMeta.locations[field.id] = {page: pi, section: si, column: ci, field: fi}
                         state.fieldMeta.pageFields[pi] = state.fieldMeta.pageFields[pi] ? state.fieldMeta.pageFields[pi] : {names:[], ids:[]};
                         state.fieldMeta.pageFields[pi].names.push(field.name);
+                        state.fieldMeta.pageFields[pi].ids.push(field.id);
                     });
                 });
             });

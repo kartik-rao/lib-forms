@@ -1,9 +1,10 @@
 import * as React from "react";
 import {Steps, Button,  Card, Row, Col} from "antd";
-import {IPage, IField, IFormProps} from "@adinfinity/ai-core-forms";
+import {IPage } from "@adinfinity/ai-core-forms";
 import EditablePageComponent from "./EditablePage";
-import {Formik, yupToFormErrors, FormikErrors} from "formik";
+import {Formik} from "formik";
 import {FormStateHelper} from "../../helpers/FormStateHelper";
+
 const { buildYup } = require("json-schema-to-yup");
 import Yup from "yup";
 
@@ -27,24 +28,29 @@ export class FormComponent extends React.Component<any, any> {
         this.state = FormStateHelper.getInitialState(formData, this.evaluators, {getFieldValue: this.getFieldValue});
     }
 
-    next(errors: any, touched: any) {
+    next(errors: any, setFieldError: any) {
         let self = this;
-        const currentPage = this.state.currentPage;
+        const {currentPage, fieldMeta} = this.state.currentPage;
         if (!this.props.formData.formLayoutOptions.validationDisablesPaging) {
             this.setState({ currentPage: currentPage + 1 });
             return;
         }
 
         let errorOnThisPage = false;
-        console.log("Fields on this page", self.state.fieldMeta.pageFields[currentPage].names);
-        Object.keys(errors).forEach(e => {
-            if (self.state.fieldMeta.pageFields[currentPage].names.indexOf(e) > -1) {
-                console.log("Testing", e);
+        let _errors = this.validate(this.values, fieldMeta.pageFields[currentPage].ids);
+        let thisPageIds = fieldMeta.pageFields[currentPage].ids;
+
+        console.log("next errors", _errors);
+
+        thisPageIds.forEach(id => {
+            if (_errors[id]) {
+                setFieldError(id, _errors[id]);
+                console.log(`Page ${currentPage} Field ${id} has error ${_errors[id]}`);
                 errorOnThisPage = true
             }
         });
-        console.log("errorOnThisPage", errorOnThisPage, errors);
-        if (Object.keys(touched).length > 0 && !errorOnThisPage) {
+
+        if (!errorOnThisPage) {
             self.setState({ currentPage: currentPage + 1 });
         }
         return;
@@ -86,29 +92,28 @@ export class FormComponent extends React.Component<any, any> {
 
 
     // Custom yup validation with context
-    validate = (values) => {
+    validate = (values:any, includeFields:any[] = []) => {
+        let {currentPage} = this.state;
         const context = {};
         // Have to deep copy otherwise
-        let fields = JSON.parse(JSON.stringify(this.state.validationSchema.properties));
+        let vFields: any = JSON.parse(JSON.stringify(this.state.validationSchema.properties));
+
         let{ conditionals} = this.state;
         let self = this;
 
-        console.log("Validating fields", fields, conditionals);
+        console.log("Validating fields", vFields, includeFields, conditionals);
 
         // Disable validation for conditional fields
         Object.keys(this.state.conditionals).forEach((fid) => {
-            const isValidateable = typeof fields[fid] !== 'undefined';
+            const isValidateable = typeof vFields[fid] !== 'undefined' && includeFields.indexOf(fid) > -1;
             const isFieldEnabled = self.evaluators[fid] ? self.evaluators[fid].value(self.getFieldValue) : true;
-            const isFieldRequired = isValidateable ? fields[fid].required == true : false;
-            if (fid == "f3") {
-                console.log(`${fid} - ${JSON.stringify(fields[fid])}- validateable=${isValidateable} enabled=${isFieldEnabled} required=${isFieldRequired}`);
-            }
+            const isFieldRequired = isValidateable ? vFields[fid].required == true : false;
             if(isValidateable && isFieldRequired) {
-                fields[fid].required = isFieldEnabled;
+                vFields[fid].required = isFieldEnabled;
             }
         });
 
-        const validator: Yup.ObjectSchema<any> = buildYup({type:"object",  properties: fields, errMessages:this.state.validationSchema.errMessages});
+        const validator: Yup.ObjectSchema<any> = buildYup({type:"object",  properties: vFields, errMessages:this.state.validationSchema.errMessages});
 
         try {
             validator.validateSync(values, { abortEarly: false, context })
@@ -154,6 +159,7 @@ export class FormComponent extends React.Component<any, any> {
                             touched,
                             setFieldValue,
                             setFieldTouched,
+                            setFieldError,
                             handleBlur,
                             handleChange,
                             handleSubmit,
@@ -177,11 +183,20 @@ export class FormComponent extends React.Component<any, any> {
                                             handleBlur(name);
                                         },
                                         setFieldValue: setFieldValue,
-                                        setFieldTouched: setFieldTouched
+                                        setFieldTouched: setFieldTouched,
+                                        setFieldError: setFieldError
                                     }
                                 }
                                 return <div className="page-wrapper" key={pn} style={{'visibility': currentPage == pn ? 'visible': 'hidden', display: currentPage == pn ? 'block': 'none'}}>
-                                    <EditablePageComponent page={page} errors={errors} touched={touched} conditionals={this.state.conditionals} index={pn} formLayout={formLayoutOptions} values={values} eventHooks={eventHooks}></EditablePageComponent>
+                                    <EditablePageComponent
+                                        index={pn}
+                                        page={page}
+                                        errors={errors}
+                                        touched={touched}
+                                        values={values}
+                                        formLayout={formLayoutOptions}
+                                        conditionals={this.state.conditionals}
+                                        eventHooks={eventHooks}></EditablePageComponent>
                                 </div>
                                 })
                             }
@@ -190,7 +205,7 @@ export class FormComponent extends React.Component<any, any> {
                                 <Row>
                                     <Col span={24} style={{ textAlign: 'right' }}>
                                         <Button disabled={Object.keys(touched).length == 0 || hasErrors(errors) || isSubmitting} type="primary" style={{ marginLeft: 8 }} htmlType="submit" className="action-button">Submit</Button>
-                                        { this.state.currentPage < this.state.numPages -1 && <Button type="primary" style={{ marginLeft: 8 }} className="action-button" onClick={() => this.next(errors, touched)}>Next</Button> }
+                                        { this.state.currentPage < this.state.numPages -1 && <Button type="primary" style={{ marginLeft: 8 }} className="action-button" onClick={() => this.next(errors, setFieldError)}>Next</Button> }
                                         { this.state.currentPage > 0 && this.state.numPages > 1 && <Button type="primary" className="action-button" onClick={() => this.prev()}>Prev</Button> }
                                     </Col>
                                 </Row>

@@ -33,9 +33,6 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
         }
     }
 
-    // componentWillUnmount() {console.log("Unmount", this.props.field.name);}
-    // componentWillMount() {console.log("Mount", this.props.field.name);}
-
     render() {
         const style = {
             border: '1px dashed blue',
@@ -72,28 +69,28 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
                     onChange={handleChange}
                     onBlur={handleBlur}/>
             }
-            {type == "checkbox" && <Checkbox onChange={handleChange}/>}
-            {type == "number" && <InputNumber onChange={handleChange} onBlur={handleBlur} />}
-            {type == "select" && <Select onChange={handleChange} onBlur={handleBlur}>
+            {type == "checkbox" && <Checkbox onChange={handleChange} checked={values[name] == true}/>}
+            {type == "number" && <InputNumber onChange={handleChange} onBlur={handleBlur} value={values[name]}/>}
+            {type == "select" && <Select onChange={handleChange} onBlur={handleBlur} value={values[name]}>
                 {field.children.map((child: any, index: number) => {
                     return <Select.Option key={""+index} value={child.value}>{child.label}</Select.Option>
                 })}
                 </Select>
             }
-            {type == "radiogroup" && <Radio.Group onChange={handleChange} options={field.children}>
+            {type == "radiogroup" && <Radio.Group onChange={handleChange} options={field.children} value={values[name]}>
                     {/* {field.children.map((child: any, index: number)  => {
                         return <Radio key={""+index} value={child.value}>{child.label}</Radio>
                     })} */}
                 </Radio.Group>
             }
-            {type == "checkboxgroup" && <Checkbox.Group onChange={handleChange} options={field.children} />}
-            {type == "textarea" && <Input.TextArea onChange={handleChange}></Input.TextArea>}
-            {type == "datepicker" && <DatePicker onChange={handleChange}/>}
-            {type == "monthpicker" && <DatePicker.MonthPicker onChange={handleChange}/>}
-            {type == "rangepicker" && <DatePicker.RangePicker onChange={handleChange}/>}
-            {type == "weekpicker" && <DatePicker.WeekPicker onChange={handleChange}/>}
-            {type == 'rate' && <Rate onChange={handleChange}></Rate>}
-            {type == 'slider' && <Slider onChange={handleChange}></Slider>}
+            {type == "checkboxgroup" && <Checkbox.Group onChange={handleChange} options={field.children} value={values[name]}/>}
+            {type == "textarea" && <Input.TextArea onChange={handleChange} value={values[name]}></Input.TextArea>}
+            {type == "datepicker" && <DatePicker onChange={handleChange} value={values[name]}/>}
+            {type == "monthpicker" && <DatePicker.MonthPicker onChange={handleChange} value={values[name]}/>}
+            {type == "rangepicker" && <DatePicker.RangePicker onChange={handleChange} value={values[name]}/>}
+            {type == "weekpicker" && <DatePicker.WeekPicker onChange={handleChange} value={values[name]}/>}
+            {type == 'rate' && <Rate onChange={handleChange} value={values[name]}></Rate>}
+            {type == 'slider' && <Slider onChange={handleChange} value={values[name]}></Slider>}
             {type == "textblock" && <p>{field.value}</p>}
             </Form.Item>}
         </div>))
