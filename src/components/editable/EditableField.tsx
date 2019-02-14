@@ -33,8 +33,8 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
         }
     }
 
-    componentWillUnmount() {console.log("Unmount", this.props.field.name);}
-    componentWillMount() {console.log("Mount", this.props.field.name);}
+    // componentWillUnmount() {console.log("Unmount", this.props.field.name);}
+    // componentWillMount() {console.log("Mount", this.props.field.name);}
 
     render() {
         const style = {
@@ -49,43 +49,51 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
         const { isDragging, connectDragSource, connectDropTarget } = this.props;
         const opacity = isDragging ? 0 : 1;
 
-        let {onChange, onBlur, setFieldValue} = eventHooks()
+        let {onChange, onBlur} = eventHooks()
         let {result} = this.props.conditionals[this.props.field.id];
-        console.log(errors, touched);
-        let handleChange = (e: any) => {
-            setFieldValue(this.props.field.name, e.target.value);
-            onChange(this.props.field.name, e.target.value);
-            return true;
-        }
+        let {name} = field;
+
+        let handleChange = (e: any) => {onChange(name, e.target ? e.target.value: e)};
+        let handleBlur = () => onBlur(name);
+
         return connectDragSource(connectDropTarget(
             <div style={{ ...style, opacity }}>
             {<span><small>Field type [{type}] name [{field.name}] condition [{result.toString()}]</small></span>}
-            {result && <Form.Item label={field.label} {...formLayout}>
+            {result && <Form.Item
+                    label={field.label} {...formLayout}
+                    hasFeedback={touched[name] && !!errors[name]}
+                    validateStatus={errors[name] && "error"}
+                    help={errors[name]}>
             {
-                (type == "input" || type == "hidden") && <Input onBlur={onBlur} onChange={(e) => handleChange(e)} type={field.inputType} placeholder={field.placeholder} value={values[this.props.field.name]}/>
+                (type == "input" || type == "hidden") && <Input
+                    type={field.inputType}
+                    placeholder={field.placeholder}
+                    value={values[name]}
+                    onChange={handleChange}
+                    onBlur={handleBlur}/>
             }
-            {type == "checkbox" && <Checkbox onChange={(e) => handleChange(e)}/>}
-            {type == "number" && <InputNumber onChange={(e) => handleChange(e)} onBlur={onBlur} />}
-            {type == "select" && <Select onChange={(e) => handleChange(e)} onBlur={onBlur}>
+            {type == "checkbox" && <Checkbox onChange={handleChange}/>}
+            {type == "number" && <InputNumber onChange={handleChange} onBlur={handleBlur} />}
+            {type == "select" && <Select onChange={handleChange} onBlur={handleBlur}>
                 {field.children.map((child: any, index: number) => {
                     return <Select.Option key={""+index} value={child.value}>{child.label}</Select.Option>
                 })}
                 </Select>
             }
-            {type == "radiogroup" && <Radio.Group onChange={onChange} options={field.children}>
+            {type == "radiogroup" && <Radio.Group onChange={handleChange} options={field.children}>
                     {/* {field.children.map((child: any, index: number)  => {
                         return <Radio key={""+index} value={child.value}>{child.label}</Radio>
                     })} */}
                 </Radio.Group>
             }
-            {type == "checkboxgroup" && <Checkbox.Group onChange={onChange} options={field.children} />}
-            {type == "textarea" && <Input.TextArea onChange={onChange}></Input.TextArea>}
-            {type == "datepicker" && <DatePicker onChange={onChange}/>}
-            {type == "monthpicker" && <DatePicker.MonthPicker onChange={onChange}/>}
-            {type == "rangepicker" && <DatePicker.RangePicker onChange={onChange}/>}
-            {type == "weekpicker" && <DatePicker.WeekPicker onChange={onChange}/>}
-            {type == 'rate' && <Rate onChange={onChange}></Rate>}
-            {type == 'slider' && <Slider onChange={onChange}></Slider>}
+            {type == "checkboxgroup" && <Checkbox.Group onChange={handleChange} options={field.children} />}
+            {type == "textarea" && <Input.TextArea onChange={handleChange}></Input.TextArea>}
+            {type == "datepicker" && <DatePicker onChange={handleChange}/>}
+            {type == "monthpicker" && <DatePicker.MonthPicker onChange={handleChange}/>}
+            {type == "rangepicker" && <DatePicker.RangePicker onChange={handleChange}/>}
+            {type == "weekpicker" && <DatePicker.WeekPicker onChange={handleChange}/>}
+            {type == 'rate' && <Rate onChange={handleChange}></Rate>}
+            {type == 'slider' && <Slider onChange={handleChange}></Slider>}
             {type == "textblock" && <p>{field.value}</p>}
             {errors[field.id] && touched[field.id] ? (
                 <div>{errors[field.id]}</div>

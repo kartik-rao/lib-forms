@@ -28,7 +28,7 @@ export class FormStateHelper {
                 section.columns.forEach((column, ci) => {
                     column.fields.forEach((field, fi)=> {
                         state.fieldMeta.allFields.push(field);
-                        state.values[field.id] = null;
+                        state.values[field.id] = undefined;
                         FormStateHelper.registerValidations(validation, field);
                         field.location = field.location = {page: pi, section: si, column: ci, field: fi};
                         state.fieldMeta.locations[field.id] = {page: pi, section: si, column: ci, field: fi}
@@ -40,7 +40,7 @@ export class FormStateHelper {
         });
         if (validation.validate) {
             let schema = {type:"object", properties:validation.schema};
-            console.log("Validation", schema);
+            console.log("Validation", schema, validation.messages);
             state.validationSchema = buildYup(schema, {errMessages: validation.messages})
         }
 
@@ -56,7 +56,9 @@ export class FormStateHelper {
                 validation.schema[field.name].format = fieldOptions.format;
             }
             field.fieldOptions.rules.forEach((rule) => {
-                validation.messages[field.name] = {...rule}
+                validation.messages[field.name] = validation.messages[field.name] ? validation.messages[field.name] : {};
+                validation.schema[field.name][rule.name] = rule.value;
+                validation.messages[field.name][rule.name] = rule.message;
             });
         }
     }

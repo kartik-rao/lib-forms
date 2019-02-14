@@ -27,19 +27,27 @@ export class FormComponent extends React.Component<any, any> {
         console.log(this.state.validationSchema)
     }
 
-    next() {
-        console.log("nextPage");
+    next(errors: any, touched: any, values:any, validationSchema: any) {
         let self = this;
         const currentPage = this.state.currentPage;
         if (!this.props.formData.formLayoutOptions.validationDisablesPaging) {
             this.setState({ currentPage: currentPage + 1 });
             return;
         }
-        this.props.form.validateFields(this.state.fieldMeta.pageFields[currentPage].names, (err: any) => {
-            if(!err) {
-                self.setState({ currentPage: currentPage + 1 });
+
+        let errorOnThisPage = false;
+        console.log("Fields on this page", self.state.fieldMeta.pageFields[currentPage].names);
+        Object.keys(errors).forEach(e => {
+            if (self.state.fieldMeta.pageFields[currentPage].names.indexOf(e) > -1) {
+                console.log("Testing", e);
+                errorOnThisPage = true
             }
         });
+        console.log("errorOnThisPage", errorOnThisPage, errors);
+        if (Object.keys(touched).length > 0 && !errorOnThisPage) {
+            self.setState({ currentPage: currentPage + 1 });
+        }
+        return;
     }
 
     prev() {
@@ -50,7 +58,7 @@ export class FormComponent extends React.Component<any, any> {
 
     onChange(id: string, value: any) {
         let self = this;
-        console.log("onChange", id, value);
+        // console.log("onChange", id, value);
         this.values[id] = value;
         setTimeout(() => {
             let deps = self.state.dependencies[id] || [];
@@ -63,40 +71,21 @@ export class FormComponent extends React.Component<any, any> {
         return;
     }
 
-    handleConfirmBlur = (e) => {
-        console.log("handleConfirmBlur");
-        const value = e.target.value;
-        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-    }
-
-    handleSubmit = (values: any) => {
+    onSubmit = (values: any, actions: any) => {
         console.log("handleSubmit", values);
-        // e.preventDefault();
         let self = this;
-        this.props.form.validateFields((err, values) => {
-          if (!err) {
-                let payload = Object.assign({payload: values}, {props: self.state.innerProps});
-                console.log('Received values of form: ', payload);
-          } else {
-              // Send user to location of first error
-              let {locations} = self.state.fieldMeta;
-              let firstErrorPage = Object.keys(err).map((fieldId: string) => {
-                return locations[fieldId].page;
-              }).reduce((pn: number, initial: number) => {
-                  return initial ? (pn < initial ? pn : initial) : pn;
-              });
-              setTimeout(() => {
-                  self.setState({currentPage: firstErrorPage});
-              })
-          }
-        });
+
+        setTimeout(()=> {
+            alert(JSON.stringify(values, null, 2));
+            actions.setSubmitting(false);
+        }, 200);
     }
 
 
 
     render() {
         let {formData} = this.props;
-
+        // console.log("validation", this.state.validationSchema);
         return (<div className="form-wrapper">
             {formData.content.title &&
                 <Card><h2>{formData.content.title}</h2><br/><h3>{formData.content.subtitle}</h3></Card>
@@ -114,29 +103,41 @@ export class FormComponent extends React.Component<any, any> {
             </Row>}
             <Row>
                 <Col span={24}>
-                    // Handle layout
-                    <Formik onSubmit={this.handleSubmit} initialValues={this.state.values} validationSchema={this.state.validationSchema} validateOnChange={true} render={({
+                    <Formik onSubmit={this.onSubmit}
+                            initialValues={this.state.values}
+                            validationSchema={this.state.validationSchema}
+                            validateOnBlur={true}
+                            validateOnChange={true} render={({
                             values,
                             errors,
                             status,
                             touched,
                             setFieldValue,
+                            setFieldTouched,
                             handleBlur,
                             handleChange,
                             handleSubmit,
                             isSubmitting
                     }) => (
 
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={(values) => this.onSubmit(values, errors)}>
                             {
                             formData.content.pages.map((page: IPage, pn: number) => {
                                 let {currentPage} = this.state;
                                 let {formLayoutOptions} = this.props.formData;
                                 let eventHooks = () => {
                                     return {
-                                        onChange: this.onChange.bind(this),
-                                        onBlur : this.handleConfirmBlur.bind(this),
-                                        setFieldValue: setFieldValue
+                                        onChange: (name, value) => {
+                                            setFieldValue(name, value);
+                                            handleChange(name);
+                                            setTimeout(() => {this.onChange(name, value);})
+                                        },
+                                        onBlur : (name) => {
+                                            setFieldTouched(name);
+                                            handleBlur(name);
+                                        },
+                                        setFieldValue: setFieldValue,
+                                        setFieldTouched: setFieldTouched
                                     }
                                 }
                                 return <div className="page-wrapper" key={pn} style={{'visibility': currentPage == pn ? 'visible': 'hidden', display: currentPage == pn ? 'block': 'none'}}>
@@ -148,8 +149,8 @@ export class FormComponent extends React.Component<any, any> {
                             <Card>
                                 <Row>
                                     <Col span={24} style={{ textAlign: 'right' }}>
-                                        <Button disabled={hasErrors(errors) || isSubmitting} type="primary" style={{ marginLeft: 8 }} htmlType="submit" className="action-button">Submit</Button>
-                                        { this.state.currentPage < this.state.numPages -1 && <Button type="primary"  style={{ marginLeft: 8 }} className="action-button" onClick={() => this.next()}>Next</Button> }
+                                        <Button disabled={Object.keys(touched).length == 0 || hasErrors(errors) || isSubmitting} type="primary" style={{ marginLeft: 8 }} htmlType="submit" className="action-button">Submit</Button>
+                                        { this.state.currentPage < this.state.numPages -1 && <Button type="primary" style={{ marginLeft: 8 }} className="action-button" onClick={() => this.next(errors, touched, values, this.state.validationSchema)}>Next</Button> }
                                         { this.state.currentPage > 0 && this.state.numPages > 1 && <Button type="primary" className="action-button" onClick={() => this.prev()}>Prev</Button> }
                                     </Col>
                                 </Row>

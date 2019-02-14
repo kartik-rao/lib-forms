@@ -5,11 +5,10 @@ export declare class FormComponent extends React.Component<any, any> {
     values: any;
     getFieldValue(id: any): any;
     constructor(props: any);
-    next(): void;
+    next(errors: any, touched: any, values: any, validationSchema: any): void;
     prev(): void;
     onChange(id: string, value: any): void;
-    handleConfirmBlur: (e: any) => void;
-    handleSubmit: (values: any) => void;
+    onSubmit: (values: any, actions: any) => void;
     render(): JSX.Element;
 }
 export default FormComponent;
