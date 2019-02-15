@@ -4,9 +4,11 @@ import {IPage } from "@adinfinity/ai-core-forms";
 import EditablePageComponent from "./EditablePage";
 import {Formik} from "formik";
 import {FormStateHelper} from "../../helpers/FormStateHelper";
-
+import {Logger} from "@adinfinity/ai-lib-logging";
 const { buildYup } = require("json-schema-to-yup");
 import Yup from "yup";
+
+const logger: Logger = Logger.getInstance(["ai-lib-forms", "EditableForm"], Logger.severity.debug);
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -16,6 +18,7 @@ export class FormComponent extends React.Component<any, any> {
     evaluators: any = {};
     values: any = {};
     touched: any = {};
+    logger: Logger;
 
     getFieldValue(id) {
         return this.values[id];
@@ -30,7 +33,7 @@ export class FormComponent extends React.Component<any, any> {
 
     next(errors: any, setFieldError: any) {
         let self = this;
-        const {currentPage, fieldMeta} = this.state.currentPage;
+        const {currentPage, fieldMeta} = this.state;
         if (!this.props.formData.formLayoutOptions.validationDisablesPaging) {
             this.setState({ currentPage: currentPage + 1 });
             return;
@@ -40,12 +43,12 @@ export class FormComponent extends React.Component<any, any> {
         let _errors = this.validate(this.values, fieldMeta.pageFields[currentPage].ids);
         let thisPageIds = fieldMeta.pageFields[currentPage].ids;
 
-        console.log("next errors", _errors);
+        logger.debug("next errors", _errors);
 
         thisPageIds.forEach(id => {
             if (_errors[id]) {
                 setFieldError(id, _errors[id]);
-                console.log(`Page ${currentPage} Field ${id} has error ${_errors[id]}`);
+                logger.debug(`Page ${currentPage} Field ${id} has error ${_errors[id]}`);
                 errorOnThisPage = true
             }
         });
@@ -57,14 +60,14 @@ export class FormComponent extends React.Component<any, any> {
     }
 
     prev() {
-        console.log("prevPage");
+        logger.debug("prevPage");
         const currentPage = this.state.currentPage - 1;
         this.setState({ currentPage: currentPage });
     }
 
     onChange(id: string, value: any) {
         let self = this;
-        // console.log("onChange", id, value);
+        logger.debug("onChange", id, value);
         this.values[id] = value;
 
         let deps = self.state.dependencies[id] || [];
@@ -82,14 +85,13 @@ export class FormComponent extends React.Component<any, any> {
     }
 
     onSubmit = (values: any, actions: any) => {
-        console.log("handleSubmit", values);
+        this.logger.info("handleSubmit", values);
         // Handle dates here
         setTimeout(()=> {
             alert(JSON.stringify(values, null, 2));
             actions.setSubmitting(false);
         }, 200);
     }
-
 
     // Custom yup validation with context
     validate = (values:any, includeFields:any[] = []) => {
@@ -101,13 +103,13 @@ export class FormComponent extends React.Component<any, any> {
         let{ conditionals} = this.state;
         let self = this;
 
-        console.log("Validating fields", vFields, includeFields, conditionals);
+        logger.debug("Validating fields", vFields, includeFields, conditionals);
 
         // Disable validation for conditional fields
         Object.keys(this.state.conditionals).forEach((fid) => {
             const isValidateable = typeof vFields[fid] !== 'undefined' && includeFields.indexOf(fid) > -1;
             const isFieldEnabled = self.evaluators[fid] ? self.evaluators[fid].value(self.getFieldValue) : true;
-            const isFieldRequired = isValidateable ? vFields[fid].required == true : false;
+            const isFieldRequired = isValidateable ? self.touched[fid] && vFields[fid].required == true : false;
             if(isValidateable && isFieldRequired) {
                 vFields[fid].required = isFieldEnabled;
             }

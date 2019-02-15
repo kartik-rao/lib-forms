@@ -40,7 +40,6 @@ export class FormStateHelper {
         });
         if (validation.validate) {
             let schema = {type:"object", properties:validation.schema};
-            console.log("Validation", schema, validation.messages);
             state.validationSchema = {...schema, errMessages: validation.messages}
         }
 

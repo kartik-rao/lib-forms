@@ -7,6 +7,9 @@ import {FormFactory} from "../factory/form.factory";
 import EditableFormComponent from "./editable/EdtitableForm";
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from "react-dnd";
+import {Logger} from "@adinfinity/ai-lib-logging";
+
+const logger: Logger = Logger.getInstance(["ai-lib-forms", "EditableFormWrapper"], 5);
 
 class EditableFormWrapper extends React.Component <any, any> {
     props: any;
