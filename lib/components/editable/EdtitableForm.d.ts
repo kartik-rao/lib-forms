@@ -5,9 +5,10 @@ export declare class FormComponent extends React.Component<any, any> {
     values: any;
     touched: any;
     logger: Logger;
+    setFieldError: any;
     getFieldValue(id: any): any;
     constructor(props: any);
-    next(errors: any, setFieldError: any): void;
+    next(): void;
     prev(): void;
     onChange(id: string, value: any): void;
     onBlur(id: string): void;
