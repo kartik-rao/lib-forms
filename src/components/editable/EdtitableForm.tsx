@@ -5,6 +5,8 @@ import EditablePageComponent from "./EditablePage";
 import {Formik} from "formik";
 import {FormStateHelper} from "../../helpers/FormStateHelper";
 import {Logger} from "@adinfinity/ai-lib-logging";
+import {FieldPropertiesComponent} from "./FieldProperties";
+
 const { buildYup } = require("json-schema-to-yup");
 import Yup from "yup";
 
@@ -57,7 +59,6 @@ export class FormComponent extends React.Component<any, any> {
 
     onChange(id: string, value: any) {
         let self = this;
-        logger.debug("onChange", id, value);
         this.values[id] = value;
 
         let deps = self.state.dependencies[id] || [];
@@ -75,22 +76,24 @@ export class FormComponent extends React.Component<any, any> {
     }
 
     onSubmit = (values: any, actions: any) => {
-        this.logger.info("handleSubmit", values);
+        logger.info("handleSubmit", values);
         // Handle dates here
         setTimeout(()=> {
             alert(JSON.stringify(values, null, 2));
             actions.setSubmitting(false);
         }, 200);
+        return false;
     }
 
     // Custom yup validation with context
     validate = (values:any, includeFields:any[]=[]) => {
         let {currentPage, fieldMeta, validationSchema} = this.state;
-        const context = {};
+
 
         if (!includeFields || includeFields.length == 0) {
-            includeFields = fieldMeta.pageFields[currentPage].idsfieldMeta.pageFields[currentPage].ids
+            includeFields = fieldMeta.pageFields[currentPage].ids;
         }
+
         // Have to deep copy otherwise
         let vFields: any = JSON.parse(JSON.stringify(validationSchema.properties));
 
@@ -99,9 +102,10 @@ export class FormComponent extends React.Component<any, any> {
 
         // Disable validation for conditional fields
         Object.keys(conditionals).forEach((fid) => {
-            const isValidateable = typeof vFields[fid] !== 'undefined' && includeFields.indexOf(fid) > -1;
+            const isOnThisPage = includeFields.indexOf(fid) > -1;
+            const isValidateable = !!vFields[fid];
             const isFieldEnabled = self.evaluators[fid] ? self.evaluators[fid].value(self.getFieldValue) : true;
-            if(isValidateable && !isFieldEnabled) {
+            if(isValidateable && (!isFieldEnabled || !isOnThisPage)) {
                 vFields[fid].required = false;
             }
         });
@@ -109,7 +113,7 @@ export class FormComponent extends React.Component<any, any> {
         const validator: Yup.ObjectSchema<any> = buildYup({type:"object",  properties: vFields, errMessages:validationSchema.errMessages});
 
         try {
-            validator.validateSync(values, { abortEarly: false, context })
+            validator.validateSync(values, { abortEarly: false, context: {} })
             return {};
         } catch (error) {
             let errors = {};
@@ -117,7 +121,9 @@ export class FormComponent extends React.Component<any, any> {
                 errors[e.path] = e.message;
                 self.setFieldError(e.path, e.message);
             });
+
             return errors;
+
         }
     }
 
@@ -127,10 +133,14 @@ export class FormComponent extends React.Component<any, any> {
 
         return (<div className="form-wrapper">
             {formData.content.title &&
-                <Card><h2>{formData.content.title}</h2><br/><h3>{formData.content.subtitle}</h3></Card>
+               <Row>
+                   <Col span={20}>
+                        <Card><h2>{formData.content.title}</h2><br/><h3>{formData.content.subtitle}</h3></Card>
+                    </Col>
+                </Row>
             }
             {formData.formLayoutOptions.showSteps && <Row>
-                <Col span={24}>
+                <Col span={20}>
                     <Card>
                         <Steps size="small" current={this.state.currentPage}>
                             {formData.content.pages.map((page: IPage, pn: number) => {
@@ -141,7 +151,7 @@ export class FormComponent extends React.Component<any, any> {
                 </Col>
             </Row>}
             <Row>
-                <Col span={24}>
+                <Col span={20}>
                     <Formik onSubmit={self.onSubmit}
                             initialValues={this.state.values}
                             validate={this.validate}
@@ -199,7 +209,7 @@ export class FormComponent extends React.Component<any, any> {
                             <Card>
                                 <Row>
                                     <Col span={24} style={{ textAlign: 'right' }}>
-                                        <Button disabled={Object.keys(touched).length == 0 || hasErrors(errors) || isSubmitting} type="primary" style={{ marginLeft: 8 }} htmlType="submit" className="action-button">Submit</Button>
+                                        { this.state.currentPage == this.state.numPages -1 && <Button disabled={Object.keys(touched).length == 0 || hasErrors(errors) || isSubmitting } type="primary" style={{ marginLeft: 8 }} htmlType="submit" className="action-button">Submit</Button>}
                                         { this.state.currentPage < this.state.numPages -1 && <Button type="primary" style={{ marginLeft: 8 }} className="action-button" onClick={() => this.next()}>Next</Button> }
                                         { this.state.currentPage > 0 && this.state.numPages > 1 && <Button type="primary" className="action-button" onClick={() => this.prev()}>Prev</Button> }
                                     </Col>
@@ -213,6 +223,9 @@ export class FormComponent extends React.Component<any, any> {
                     </form>
                     )}>
                     </Formik>
+                </Col>
+                <Col span={4}>
+                    <FieldPropertiesComponent/>
                 </Col>
             </Row>
         </div>
