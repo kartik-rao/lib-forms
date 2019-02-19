@@ -1,4 +1,4 @@
-import { observable, computed, action, decorate, extendObservable, ObservableMap } from "mobx";
+import { observable, computed, action, decorate, reaction } from "mobx";
 import { IField } from "@adinfinity/ai-core-forms";
 import {FormStateHelper} from "../helpers/FormStateHelper";
 const { buildYup } = require("json-schema-to-yup");
@@ -26,26 +26,36 @@ class RootStore {
     confirmDirty: boolean;
 
     @action pushField = (field: IField, pageIndex: number, sectionIndex: number, columnIndex: number) => {
-        console.log("Store push", field, pageIndex, sectionIndex, columnIndex);
+        console.log("Store push", pageIndex, sectionIndex, columnIndex, field);
         let fields = [].concat(this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields)
         fields.push(field);
+        field.location.page = pageIndex;
+        field.location.section = sectionIndex;
+        field.location.column = columnIndex;
+        field.location =  {page: pageIndex, section: sectionIndex, column: columnIndex, field: fields.length -1};
+        this.fieldMeta.locations[field.id] = field.location;
         this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields = fields;
         return;
     }
 
     @action removeField = (fieldIndex: number, pageIndex: number, sectionIndex: number, columnIndex: number) => {
-        console.log("Store remove", fieldIndex, pageIndex, sectionIndex, columnIndex);
+        console.log("Store remove", pageIndex, sectionIndex, columnIndex, fieldIndex);
         let fields = [].concat(this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields)
-        fields.splice(fieldIndex, 1);
+        fields.splice(fieldIndex, 1)[0];
         this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields = fields;
         return;
     }
 
     @action moveField = (fromIndex: number, toIndex: number, pageIndex, sectionIndex, columnIndex) => {
-        console.log("Store move", fromIndex, toIndex, pageIndex, sectionIndex, columnIndex);
+
         let fields = [].concat(this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields)
-        // let field =
         let field = fields.splice(fromIndex, 1)[0]
+        console.log("Store move", pageIndex, sectionIndex, columnIndex, fromIndex, "=>", toIndex, field);
+        field.location.page = pageIndex;
+        field.location.section = sectionIndex;
+        field.location.column = columnIndex;
+        field.location =  {page: pageIndex, section: sectionIndex, column: columnIndex, field: toIndex};
+        this.fieldMeta.locations[field.id] = field.location;
         fields.splice(toIndex, 0, field)
         this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields = fields;
         return;

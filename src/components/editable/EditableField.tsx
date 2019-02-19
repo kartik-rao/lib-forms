@@ -3,7 +3,7 @@ import {IField, FormLayoutOptions} from "@adinfinity/ai-core-forms";
 import {Form, Input, Select, Radio, DatePicker, InputNumber, Checkbox, Rate, Slider, Button} from "antd";
 import { findDOMNode } from 'react-dom';
 import {DragSource, DropTarget} from "react-dnd";
-import {Field} from "formik";
+
 import flow from "lodash/flow";
 import RootStore from "../../models/RootStore";
 import { observer } from "mobx-react";
@@ -13,6 +13,7 @@ export interface FieldProps {
     eventHooks:any;
     fieldIndex: number;
     listId: any;
+    isRemoved:any;
     removeField: any;
     moveField: any;
     isDragging: any;
@@ -28,6 +29,7 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
         super(props);
         this.props = props;
     }
+
 
     render() {
         const style = {
@@ -48,16 +50,15 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
 
         let handleChange = (e: any) => {onChange(name, e.target ? e.target.value: e)};
         let handleBlur = () => onBlur(name);
-
+        let location = `${field.location.page}-${field.location.section}-${field.location.column}-${field.location.field}`
         return connectDragSource(connectDropTarget(
-            <div style={{ ...style, opacity }}>
+            <div style={{ ...style, opacity }} data-location={location} data-index={fieldIndex}>
             {<span><small>Field type [{type}] name [{field.name}] condition [{result.toString()}]</small><Button icon="edit" type="primary" onClick={(e) => {e.preventDefault();selectField(field)}}></Button></span>}
             {result && <Form.Item
-                    label={field.label} {...store.formData.formLayoutOptions}
+                    label={field.label}
                     hasFeedback={store.touched[name] && !!store.errors[name]}
                     validateStatus={store.errors[name] && "error"}
-                    help={store.errors[name]}
-                    tabindex={fieldIndex}>
+                    help={store.errors[name]}>
             {
                 (type == "input" || type == "hidden") && <Input
                     type={field.inputType}
@@ -149,7 +150,8 @@ const fieldSource = {
 	beginDrag(props) {
         console.log("begin drag", props)
 		return {
-			index: props.fieldIndex,
+            index: props.index,
+			fieldIndex: props.fieldIndex,
 			listId: props.listId,
 			field: props.field
 		};

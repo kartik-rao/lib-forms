@@ -45,7 +45,7 @@ class EditableColumnComponent extends React.Component<ColumnProps, any> {
 		const backgroundColor = isActive ? 'lightgreen' : '#FFF';
 
         return connectDropTarget((
-        <div>
+        <div className="form-col">
             <Col span={span} style={{...style, backgroundColor}}>
             <span><small>Col [{column.id}] span [{span}] {column.fields.length} field(s)</small></span>
             {fields.map((field: IField, fn:number) => {

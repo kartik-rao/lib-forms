@@ -5,6 +5,7 @@ export interface FieldProps {
     eventHooks: any;
     fieldIndex: number;
     listId: any;
+    isRemoved: any;
     removeField: any;
     moveField: any;
     isDragging: any;

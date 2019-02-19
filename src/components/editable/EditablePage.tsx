@@ -10,7 +10,8 @@ import { observer } from "mobx-react";
 export interface PageProps {
     index: number;
     eventHooks: any;
-    store: RootStore
+    store: RootStore;
+    page: IPage;
 }
 
 @observer
@@ -25,8 +26,8 @@ class EditablePageComponent extends React.Component<PageProps, any> {
 
     render() {
 
-        let {store, index, eventHooks} = this.props;
-        let page = store.formData.content.pages[index];
+        let {store, page, index, eventHooks} = this.props;
+
         return <div className="page-content">
             <Card title={store.formData.formLayoutOptions.showPageTitles ? page.title : ""}>
                 <div className="page" key={index.toString()}>

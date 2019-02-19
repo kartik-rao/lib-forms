@@ -40,7 +40,6 @@ export class EditableSectionComponent extends React.Component<SectionProps, any>
           result.destination.columnIndex
         );
         section.columns = items;
-        // this.setState({columns : items});
     }
 
     render() {
@@ -51,7 +50,7 @@ export class EditableSectionComponent extends React.Component<SectionProps, any>
         return <Card bordered={showSectionBorders} title={showSectionTitles ? section.name : ""}>
             <Row  gutter={8}>
                 {section.columns.map((column: IColumn, cn: number) => {
-                    return <EditableColumnComponent listId={column.id} store={store}  key={cn} column={column} pageIndex={pageIndex} sectionIndex={sectionIndex} columnIndex={cn} span={24/numColumns} eventHooks={eventHooks}/>
+                    return <EditableColumnComponent listId={column.id} store={store} key={cn} column={column} pageIndex={pageIndex} sectionIndex={sectionIndex} columnIndex={cn} span={24/numColumns} eventHooks={eventHooks}/>
                 })}
             </Row>
         </Card>

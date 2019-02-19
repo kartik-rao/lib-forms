@@ -73,10 +73,9 @@ export class FormComponent extends React.Component<FormComponentProps, any> {
                             isSubmitting
                     }) => (
                         <form onSubmit={handleSubmit}>
-                            {
-                            formData.content.pages.map((page: IPage, pn: number) => {
-                                self.setFieldError = setFieldError;
+                            { (() => {
                                 let {currentPage} = store;
+                                let page = store.formData.content.pages[currentPage];
                                 let eventHooks = () => {
                                     return {
                                         onChange: (name, value) => {
@@ -93,14 +92,16 @@ export class FormComponent extends React.Component<FormComponentProps, any> {
                                         setFieldTouched: setFieldTouched,
                                         setFieldError: setFieldError
                                     }
-                                }
-                                return <div className="page-wrapper" key={pn} style={{'visibility': currentPage == pn ? 'visible': 'hidden', display: currentPage == pn ? 'block': 'none'}}>
-                                    <EditablePageComponent
-                                        store={store}
-                                        index={pn}
-                                        eventHooks={eventHooks}></EditablePageComponent>
-                                </div>
-                                })
+                                };
+                                return  <div className="page-wrapper">
+                                <EditablePageComponent
+                                    page={page}
+                                    store={store}
+                                    index={currentPage}
+                                    eventHooks={eventHooks}></EditablePageComponent>
+                            </div>
+                            })()
+
                             }
                         <div className="page-actions">
                             <Card>
