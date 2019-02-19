@@ -4,18 +4,16 @@ import {EditableSectionComponent} from "./EditableSection";
 import {Card} from "antd";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import RootStore from "../../models/RootStore";
+import { observer } from "mobx-react";
 
 export interface PageProps {
-    page: IPage;
-    formLayout: FormLayoutOptions;
     index: number;
-    values: any;
     eventHooks: any;
-    conditionals:any;
-    errors: any;
-    touched: any;
+    store: RootStore
 }
 
+@observer
 class EditablePageComponent extends React.Component<PageProps, any> {
     state: any;
     props: PageProps;
@@ -26,12 +24,14 @@ class EditablePageComponent extends React.Component<PageProps, any> {
     }
 
     render() {
-        let {page, formLayout, index, eventHooks, errors, touched, values, conditionals} = this.props;
+
+        let {store, index, eventHooks} = this.props;
+        let page = store.formData.content.pages[index];
         return <div className="page-content">
-            <Card title={formLayout.showPageTitles ? page.title : ""}>
+            <Card title={store.formData.formLayoutOptions.showPageTitles ? page.title : ""}>
                 <div className="page" key={index.toString()}>
                     {page.sections.map((section: ISection, sn: number) => {
-                        return <EditableSectionComponent section={section} key={sn} touched={touched} errors={errors} conditionals={conditionals} formLayout={formLayout} values={values} eventHooks={eventHooks}></EditableSectionComponent>
+                        return <EditableSectionComponent index={sn} key={sn} store={this.props.store} eventHooks={eventHooks}></EditableSectionComponent>
                     })}
                 </div>
             </Card>

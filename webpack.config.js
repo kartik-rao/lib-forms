@@ -1,7 +1,7 @@
 var path = require('path');
 const tsImportPluginFactory = require('ts-import-plugin');
 
-const env = process.env.NODE_ENV;
+const env = process.env.NODE_ENV || 'development';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CheckerPlugin } = require('awesome-typescript-loader')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');

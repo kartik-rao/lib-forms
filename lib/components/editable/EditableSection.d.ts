@@ -1,13 +1,9 @@
 import * as React from "react";
-import { ISection, FormLayoutOptions } from "@adinfinity/ai-core-forms";
+import RootStore from "../../models/RootStore";
 export interface SectionProps {
-    section: ISection;
-    formLayout: FormLayoutOptions;
-    values: any;
     eventHooks: any;
-    conditionals: any;
-    errors: any;
-    touched: any;
+    index: number;
+    store: RootStore;
 }
 export declare class EditableSectionComponent extends React.Component<SectionProps, any> {
     state: any;

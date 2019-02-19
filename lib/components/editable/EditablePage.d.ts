@@ -1,14 +1,9 @@
 import * as React from "react";
-import { IPage, FormLayoutOptions } from "@adinfinity/ai-core-forms";
+import RootStore from "../../models/RootStore";
 export interface PageProps {
-    page: IPage;
-    formLayout: FormLayoutOptions;
     index: number;
-    values: any;
     eventHooks: any;
-    conditionals: any;
-    errors: any;
-    touched: any;
+    store: RootStore;
 }
 declare class EditablePageComponent extends React.Component<PageProps, any> {
     state: any;

@@ -5,13 +5,12 @@ import { findDOMNode } from 'react-dom';
 import {DragSource, DropTarget} from "react-dnd";
 import {Field} from "formik";
 import flow from "lodash/flow";
+import RootStore from "../../models/RootStore";
+import { observer } from "mobx-react";
 
 export interface FieldProps {
     field: IField;
-    formLayout: FormLayoutOptions;
-    values: any;
     eventHooks:any;
-    conditionals:any;
     index: number;
     listId: any;
     removeField: any;
@@ -19,18 +18,15 @@ export interface FieldProps {
     isDragging: any;
     connectDragSource: any;
     connectDropTarget: any;
-    errors: any;
-    touched: any;
+    store: RootStore;
 }
 
+@observer
 class EditableFieldComponent extends React.Component<FieldProps, any> {
 
     constructor(props: FieldProps) {
         super(props);
         this.props = props;
-        this.state = {
-            hidden :!props.conditionals[this.props.field.id].result
-        }
     }
 
     render() {
@@ -41,13 +37,13 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
             backgroundColor: 'white',
             cursor: 'move'
         };
-        const { field, values, formLayout, touched, eventHooks, errors} = this.props;
+        const { field, store, eventHooks} = this.props;
         const {type} = field;
         const { isDragging, connectDragSource, connectDropTarget } = this.props;
         const opacity = isDragging ? 0 : 1;
 
         let {onChange, onBlur, selectField} = eventHooks()
-        let {result} = this.props.conditionals[this.props.field.id];
+        let {result} = store.conditionals[this.props.field.id];
         let {name} = field;
 
         let handleChange = (e: any) => {onChange(name, e.target ? e.target.value: e)};
@@ -57,40 +53,40 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
             <div style={{ ...style, opacity }}>
             {<span><small>Field type [{type}] name [{field.name}] condition [{result.toString()}]</small><Button icon="edit" type="primary" onClick={(e) => {e.preventDefault();selectField(field)}}></Button></span>}
             {result && <Form.Item
-                    label={field.label} {...formLayout}
-                    hasFeedback={touched[name] && !!errors[name]}
-                    validateStatus={errors[name] && "error"}
-                    help={errors[name]}>
+                    label={field.label} {...store.formData.formLayoutOptions}
+                    hasFeedback={store.touched[name] && !!store.errors[name]}
+                    validateStatus={store.errors[name] && "error"}
+                    help={store.errors[name]}>
             {
                 (type == "input" || type == "hidden") && <Input
                     type={field.inputType}
                     placeholder={field.placeholder}
-                    value={values[name]}
+                    value={store.values[name]}
                     onChange={handleChange}
                     onBlur={handleBlur}/>
             }
-            {type == "checkbox" && <Checkbox onChange={handleChange} checked={values[name] == true}/>}
-            {type == "number" && <InputNumber onChange={handleChange} onBlur={handleBlur} value={values[name]}/>}
-            {type == "select" && <Select onChange={handleChange} onBlur={handleBlur} value={values[name]}>
+            {type == "checkbox" && <Checkbox onChange={handleChange} checked={store.values[name] == true}/>}
+            {type == "number" && <InputNumber onChange={handleChange} onBlur={handleBlur} value={store.values[name]}/>}
+            {type == "select" && <Select onChange={handleChange} onBlur={handleBlur} value={store.values[name]}>
                 {field.children.map((child: any, index: number) => {
                     return <Select.Option key={""+index} value={child.value}>{child.label}</Select.Option>
                 })}
                 </Select>
             }
-            {type == "radiogroup" && <Radio.Group onChange={handleChange} options={field.children} value={values[name]}>
+            {type == "radiogroup" && <Radio.Group onChange={handleChange} options={field.children} value={store.values[name]}>
                     {/* {field.children.map((child: any, index: number)  => {
                         return <Radio key={""+index} value={child.value}>{child.label}</Radio>
                     })} */}
                 </Radio.Group>
             }
-            {type == "checkboxgroup" && <Checkbox.Group onChange={handleChange} options={field.children} value={values[name]}/>}
-            {type == "textarea" && <Input.TextArea onChange={handleChange} value={values[name]}></Input.TextArea>}
-            {type == "datepicker" && <DatePicker onChange={handleChange} value={values[name]}/>}
-            {type == "monthpicker" && <DatePicker.MonthPicker onChange={handleChange} value={values[name]}/>}
-            {type == "rangepicker" && <DatePicker.RangePicker onChange={handleChange} value={values[name]}/>}
-            {type == "weekpicker" && <DatePicker.WeekPicker onChange={handleChange} value={values[name]}/>}
-            {type == 'rate' && <Rate onChange={handleChange} value={values[name]}></Rate>}
-            {type == 'slider' && <Slider onChange={handleChange} value={values[name]}></Slider>}
+            {type == "checkboxgroup" && <Checkbox.Group onChange={handleChange} options={field.children} value={store.values[name]}/>}
+            {type == "textarea" && <Input.TextArea onChange={handleChange} value={store.values[name]}></Input.TextArea>}
+            {type == "datepicker" && <DatePicker onChange={handleChange} value={store.values[name]}/>}
+            {type == "monthpicker" && <DatePicker.MonthPicker onChange={handleChange} value={store.values[name]}/>}
+            {type == "rangepicker" && <DatePicker.RangePicker onChange={handleChange} value={store.values[name]}/>}
+            {type == "weekpicker" && <DatePicker.WeekPicker onChange={handleChange} value={store.values[name]}/>}
+            {type == 'rate' && <Rate onChange={handleChange} value={store.values[name]}></Rate>}
+            {type == 'slider' && <Slider onChange={handleChange} value={store.values[name]}></Slider>}
             {type == "textblock" && <p>{field.value}</p>}
             </Form.Item>}
         </div>))

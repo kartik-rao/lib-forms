@@ -1,0 +1,30 @@
+import { IField } from "@adinfinity/ai-core-forms";
+declare class RootStore {
+    ancestors: any;
+    dependencies: any;
+    conditionals: any;
+    errors: any;
+    evaluators: any;
+    currentPage: number;
+    fieldMeta: any;
+    values: any;
+    touched: any;
+    formData: any;
+    selectedField: IField;
+    validationSchema: any;
+    numPages: number;
+    confirmDirty: boolean;
+    onChange: (id: string, value: any) => void;
+    onBlur: (id: string) => void;
+    selectField: (field: IField) => void;
+    updateField: (f: IField, newState: any) => void;
+    onSubmit: (values: any, actions: any) => boolean;
+    validate: () => void;
+    readonly errorOnThisPage: boolean;
+    prev(): void;
+    next(): void;
+    getFieldValue: (id: string) => any;
+    initialize(data: any): void;
+    constructor(data: any);
+}
+export default RootStore;

@@ -2,7 +2,7 @@ import {IField} from "@adinfinity/ai-core-forms";
 const { buildYup } = require("json-schema-to-yup");
 
 export class FormStateHelper {
-    static getInitialState(formData: any, evaluators: any, decorators: any) {
+    static getInitialState(formData: any,  decorators: any) {
         let state = {
             currentPage: (formData.content && formData.content.pages.length > 0 ? 0 : 0) as number,
             numPages: (formData.content && formData.content.pages.length > 0 ? formData.content.pages.length : 0) as number,
@@ -43,7 +43,7 @@ export class FormStateHelper {
             state.validationSchema = {...schema, errMessages: validation.messages}
         }
 
-        return FormStateHelper.registerFieldConditions(state.fieldMeta.allFields, state, evaluators, decorators);
+        return FormStateHelper.registerFieldConditions(state.fieldMeta.allFields, state, decorators);
     }
 
     static registerValidations(validation: any, field: IField) {
@@ -62,12 +62,11 @@ export class FormStateHelper {
         }
     }
 
-    static registerFieldConditions(fields: IField[], state: any, evaluators: any, decorators: any) : any {
-        console.log("RFC", fields, state)
-        state = {...state, dependencies: {}, conditionals: {}, ancestors: {}};
+    static registerFieldConditions(fields: IField[], state: any,  decorators: any) : any {
+        state = {...state, evaluators: {}, dependencies: {}, conditionals: {}, ancestors: {}};
         fields.forEach((f: IField) => {
             if(f.condition) {
-                evaluators[`${f.id}`] = f.condition;
+                state.evaluators[`${f.id}`] = f.condition;
                 state.conditionals[`${f.id}`] = {result: f.condition.value(decorators.getFieldValue)}
                 if (f.condition.ancestors) {
                     state.ancestors[f.id] = f.condition.ancestors;

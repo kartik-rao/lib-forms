@@ -6,6 +6,7 @@ import {Formik} from "formik";
 import {Logger} from "@adinfinity/ai-lib-logging";
 import {FieldPropertiesComponent} from "./FieldProperties";
 import { observer } from "mobx-react";
+import RootStore from "../../models/RootStore";
 
 
 const logger: Logger = Logger.getInstance(["ai-lib-forms", "EditableForm"], Logger.severity.debug);
@@ -14,17 +15,18 @@ function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
+interface FormComponentProps {
+    store: RootStore;
+}
+
 @observer
-export class FormComponent extends React.Component<any, any> {
+export class FormComponent extends React.Component<FormComponentProps, any> {
 
     logger: Logger;
     setFieldError: any;
 
     constructor(props: any) {
         super(props);
-        // let {formData} = props;
-        // this.getFieldValue = this.getFieldValue.bind(this)
-        // store = {selectedField:null, ...FormStateHelper.getInitialState(formData, this.evaluators, {getFieldValue: this.getFieldValue})};
     }
 
     render() {
@@ -75,7 +77,6 @@ export class FormComponent extends React.Component<any, any> {
                             formData.content.pages.map((page: IPage, pn: number) => {
                                 self.setFieldError = setFieldError;
                                 let {currentPage} = store;
-                                let {formLayoutOptions} = this.props.formData;
                                 let eventHooks = () => {
                                     return {
                                         onChange: (name, value) => {
@@ -84,9 +85,8 @@ export class FormComponent extends React.Component<any, any> {
                                             store.onChange(name, value);
                                         },
                                         onBlur : (name) => {
-                                            store.touched[name] = true;
                                             setFieldTouched(name);
-                                            store.handleBlur(name);
+                                            store.onBlur(name);
                                         },
                                         selectField: store.selectField,
                                         setFieldValue: setFieldValue,
@@ -96,13 +96,8 @@ export class FormComponent extends React.Component<any, any> {
                                 }
                                 return <div className="page-wrapper" key={pn} style={{'visibility': currentPage == pn ? 'visible': 'hidden', display: currentPage == pn ? 'block': 'none'}}>
                                     <EditablePageComponent
+                                        store={store}
                                         index={pn}
-                                        page={page}
-                                        errors={errors}
-                                        touched={touched}
-                                        values={values}
-                                        formLayout={formLayoutOptions}
-                                        conditionals={store.conditionals}
                                         eventHooks={eventHooks}></EditablePageComponent>
                                 </div>
                                 })

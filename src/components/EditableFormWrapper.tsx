@@ -10,8 +10,11 @@ import { DragDropContext } from "react-dnd";
 import {Logger} from "@adinfinity/ai-lib-logging";
 
 const logger: Logger = Logger.getInstance(["ai-lib-forms", "EditableFormWrapper"], 5);
-import {RootStore} from "./RootStore";
+import RootStore from "../models/RootStore";
+import DevTools from 'mobx-react-devtools';
 import { Provider } from "mobx-react";
+
+const debug = window.location.href.indexOf("localhost") > -1;
 
 class EditableFormWrapper extends React.Component <any, any> {
     props: any;
@@ -21,13 +24,14 @@ class EditableFormWrapper extends React.Component <any, any> {
     }
 
     render() {
-        const {formData} = this.state;
+        console.log("Store Instance", this.state.store.formData.content)
+        const {store} = this.state;
         return (
             <Layout style={{height:"100vh"}}>
-                <Row><br/></Row>
+                <Row>{debug && <DevTools/>}</Row>
                 <Row justify="space-around">
-                    <Col span={formData.formLayoutOptions.wrapperSpan} offset={formData.formLayoutOptions.wrapperOffset}>
-                        <EditableFormComponent store={formData}/>
+                    <Col span={store.formData.formLayoutOptions.wrapperSpan} offset={store.formData.formLayoutOptions.wrapperOffset}>
+                        <EditableFormComponent store={store}/>
                     </Col>
                 </Row>
             </Layout>

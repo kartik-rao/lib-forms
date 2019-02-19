@@ -1,16 +1,14 @@
-import { IColumn, FormLayoutOptions } from "@adinfinity/ai-core-forms";
+import { IColumn } from "@adinfinity/ai-core-forms";
+import RootStore from "../../models/RootStore";
 export interface ColumnProps {
     column: IColumn;
-    formLayout: FormLayoutOptions;
     span: number;
-    values: any;
     eventHooks: any;
-    conditionals: any;
     canDrop: any;
     isOver: any;
-    errors: any;
     connectDropTarget: any;
-    touched: any;
+    store: RootStore;
+    index: number;
 }
 declare const _default: import("react-dnd").DndComponentClass<any>;
 export default _default;

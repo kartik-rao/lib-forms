@@ -1,4 +1,4 @@
-import { observable, computed, action, decorate } from "mobx";
+import { observable, computed, action, decorate, toJS } from "mobx";
 import { IField } from "@adinfinity/ai-core-forms";
 import {FormStateHelper} from "../helpers/FormStateHelper";
 const { buildYup } = require("json-schema-to-yup");
@@ -9,11 +9,12 @@ import {FormFactory} from "../factory/form.factory";
 import {configure, autorun} from "mobx";
 configure({enforceActions: "always"});
 
-export class RootStore {
+class RootStore {
     ancestors: any;
     dependencies: any;
     conditionals: any;
-    evaluators: any;
+    errors: any;
+    evaluators: any = {};
     currentPage : number;
     fieldMeta: any;
     values: any;
@@ -24,12 +25,10 @@ export class RootStore {
     numPages: number;
     confirmDirty: boolean;
 
-    @action setFieldValue: any;
-    @action setFieldError: any;
-
-
-    @action onchange(id: string, value: any) {
+    // @action setFieldError: any;
+    @action onChange = (id: string, value: any) => {
         this.values[id] = value;
+        this.touched[id] = true;
         let deps = this.dependencies[id] || [];
         let self = this;
         deps.forEach((d) => {
@@ -39,7 +38,7 @@ export class RootStore {
         return;
     }
 
-    @action onBlur(id: string) {
+    @action onBlur = (id: string) => {
         this.touched[id] = true;
     }
 
@@ -55,7 +54,7 @@ export class RootStore {
         this.formData.content.pages[page].sections[section].columns[column].fields[field] = Object.assign(current, newState)
     }
 
-    @action onSubmit(values: any, actions: any) {
+    @action onSubmit = (values: any, actions: any) => {
         console.info("handleSubmit", values);
         // Handle dates here
         setTimeout(()=> {
@@ -65,7 +64,7 @@ export class RootStore {
         return false;
     }
 
-    @computed get validationErrors() : any {
+    @action validate = () => {
         let {values, currentPage, fieldMeta, validationSchema, conditionals} = this;
         let includeFields = fieldMeta.pageFields[currentPage].ids;
 
@@ -85,23 +84,21 @@ export class RootStore {
         });
 
         const validator: Yup.ObjectSchema<any> = buildYup({type:"object",  properties: vFields, errMessages:validationSchema.errMessages});
-
         try {
             validator.validateSync(values, { abortEarly: false, context: {} })
-            return {};
+            this.errors = {};
         } catch (error) {
             let errors = {};
             error.inner.forEach((e)=>{
                 errors[e.path] = e.message;
-                self.setFieldError(e.path, e.message);
             });
-            return errors;
+            self.errors = errors;
         }
+
     }
 
     @computed get errorOnThisPage() : boolean {
-        let _errors = this.validationErrors();
-        return Object.keys(_errors).length > 0;
+        return Object.keys(this.errors).length > 0;
     };
 
     @action prev() {
@@ -121,21 +118,48 @@ export class RootStore {
     }
 
     getFieldValue = (id: string) => {
-        return this.values[id];
+        return this.values ? this.values[id] : null;
+    }
+
+    @action initialize(data: any) {
+        this.formData = FormFactory.createForm(data);
+        let initialState = FormStateHelper.getInitialState(this.formData, {getFieldValue: this.getFieldValue});
+        this.currentPage = initialState.currentPage;
+        this.numPages = initialState.numPages;
+        this.ancestors = initialState.ancestors;
+        this.evaluators = initialState.evaluators;
+        this.touched = {};
+        this.errors = {};
+        this.dependencies = initialState.dependencies;
+        this.conditionals = initialState.conditionals;
+        this.fieldMeta = initialState.fieldMeta;
+        this.values = initialState.values;
+        this.validationSchema = initialState.validationSchema;
+        this.currentPage = initialState.currentPage;
+        this.numPages = initialState.numPages;
+        this.confirmDirty = initialState.confirmDirty;
+        console.log("STORE INITIAL STATE", initialState)
     }
 
     constructor(data: any) {
-        this.formData = FormFactory.createForm(data);
-        let {ancestors, dependencies, conditionals, fieldMeta, values, validationSchema, currentPage, numPages, confirmDirty} = FormStateHelper.getInitialState(this.formData, {}, this.getFieldValue)
-        this.ancestors = ancestors;
-        this.dependencies = dependencies;
-        this.conditionals = conditionals;
-        this.fieldMeta = fieldMeta;
-        this.values = values;
-        this.validationSchema = validationSchema;
-        this.currentPage = currentPage;
-        this.numPages = numPages;
-        this.confirmDirty = confirmDirty;
-        autorun(() => console.log("Store updated", this));
+        this.initialize(data);
     }
 }
+
+decorate(RootStore, {
+    ancestors: observable,
+    dependencies: observable,
+    errors: observable,
+    conditionals: observable,
+    currentPage : observable,
+    fieldMeta: observable,
+    values: observable,
+    touched: observable,
+    formData: observable,
+    selectedField: observable,
+    validationSchema: observable,
+    numPages: observable,
+    confirmDirty: observable
+});
+
+export default RootStore;

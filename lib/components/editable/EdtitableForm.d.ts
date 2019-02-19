@@ -1,6 +1,10 @@
 import * as React from "react";
 import { Logger } from "@adinfinity/ai-lib-logging";
-export declare class FormComponent extends React.Component<any, any> {
+import RootStore from "../../models/RootStore";
+interface FormComponentProps {
+    store: RootStore;
+}
+export declare class FormComponent extends React.Component<FormComponentProps, any> {
     logger: Logger;
     setFieldError: any;
     constructor(props: any);
