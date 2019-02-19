@@ -23,6 +23,7 @@ export class FieldFactory {
         field.queryParam = props.queryParam;
         field.saveable = props.saveable;
         field.value = props.value;
+        console.log("Created Field", field.condition);
         return field;
     }
 }

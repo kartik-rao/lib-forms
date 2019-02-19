@@ -63,6 +63,7 @@ export class FormStateHelper {
     }
 
     static registerFieldConditions(fields: IField[], state: any, evaluators: any, decorators: any) : any {
+        console.log("RFC", fields, state)
         state = {...state, dependencies: {}, conditionals: {}, ancestors: {}};
         fields.forEach((f: IField) => {
             if(f.condition) {

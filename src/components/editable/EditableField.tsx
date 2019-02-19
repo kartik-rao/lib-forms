@@ -1,6 +1,6 @@
 import * as React from "react";
 import {IField, FormLayoutOptions} from "@adinfinity/ai-core-forms";
-import {Form, Input, Select, Radio, DatePicker, InputNumber, Checkbox, Rate, Slider} from "antd";
+import {Form, Input, Select, Radio, DatePicker, InputNumber, Checkbox, Rate, Slider, Button} from "antd";
 import { findDOMNode } from 'react-dom';
 import {DragSource, DropTarget} from "react-dnd";
 import {Field} from "formik";
@@ -46,7 +46,7 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
         const { isDragging, connectDragSource, connectDropTarget } = this.props;
         const opacity = isDragging ? 0 : 1;
 
-        let {onChange, onBlur} = eventHooks()
+        let {onChange, onBlur, selectField} = eventHooks()
         let {result} = this.props.conditionals[this.props.field.id];
         let {name} = field;
 
@@ -55,7 +55,7 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
 
         return connectDragSource(connectDropTarget(
             <div style={{ ...style, opacity }}>
-            {<span><small>Field type [{type}] name [{field.name}] condition [{result.toString()}]</small></span>}
+            {<span><small>Field type [{type}] name [{field.name}] condition [{result.toString()}]</small><Button icon="edit" type="primary" onClick={(e) => {e.preventDefault();selectField(field)}}></Button></span>}
             {result && <Form.Item
                     label={field.label} {...formLayout}
                     hasFeedback={touched[name] && !!errors[name]}

@@ -4,6 +4,7 @@
       "target": "es6",
       "lib": ["es6", "dom"],
       "jsx": "react",
+      "experimentalDecorators": true,
       "forceConsistentCasingInFileNames": true,
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,

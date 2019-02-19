@@ -3,12 +3,10 @@ import {Steps, Button,  Card, Row, Col} from "antd";
 import {IPage } from "@adinfinity/ai-core-forms";
 import EditablePageComponent from "./EditablePage";
 import {Formik} from "formik";
-import {FormStateHelper} from "../../helpers/FormStateHelper";
 import {Logger} from "@adinfinity/ai-lib-logging";
 import {FieldPropertiesComponent} from "./FieldProperties";
+import { observer } from "mobx-react";
 
-const { buildYup } = require("json-schema-to-yup");
-import Yup from "yup";
 
 const logger: Logger = Logger.getInstance(["ai-lib-forms", "EditableForm"], Logger.severity.debug);
 
@@ -16,119 +14,22 @@ function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
+@observer
 export class FormComponent extends React.Component<any, any> {
-    evaluators: any = {};
-    values: any = {};
-    touched: any = {};
+
     logger: Logger;
     setFieldError: any;
 
-    getFieldValue(id) {
-        return this.values[id];
-    }
-
     constructor(props: any) {
         super(props);
-        let {formData} = props;
-        this.getFieldValue = this.getFieldValue.bind(this)
-        this.state = FormStateHelper.getInitialState(formData, this.evaluators, {getFieldValue: this.getFieldValue});
-    }
-
-    next() {
-        let self = this;
-        const {currentPage, fieldMeta} = this.state;
-        if (!this.props.formData.formLayoutOptions.validationDisablesPaging) {
-            this.setState({ currentPage: currentPage + 1 });
-            return;
-        }
-
-        let _errors = this.validate(this.values, fieldMeta.pageFields[currentPage].ids);
-        let errorOnThisPage = Object.keys(_errors).length > 0;
-
-        if (!errorOnThisPage) {
-            self.setState({ currentPage: currentPage + 1 });
-        }
-        return;
-    }
-
-    prev() {
-        logger.debug("prevPage");
-        const currentPage = this.state.currentPage - 1;
-        this.setState({ currentPage: currentPage });
-    }
-
-    onChange(id: string, value: any) {
-        let self = this;
-        this.values[id] = value;
-
-        let deps = self.state.dependencies[id] || [];
-        let newState = Object.assign({}, self.state);
-        deps.forEach((d) => {
-            newState.conditionals[d].result =  self.evaluators[d].value(self.getFieldValue)
-        });
-        self.setState(newState);
-
-        return;
-    }
-
-    onBlur(id: string) {
-        this.touched[id] = true;
-    }
-
-    onSubmit = (values: any, actions: any) => {
-        logger.info("handleSubmit", values);
-        // Handle dates here
-        setTimeout(()=> {
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-        }, 200);
-        return false;
-    }
-
-    // Custom yup validation with context
-    validate = (values:any, includeFields:any[]=[]) => {
-        let {currentPage, fieldMeta, validationSchema} = this.state;
-
-
-        if (!includeFields || includeFields.length == 0) {
-            includeFields = fieldMeta.pageFields[currentPage].ids;
-        }
-
-        // Have to deep copy otherwise
-        let vFields: any = JSON.parse(JSON.stringify(validationSchema.properties));
-
-        let{ conditionals} = this.state;
-        let self = this;
-
-        // Disable validation for conditional fields
-        Object.keys(conditionals).forEach((fid) => {
-            const isOnThisPage = includeFields.indexOf(fid) > -1;
-            const isValidateable = !!vFields[fid];
-            const isFieldEnabled = self.evaluators[fid] ? self.evaluators[fid].value(self.getFieldValue) : true;
-            if(isValidateable && (!isFieldEnabled || !isOnThisPage)) {
-                vFields[fid].required = false;
-            }
-        });
-
-        const validator: Yup.ObjectSchema<any> = buildYup({type:"object",  properties: vFields, errMessages:validationSchema.errMessages});
-
-        try {
-            validator.validateSync(values, { abortEarly: false, context: {} })
-            return {};
-        } catch (error) {
-            let errors = {};
-            error.inner.forEach((e)=>{
-                errors[e.path] = e.message;
-                self.setFieldError(e.path, e.message);
-            });
-
-            return errors;
-
-        }
+        // let {formData} = props;
+        // this.getFieldValue = this.getFieldValue.bind(this)
+        // store = {selectedField:null, ...FormStateHelper.getInitialState(formData, this.evaluators, {getFieldValue: this.getFieldValue})};
     }
 
     render() {
-        let {formData} = this.props;
+        const {store} = this.props;
+        let {formData} = store;
         let self = this;
 
         return (<div className="form-wrapper">
@@ -142,7 +43,7 @@ export class FormComponent extends React.Component<any, any> {
             {formData.formLayoutOptions.showSteps && <Row>
                 <Col span={20}>
                     <Card>
-                        <Steps size="small" current={this.state.currentPage}>
+                        <Steps size="small" current={store.currentPage}>
                             {formData.content.pages.map((page: IPage, pn: number) => {
                                 return <Steps.Step title={page.title} key={pn}/>
                             })}
@@ -152,9 +53,9 @@ export class FormComponent extends React.Component<any, any> {
             </Row>}
             <Row>
                 <Col span={20}>
-                    <Formik onSubmit={self.onSubmit}
-                            initialValues={this.state.values}
-                            validate={this.validate}
+                    <Formik onSubmit={store.onSubmit}
+                            initialValues={store.values}
+                            validate={store.validate}
                             validateOnBlur={true}
                             validateOnChange={true} render={({
                             values,
@@ -173,20 +74,21 @@ export class FormComponent extends React.Component<any, any> {
                             {
                             formData.content.pages.map((page: IPage, pn: number) => {
                                 self.setFieldError = setFieldError;
-                                let {currentPage} = this.state;
+                                let {currentPage} = store;
                                 let {formLayoutOptions} = this.props.formData;
                                 let eventHooks = () => {
                                     return {
                                         onChange: (name, value) => {
                                             setFieldValue(name, value);
                                             handleChange(name);
-                                            this.onChange(name, value);
+                                            store.onChange(name, value);
                                         },
                                         onBlur : (name) => {
-                                            self.touched[name] = true;
+                                            store.touched[name] = true;
                                             setFieldTouched(name);
-                                            handleBlur(name);
+                                            store.handleBlur(name);
                                         },
+                                        selectField: store.selectField,
                                         setFieldValue: setFieldValue,
                                         setFieldTouched: setFieldTouched,
                                         setFieldError: setFieldError
@@ -200,7 +102,7 @@ export class FormComponent extends React.Component<any, any> {
                                         touched={touched}
                                         values={values}
                                         formLayout={formLayoutOptions}
-                                        conditionals={this.state.conditionals}
+                                        conditionals={store.conditionals}
                                         eventHooks={eventHooks}></EditablePageComponent>
                                 </div>
                                 })
@@ -209,9 +111,9 @@ export class FormComponent extends React.Component<any, any> {
                             <Card>
                                 <Row>
                                     <Col span={24} style={{ textAlign: 'right' }}>
-                                        { this.state.currentPage == this.state.numPages -1 && <Button disabled={Object.keys(touched).length == 0 || hasErrors(errors) || isSubmitting } type="primary" style={{ marginLeft: 8 }} htmlType="submit" className="action-button">Submit</Button>}
-                                        { this.state.currentPage < this.state.numPages -1 && <Button type="primary" style={{ marginLeft: 8 }} className="action-button" onClick={() => this.next()}>Next</Button> }
-                                        { this.state.currentPage > 0 && this.state.numPages > 1 && <Button type="primary" className="action-button" onClick={() => this.prev()}>Prev</Button> }
+                                        { store.currentPage == store.numPages -1 && <Button disabled={Object.keys(touched).length == 0 || hasErrors(errors) || isSubmitting } type="primary" style={{ marginLeft: 8 }} htmlType="submit" className="action-button">Submit</Button>}
+                                        { store.currentPage < store.numPages -1 && <Button type="primary" style={{ marginLeft: 8 }} className="action-button" onClick={() => store.next()}>Next</Button> }
+                                        { store.currentPage > 0 && store.numPages > 1 && <Button type="primary" className="action-button" onClick={() => store.prev()}>Prev</Button> }
                                     </Col>
                                 </Row>
                             </Card>
@@ -225,7 +127,7 @@ export class FormComponent extends React.Component<any, any> {
                     </Formik>
                 </Col>
                 <Col span={4}>
-                    <FieldPropertiesComponent/>
+                    {store.selectedField && <FieldPropertiesComponent field={store.selectedField}/>}
                 </Col>
             </Row>
         </div>

@@ -88,6 +88,7 @@ export class FormFactory {
         });
 
         form.content = content;
+        console.log("Factory created form", form);
         return form;
     }
 }
