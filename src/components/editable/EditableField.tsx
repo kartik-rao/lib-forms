@@ -11,7 +11,7 @@ import { observer } from "mobx-react";
 export interface FieldProps {
     field: IField;
     eventHooks:any;
-    index: number;
+    fieldIndex: number;
     listId: any;
     removeField: any;
     moveField: any;
@@ -37,7 +37,7 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
             backgroundColor: 'white',
             cursor: 'move'
         };
-        const { field, store, eventHooks} = this.props;
+        const { field, store, eventHooks, fieldIndex} = this.props;
         const {type} = field;
         const { isDragging, connectDragSource, connectDropTarget } = this.props;
         const opacity = isDragging ? 0 : 1;
@@ -56,7 +56,8 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
                     label={field.label} {...store.formData.formLayoutOptions}
                     hasFeedback={store.touched[name] && !!store.errors[name]}
                     validateStatus={store.errors[name] && "error"}
-                    help={store.errors[name]}>
+                    help={store.errors[name]}
+                    tabindex={fieldIndex}>
             {
                 (type == "input" || type == "hidden") && <Input
                     type={field.inputType}
@@ -95,10 +96,11 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
 
 const fieldTarget = {
 	hover(props, monitor, component) {
-		const dragIndex = monitor.getItem().index;
-		const hoverIndex = props.index;
-		const sourceListId = monitor.getItem().listId;
 
+		const dragIndex = monitor.getItem().fieldIndex;
+		const hoverIndex = props.fieldIndex;
+		const sourceListId = monitor.getItem().listId;
+        console.log("HOVER HI, DI, SLI", !!props.moveField,  dragIndex, hoverIndex, sourceListId)
 		// Don't replace items with themselves
 		if (dragIndex === hoverIndex) {
 			return;
@@ -138,28 +140,28 @@ const fieldTarget = {
 			// Generally it's better to avoid mutations,
 			// but it's good here for the sake of performance
 			// to avoid expensive index searches.
-			monitor.getItem().index = hoverIndex;
+			monitor.getItem().fieldIndex = hoverIndex;
 		}
     }
 }
 
 const fieldSource = {
 	beginDrag(props) {
-        console.log("begin drag")
+        console.log("begin drag", props)
 		return {
-			index: props.index,
+			index: props.fieldIndex,
 			listId: props.listId,
 			field: props.field
 		};
 	},
 
 	endDrag(props, monitor) {
-        console.log("end drag")
 		const item = monitor.getItem();
 		const dropResult = monitor.getDropResult();
-
+        console.log("end drag", dropResult, item);
 		if ( dropResult && dropResult.listId !== item.listId ) {
-			props.removeField(item.index);
+            console.log("end drag remove", item.fieldIndex);
+			props.removeField(item.fieldIndex);
 		}
 	}
 }

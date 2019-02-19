@@ -31,7 +31,7 @@ class EditablePageComponent extends React.Component<PageProps, any> {
             <Card title={store.formData.formLayoutOptions.showPageTitles ? page.title : ""}>
                 <div className="page" key={index.toString()}>
                     {page.sections.map((section: ISection, sn: number) => {
-                        return <EditableSectionComponent index={sn} key={sn} store={this.props.store} eventHooks={eventHooks}></EditableSectionComponent>
+                        return <EditableSectionComponent sectionIndex={sn} pageIndex={index} key={sn} store={this.props.store} eventHooks={eventHooks}></EditableSectionComponent>
                     })}
                 </div>
             </Card>

@@ -13,6 +13,8 @@ export class FormStateHelper {
                 pageFields : {} as any
             },
             values: {},
+            touched: {},
+            errors: {},
             validationSchema: null
         };
 
@@ -28,6 +30,8 @@ export class FormStateHelper {
                     column.fields.forEach((field, fi)=> {
                         state.fieldMeta.allFields.push(field);
                         state.values[field.id] = undefined;
+                        state.touched[field.id] = false;
+                        state.errors[field.id] = null;
                         FormStateHelper.registerValidations(validation, field);
                         field.location = field.location = {page: pi, section: si, column: ci, field: fi};
                         state.fieldMeta.locations[field.id] = {page: pi, section: si, column: ci, field: fi}

@@ -1,4 +1,4 @@
-import { observable, computed, action, decorate, toJS } from "mobx";
+import { observable, computed, action, decorate, extendObservable, ObservableMap } from "mobx";
 import { IField } from "@adinfinity/ai-core-forms";
 import {FormStateHelper} from "../helpers/FormStateHelper";
 const { buildYup } = require("json-schema-to-yup");
@@ -24,6 +24,32 @@ class RootStore {
     validationSchema: any;
     numPages: number;
     confirmDirty: boolean;
+
+    @action pushField = (field: IField, pageIndex: number, sectionIndex: number, columnIndex: number) => {
+        console.log("Store push", field, pageIndex, sectionIndex, columnIndex);
+        let fields = [].concat(this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields)
+        fields.push(field);
+        this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields = fields;
+        return;
+    }
+
+    @action removeField = (fieldIndex: number, pageIndex: number, sectionIndex: number, columnIndex: number) => {
+        console.log("Store remove", fieldIndex, pageIndex, sectionIndex, columnIndex);
+        let fields = [].concat(this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields)
+        fields.splice(fieldIndex, 1);
+        this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields = fields;
+        return;
+    }
+
+    @action moveField = (fromIndex: number, toIndex: number, pageIndex, sectionIndex, columnIndex) => {
+        console.log("Store move", fromIndex, toIndex, pageIndex, sectionIndex, columnIndex);
+        let fields = [].concat(this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields)
+        // let field =
+        let field = fields.splice(fromIndex, 1)[0]
+        fields.splice(toIndex, 0, field)
+        this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields = fields;
+        return;
+    }
 
     // @action setFieldError: any;
     @action onChange = (id: string, value: any) => {
@@ -92,6 +118,7 @@ class RootStore {
             error.inner.forEach((e)=>{
                 errors[e.path] = e.message;
             });
+
             self.errors = errors;
         }
 
@@ -128,8 +155,8 @@ class RootStore {
         this.numPages = initialState.numPages;
         this.ancestors = initialState.ancestors;
         this.evaluators = initialState.evaluators;
-        this.touched = {};
-        this.errors = {};
+        this.touched = initialState.touched;
+        this.errors = initialState.errors;
         this.dependencies = initialState.dependencies;
         this.conditionals = initialState.conditionals;
         this.fieldMeta = initialState.fieldMeta;

@@ -80,12 +80,12 @@ export class FormComponent extends React.Component<FormComponentProps, any> {
                                 let eventHooks = () => {
                                     return {
                                         onChange: (name, value) => {
-                                            setFieldValue(name, value);
+                                            // setFieldValue(name, value);
                                             handleChange(name);
                                             store.onChange(name, value);
                                         },
                                         onBlur : (name) => {
-                                            setFieldTouched(name);
+                                            // setFieldTouched(name);
                                             store.onBlur(name);
                                         },
                                         selectField: store.selectField,
@@ -113,9 +113,9 @@ export class FormComponent extends React.Component<FormComponentProps, any> {
                                 </Row>
                             </Card>
                         </div>
-                        <div>Errors<br/>{JSON.stringify(errors)}</div>
-                        <div>Touched<br/>{JSON.stringify(touched)}</div>
-                        <div>Values<br/>{JSON.stringify(values)}</div>
+                        <div>Errors<br/>{JSON.stringify(store.errors)}</div>
+                        <div>Touched<br/>{JSON.stringify(store.touched)}</div>
+                        <div>Values<br/>{JSON.stringify(store.values)}</div>
                         <div>Status<br/>{JSON.stringify(status)}</div>
                     </form>
                     )}>

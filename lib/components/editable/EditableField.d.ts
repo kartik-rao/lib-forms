@@ -3,7 +3,7 @@ import RootStore from "../../models/RootStore";
 export interface FieldProps {
     field: IField;
     eventHooks: any;
-    index: number;
+    fieldIndex: number;
     listId: any;
     removeField: any;
     moveField: any;

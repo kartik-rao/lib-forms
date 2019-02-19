@@ -5,13 +5,14 @@ import {IColumn, ISection, FormLayoutOptions} from "@adinfinity/ai-core-forms";
 import EditableColumnComponent from "./EditableColumn";
 import {DnDHelper} from "./DnDHelper";
 import RootStore from "../../models/RootStore";
-import { observable } from "mobx";
+
 import { observer } from "mobx-react";
 
 export interface SectionProps {
     eventHooks: any;
-    index:number;
     store: RootStore;
+    pageIndex: number;
+    sectionIndex:number;
 }
 
 @observer
@@ -26,28 +27,31 @@ export class EditableSectionComponent extends React.Component<SectionProps, any>
 
     onDragEnd(result: any) {
         // dropped outside the list
+        console.log("section.onDragEnd")
         if (!result.destination) {
           return;
         }
+        let {store, pageIndex, sectionIndex} = this.props;
+        let section = store.formData.content.pages[pageIndex].sections[sectionIndex];
 
         const items = DnDHelper.reorder(
-          this.state.columns,
-          result.source.index,
-          result.destination.index
+          section.columns,
+          result.source.columnIndex,
+          result.destination.columnIndex
         );
-
-        this.setState({columns : items});
+        section.columns = items;
+        // this.setState({columns : items});
     }
 
     render() {
-        let {store, eventHooks} = this.props;
-        let section = store.formData.content.pages[store.currentPage].sections[this.props.index];
+        let {store, eventHooks, pageIndex, sectionIndex} = this.props;
+        let section = store.formData.content.pages[pageIndex].sections[sectionIndex];
         let {showSectionTitles, showSectionBorders} = store.formData.formLayoutOptions;
         const numColumns = section.columns.length;
         return <Card bordered={showSectionBorders} title={showSectionTitles ? section.name : ""}>
             <Row  gutter={8}>
                 {section.columns.map((column: IColumn, cn: number) => {
-                    return <EditableColumnComponent store={store}  column={column} index={cn} key={cn} span={24/numColumns} eventHooks={eventHooks}/>
+                    return <EditableColumnComponent listId={column.id} store={store}  key={cn} column={column} pageIndex={pageIndex} sectionIndex={sectionIndex} columnIndex={cn} span={24/numColumns} eventHooks={eventHooks}/>
                 })}
             </Row>
         </Card>

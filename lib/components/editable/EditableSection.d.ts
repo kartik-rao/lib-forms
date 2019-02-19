@@ -2,8 +2,9 @@ import * as React from "react";
 import RootStore from "../../models/RootStore";
 export interface SectionProps {
     eventHooks: any;
-    index: number;
     store: RootStore;
+    pageIndex: number;
+    sectionIndex: number;
 }
 export declare class EditableSectionComponent extends React.Component<SectionProps, any> {
     state: any;

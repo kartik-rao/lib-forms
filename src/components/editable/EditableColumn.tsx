@@ -17,57 +17,22 @@ export interface ColumnProps {
     isOver: any;
     connectDropTarget: any;
     store: RootStore;
-    index: number;
+    pageIndex: number;
+    sectionIndex: number;
+    columnIndex: number;
 }
 
 @observer
 class EditableColumnComponent extends React.Component<ColumnProps, any> {
-    state: any;
     props: ColumnProps;
 
     constructor(props: ColumnProps) {
         super(props);
         this.props = props;
-        this.state = {
-            fields : props.column.fields,
-            span: props.span
-        }
     }
 
-    pushField(card) {
-		this.setState(update(this.state, {
-			fields: {
-				$push: [ card ]
-			}
-		}));
-	}
-
-	removeField(index) {
-		this.setState(update(this.state, {
-			fields: {
-				$splice: [
-					[index, 1]
-				]
-			}
-		}));
-	}
-
-	moveField(dragIndex, hoverIndex) {
-		const { fields } = this.state;
-		const dragfield = fields[dragIndex];
-
-		this.setState(update(this.state, {
-			fields: {
-				$splice: [
-					[dragIndex, 1],
-					[hoverIndex, 0, dragfield]
-				]
-			}
-		}));
-	}
-
     render() {
-        let {store, column,  span, eventHooks} = this.props;
+        let {store, column, span, eventHooks, sectionIndex, columnIndex, pageIndex} = this.props;
         const { fields } = column;
         const { canDrop, isOver, connectDropTarget } = this.props;
 
@@ -84,7 +49,11 @@ class EditableColumnComponent extends React.Component<ColumnProps, any> {
             <Col span={span} style={{...style, backgroundColor}}>
             <span><small>Col [{column.id}] span [{span}] {column.fields.length} field(s)</small></span>
             {fields.map((field: IField, fn:number) => {
-                return <EditableFieldComponent index={fn}
+                return <EditableFieldComponent
+                    pageIndex={pageIndex}
+                    columnIndex={columnIndex}
+                    sectionIndex={sectionIndex}
+                    fieldIndex={fn}
                     listId={column.id}
                     field={field}
                     key={fn}
@@ -96,15 +65,34 @@ class EditableColumnComponent extends React.Component<ColumnProps, any> {
             </Col>
         </div>));
     }
+
+    pushField(field: IField) {
+        console.log("push");
+        let {store, pageIndex, sectionIndex, columnIndex} = this.props
+        store.pushField(field, pageIndex, sectionIndex, columnIndex);
+	}
+
+	removeField(fieldIndex: number) {
+        let {store, pageIndex, sectionIndex, columnIndex} = this.props
+        console.log("remove", pageIndex, sectionIndex, columnIndex, fieldIndex);
+        store.removeField(fieldIndex, pageIndex, sectionIndex, columnIndex);
+	}
+
+	moveField(dragIndex, hoverIndex) {
+        let {store, pageIndex, sectionIndex, columnIndex} = this.props;
+        console.log("move", pageIndex, sectionIndex, columnIndex, dragIndex, hoverIndex);
+        store.moveField(dragIndex, hoverIndex, pageIndex, sectionIndex, columnIndex);
+	}
 }
 
 const fieldTarget = {
 	drop(props, monitor, component ) {
-		const { id } = props;
-		const sourceObj = monitor.getItem();
-		if ( id !== sourceObj.listId ) component.pushField(sourceObj.field);
+		const { listId } = props;
+        const sourceObj = monitor.getItem();
+        console.log("DROP props/sourceObj", props,sourceObj);
+		if ( listId !== sourceObj.listId ) component.pushField(sourceObj.field);
 		return {
-			listId: id
+			listId: listId
 		};
 	}
 }

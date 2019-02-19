@@ -8,7 +8,9 @@ export interface ColumnProps {
     isOver: any;
     connectDropTarget: any;
     store: RootStore;
-    index: number;
+    pageIndex: number;
+    sectionIndex: number;
+    columnIndex: number;
 }
 declare const _default: import("react-dnd").DndComponentClass<any>;
 export default _default;

@@ -14,6 +14,9 @@ declare class RootStore {
     validationSchema: any;
     numPages: number;
     confirmDirty: boolean;
+    pushField: (field: IField, pageIndex: number, sectionIndex: number, columnIndex: number) => void;
+    removeField: (fieldIndex: number, pageIndex: number, sectionIndex: number, columnIndex: number) => void;
+    moveField: (fromIndex: number, toIndex: number, pageIndex: any, sectionIndex: any, columnIndex: any) => void;
     onChange: (id: string, value: any) => void;
     onBlur: (id: string) => void;
     selectField: (field: IField) => void;
