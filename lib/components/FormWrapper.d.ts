@@ -4,8 +4,11 @@ import { FormFactory } from "../factory/form.factory";
 import FormComponent from "./Form";
 export { FormFactory };
 export { FormComponent };
-export declare class FormWrapper extends React.Component<any, any> {
-    props: any;
-    constructor(props: any);
+export declare class IFormWrapperProps {
+    formJSON: any;
+}
+export declare class FormWrapper extends React.Component<IFormWrapperProps, any> {
+    props: IFormWrapperProps;
+    constructor(props: IFormWrapperProps);
     render(): JSX.Element;
 }

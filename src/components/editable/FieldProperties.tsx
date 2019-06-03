@@ -1,9 +1,7 @@
+import { IField } from "@adinfinity/ai-core-forms";
+import { Logger } from "@adinfinity/ai-lib-logging";
+import { Card, Form, Input, Select } from "antd";
 import * as React from "react";
-import { Button, Card, Row, Col} from "antd";
-import {FormStateHelper} from "../../helpers/FormStateHelper";
-import {Form, Input, Select, Checkbox} from "antd";
-import {IField} from "@adinfinity/ai-core-forms";
-import {Logger} from "@adinfinity/ai-lib-logging";
 
 const logger: Logger = Logger.getInstance(["ai-lib-forms", "FieldProperties"], Logger.severity.debug);
 

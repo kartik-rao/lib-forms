@@ -1,5 +1,6 @@
 import { observable, computed, action, decorate, reaction } from "mobx";
 import { IField } from "@adinfinity/ai-core-forms";
+import {IFormProps}  from "@adinfinity/ai-core-forms";
 import {FormStateHelper} from "../helpers/FormStateHelper";
 const { buildYup } = require("json-schema-to-yup");
 import Yup from "yup";
@@ -19,7 +20,7 @@ class RootStore {
     fieldMeta: any;
     values: any;
     touched: any;
-    formData: any;
+    formData: IFormProps;
     selectedField: IField;
     validationSchema: any;
     numPages: number;

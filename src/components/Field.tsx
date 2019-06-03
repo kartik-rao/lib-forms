@@ -1,8 +1,6 @@
 import * as React from "react";
 import {IField, FormLayoutOptions} from "@adinfinity/ai-core-forms";
-import {RadioSelectCheckboxOption} from "@adinfinity/ai-core-forms";
 import {Form, Input, Select, Radio, DatePicker, InputNumber, Checkbox, Rate, Slider} from "antd";
-
 
 export interface FieldProps {
     field: IField;
@@ -10,11 +8,9 @@ export interface FieldProps {
     decorators: any;
     eventHooks:any;
     conditionals:any;
-
 }
 
 export class FieldComponent extends React.Component<FieldProps, any> {
-
     constructor(props: FieldProps) {
         super(props);
         this.props = props;
@@ -31,7 +27,7 @@ export class FieldComponent extends React.Component<FieldProps, any> {
         let {onChange} = eventHooks(field.id)
 
         return this.props.conditionals[this.props.field.id].result && <Form.Item label={field.label} {...formLayout}>
-            {(type == "input" || type == "hidden") && decorator(field.id, field.fieldOptions)(
+            { (type == "input" || type == "hidden") && decorator(field.id, field.fieldOptions)(
                 <Input onChange={onChange} type={field.inputType} placeholder={field.placeholder} />)
             }
             {type == "checkbox" && decorator(field.id, field.fieldOptions)(

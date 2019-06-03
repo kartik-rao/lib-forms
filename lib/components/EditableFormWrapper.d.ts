@@ -1,9 +1,10 @@
 import * as React from "react";
 import 'airbnb-browser-shims';
-declare class EditableFormWrapper extends React.Component<any, any> {
-    props: any;
-    constructor(props: any);
+export declare class IEditableFormWrapperProps {
+    formJSON: any;
+}
+export default class EditableFormWrapper extends React.Component<IEditableFormWrapperProps, any> {
+    props: IEditableFormWrapperProps;
+    constructor(props: IEditableFormWrapperProps);
     render(): JSX.Element;
 }
-declare const _default: typeof EditableFormWrapper & import("react-dnd").ContextComponent<any>;
-export default _default;

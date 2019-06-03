@@ -14,7 +14,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.ts(x?)$/,
+                test: /\.(jsx|tsx|js|ts)$/,
                 use: { loader: 'awesome-typescript-loader',
                     options : {
                         useCache: true,
@@ -30,7 +30,7 @@ module.exports = {
                         })
                     }
                 },
-                exclude: /\/node_modules\//
+                exclude: /node_modules/
             },
             { test: /\.png$|\.eot$|\.woff$|\.ttf$/, loader: "url-loader?limit=100000" },
             {
@@ -38,7 +38,7 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     allChunks: true, fallback: "style-loader", use: "css-loader"
                   }),
-                include: /src\/app.css|node_modules\/antd\//
+                include: /src\/app.css|node_modules\/antd\/|node_modules\/react-sortable-tree\/style.css/
             }
         ],
     },
@@ -70,7 +70,7 @@ module.exports = {
         // new BundleAnalyzerPlugin()
     ],
     optimization: {
-        minimize: true,
+        minimize: false,
         splitChunks: { chunks: "initial", name: "vendor" }
     }
 };

@@ -15,6 +15,7 @@ export class FormComponent extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         let {formData} = props;
+        console.log(this.props);
         this.state = FormStateHelper.getInitialState(formData, this.props.form);
     }
 

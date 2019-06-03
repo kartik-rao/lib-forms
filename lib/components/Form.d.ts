@@ -13,5 +13,5 @@ export declare class FormComponent extends React.Component<any, any> {
     };
     render(): JSX.Element;
 }
-declare const _default: React.ComponentClass<import("antd/lib/form/Form").RcBaseFormProps & Pick<any, string | number | symbol>>;
+declare const _default: import("antd/lib/form/interface").ConnectedComponentClass<typeof FormComponent, Pick<import("antd/lib/form").FormComponentProps<any>, "wrappedComponentRef">>;
 export default _default;

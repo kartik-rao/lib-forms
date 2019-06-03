@@ -12,15 +12,21 @@ import {Logger} from "@adinfinity/ai-lib-logging";
 const logger: Logger = Logger.getInstance(["ai-lib-forms", "EditableFormWrapper"], 5);
 import RootStore from "../models/RootStore";
 import DevTools from 'mobx-react-devtools';
-import { Provider } from "mobx-react";
+
+import ComponentTree from "./editable/ComponentTree";
+import { FormComponent } from "./Form";
 
 const debug = window.location.href.indexOf("localhost") > -1;
 
-class EditableFormWrapper extends React.Component <any, any> {
-    props: any;
-    constructor(props: any) {
+export class IEditableFormWrapperProps {
+    formJSON: any;
+}
+
+export default class EditableFormWrapper extends React.Component <IEditableFormWrapperProps, any> {
+    props: IEditableFormWrapperProps;
+    constructor(props: IEditableFormWrapperProps) {
         super(props);
-        this.state = {store: new RootStore(props.formData)};
+        this.state = {store: new RootStore(props.formJSON)};
     }
 
     render() {
@@ -31,12 +37,10 @@ class EditableFormWrapper extends React.Component <any, any> {
                 <Row>{debug && <DevTools/>}</Row>
                 <Row justify="space-around">
                     <Col span={store.formData.formLayoutOptions.wrapperSpan} offset={store.formData.formLayoutOptions.wrapperOffset}>
-                        <EditableFormComponent store={store}/>
+                        <FormComponent formData={this.props.formJSON}/>
                     </Col>
                 </Row>
             </Layout>
         );
     }
 }
-
-export default DragDropContext(HTML5Backend)(EditableFormWrapper)

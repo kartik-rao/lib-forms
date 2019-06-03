@@ -1,4 +1,5 @@
 import { IField } from "@adinfinity/ai-core-forms";
+import { IFormProps } from "@adinfinity/ai-core-forms";
 declare class RootStore {
     ancestors: any;
     dependencies: any;
@@ -9,7 +10,7 @@ declare class RootStore {
     fieldMeta: any;
     values: any;
     touched: any;
-    formData: any;
+    formData: IFormProps;
     selectedField: IField;
     validationSchema: any;
     numPages: number;
