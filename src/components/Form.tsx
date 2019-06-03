@@ -1,9 +1,8 @@
+import { IPage } from "@adinfinity/ai-core-forms";
+import { Button, Card, Col, Form, Row, Steps } from "antd";
 import * as React from "react";
-import {Steps, Form, Button,  Card, Row, Col} from "antd";
-import {IPage, IField, IFormProps} from "@adinfinity/ai-core-forms";
-import {PageComponent} from "./Page";
-
-import {FormStateHelper} from "../helpers/FormStateHelper";
+import { FormStateHelper } from "../helpers/FormStateHelper";
+import { PageComponent } from "./Page";
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -15,7 +14,7 @@ export class FormComponent extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         let {formData} = props;
-        console.log(this.props);
+        console.log("Inside Form Props", this);
         this.state = FormStateHelper.getInitialState(formData, this.props.form);
     }
 

@@ -36,7 +36,7 @@ const CreateAntField = Component => ({
                 <Component {...field} {...props}
                     onBlur={onBlur}
                     onChange={type ? onInputChange : onChange}>
-                    {selectOptions && map(selectOptions, name => <Option key={name}>{name}</Option>)}
+                    {selectOptions && map(selectOptions, (name) => <Option key={name}>{name}</Option>)}
                 </Component>
             </FormItem>
         </div>

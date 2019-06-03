@@ -1,43 +1,50 @@
-import * as React from "react";
-
+import { Logger } from "@adinfinity/ai-lib-logging";
 import 'airbnb-browser-shims';
-
-import {Row, Col, Layout, Button} from "antd";
-import {FormFactory} from "../factory/form.factory";
-import EditableFormComponent from "./editable/EdtitableForm";
-import HTML5Backend from "react-dnd-html5-backend";
-import { DragDropContext } from "react-dnd";
-import {Logger} from "@adinfinity/ai-lib-logging";
+import { Col, Layout, Row, Card } from "antd";
+import DevTools from 'mobx-react-devtools';
+import * as React from "react";
+import RootStore from "../models/RootStore";
+import ComponentTree from "./editable/ComponentTree";
+import FormComponent from "./Form";
+import { FormFactory } from "./FormWrapper";
+import { IFormProps } from "@adinfinity/ai-core-forms";
 
 const logger: Logger = Logger.getInstance(["ai-lib-forms", "EditableFormWrapper"], 5);
-import RootStore from "../models/RootStore";
-import DevTools from 'mobx-react-devtools';
-
-import ComponentTree from "./editable/ComponentTree";
-import { FormComponent } from "./Form";
-
 const debug = window.location.href.indexOf("localhost") > -1;
 
 export class IEditableFormWrapperProps {
     formJSON: any;
 }
 
-export default class EditableFormWrapper extends React.Component <IEditableFormWrapperProps, any> {
+export class IEditableFormWrapperState {
+    store: RootStore;
+    formProps: IFormProps;
+}
+
+export default class EditableFormWrapper extends React.Component <IEditableFormWrapperProps, IEditableFormWrapperState> {
     props: IEditableFormWrapperProps;
     constructor(props: IEditableFormWrapperProps) {
         super(props);
-        this.state = {store: new RootStore(props.formJSON)};
+        this.state = {
+            store: new RootStore(props.formJSON),
+            formProps: FormFactory.createForm(this.props.formJSON)
+        };
     }
 
     render() {
-        console.log("Store Instance", this.state.store.formData.content)
-        const {store} = this.state;
+        const {formProps, store} = this.state;
+        console.log("Store Instance", store);
+        console.log("Form Props", formProps);
+
         return (
             <Layout style={{height:"100vh"}}>
                 <Row>{debug && <DevTools/>}</Row>
                 <Row justify="space-around">
-                    <Col span={store.formData.formLayoutOptions.wrapperSpan} offset={store.formData.formLayoutOptions.wrapperOffset}>
-                        <FormComponent formData={this.props.formJSON}/>
+                    <Col span={6} offset={1}>
+                        <Card title="Outline"><ComponentTree store={store} formData={formProps}></ComponentTree></Card>
+                    </Col>
+                    <Col span={15} offset={1}>
+                        <FormComponent formData={formProps}/>
                     </Col>
                 </Row>
             </Layout>

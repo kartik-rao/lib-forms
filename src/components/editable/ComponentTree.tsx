@@ -2,9 +2,11 @@ import * as React from "react";
 import FileExplorerTheme from 'react-sortable-tree-theme-full-node-drag';
 import SortableTree from 'react-sortable-tree';
 import { IFormProps } from "@adinfinity/ai-core-forms";
+import RootStore from "../../models/RootStore";
 
 export interface ComponentTreeProps {
-    formData: IFormProps
+    formData: IFormProps;
+    store: RootStore;
 }
 
 export default class ComponentTree extends React.Component<ComponentTreeProps, any> {

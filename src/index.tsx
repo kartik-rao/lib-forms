@@ -11,6 +11,5 @@ export function renderForm(selector:string, initialState: any) {
 };
 
 export function renderEditableForm(selector:string, initialState: any) {
-    render(<FormWrapper formJSON={initialState}/>, document.querySelector(selector))
-    // render(<EditableFormWrapper formJSON={initialState}/>, document.querySelector(selector))
+    render(<EditableFormWrapper formJSON={initialState}/>, document.querySelector(selector))
 };

@@ -1,37 +1,36 @@
-import * as React from "react";
 import 'airbnb-browser-shims';
-import {Row, Col, Layout, Button, Card} from "antd";
-import {FormFactory} from "../factory/form.factory";
+import { Card, Col, Layout, Row } from "antd";
+import * as React from "react";
+import { FormFactory } from "../factory/form.factory";
 import FormComponent from "./Form";
-import ComponentTree from "./editable/ComponentTree";
+import { IFormProps } from '@adinfinity/ai-core-forms';
 
-export {FormFactory};
-export {FormComponent};
+export { FormFactory };
+export { FormComponent };
 
 export class IFormWrapperProps {
     formJSON: any;
 }
 
-export class FormWrapper extends React.Component <IFormWrapperProps, any> {
+export class IFormWrapperState {
+    formProps: IFormProps
+}
+
+export class FormWrapper extends React.Component <IFormWrapperProps, IFormWrapperState> {
     props: IFormWrapperProps;
     constructor(props: IFormWrapperProps) {
         super(props);
-        this.state = {formData: FormFactory.createForm(this.props.formJSON)};
+        this.state = {formProps: FormFactory.createForm(this.props.formJSON)};
     }
 
     render() {
-        const {formData} = this.state;
+        const {formProps} = this.state;
         return (
             <Layout style={{height:"100vh"}}>
                 <Row><br/></Row>
-                <Row>
-                </Row>
-                <Row justify={"space-between"}>
-                    <Col span={6} offset={1}>
-                        <Card title="Outline"><ComponentTree formData={this.props.formJSON}></ComponentTree></Card>
-                    </Col>
-                    <Col span={15} offset={1}>
-                        <FormComponent formData={formData}/>
+                <Row justify={"space-around"}>
+                    <Col span={formProps.formLayoutOptions.wrapperSpan} offset={formProps.formLayoutOptions.wrapperOffset}>
+                        <FormComponent formData={formProps}/>
                     </Col>
                 </Row>
             </Layout>

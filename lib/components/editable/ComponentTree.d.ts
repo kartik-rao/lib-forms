@@ -1,7 +1,9 @@
 import * as React from "react";
 import { IFormProps } from "@adinfinity/ai-core-forms";
+import RootStore from "../../models/RootStore";
 export interface ComponentTreeProps {
     formData: IFormProps;
+    store: RootStore;
 }
 export default class ComponentTree extends React.Component<ComponentTreeProps, any> {
     props: ComponentTreeProps;
