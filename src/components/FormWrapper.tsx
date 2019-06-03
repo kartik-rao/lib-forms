@@ -27,13 +27,11 @@ export class FormWrapper extends React.Component <IFormWrapperProps, any> {
                 <Row>
                 </Row>
                 <Row justify={"space-between"}>
-                    <Col span={4} offset={1}>
+                    <Col span={6} offset={1}>
                         <Card title="Outline"><ComponentTree formData={this.props.formJSON}></ComponentTree></Card>
                     </Col>
-                    <Col span={16} offset={1}>
-
+                    <Col span={15} offset={1}>
                         <FormComponent formData={formData}/>
-
                     </Col>
                 </Row>
             </Layout>

@@ -55,7 +55,7 @@ export class FormComponent extends React.Component<any, any> {
     }
 
     handleConfirmBlur = (e) => {
-        console.log("handleConfirmBlue");
+        console.log("handleConfirmBlur");
         const value = e.target.value;
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }

@@ -1,9 +1,6 @@
 import * as React from "react";
-
-import { observer } from "mobx-react";
 import FileExplorerTheme from 'react-sortable-tree-theme-full-node-drag';
 import SortableTree from 'react-sortable-tree';
-import { computed, action } from "mobx";
 import { IFormProps } from "@adinfinity/ai-core-forms";
 
 export interface ComponentTreeProps {
@@ -20,6 +17,23 @@ export default class ComponentTree extends React.Component<ComponentTreeProps, a
 
     onChange = (treeData: any[]) => {
         this.setState({treeData: treeData});
+    }
+
+    canDrop = (dropState: any) => {
+        let {nextParent, node} = dropState;
+        return nextParent.allowChild == node.type;
+    }
+
+    canNodeHaveChildren = (node: any) => {
+        return node.type !== 'field';
+    }
+
+    onMoveNode = (moveState: any) => {
+        console.log("Something moved", moveState);
+        let {node, nextParent} = moveState;
+        if (node.type == "field") {
+
+        }
     }
 
     getTreeData() : any[] {
@@ -49,6 +63,6 @@ export default class ComponentTree extends React.Component<ComponentTreeProps, a
         return <div style={{height:800}}><SortableTree generateNodeProps = {() => ({
             listIndex: 0,
             lowerSiblingCounts: []
-          })} treeData={this.state.treeData} theme={FileExplorerTheme} onChange={this.onChange}></SortableTree></div>
+          })} treeData={this.state.treeData} theme={FileExplorerTheme} onMoveNode={this.onMoveNode} onChange={this.onChange} canDrop={this.canDrop}></SortableTree></div>
     }
 }

@@ -7,6 +7,9 @@ export default class ComponentTree extends React.Component<ComponentTreeProps, a
     props: ComponentTreeProps;
     constructor(props: ComponentTreeProps);
     onChange: (treeData: any[]) => void;
+    canDrop: (dropState: any) => boolean;
+    canNodeHaveChildren: (node: any) => boolean;
+    onMoveNode: (moveState: any) => void;
     getTreeData(): any[];
     render(): JSX.Element;
 }
