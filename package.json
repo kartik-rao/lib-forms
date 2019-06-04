@@ -38,7 +38,6 @@
     "prop-types": "^15.7.1",
     "react-sortable-tree": "^2.6.2",
     "react-sortable-tree-theme-full-node-drag": "^1.1.0",
-    "@kartikrao/lib-logging": "^1.6.0",
     "uuid": "^3.3.2",
     "yup": "^0.26.10"
   },
