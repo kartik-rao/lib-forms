@@ -1,4 +1,4 @@
-import { Logger } from "@adinfinity/ai-lib-logging";
+import { Logger } from "@kartikrao/lib-logging";
 import 'airbnb-browser-shims';
 import { Col, Layout, Row, Card } from "antd";
 import DevTools from 'mobx-react-devtools';

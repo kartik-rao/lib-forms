@@ -3,7 +3,7 @@ import {Steps, Button,  Card, Row, Col} from "antd";
 import {IPage } from "@adinfinity/ai-core-forms";
 import EditablePageComponent from "./EditablePage";
 import {Formik} from "formik";
-import {Logger} from "@adinfinity/ai-lib-logging";
+import {Logger} from "@kartikrao/lib-logging";
 import {FieldPropertiesComponent} from "./FieldProperties";
 import { observer } from "mobx-react";
 import RootStore from "../../models/RootStore";

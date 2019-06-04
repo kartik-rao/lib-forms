@@ -1,17 +1,22 @@
-import { IPage } from "@adinfinity/ai-core-forms";
+import { IPage, IFormProps } from "@adinfinity/ai-core-forms";
 import { Button, Card, Col, Form, Row, Steps } from "antd";
 import * as React from "react";
 import { FormStateHelper } from "../helpers/FormStateHelper";
 import { PageComponent } from "./Page";
+import {FormComponentProps} from "antd/lib/form/Form";
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
-export class FormComponent extends React.Component<any, any> {
+export interface IFormComponentProps extends FormComponentProps {
+    formData: IFormProps
+}
+
+export class FormComponent extends React.Component<IFormComponentProps, any> {
     evaluators: any = {};
 
-    constructor(props: any) {
+    constructor(props: IFormComponentProps) {
         super(props);
         let {formData} = props;
         console.log("Inside Form Props", this);
@@ -108,7 +113,7 @@ export class FormComponent extends React.Component<any, any> {
             </Row>}
             <Row>
                 <Col span={24}>
-                    <Form onSubmit={this.handleSubmit} layout={this.props.layout} >
+                    <Form onSubmit={this.handleSubmit} layout={this.props.formData.layout} >
                         {
                             formData.content.pages.map((page: IPage, pn: number) => {
                                 let {currentPage} = this.state;
@@ -140,4 +145,4 @@ export class FormComponent extends React.Component<any, any> {
     }
 }
 
-export default Form.create()(FormComponent);
+export default Form.create<IFormComponentProps>()(FormComponent);
