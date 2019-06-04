@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Card, Row} from "antd";
 
-import {IColumn, ISection, FormLayoutOptions} from "@adinfinity/ai-core-forms";
+import {IColumn, ISection, IFormLayoutOptions} from "@kartikrao/lib-forms-core";
 import EditableColumnComponent from "./EditableColumn";
 import {DnDHelper} from "./DnDHelper";
 import RootStore from "../../models/RootStore";

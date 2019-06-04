@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IPage, ISection, FormLayoutOptions} from "@adinfinity/ai-core-forms";
+import {IPage, ISection, IFormLayoutOptions} from "@kartikrao/lib-forms-core";
 import {EditableSectionComponent} from "./EditableSection";
 import {Card} from "antd";
 import { DragDropContext } from 'react-dnd';

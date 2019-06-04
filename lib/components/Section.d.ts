@@ -1,11 +1,10 @@
 import * as React from "react";
-import { ISection, FormLayoutOptions } from "@adinfinity/ai-core-forms";
+import RootStore from "../models/RootStore";
 export interface SectionProps {
-    section: ISection;
-    formLayout: FormLayoutOptions;
-    decorators: any;
     eventHooks: any;
-    conditionals: any;
+    store: RootStore;
+    pageIndex: number;
+    sectionIndex: number;
 }
 export declare class SectionComponent extends React.Component<SectionProps, any> {
     state: any;

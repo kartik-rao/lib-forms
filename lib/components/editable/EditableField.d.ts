@@ -1,4 +1,4 @@
-import { IField } from "@adinfinity/ai-core-forms";
+import { IField } from "@kartikrao/lib-forms-core";
 import RootStore from "../../models/RootStore";
 export interface FieldProps {
     field: IField;

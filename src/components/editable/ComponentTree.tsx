@@ -1,7 +1,7 @@
 import * as React from "react";
 import FileExplorerTheme from 'react-sortable-tree-theme-full-node-drag';
 import SortableTree from 'react-sortable-tree';
-import { IFormProps } from "@adinfinity/ai-core-forms";
+import { IFormProps } from "@kartikrao/lib-forms-core";
 import RootStore from "../../models/RootStore";
 
 export interface ComponentTreeProps {

@@ -1,15 +1,17 @@
 import 'airbnb-browser-shims';
-import { Card, Col, Layout, Row } from "antd";
+import { Col, Layout, Row } from "antd";
 import * as React from "react";
 import { FormFactory } from "../factory/form.factory";
 import FormComponent from "./Form";
-import { IFormProps } from '@adinfinity/ai-core-forms';
+import { IFormProps } from '@kartikrao/lib-forms-core';
+import RootStore from "../models/RootStore";
 
 export { FormFactory };
 export { FormComponent };
 
 export class IFormWrapperProps {
     formJSON: any;
+    store?: RootStore;
 }
 
 export class IFormWrapperState {
@@ -20,17 +22,17 @@ export class FormWrapper extends React.Component <IFormWrapperProps, IFormWrappe
     props: IFormWrapperProps;
     constructor(props: IFormWrapperProps) {
         super(props);
-        this.state = {formProps: FormFactory.createForm(this.props.formJSON)};
+        this.props.store = new RootStore(this.props.formJSON);
     }
 
     render() {
-        const {formProps} = this.state;
+        let {formData} = this.props.store;
         return (
             <Layout style={{height:"100vh"}}>
                 <Row><br/></Row>
                 <Row justify={"space-around"}>
-                    <Col span={formProps.formLayoutOptions.wrapperSpan} offset={formProps.formLayoutOptions.wrapperOffset}>
-                        <FormComponent formData={formProps}/>
+                    <Col span={formData.formLayoutOptions.wrapperSpan} offset={formData.formLayoutOptions.wrapperOffset}>
+                        <FormComponent store={this.props.store}/>
                     </Col>
                 </Row>
             </Layout>

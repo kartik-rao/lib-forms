@@ -7,44 +7,37 @@ import RootStore from "../models/RootStore";
 import ComponentTree from "./editable/ComponentTree";
 import FormComponent from "./Form";
 import { FormFactory } from "./FormWrapper";
-import { IFormProps } from "@adinfinity/ai-core-forms";
+import { IFormProps } from "@kartikrao/lib-forms-core";
 
 const logger: Logger = Logger.getInstance(["ai-lib-forms", "EditableFormWrapper"], 5);
 const debug = window.location.href.indexOf("localhost") > -1;
 
 export class IEditableFormWrapperProps {
-    formJSON: any;
-}
-
-export class IEditableFormWrapperState {
     store: RootStore;
-    formProps: IFormProps;
 }
 
-export default class EditableFormWrapper extends React.Component <IEditableFormWrapperProps, IEditableFormWrapperState> {
+export default class EditableFormWrapper extends React.Component <IEditableFormWrapperProps, any> {
     props: IEditableFormWrapperProps;
+
     constructor(props: IEditableFormWrapperProps) {
         super(props);
-        this.state = {
-            store: new RootStore(props.formJSON),
-            formProps: FormFactory.createForm(this.props.formJSON)
-        };
+        this.props.store = props.store;
     }
 
     render() {
-        const {formProps, store} = this.state;
+        const {store} = this.state;
         console.log("Store Instance", store);
-        console.log("Form Props", formProps);
+        console.log("Form Props", store.formStore.form);
 
         return (
             <Layout style={{height:"100vh"}}>
                 <Row>{debug && <DevTools/>}</Row>
                 <Row justify="space-around">
                     <Col span={6} offset={1}>
-                        <Card title="Outline"><ComponentTree store={store} formData={formProps}></ComponentTree></Card>
+                        <Card title="Outline"><ComponentTree store={store} formData={store.formData}></ComponentTree></Card>
                     </Col>
                     <Col span={15} offset={1}>
-                        <FormComponent formData={formProps}/>
+                    <FormComponent store={this.props.store}/>
                     </Col>
                 </Row>
             </Layout>

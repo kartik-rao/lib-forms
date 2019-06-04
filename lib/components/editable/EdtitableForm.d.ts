@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Logger } from "@adinfinity/ai-lib-logging";
+import { Logger } from "@kartikrao/lib-logging";
 import RootStore from "../../models/RootStore";
 interface FormComponentProps {
     store: RootStore;

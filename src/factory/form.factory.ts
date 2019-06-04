@@ -1,16 +1,23 @@
-import {FieldFactory} from "./field.factory";
-import {valueOrDefault, FormTenant, IFormProps, FormStatus, FormContent, Column, IColumn, IField} from "@adinfinity/ai-core-forms";
-import IForm from "@adinfinity/ai-core-forms";
+import { IColumn, IFieldProps, IFormContent, IFormProps, IFormStatus, IFormTenant, IPage, valueOrDefault } from "@kartikrao/lib-forms-core";
+import Column from "@kartikrao/lib-forms-core/lib/models/column";
+import Field from "@kartikrao/lib-forms-core/lib/models/field";
+import Form from "@kartikrao/lib-forms-core/lib/models/form";
+import Page from "@kartikrao/lib-forms-core/lib/models/page";
+import Section from "@kartikrao/lib-forms-core/lib/models/section";
+import FormStore from "@kartikrao/lib-forms-core/lib/store/FormStore";
+import RootStore from "../models/RootStore";
+
+
 export class FormFactory {
-    static createForm(data: any) : IFormProps {
-        let form = <IFormProps>{};
-        form.id = data.id;
-        form.exid = data.exid;
-        form.desc = data.desc;
-        form.name = data.name;
+    static createForm(data: IFormProps, store: RootStore) : Form {
+        let _form = <IFormProps>{};
+        _form.id = data.id;
+        _form.exid = data.exid;
+        _form.desc = data.desc;
+        _form.name = data.name;
 
         let flOptions = data.formLayoutOptions || {}
-        form.formLayoutOptions = {
+        _form.formLayoutOptions = {
             wrapperSpan: valueOrDefault(flOptions.wrapperSpan, 20),
             wrapperOffset: valueOrDefault(flOptions.wrapperOffset, 2),
             showPageBorders : valueOrDefault(flOptions.showPageBorders, true),
@@ -21,16 +28,16 @@ export class FormFactory {
             validationDisablesPaging: valueOrDefault(flOptions.validationDisablesPaging, true),
         };
 
-        let tenant = <FormTenant>{};
+        let tenant = <IFormTenant>{};
         if(data.tenant) {
-            tenant.context = data.tenant.content;
-            tenant.stack = data.tenant.content;
-            tenant.eid = data.tenant.content;
-            tenant.mid = data.tenant.content;
+            tenant.context = data.tenant.context;
+            tenant.stack = data.tenant.stack;
+            tenant.eid = data.tenant.eid;
+            tenant.mid = data.tenant.mid;
         }
-        form.tenant = data.tenant;
+        _form.tenant = data.tenant;
 
-        let status = <FormStatus>{};
+        let status = <IFormStatus>{};
         if (data.status) {
             status.timezone = data.status.timezone;
             status.paused = data.status.paused;
@@ -41,8 +48,8 @@ export class FormFactory {
             status.ends = data.status.ends;
         }
 
-        form.status = status;
-        let content = <FormContent>{};
+        _form.status = status;
+        let content = <IFormContent>{};
         content.title = data.content.title;
         content.subtitle = data.content.subtitle;
         content.labels = data.content.labels;
@@ -61,23 +68,15 @@ export class FormFactory {
         content.pages = [];
 
         let pages = data.content.pages || [];
-
-        pages.forEach((p: any, pn: number) => {
-            let page = {
-                name : p.name,
-                icon : p.icon,
-                sections: [],
-                type : p.type,
-                title : p.title,
-                subtitle : p.subtitle,
-                wizard : p.wizard
-            };
+        let {formStore} = store;
+        pages.forEach((p: IPage, pn: number) => {
+            let page = new Page(p, formStore);
             p.sections.forEach((s: any, sn: number) => {
-                let section = { id: s.id, name: s.name, gutter: s.gutter, columns: [] };
+                let section = new Section(s, formStore);
                 s.columns.forEach((col: IColumn, itemno: number) => {
-                    let column: Column = new Column(col.id, col.name, col.title, []);
-                    col.fields.map((f: IField, fn: number) => {
-                        let field = FieldFactory.createField(f);
+                    let column: Column = new Column(col, formStore);
+                    col.fields.map((f: IFieldProps, fn: number) => {
+                        let field = new Field(f, formStore);
                         column.fields.push(field);
                     });
                     section.columns.push(column);
@@ -87,7 +86,9 @@ export class FormFactory {
             content.pages.push(page);
         });
 
-        form.content = content;
+        _form.content = content;
+        let form = new Form(_form, formStore);
+        formStore.setForm(form);
         return form;
     }
 }

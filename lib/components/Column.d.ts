@@ -1,12 +1,11 @@
+import Column from "@kartikrao/lib-forms-core/lib/models/column";
 import * as React from "react";
-import { IColumn, FormLayoutOptions } from "@adinfinity/ai-core-forms";
+import RootStore from "../models/RootStore";
 export interface ColumnProps {
-    column: IColumn;
-    formLayout: FormLayoutOptions;
+    column: Column;
     span: number;
-    decorators: any;
     eventHooks: any;
-    conditionals: any;
+    store: RootStore;
 }
 export declare class ColumnComponent extends React.Component<ColumnProps, any> {
     state: any;

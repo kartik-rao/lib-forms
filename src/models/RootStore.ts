@@ -1,16 +1,18 @@
 import { observable, computed, action, decorate, reaction } from "mobx";
-import { IField } from "@adinfinity/ai-core-forms";
-import {IFormProps}  from "@adinfinity/ai-core-forms";
+import Field from "@kartikrao/lib-forms-core/lib/models/field";
+import {IFormProps}  from "@kartikrao/lib-forms-core";
 import {FormStateHelper} from "../helpers/FormStateHelper";
 const { buildYup } = require("json-schema-to-yup");
 import Yup from "yup";
 import {FormFactory} from "../factory/form.factory";
-
+import FormStore from "@kartikrao/lib-forms-core/lib/store/FormStore";
+import Form from "@kartikrao/lib-forms-core/lib/models/form";
 
 import {configure, autorun} from "mobx";
 configure({enforceActions: "always"});
 
 class RootStore {
+    formStore: FormStore;
     ancestors: any;
     dependencies: any;
     conditionals: any;
@@ -20,13 +22,13 @@ class RootStore {
     fieldMeta: any;
     values: any;
     touched: any;
-    formData: IFormProps;
-    selectedField: IField;
+    formData: Form;
+    selectedField: Field;
     validationSchema: any;
     numPages: number;
     confirmDirty: boolean;
 
-    @action pushField = (field: IField, pageIndex: number, sectionIndex: number, columnIndex: number) => {
+    @action pushField = (field: Field, pageIndex: number, sectionIndex: number, columnIndex: number) => {
         console.log("Store push", pageIndex, sectionIndex, columnIndex, field);
         let fields = [].concat(this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields)
         fields.push(field);
@@ -79,12 +81,12 @@ class RootStore {
         this.touched[id] = true;
     }
 
-    @action selectField = (field: IField) => {
+    @action selectField = (field: Field) => {
         this.selectedField = field;
         return;
     }
 
-    @action updateField = (f: IField, newState: any) => {
+    @action updateField = (f: Field, newState: any) => {
         console.log("Update Field", f, newState);
         let {page, section, column, field} = this.fieldMeta.locations[f.id];
         let current = this.formData.content.pages[page].sections[section].columns[column].fields[field]
@@ -159,8 +161,9 @@ class RootStore {
         return this.values ? this.values[id] : null;
     }
 
-    @action initialize(data: any) {
-        this.formData = FormFactory.createForm(data);
+    @action initialize(data: IFormProps) {
+        this.formStore = new FormStore();
+        this.formData = FormFactory.createForm(data, this);
         let initialState = FormStateHelper.getInitialState(this.formData, {getFieldValue: this.getFieldValue});
         this.currentPage = initialState.currentPage;
         this.numPages = initialState.numPages;
@@ -179,7 +182,7 @@ class RootStore {
         console.log("STORE INITIAL STATE", initialState)
     }
 
-    constructor(data: any) {
+    constructor(data: IFormProps) {
         this.initialize(data);
     }
 }

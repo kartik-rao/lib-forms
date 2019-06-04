@@ -1,6 +1,9 @@
-import { IField } from "@adinfinity/ai-core-forms";
-import { IFormProps } from "@adinfinity/ai-core-forms";
+import Field from "@kartikrao/lib-forms-core/lib/models/field";
+import { IFormProps } from "@kartikrao/lib-forms-core";
+import FormStore from "@kartikrao/lib-forms-core/lib/store/FormStore";
+import Form from "@kartikrao/lib-forms-core/lib/models/form";
 declare class RootStore {
+    formStore: FormStore;
     ancestors: any;
     dependencies: any;
     conditionals: any;
@@ -10,25 +13,25 @@ declare class RootStore {
     fieldMeta: any;
     values: any;
     touched: any;
-    formData: IFormProps;
-    selectedField: IField;
+    formData: Form;
+    selectedField: Field;
     validationSchema: any;
     numPages: number;
     confirmDirty: boolean;
-    pushField: (field: IField, pageIndex: number, sectionIndex: number, columnIndex: number) => void;
+    pushField: (field: Field, pageIndex: number, sectionIndex: number, columnIndex: number) => void;
     removeField: (fieldIndex: number, pageIndex: number, sectionIndex: number, columnIndex: number) => void;
     moveField: (fromIndex: number, toIndex: number, pageIndex: any, sectionIndex: any, columnIndex: any) => void;
     onChange: (id: string, value: any) => void;
     onBlur: (id: string) => void;
-    selectField: (field: IField) => void;
-    updateField: (f: IField, newState: any) => void;
+    selectField: (field: Field) => void;
+    updateField: (f: Field, newState: any) => void;
     onSubmit: (values: any, actions: any) => boolean;
     validate: () => void;
     readonly errorOnThisPage: boolean;
     prev(): void;
     next(): void;
     getFieldValue: (id: string) => any;
-    initialize(data: any): void;
-    constructor(data: any);
+    initialize(data: IFormProps): void;
+    constructor(data: IFormProps);
 }
 export default RootStore;

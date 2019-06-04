@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IPage } from "@adinfinity/ai-core-forms";
+import { IPage } from "@kartikrao/lib-forms-core";
 import RootStore from "../../models/RootStore";
 export interface PageProps {
     index: number;

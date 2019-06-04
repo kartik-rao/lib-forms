@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IField, FormLayoutOptions} from "@adinfinity/ai-core-forms";
+import {IFieldProps} from "@kartikrao/lib-forms-core";
 import {Form, Input, Select, Radio, DatePicker, InputNumber, Checkbox, Rate, Slider, Button} from "antd";
 import { findDOMNode } from 'react-dom';
 import {DragSource, DropTarget} from "react-dnd";
@@ -9,7 +9,7 @@ import RootStore from "../../models/RootStore";
 import { observer } from "mobx-react";
 
 export interface FieldProps {
-    field: IField;
+    field: IFieldProps;
     eventHooks:any;
     fieldIndex: number;
     listId: any;
@@ -25,6 +25,7 @@ export interface FieldProps {
 @observer
 class EditableFieldComponent extends React.Component<FieldProps, any> {
 
+    props: FieldProps;
     constructor(props: FieldProps) {
         super(props);
         this.props = props;
@@ -44,7 +45,7 @@ class EditableFieldComponent extends React.Component<FieldProps, any> {
         const { isDragging, connectDragSource, connectDropTarget } = this.props;
         const opacity = isDragging ? 0 : 1;
 
-        let {onChange, onBlur, selectField} = eventHooks()
+        let {onChange, onBlur, selectField} = eventHooks();
         let {result} = store.conditionals[this.props.field.id];
         let {name} = field;
 
@@ -108,7 +109,7 @@ const fieldTarget = {
 		}
 
 		// Determine rectangle on screen
-		const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+		const hoverBoundingRect: any = {}//findDOMNode(component).getBoundingClientRect();
 
 		// Get vertical middle
 		const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;

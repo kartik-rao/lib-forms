@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IFormProps } from "@adinfinity/ai-core-forms";
+import { IFormProps } from "@kartikrao/lib-forms-core";
 import RootStore from "../../models/RootStore";
 export interface ComponentTreeProps {
     formData: IFormProps;

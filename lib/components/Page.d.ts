@@ -1,12 +1,11 @@
 import * as React from "react";
-import { IPage, FormLayoutOptions } from "@adinfinity/ai-core-forms";
+import { IPage } from "@kartikrao/lib-forms-core/lib/models/page";
+import RootStore from "../models/RootStore";
 export interface PageProps {
-    page: IPage;
-    formLayout: FormLayoutOptions;
     index: number;
-    decorators: any;
     eventHooks: any;
-    conditionals: any;
+    store: RootStore;
+    page: IPage;
 }
 export declare class PageComponent extends React.Component<PageProps, any> {
     state: any;

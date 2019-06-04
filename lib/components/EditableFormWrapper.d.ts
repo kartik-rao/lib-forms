@@ -1,7 +1,7 @@
 import 'airbnb-browser-shims';
 import * as React from "react";
 import RootStore from "../models/RootStore";
-import { IFormProps } from "@adinfinity/ai-core-forms";
+import { IFormProps } from "@kartikrao/lib-forms-core";
 export declare class IEditableFormWrapperProps {
     formJSON: any;
 }

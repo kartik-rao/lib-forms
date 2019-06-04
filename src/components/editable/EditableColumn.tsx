@@ -1,7 +1,9 @@
 import * as React from "react";
 import {Col} from "antd";
 
-import {IField, IColumn} from "@adinfinity/ai-core-forms";
+// import Field, {IColumn} from "@kartikrao/lib-forms-core";
+import IColumn from "@kartikrao/lib-forms-core/lib/models/column";
+import Field from "@kartikrao/lib-forms-core/lib/models/field";
 import EditableFieldComponent from "./EditableField";
 
 import {DropTarget} from "react-dnd";
@@ -48,7 +50,7 @@ class EditableColumnComponent extends React.Component<ColumnProps, any> {
         <div className="form-col">
             <Col span={span} style={{...style, backgroundColor}}>
             <span><small>Col [{column.id}] span [{span}] {column.fields.length} field(s)</small></span>
-            {fields.map((field: IField, fn:number) => {
+            {fields.map((field: Field, fn:number) => {
                 return <EditableFieldComponent
                     pageIndex={pageIndex}
                     columnIndex={columnIndex}
@@ -66,7 +68,7 @@ class EditableColumnComponent extends React.Component<ColumnProps, any> {
         </div>));
     }
 
-    pushField(field: IField) {
+    pushField(field: Field) {
         console.log("push");
         let {store, pageIndex, sectionIndex, columnIndex} = this.props
         store.pushField(field, pageIndex, sectionIndex, columnIndex);

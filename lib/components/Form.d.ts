@@ -1,7 +1,13 @@
 import * as React from "react";
-export declare class FormComponent extends React.Component<any, any> {
+import { FormComponentProps } from "antd/lib/form/Form";
+import RootStore from "../models/RootStore";
+export interface IFormComponentProps extends FormComponentProps {
+    store: RootStore;
+}
+declare class FormComponent extends React.Component<IFormComponentProps, any> {
     evaluators: any;
-    constructor(props: any);
+    props: IFormComponentProps;
+    constructor(props: IFormComponentProps);
     next(): void;
     prev(): void;
     onChange(id: string): void;
@@ -13,5 +19,5 @@ export declare class FormComponent extends React.Component<any, any> {
     };
     render(): JSX.Element;
 }
-declare const _default: import("antd/lib/form/interface").ConnectedComponentClass<typeof FormComponent, Pick<import("antd/lib/form").FormComponentProps<any>, "wrappedComponentRef">>;
+declare const _default: import("antd/lib/form/interface").ConnectedComponentClass<typeof FormComponent, Pick<IFormComponentProps, "store" | "wrappedComponentRef">>;
 export default _default;

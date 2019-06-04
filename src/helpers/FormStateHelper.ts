@@ -1,4 +1,4 @@
-import {IField} from "@adinfinity/ai-core-forms";
+import Field from "@kartikrao/lib-forms-core/lib/models/field";
 const { buildYup } = require("json-schema-to-yup");
 
 export class FormStateHelper {
@@ -9,7 +9,7 @@ export class FormStateHelper {
             confirmDirty: false,
             fieldMeta: {
                 locations: {} as any,
-                allFields: [] as IField[],
+                allFields: [] as Field[],
                 pageFields : {} as any
             },
             values: {},
@@ -50,7 +50,7 @@ export class FormStateHelper {
         return FormStateHelper.registerFieldConditions(state.fieldMeta.allFields, state, decorators);
     }
 
-    static registerValidations(validation: any, field: IField) {
+    static registerValidations(validation: any, field: Field) {
         let {fieldOptions} = field;
         if (fieldOptions && fieldOptions.type && fieldOptions.rules) {
             validation.validate = true;
@@ -66,12 +66,12 @@ export class FormStateHelper {
         }
     }
 
-    static registerFieldConditions(fields: IField[], state: any,  decorators: any) : any {
+    static registerFieldConditions(fields: Field[], state: any,  decorators: any) : any {
         state = {...state, evaluators: {}, dependencies: {}, conditionals: {}, ancestors: {}};
-        fields.forEach((f: IField) => {
+        fields.forEach((f: Field) => {
             if(f.condition) {
                 state.evaluators[`${f.id}`] = f.condition;
-                state.conditionals[`${f.id}`] = {result: f.condition.value(decorators.getFieldValue)}
+                state.conditionals[`${f.id}`] = {result: f.condition.value}
                 if (f.condition.ancestors) {
                     state.ancestors[f.id] = f.condition.ancestors;
                 }
@@ -87,9 +87,9 @@ export class FormStateHelper {
         return state;
     }
 
-    static deregisterFieldConditions(fields: IField[], state: any, evaluators: any) : any {
+    static deregisterFieldConditions(fields: Field[], state: any, evaluators: any) : any {
         let {dependencies, conditionals, ancestors} = state;
-        fields.forEach((f: IField) => {
+        fields.forEach((f: Field) => {
             if (evaluators[`${f.id}`]) {
                 delete evaluators[`${f.id}`];
                 delete conditionals[`${f.id}`];

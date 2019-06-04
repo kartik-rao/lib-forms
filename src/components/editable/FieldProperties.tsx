@@ -1,5 +1,4 @@
-import { IField } from "@adinfinity/ai-core-forms";
-import { Logger } from "@adinfinity/ai-lib-logging";
+import { Logger } from "@kartikrao/lib-logging";
 import { Card, Form, Input, Select } from "antd";
 import * as React from "react";
 
@@ -8,7 +7,7 @@ const logger: Logger = Logger.getInstance(["ai-lib-forms", "FieldProperties"], L
 export class FieldPropertiesComponent extends React.Component<any, any> {
     constructor(props:any) {
         super(props);
-        let field: IField = props.field;
+        let field = props.field;
 
         this.state = {
             fieldId : field.id,
@@ -17,7 +16,7 @@ export class FieldPropertiesComponent extends React.Component<any, any> {
             name: field.name,
             label: field.label,
             placeholder: field.placeholder,
-            hidden: field.fieldOptions.hidden,
+            hidden: field.isHidden,
             children: field.children,
             showLegend: field.showLegend,
             showLabel: field.showLabel,
@@ -29,6 +28,7 @@ export class FieldPropertiesComponent extends React.Component<any, any> {
     componentWillReceiveProps() {
         console.log("FPC will recieve props", arguments)
     }
+
     onSave() {
 
     }

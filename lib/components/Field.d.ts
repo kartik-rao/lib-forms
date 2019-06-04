@@ -1,13 +1,13 @@
 import * as React from "react";
-import { IField, FormLayoutOptions } from "@adinfinity/ai-core-forms";
+import { IFieldProps } from "@kartikrao/lib-forms-core/lib/models/field.properties";
+import RootStore from "../models/RootStore";
 export interface FieldProps {
-    field: IField;
-    formLayout: FormLayoutOptions;
-    decorators: any;
+    field: IFieldProps;
+    store: RootStore;
     eventHooks: any;
-    conditionals: any;
 }
 export declare class FieldComponent extends React.Component<FieldProps, any> {
+    props: FieldProps;
     constructor(props: FieldProps);
     render(): JSX.Element;
 }

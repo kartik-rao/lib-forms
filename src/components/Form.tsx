@@ -1,47 +1,55 @@
-import { IPage, IFormProps } from "@adinfinity/ai-core-forms";
+import { IPage, IFormProps } from "@kartikrao/lib-forms-core";
 import { Button, Card, Col, Form, Row, Steps } from "antd";
 import * as React from "react";
 import { FormStateHelper } from "../helpers/FormStateHelper";
 import { PageComponent } from "./Page";
 import {FormComponentProps} from "antd/lib/form/Form";
+import Page from "@kartikrao/lib-forms-core/lib/models/page";
+import RootStore from "../models/RootStore";
+import { observer } from "mobx-react";
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
 export interface IFormComponentProps extends FormComponentProps {
-    formData: IFormProps
+    store: RootStore;
 }
 
-export class FormComponent extends React.Component<IFormComponentProps, any> {
+@observer
+class FormComponent extends React.Component<IFormComponentProps, any> {
     evaluators: any = {};
+    props: IFormComponentProps;
 
     constructor(props: IFormComponentProps) {
         super(props);
-        let {formData} = props;
-        console.log("Inside Form Props", this);
-        this.state = FormStateHelper.getInitialState(formData, this.props.form);
+        this.props.store = props.store;
+        console.log("Inside Form Props", this.props);
     }
 
     next() {
         console.log("nextPage");
-        let self = this;
-        const currentPage = this.state.currentPage;
-        if (!this.props.formData.formLayoutOptions.validationDisablesPaging) {
-            this.setState({ currentPage: currentPage + 1 });
-            return;
-        }
-        this.props.form.validateFields(this.state.fieldMeta.pageFields[currentPage].names, (err: any) => {
-            if(!err) {
-                self.setState({ currentPage: currentPage + 1 });
-            }
-        });
+        let {store} = this.props;
+        store.formStore.nextPage();
+        // const currentPage = this.state.currentPage;
+        // if (!this.props.formData.formLayoutOptions.validationDisablesPaging) {
+        //     this.setState({ currentPage: currentPage + 1 });
+        //     return;
+        // }
+        // this.props.form.validateFields(this.state.fieldMeta.pageFields[currentPage].names, (err: any) => {
+        //     if(!err) {
+        //         self.setState({ currentPage: currentPage + 1 });
+        //     }
+        // });
     }
 
     prev() {
         console.log("prevPage");
-        const currentPage = this.state.currentPage - 1;
-        this.setState({ currentPage });
+        // const currentPage = this.state.currentPage - 1;
+        // this.setState({ currentPage });
+
+        let {store} = this.props;
+        store.formStore.nextPage();
     }
 
     onChange(id: string) {
@@ -95,16 +103,19 @@ export class FormComponent extends React.Component<IFormComponentProps, any> {
     }
 
     render() {
-        let {formData} = this.props;
+        let {store} = this.props;
+        let {formStore} = this.props.store;
+        let {form} = formStore;
+
         return (<div className="form-wrapper">
-            {formData.content.title &&
-                <Card><h2>{formData.content.title}</h2><br/><h3>{formData.content.subtitle}</h3></Card>
+            {form.content.title &&
+                <Card><h2>{form.content.title}</h2><br/><h3>{form.content.subtitle}</h3></Card>
             }
-            {formData.formLayoutOptions.showSteps && <Row>
+            {form.formLayoutOptions.showSteps && <Row>
                 <Col span={24}>
                     <Card>
                         <Steps size="small" current={this.state.currentPage}>
-                            {formData.content.pages.map((page: IPage, pn: number) => {
+                            {form.content.pages.map((page: IPage, pn: number) => {
                                 return <Steps.Step title={page.title} key={pn}/>
                             })}
                         </Steps>
@@ -113,13 +124,12 @@ export class FormComponent extends React.Component<IFormComponentProps, any> {
             </Row>}
             <Row>
                 <Col span={24}>
-                    <Form onSubmit={this.handleSubmit} layout={this.props.formData.layout} >
+                    <Form onSubmit={this.handleSubmit} layout={form.layout} >
                         {
-                            formData.content.pages.map((page: IPage, pn: number) => {
+                            form.content.pages.map((page: Page, pn: number) => {
                                 let {currentPage} = this.state;
-                                let {formLayoutOptions} = this.props.formData;
                                 return <div className="page-wrapper" key={pn} style={{'visibility': currentPage == pn ? 'visible': 'hidden', display: currentPage == pn ? 'block': 'none'}}>
-                                    <PageComponent page={page} conditionals={this.state.conditionals} index={pn} formLayout={formLayoutOptions} decorators={this.props.form} eventHooks={this.eventHooks}></PageComponent>
+                                    <PageComponent page={page} store={store} index={pn} eventHooks={this.eventHooks}></PageComponent>
                                 </div>
                             })
                         }

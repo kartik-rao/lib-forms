@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Steps, Button,  Card, Row, Col} from "antd";
-import {IPage } from "@adinfinity/ai-core-forms";
+import {IPage } from "@kartikrao/lib-forms-core";
 import EditablePageComponent from "./EditablePage";
 import {Formik} from "formik";
 import {Logger} from "@kartikrao/lib-logging";

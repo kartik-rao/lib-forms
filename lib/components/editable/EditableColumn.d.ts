@@ -1,4 +1,4 @@
-import { IColumn } from "@adinfinity/ai-core-forms";
+import IColumn from "@kartikrao/lib-forms-core/lib/models/column";
 import RootStore from "../../models/RootStore";
 export interface ColumnProps {
     column: IColumn;
@@ -12,5 +12,5 @@ export interface ColumnProps {
     sectionIndex: number;
     columnIndex: number;
 }
-declare const _default: import("react-dnd").DndComponentClass<any>;
+declare const _default: any;
 export default _default;
