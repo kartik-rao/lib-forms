@@ -27,7 +27,7 @@
     "mobx-react": "^6.0.2",
     "mobx-react-devtools": "^6.1.1",
     "moment": "^2.24.0",
-    "@kartikrao/lib-forms-core": "^3.5.0",
+    "@kartikrao/lib-forms-core": "^3.7.0",
     "@kartikrao/lib-logging": "^1.6.1"
   },
   "dependencies": {
@@ -43,7 +43,7 @@
     "yup": "^0.26.10"
   },
   "devDependencies": {
-    "@kartikrao/lib-forms-core": "^3.5.0",
+    "@kartikrao/lib-forms-core": "^3.7.0",
     "@kartikrao/lib-logging": "^1.6.0",
     "@types/enzyme": "^3.1.9",
     "@types/enzyme-adapter-react-16": "^1.0.2",

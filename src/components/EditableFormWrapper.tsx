@@ -6,10 +6,7 @@ import * as React from "react";
 import RootStore from "../models/RootStore";
 import ComponentTree from "./editable/ComponentTree";
 import FormComponent from "./Form";
-import { FormFactory } from "./FormWrapper";
-import { IFormProps } from "@kartikrao/lib-forms-core";
 
-const logger: Logger = Logger.getInstance(["ai-lib-forms", "EditableFormWrapper"], 5);
 const debug = window.location.href.indexOf("localhost") > -1;
 
 export class IEditableFormWrapperProps {

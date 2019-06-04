@@ -1,12 +1,7 @@
-import { IColumn, IFieldProps, IFormContent, IFormProps, IFormStatus, IFormTenant, IPage, valueOrDefault } from "@kartikrao/lib-forms-core";
-import Column from "@kartikrao/lib-forms-core/lib/models/column";
-import Field from "@kartikrao/lib-forms-core/lib/models/field";
+import { IFormContent, IFormProps, IFormStatus, IFormTenant, valueOrDefault } from "@kartikrao/lib-forms-core";
+import { Factory } from "@kartikrao/lib-forms-core/lib/models/factory";
 import Form from "@kartikrao/lib-forms-core/lib/models/form";
-import Page from "@kartikrao/lib-forms-core/lib/models/page";
-import Section from "@kartikrao/lib-forms-core/lib/models/section";
-import FormStore from "@kartikrao/lib-forms-core/lib/store/FormStore";
 import RootStore from "../models/RootStore";
-
 
 export class FormFactory {
     static createForm(data: IFormProps, store: RootStore) : Form {
@@ -65,30 +60,10 @@ export class FormFactory {
         content.footer = data.content.footer;
         content.trackingPixels = data.content.trackingPixels;
 
-        content.pages = [];
-
-        let pages = data.content.pages || [];
-        let {formStore} = store;
-        pages.forEach((p: IPage, pn: number) => {
-            let page = new Page(p, formStore);
-            p.sections.forEach((s: any, sn: number) => {
-                let section = new Section(s, formStore);
-                s.columns.forEach((col: IColumn, itemno: number) => {
-                    let column: Column = new Column(col, formStore);
-                    col.fields.map((f: IFieldProps, fn: number) => {
-                        let field = new Field(f, formStore);
-                        column.fields.push(field);
-                    });
-                    section.columns.push(column);
-                });
-                page.sections.push(section);
-            });
-            content.pages.push(page);
-        });
-
+        content.pages = data.content.pages || [];
         _form.content = content;
-        let form = new Form(_form, formStore);
-        formStore.setForm(form);
-        return form;
+
+        const factory = new Factory(store.formStore);
+        return factory.makeForm(_form);
     }
 }

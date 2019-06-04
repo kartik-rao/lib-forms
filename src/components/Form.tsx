@@ -23,7 +23,6 @@ class FormComponent extends React.Component<IFormComponentProps, any> {
 
     constructor(props: IFormComponentProps) {
         super(props);
-        this.props.store = props.store;
         console.log("Inside Form Props", this.props);
     }
 
@@ -31,12 +30,12 @@ class FormComponent extends React.Component<IFormComponentProps, any> {
         console.log("nextPage");
         let {store} = this.props;
         store.formStore.nextPage();
-        // const currentPage = this.state.currentPage;
+        // const currentPage = currentPage;
         // if (!this.props.formData.formLayoutOptions.validationDisablesPaging) {
         //     this.setState({ currentPage: currentPage + 1 });
         //     return;
         // }
-        // this.props.form.validateFields(this.state.fieldMeta.pageFields[currentPage].names, (err: any) => {
+        // this.props.form.validateFields(fieldMeta.pageFields[currentPage].names, (err: any) => {
         //     if(!err) {
         //         self.setState({ currentPage: currentPage + 1 });
         //     }
@@ -45,7 +44,7 @@ class FormComponent extends React.Component<IFormComponentProps, any> {
 
     prev() {
         console.log("prevPage");
-        // const currentPage = this.state.currentPage - 1;
+        // const currentPage = currentPage - 1;
         // this.setState({ currentPage });
 
         let {store} = this.props;
@@ -69,7 +68,6 @@ class FormComponent extends React.Component<IFormComponentProps, any> {
     handleConfirmBlur = (e) => {
         console.log("handleConfirmBlur");
         const value = e.target.value;
-        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
 
     handleSubmit = (e : React.FormEvent<any>) => {
@@ -107,6 +105,8 @@ class FormComponent extends React.Component<IFormComponentProps, any> {
         let {formStore} = this.props.store;
         let {form} = formStore;
 
+        let {currentPage, numPages} = formStore;
+
         return (<div className="form-wrapper">
             {form.content.title &&
                 <Card><h2>{form.content.title}</h2><br/><h3>{form.content.subtitle}</h3></Card>
@@ -114,7 +114,7 @@ class FormComponent extends React.Component<IFormComponentProps, any> {
             {form.formLayoutOptions.showSteps && <Row>
                 <Col span={24}>
                     <Card>
-                        <Steps size="small" current={this.state.currentPage}>
+                        <Steps size="small" current={currentPage}>
                             {form.content.pages.map((page: IPage, pn: number) => {
                                 return <Steps.Step title={page.title} key={pn}/>
                             })}
@@ -127,7 +127,6 @@ class FormComponent extends React.Component<IFormComponentProps, any> {
                     <Form onSubmit={this.handleSubmit} layout={form.layout} >
                         {
                             form.content.pages.map((page: Page, pn: number) => {
-                                let {currentPage} = this.state;
                                 return <div className="page-wrapper" key={pn} style={{'visibility': currentPage == pn ? 'visible': 'hidden', display: currentPage == pn ? 'block': 'none'}}>
                                     <PageComponent page={page} store={store} index={pn} eventHooks={this.eventHooks}></PageComponent>
                                 </div>
@@ -139,8 +138,8 @@ class FormComponent extends React.Component<IFormComponentProps, any> {
                                     <Col span={24} style={{ textAlign: 'right' }}>
                                         { <Form.Item>
                                             <Button disabled={hasErrors(this.props.form.getFieldsError())} type="primary" style={{ marginLeft: 8 }} htmlType="submit" className="action-button">Submit</Button>
-                                            { this.state.currentPage < this.state.numPages -1 && <Button type="primary"  style={{ marginLeft: 8 }} className="action-button" onClick={() => this.next()}>Next</Button> }
-                                            { this.state.currentPage > 0 && this.state.numPages > 1 && <Button type="primary" className="action-button" onClick={() => this.prev()}>Prev</Button> }
+                                            { currentPage < numPages -1 && <Button type="primary"  style={{ marginLeft: 8 }} className="action-button" onClick={() => this.next()}>Next</Button> }
+                                            { currentPage > 0 && numPages > 1 && <Button type="primary" className="action-button" onClick={() => this.prev()}>Prev</Button> }
                                         </Form.Item> }
                                     </Col>
                                 </Row>

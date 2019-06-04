@@ -1,5 +1,6 @@
 var path = require('path');
 const tsImportPluginFactory = require('ts-import-plugin');
+const tsImportPlugin = tsImportPluginFactory({ style: 'css', libraryDirectory: 'es' })
 
 const env = process.env.NODE_ENV || 'development';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -15,19 +16,19 @@ module.exports = {
         rules: [
             {
                 test: /\.(jsx|tsx|js|ts)$/,
-                use: { loader: 'awesome-typescript-loader',
+                use: {
+                    loader: 'awesome-typescript-loader',
                     options : {
                         useCache: true,
                         reportFiles: [
                             'src/**/*.{ts,tsx}'
                         ],
                         getCustomTransformers: () => ({
-                            before: [ tsImportPluginFactory( {
-                                libraryName: 'antd',
-                                libraryDirectory: 'node_modules',
-                                style: true
-                              }) ]
-                        })
+                            before: [ tsImportPlugin ]
+                        }),
+                        compilerOptions: {
+                            module: 'esnext'
+                        }
                     }
                 },
                 exclude: /node_modules/
