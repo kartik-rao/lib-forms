@@ -39,7 +39,7 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     allChunks: true, fallback: "style-loader", use: "css-loader"
                   }),
-                include: /src\/app.css|node_modules\/antd\/|node_modules\/react-sortable-tree\/style.css/
+                include: /src\/app.css|node_modules\/antd\//
             }
         ],
     },

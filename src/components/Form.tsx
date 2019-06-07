@@ -1,12 +1,11 @@
-import { IPage, IFormProps } from "@kartikrao/lib-forms-core";
-import { Button, Card, Col, Form, Row, Steps } from "antd";
-import * as React from "react";
-import { FormStateHelper } from "../helpers/FormStateHelper";
-import { PageComponent } from "./Page";
-import {FormComponentProps} from "antd/lib/form/Form";
+import { IPage } from "@kartikrao/lib-forms-core";
 import Page from "@kartikrao/lib-forms-core/lib/models/page";
-import RootStore from "../models/RootStore";
+import { Button, Card, Col, Form, Row, Steps } from "antd";
+import { FormComponentProps } from "antd/lib/form/Form";
 import { observer } from "mobx-react";
+import * as React from "react";
+import RootStore from "../models/RootStore";
+import { PageComponent } from "./Page";
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -30,23 +29,10 @@ class FormComponent extends React.Component<IFormComponentProps, any> {
         console.log("nextPage");
         let {store} = this.props;
         store.formStore.nextPage();
-        // const currentPage = currentPage;
-        // if (!this.props.formData.formLayoutOptions.validationDisablesPaging) {
-        //     this.setState({ currentPage: currentPage + 1 });
-        //     return;
-        // }
-        // this.props.form.validateFields(fieldMeta.pageFields[currentPage].names, (err: any) => {
-        //     if(!err) {
-        //         self.setState({ currentPage: currentPage + 1 });
-        //     }
-        // });
     }
 
     prev() {
         console.log("prevPage");
-        // const currentPage = currentPage - 1;
-        // this.setState({ currentPage });
-
         let {store} = this.props;
         store.formStore.nextPage();
     }

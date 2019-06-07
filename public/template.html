@@ -30,11 +30,11 @@
                         sections: [
                             {
                                 gutter: 16,
-                                name: "Section 1",
+                                name: "P1S1",
                                 columns: [{
                                     id: 1,
-                                    name: 's1c1',
-                                    title: 'Section 1 - Column 1',
+                                    name: 'p1s1c1',
+                                    title: 'P1S1C1',
                                     fields: [
                                         {
                                             id: "f1", name: "f1", type: "text", inputType: "input", label: "f1 - Text Label",
@@ -79,7 +79,7 @@
                                 },{
                                     id: 2,
                                     name: 's1c2',
-                                    title: 'Section 1 - Column 2',
+                                    title: 'P1S1C2',
                                     fields: [{
                                         id: "f2", name: "f2", inputType: "select", label: "f2 - select",
                                             componentProps: {
@@ -128,12 +128,12 @@
                         title: 'Page 2',
                         sections: [
                             {
-                                name: "A Section",
+                                name: "P2S1",
                                 columns: [
                                     {
                                         id: 3,
-                                        name: 'p2s1c1',
-                                        title: 'Section 2 - Column 1',
+                                        name: 'P2S1C1',
+                                        title: 'P2S1C1',
                                         fields: [{
                                             id: "f5", name: "f5", inputType: "textblock", label: "f5 - Text Label",
                                             value: "Lorem ipsum text"
@@ -156,12 +156,12 @@
                         title: 'Page 3',
                         sections: [
                             {
-                                name: "A Section",
+                                name: "P3S1",
                                 columns: [
                                     {
                                         id: 4,
-                                        name: 's1c1',
-                                        title: 'Section 1 - Column 1',
+                                        name: 'P3S1C1',
+                                        title: 'P3S1C1',
                                         fields: [{
                                             id: "f6", name: "f6", type: "text", inputType: "input", label: "f6 - text label",
                                             validation: {
@@ -186,7 +186,8 @@
                 showSectionBorders : false,
                 showPageBorders: false,
                 validationDisablesPaging: true,
-                wrapperOffset: 2
+                wrapperOffset: 2,
+                wrapperSpan: 24
             }
         });
     </script>

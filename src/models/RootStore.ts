@@ -50,7 +50,6 @@ class RootStore {
     }
 
     @action moveField = (fromIndex: number, toIndex: number, pageIndex, sectionIndex, columnIndex) => {
-
         let fields = [].concat(this.formData.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields)
         let field = fields.splice(fromIndex, 1)[0]
         console.log("Store move", pageIndex, sectionIndex, columnIndex, fromIndex, "=>", toIndex, field);

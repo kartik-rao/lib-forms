@@ -1,17 +1,14 @@
+import FormStore from "@kartikrao/lib-forms-core/lib/store/FormStore";
 import * as React from "react";
-import { IFormProps } from "@kartikrao/lib-forms-core";
-import RootStore from "../../models/RootStore";
+import { DropResult } from "react-beautiful-dnd";
 export interface ComponentTreeProps {
-    formData: IFormProps;
-    store: RootStore;
+    store: FormStore;
 }
-export default class ComponentTree extends React.Component<ComponentTreeProps, any> {
+export declare class ComponentTree extends React.Component<ComponentTreeProps, any> {
+    nodeMap: any;
     props: ComponentTreeProps;
     constructor(props: ComponentTreeProps);
-    onChange: (treeData: any[]) => void;
-    canDrop: (dropState: any) => boolean;
-    canNodeHaveChildren: (node: any) => boolean;
-    onMoveNode: (moveState: any) => void;
-    getTreeData(): any[];
+    readonly itemMap: any;
+    onDragEnd: (result: DropResult) => void;
     render(): JSX.Element;
 }
