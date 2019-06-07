@@ -3,7 +3,7 @@ import Field from "@kartikrao/lib-forms-core/lib/models/field";
 import Page from "@kartikrao/lib-forms-core/lib/models/page";
 import Section from "@kartikrao/lib-forms-core/lib/models/section";
 import FormStore from "@kartikrao/lib-forms-core/lib/store/FormStore";
-import { Card, Icon } from "antd";
+import { Card, Icon, Divider } from "antd";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
@@ -18,7 +18,7 @@ const ItemList = styled.div`
 `;
 
 const Container = styled.div`
-    padding: 6px;
+    padding: 4px;
     background-color: white;
 `;
 
@@ -123,6 +123,7 @@ class PageItem extends React.Component<any, any> {
                         }}
                     </Droppable>
                 {provided.placeholder}
+                <Divider/>
               </Container>
             )}
           </Draggable>
@@ -145,9 +146,9 @@ export class ComponentTree extends React.Component<ComponentTreeProps, any> {
         let { form } = this.props.store;
         let { pages } = form.content;
 
-        return <div>
-            <Card title="Form Scaffold">
-            <Droppable droppableId="pages" type="Page">
+        return <div style={{ height:'100vh', backgroundColor: "white" }}>
+            <Card title="Scaffold" bordered={false} bodyStyle={{padding: '5px', fontSize: "12px"}}>
+                <Droppable droppableId="pages" type="Page">
                 {(provided, snapshot) => {
                     return <div><ItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
                         {pages.map((page: Page, index) => {

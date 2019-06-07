@@ -3,7 +3,7 @@ import Page from "@kartikrao/lib-forms-core/lib/models/page";
 import Section from "@kartikrao/lib-forms-core/lib/models/section";
 import { FormView } from "@kartikrao/lib-forms-core/lib/views/FormView";
 import {Factory} from "@kartikrao/lib-forms-core/lib/models/factory"
-import { Card, Col, Layout, Row } from 'antd';
+import { Card, Col, Layout, Row, Affix, PageHeader } from 'antd';
 import { computed } from "mobx";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
@@ -154,21 +154,23 @@ export class Canvas extends React.Component<CanvasProps, any>{
         this.setState({ collapsed });
     };
 
+    contentContainer: any;
     render() {
         let { formStore } = this.props.store;
         return <Layout style={{ height: "100vh" }}>
             <DragDropContext onDragEnd={this.onDragEnd}>
                 <Sider theme="light" collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+                    <div className="logo" />
                     <ComponentMenu />
                 </Sider>
-            <Layout>
+                <Layout style={{height: "100vh", overflow: "hidden"}}>
                 <Content>
-                    <Row>
-                        <Col span={5}>
-                            <ComponentTree store={formStore} />
+                    <Row gutter={0}>
+                        <Col span={6} style={{overflowY: "scroll", height: "100vh"}}>
+                            <ComponentTree store={formStore}/>
                         </Col>
-                        <Col span={18}>
-                            <Card title="Preview">
+                        <Col span={18} style={{overflowY: "scroll", height: "100vh"}}>
+                            <Card title="Preview" bordered={false} bodyStyle={{ fontSize: "12px"}}>
                                 <FormView store={formStore} />
                             </Card>
                         </Col>
@@ -179,3 +181,4 @@ export class Canvas extends React.Component<CanvasProps, any>{
     </Layout>
     }
 }
+//box-shadow: 0 2px 8px #f0f1f2

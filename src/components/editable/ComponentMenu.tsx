@@ -8,11 +8,12 @@ const Container = styled.div`
     background-color: white;
 `;
 const Item = styled.div`
-    padding: 4px;
+
 `;
 export class ComponentMenu extends React.Component<any, any> {
     render() {
-        return <div>
+        return <div style={{ borderRight: '1px solid grey', paddingTop: "35px;" }}>
+        <div style={{marginBottom: '2px'}}>
         <Droppable droppableId="NewPage" type="Page" isDropDisabled={true}>
             {(provided, snapshot) => (
                 <Item isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
@@ -21,7 +22,7 @@ export class ComponentMenu extends React.Component<any, any> {
                         <Draggable type="Page" draggableId="p1" index={0}>
                             {(provided) => (
                                 <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                    <Icon type="layout" />
+                                    <Icon type="layout"/>
                                     {provided.placeholder}
                                 </Container>
                              )}
@@ -31,6 +32,7 @@ export class ComponentMenu extends React.Component<any, any> {
                 </Item>
             )}
         </Droppable>
+        </div>
         <Droppable droppableId="NewSection" type="Section" isDropDisabled={true}>
             {(provided, snapshot) => (
                 <Item isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
@@ -67,7 +69,7 @@ export class ComponentMenu extends React.Component<any, any> {
                 </Item>
             )}
         </Droppable>
-        <Divider/>
+
         </div>
     }
 }

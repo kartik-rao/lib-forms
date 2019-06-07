@@ -16,5 +16,6 @@ export declare class Canvas extends React.Component<CanvasProps, any> {
         collapsed: boolean;
     };
     onCollapse: (collapsed: any) => void;
+    contentContainer: any;
     render(): JSX.Element;
 }
