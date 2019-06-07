@@ -1,10 +1,10 @@
-import { Icon, Menu } from 'antd';
+import { Icon, Menu, Divider } from 'antd';
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import styled from 'styled-components';
 
 const Container = styled.div`
-    padding: 6px;
+    padding: 4px;
     background-color: white;
 `;
 const Item = styled.div`
@@ -67,6 +67,7 @@ export class ComponentMenu extends React.Component<any, any> {
                 </Item>
             )}
         </Droppable>
+        <Divider/>
         </div>
     }
 }

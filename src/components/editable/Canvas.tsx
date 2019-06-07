@@ -2,6 +2,7 @@ import Column from "@kartikrao/lib-forms-core/lib/models/column";
 import Page from "@kartikrao/lib-forms-core/lib/models/page";
 import Section from "@kartikrao/lib-forms-core/lib/models/section";
 import { FormView } from "@kartikrao/lib-forms-core/lib/views/FormView";
+import {Factory} from "@kartikrao/lib-forms-core/lib/models/factory"
 import { Card, Col, Layout, Row } from 'antd';
 import { computed } from "mobx";
 import * as React from "react";
@@ -16,6 +17,12 @@ export interface CanvasProps {
 }
 
 export class Canvas extends React.Component<CanvasProps, any>{
+    factory: Factory;
+    constructor(props: CanvasProps) {
+        super(props);
+        this.factory = new Factory(this.props.store.formStore);
+    }
+
     @computed get itemMap(): any {
         let { form } = this.props.store.formStore;
         let { pages } = form.content;
@@ -35,16 +42,58 @@ export class Canvas extends React.Component<CanvasProps, any>{
         return itemMap;
     }
 
-    onDragEnd = (result : DropResult) => {
-        let { source, destination, type } = result;
-        let { form } = this.props.store.formStore;
-        let sIndex = source.index;
-        let dIndex = destination.index;
-        console.log(`onDragEnd - ${type}`, result);
-        if (source.droppableId.startsWith('New')) {
-            console.log(result);
-            return;
+    handleNewItem = (result: DropResult) => {
+        const { destination, type } = result;
+        const { form } = this.props.store.formStore;
+        const dIndex = destination.index;
+        if (type == "Page") {
+            let page = this.factory.makePages({
+                id: `page-${form.content.pages.length}`,
+                title: "Untitled Page",
+                name: "Untitled Page",
+                sections: []
+            })[0];
+            form.addPage(page, dIndex);
+        } else {
+            let [dParentId] = destination.droppableId.split('|');
+            if (type == "Section") {
+                let page = this.itemMap[dParentId] as Page;
+                let section = this.factory.makeSections({
+                    id: `section-${page.sections.length}`,
+                    name: `Untitled Section`,
+                    columns: []
+                })[0];
+                page.addSection(section, dIndex);
+            }
+            if (type == "Column") {
+                let section = this.itemMap[dParentId] as Section;
+                let column = this.factory.makeColumns({
+                    id: `column-${section.columns.length}`,
+                    name: 'Untitled Column',
+                    fields: []
+                })[0];
+                section.addColumn(column, dIndex)
+            }
+            if (type == "Field") {
+                let column = this.itemMap[dParentId] as Column;
+                let field = this.factory.makeFields({
+                    id: `field-${column.fields.length}`,
+                    name: "Untitled Field",
+                    inputType: result.draggableId,
+                    componentProps: {},
+                    fieldOptions: {}
+                })[0];
+                column.addField(field, dIndex);
+            }
         }
+        return;
+    }
+
+    handleMoveItem = (result: DropResult) => {
+        const { source, destination, type } = result;
+        const { form } = this.props.store.formStore;
+        const sIndex = source.index;
+        const dIndex = destination.index;
         if (type == "Page") {
             form.swapPages(source.index, destination.index);
         } else {
@@ -83,6 +132,16 @@ export class Canvas extends React.Component<CanvasProps, any>{
                 prev.removeField(sIndex);
                 next.addField(column, dIndex);
             }
+        }
+    }
+
+    onDragEnd = (result : DropResult) => {
+        const { source, type } = result;
+        console.log(`onDragEnd - ${type}`, result);
+        if (source.droppableId.startsWith('New')) {
+            this.handleNewItem(result);
+        } else {
+            this.handleMoveItem(result);
         }
     }
 
