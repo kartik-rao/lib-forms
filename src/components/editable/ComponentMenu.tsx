@@ -12,7 +12,7 @@ const Item = styled.div`
 `;
 export class ComponentMenu extends React.Component<any, any> {
     render() {
-        return <div style={{ borderRight: '1px solid grey', paddingTop: "35px;" }}>
+        return <div style={{ borderRight: '1px solid grey' }}>
         <div style={{marginBottom: '2px'}}>
         <Droppable droppableId="NewPage" type="Page" isDropDisabled={true}>
             {(provided, snapshot) => (
