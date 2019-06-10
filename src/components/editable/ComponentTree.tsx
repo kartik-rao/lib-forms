@@ -23,11 +23,11 @@ const Container = styled.div`
     background-color: white;
 `;
 
-const getItemStyle = (isDragging, draggableStyle) => ({
+const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
     // change background colour if dragging
-    background: isDragging ? '#ededed' : '#fff',
+    fontWeight: isDragging ? 'bold' : 'normal',
     // styles we need to apply on draggables
     ...draggableStyle
 })
@@ -38,9 +38,9 @@ class FieldItem extends React.Component<any, any> {
         return <Draggable type="Field" draggableId={fld.uuid} index={this.props.index}>
             {(provided, snapshot) => (
             <div>
-                <Container ref={provided.innerRef} {...provided.draggableProps}
+                <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
                         style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                    <span {...provided.dragHandleProps}><Tag color="green">Field</Tag>{fld.label}</span>
+                    <Tag color="green">Field - {fld.label}</Tag>
                 </Container>
                 {provided.placeholder}
             </div>
@@ -54,8 +54,9 @@ class ColumnItem extends React.Component<any, any> {
         let col: Column = this.props.col;
         return <Draggable type="Column" draggableId={col.uuid} index={this.props.index}>
         {(provided, snapshot) => (
-          <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-            <span><Tag>Column</Tag>{col.name}</span>
+          <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
+            style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+            <Tag>Column - {col.name}</Tag>
                 <Droppable droppableId={`${col.uuid}|fields`} type="Field">
                     {(provided, snapshot) => {
                         return <div>
@@ -79,8 +80,9 @@ class SectionItem extends React.Component<any, any> {
         let sec: Section = this.props.sec;
         return <Draggable type="Section" draggableId={sec.uuid} index={this.props.index}>
         {(provided, snapshot) => (
-          <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-            <span><Tag color="blue">Section</Tag>{sec.name}</span>
+          <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
+          style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+            <Tag color="blue">Section - {sec.name}</Tag>
                 <Droppable droppableId={`${sec.uuid}|columns`} type="Column">
                 {(provided, snapshot) => {
                     return <div>
@@ -112,10 +114,9 @@ class PageItem extends React.Component<any, any> {
         return (
             <Draggable type="Page" draggableId={page.uuid} index={this.props.index}>
             {(provided, snapshot) => (
-                <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                    <span>
-                        <Tag color="magenta">Page</Tag>{page.title}
-                    </span>
+                <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
+                style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                    <Tag color="magenta">Page - {page.title}</Tag>
                     <Droppable droppableId={`${page.uuid}|sections`} type="Section">
                         {(provided, snapshot) => {
                             return <div>
