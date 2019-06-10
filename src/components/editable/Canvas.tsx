@@ -3,14 +3,15 @@ import Page from "@kartikrao/lib-forms-core/lib/models/page";
 import Section from "@kartikrao/lib-forms-core/lib/models/section";
 import { FormView } from "@kartikrao/lib-forms-core/lib/views/FormView";
 import {Factory} from "@kartikrao/lib-forms-core/lib/models/factory"
-import { Card, Col, Layout, Row, Affix, PageHeader } from 'antd';
+import { Card, Col, Layout, Row, Menu, Icon } from 'antd';
 import { computed } from "mobx";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import RootStore from "../../models/RootStore";
 import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
-const { Sider, Content } = Layout;
+
+const { Content } = Layout;
 
 export interface CanvasProps {
     store: RootStore;
@@ -79,6 +80,7 @@ export class Canvas extends React.Component<CanvasProps, any>{
                 let field = this.factory.makeFields({
                     id: `field-${column.fields.length}`,
                     name: "Untitled Field",
+                    label: `Untitled ${result.draggableId}`,
                     inputType: result.draggableId,
                     componentProps: {},
                     fieldOptions: {}
@@ -146,38 +148,52 @@ export class Canvas extends React.Component<CanvasProps, any>{
     }
 
     state = {
-        collapsed: true,
+        siderCollapsed: true,  drawerPlacement: 'left'
     };
 
-    onCollapse = collapsed => {
-        console.log(collapsed);
-        this.setState({ collapsed });
+    onSiderCollapse = (siderCollapsed) => {
+        this.setState({ siderCollapsed });
     };
+
+    toggleSider = () => {
+        this.setState({siderCollapsed: !this.state.siderCollapsed});
+    }
 
     contentContainer: any;
     render() {
         let { formStore } = this.props.store;
-        return <Layout style={{ height: "100vh" }}>
+        return <Layout style={{ height: "100vh", overflow:"hidden" }}>
+            <Menu mode="horizontal" theme="light" multiple={true}>
+                <Menu.Item title="Form Controls" onClick={this.toggleSider} key="controls">
+                    <Icon theme={this.state.siderCollapsed ? 'outlined' : 'filled'} type="control" /> Show Controls
+                </Menu.Item>
+            </Menu>
+            <Layout.Content>
             <DragDropContext onDragEnd={this.onDragEnd}>
-                <Sider theme="light" collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-                    <div className="logo" />
-                    <ComponentMenu />
-                </Sider>
-                <Layout style={{height: "100vh", overflow: "hidden"}}>
-                <Content>
-                    <Row gutter={0}>
-                        <Col span={6} style={{overflowY: "scroll", height: "100vh"}}>
-                            <ComponentTree store={formStore}/>
-                        </Col>
-                        <Col span={18} style={{overflowY: "scroll", height: "100vh"}}>
-                            <Card title="Preview" bordered={false} bodyStyle={{ fontSize: "12px"}}>
-                                <FormView store={formStore} />
-                            </Card>
-                        </Col>
-                    </Row>
-                </Content>
-            </Layout>
+                <Layout style={{ height: "100vh"}}>
+                    <div style={{borderRight: '1px solid lightgray', display: this.state.siderCollapsed ? 'none' : 'block'}}>
+                        <Layout.Sider trigger={null} collapsed={this.state.siderCollapsed}
+                        collapsible={true} onCollapse={this.onSiderCollapse} theme={"light"}>
+                            <div style={{ display: this.state.siderCollapsed ? 'none' : 'block', backgroundColor: 'white', height: '100%' }}>
+                                <ComponentMenu />
+                            </div>
+                        </Layout.Sider>
+                    </div>
+                    <Content>
+                        <Row gutter={0}>
+                            <Col span={7} style={{overflowY: "scroll", height:"100vh"}}>
+                                <ComponentTree store={formStore}/>
+                            </Col>
+                            <Col span={17}>
+                                <div style={{overflowY: "scroll", height: "100vh"}}>
+                                    <FormView store={formStore} />
+                                </div>
+                            </Col>
+                        </Row>
+                    </Content>
+                </Layout>
         </DragDropContext>
+        </Layout.Content>
     </Layout>
     }
 }

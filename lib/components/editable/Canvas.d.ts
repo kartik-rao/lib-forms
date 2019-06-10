@@ -13,9 +13,11 @@ export declare class Canvas extends React.Component<CanvasProps, any> {
     handleMoveItem: (result: DropResult) => void;
     onDragEnd: (result: DropResult) => void;
     state: {
-        collapsed: boolean;
+        siderCollapsed: boolean;
+        drawerPlacement: string;
     };
-    onCollapse: (collapsed: any) => void;
+    onSiderCollapse: (siderCollapsed: any) => void;
+    toggleSider: () => void;
     contentContainer: any;
     render(): JSX.Element;
 }

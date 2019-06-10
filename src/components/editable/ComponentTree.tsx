@@ -3,7 +3,7 @@ import Field from "@kartikrao/lib-forms-core/lib/models/field";
 import Page from "@kartikrao/lib-forms-core/lib/models/page";
 import Section from "@kartikrao/lib-forms-core/lib/models/section";
 import FormStore from "@kartikrao/lib-forms-core/lib/store/FormStore";
-import { Card, Icon, Divider } from "antd";
+import { Divider, Icon, Tag } from "antd";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
@@ -14,6 +14,7 @@ export interface ComponentTreeProps {
 }
 
 const ItemList = styled.div`
+    margin-left: 6px;
     padding: 4px;
 `;
 
@@ -29,7 +30,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     background: isDragging ? '#ededed' : '#fff',
     // styles we need to apply on draggables
     ...draggableStyle
-  })
+})
 
 class FieldItem extends React.Component<any, any> {
     render() {
@@ -37,8 +38,9 @@ class FieldItem extends React.Component<any, any> {
         return <Draggable type="Field" draggableId={fld.uuid} index={this.props.index}>
             {(provided, snapshot) => (
             <div>
-                <Container ref={provided.innerRef} {...provided.draggableProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                    <span {...provided.dragHandleProps}><Icon type="number"></Icon>    {fld.label}</span>
+                <Container ref={provided.innerRef} {...provided.draggableProps}
+                        style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                    <span {...provided.dragHandleProps}><Tag color="green">Field</Tag>{fld.label}</span>
                 </Container>
                 {provided.placeholder}
             </div>
@@ -53,7 +55,7 @@ class ColumnItem extends React.Component<any, any> {
         return <Draggable type="Column" draggableId={col.uuid} index={this.props.index}>
         {(provided, snapshot) => (
           <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-            <span>    <Icon type="column-width"></Icon> {col.name}</span>
+            <span><Tag>Column</Tag>{col.name}</span>
                 <Droppable droppableId={`${col.uuid}|fields`} type="Field">
                     {(provided, snapshot) => {
                         return <div>
@@ -78,7 +80,7 @@ class SectionItem extends React.Component<any, any> {
         return <Draggable type="Section" draggableId={sec.uuid} index={this.props.index}>
         {(provided, snapshot) => (
           <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-            <span>   <Icon type="menu"></Icon> {sec.name}</span>
+            <span><Tag color="blue">Section</Tag>{sec.name}</span>
                 <Droppable droppableId={`${sec.uuid}|columns`} type="Column">
                 {(provided, snapshot) => {
                     return <div>
@@ -99,8 +101,10 @@ class SectionItem extends React.Component<any, any> {
 }
 
 class PageItem extends React.Component<any, any> {
+
     constructor(props: any) {
         super(props);
+        this.state = { isExpanded: false };
     }
 
     render() {
@@ -108,8 +112,10 @@ class PageItem extends React.Component<any, any> {
         return (
             <Draggable type="Page" draggableId={page.uuid} index={this.props.index}>
             {(provided, snapshot) => (
-              <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                <span><Icon type="layout"></Icon>   {page.title}</span>
+                <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                    <span>
+                        <Tag color="magenta">Page</Tag>{page.title}
+                    </span>
                     <Droppable droppableId={`${page.uuid}|sections`} type="Section">
                         {(provided, snapshot) => {
                             return <div>
@@ -123,10 +129,10 @@ class PageItem extends React.Component<any, any> {
                         }}
                     </Droppable>
                 {provided.placeholder}
-                <Divider/>
+                <Divider style={{margin: '2px'}}/>
               </Container>
             )}
-          </Draggable>
+        </Draggable>
         )
     }
 }
@@ -146,20 +152,19 @@ export class ComponentTree extends React.Component<ComponentTreeProps, any> {
         let { form } = this.props.store;
         let { pages } = form.content;
 
-        return <div style={{ height:'100vh', backgroundColor: "white" }}>
-            <Card title="Scaffold" bordered={false} bodyStyle={{padding: '5px', fontSize: "12px"}}>
-                <Droppable droppableId="pages" type="Page">
-                {(provided, snapshot) => {
-                    return <div><ItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
-                        {pages.map((page: Page, index) => {
-                            return <PageItem key={page.uuid} page={page} index={index}></PageItem>
-                        })}
-                    </ItemList>
-                    {provided.placeholder}
-                    </div>
-                }}
-                </Droppable>
-            </Card>
+        return <div style={{ height:'100vh', backgroundColor: "white", fontSize: "14px" }}>
+        <Droppable droppableId="pages" type="Page">
+            {(provided, snapshot) => {
+                return <div>
+                    <ItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
+                    {pages.map((page: Page, index) => {
+                        return <PageItem key={page.uuid} page={page} index={index}></PageItem>
+                    })}
+                </ItemList>
+                {provided.placeholder}
+                </div>
+            }}
+        </Droppable>
     </div>
     }
 }
