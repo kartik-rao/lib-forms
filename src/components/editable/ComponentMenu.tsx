@@ -158,7 +158,7 @@ export class ComponentMenu extends React.Component<any, any> {
 
 
     render() {
-        return <>
+        return <Card bordered={false} size={"small"} title="Controls" bodyStyle={{padding: '0px'}}>
             <Card size="small" bodyStyle={{ fontSize: '12px', padding: '0px', marginBottom: '1px' }} bordered={false} title="Containers">
                 {this.asDraggableCard("NewPage", "Page", "Page", "Page", "p1", "layout")}
                 {this.asDraggableCard("NewSection", "Section", "Section", "Section", "s1", "menu")}
@@ -189,6 +189,6 @@ export class ComponentMenu extends React.Component<any, any> {
                 {this.asDraggableCard("NewTextField", "Field", "Switch", "Field", "switch", "poweroff")}
                 {this.asDraggableCard("NewTextField", "Field", "Upload", "Field", "transfer", "file-zip")}
             </Card>
-        </>
+        </Card>
     }
 }
