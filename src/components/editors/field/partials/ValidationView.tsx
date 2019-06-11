@@ -1,6 +1,6 @@
 import Field from "@kartikrao/lib-forms-core/lib/models/field";
 import { ValidationRuleNames } from "@kartikrao/lib-forms-core/lib/models/validation";
-import { Button, Card, Checkbox, DatePicker, Empty, Form, Icon, Input, InputNumber, Select } from "antd";
+import { notification, Button, Card, Checkbox, DatePicker, Empty, Form, Icon, Input, InputNumber, Select } from "antd";
 import { action, computed, observable, toJS } from "mobx";
 import { observer } from "mobx-react";
 import moment from 'moment';
@@ -110,8 +110,12 @@ export class ValidationView extends React.Component<IComponentEditorView,any> {
         let {editorStore} = this.props.store;
         if (this.isEditing == true) {
             editorStore.updateValidationRule(this.ruleType, this.properties);
+            notification.info({message: `Field - ${editorStore.field.label||editorStore.field.name}`,
+            description:`Rule ${this.ruleType} saved`});
         } else {
             editorStore.addValidationRule(this.ruleType, this.properties);
+            notification.info({message: `Field - ${editorStore.field.label||editorStore.field.name}`,
+            description:`Rule ${this.ruleType} added`});
         }
         this.cancel();
     }
@@ -139,9 +143,29 @@ export class ValidationView extends React.Component<IComponentEditorView,any> {
             fieldList.push(editorStore.formStore.idFieldMap[id]);
         });
 
-        let formLayoutProps = {
-            labelcol: {span: 6, offset: 1},
-            wrappercol: {span: 14, offset: 1}
+        const formItemLayout = {
+            labelCol: {
+              xs: { span: 24 },
+              sm: { span: 8 },
+            },
+            wrapperCol: {
+              xs: { span: 18 },
+              sm: { span: 12 },
+            },
+          };
+
+
+        const tailFormItemLayout = {
+            wrapperCol: {
+              xs: {
+                span: 24,
+                offset: 0,
+              },
+              sm: {
+                span: 12,
+                offset: 14,
+              },
+            },
         };
 
         return <div>
@@ -156,8 +180,8 @@ export class ValidationView extends React.Component<IComponentEditorView,any> {
                         onRemove={editorStore.removeValidationRule}/>
                 }
             </Card>
-            {(this.isAdding || this.isEditing) && <Card style={{marginTop:'15px'}} title={`${this.isEditing == true ? "Edit" : "Add"} Rule ${this.ruleType ? ' - ' + this.ruleType: ''}`}>
-            <Form layout="horizontal" labelCol={formLayoutProps.labelcol} wrapperCol={formLayoutProps.wrappercol}>
+            {(this.isAdding || this.isEditing) && <Card size="small" bodyStyle={{padding: '12px'}} style={{marginTop:'15px'}} title={`${this.isEditing == true ? "Edit" : "Add"} Rule ${this.ruleType ? ' - ' + this.ruleType: ''}`}>
+            <Form layout="horizontal" {...formItemLayout}>
                 <Form.Item label="Rule">
                     <Select onChange={(e) => this.setRuleType(e)} style={{ width: 200 }} placeholder="Select a rule to apply" value={this.ruleType}>
                         {ValidationRuleNames.map((rule: any) => {
@@ -214,7 +238,7 @@ export class ValidationView extends React.Component<IComponentEditorView,any> {
                     </Form.Item>
                 </div> }
                 { this.ruleType == 'format' && <div>
-                    <Form.Item label="Constraint - Regular Expression" help="Value must match regular expression" required>
+                    <Form.Item label="Constraint - RegEx" help="Value must match regular expression" required>
                        <Input type="text" value={this.properties.pattern} onChange={(e) => {
                                 e && e.target.value ? this.setRuleProperty('pattern', e.target.value) : this.setRuleProperty('pattern', "/*/" )
                         }}>
@@ -315,9 +339,13 @@ export class ValidationView extends React.Component<IComponentEditorView,any> {
                         <Input type="text" value={this.properties.notEven} onChange={(e) => this.setRuleProperty('notEven', e.target.value)}></Input>
                     </Form.Item>}
                 </div> }
-                <Form.Item>
-                    <Button style={{float: 'right', marginLeft: '10px'}} type="primary" htmlType="submit" disabled={!this.isRuleValid} onClick={this.applyRule}>{this.isEditing == true ? "Apply" : "Add"}</Button>
-                    <Button style={{float: 'right'}} onClick={() => this.cancel()}>Cancel</Button>
+                <Form.Item {...tailFormItemLayout} style={{marginTop: '15px'}}>
+                    <Button size="small" style={{marginRight: '10px'}} type="primary" htmlType="submit"
+                        disabled={!this.isRuleValid}
+                        onClick={this.applyRule}>
+                        {this.isEditing == true ? "Apply" : "Add"}
+                    </Button>
+                    <Button size="small" type="danger" onClick={() => this.cancel()}>Cancel</Button>
                 </Form.Item>
             </Form>
          </Card>}

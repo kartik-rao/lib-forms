@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import {toJS, action} from "mobx";
 import * as React from "react";
-import { Form, Input, Select,  Button, DatePicker, InputNumber} from "antd";
+import { Form, Input, Select,  Button, DatePicker, InputNumber, notification} from "antd";
 import { IComponentEditorView } from "../../IComponentEditorView";
 import { IFieldProps, ISelectProps, ChoiceOption } from "@kartikrao/lib-forms-core/lib/models/field.properties";
 import { FormComponentProps } from "antd/lib/form";
@@ -32,6 +32,8 @@ class FieldPropertiesView extends React.Component<IFieldPropertiesViewProps, any
                     }
                 });
                 field.mergeUpdate(merge);
+                notification.info({message: `Field - ${field.label||field.name}`,
+                    description:"Field properties applied successfully"});
             }
         });
         return;
@@ -44,8 +46,20 @@ class FieldPropertiesView extends React.Component<IFieldPropertiesViewProps, any
     render() {
         let field = toJS(this.props.store.editorStore.field) as IFieldProps;
         let formLayoutProps = {
-            labelcol: {span: 10, offset: 1},
-            wrappercol: {span: 12, offset: 1}
+            labelcol: {span: 12},
+            wrappercol: {span: 12}
+        };
+        const tailFormItemLayout = {
+            wrapperCol: {
+              xs: {
+                span: 24,
+                offset: 0,
+              },
+              sm: {
+                span: 16,
+                offset: 8,
+              },
+            },
         };
         let {getFieldDecorator, getFieldValue} = this.props.form;
 
@@ -183,8 +197,8 @@ class FieldPropertiesView extends React.Component<IFieldPropertiesViewProps, any
                     })(<Input.TextArea />)
                 }
             </Form.Item>
-            <Form.Item>
-                <Button type="primary" htmlType="submit">Apply</Button>
+            <Form.Item {...tailFormItemLayout}>
+                <span style={{float: 'right', marginRight: '15px'}}><Button type="primary" htmlType="submit">Apply</Button></span>
             </Form.Item>
     </Form>
     }
