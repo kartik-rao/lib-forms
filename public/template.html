@@ -133,6 +133,7 @@
                                 columns: [
                                     {
                                         id: 3,
+                                        span: 12,
                                         name: 'P2S1C1',
                                         title: 'P2S1C1',
                                         fields: [{
@@ -161,6 +162,7 @@
                                 columns: [
                                     {
                                         id: 4,
+                                        span: 12,
                                         name: 'P3S1C1',
                                         title: 'P3S1C1',
                                         fields: [{
@@ -189,6 +191,16 @@
                 validationDisablesPaging: false,
                 wrapperOffset: 0,
                 wrapperSpan: 24
+            },
+            itemLayoutOptions : {
+                labelCol: {
+                    xs: { span: 16 },
+                    sm: { span: 8 },
+                },
+                wrapperCol: {
+                    xs: { span: 24, offset:0 },
+                    sm: { span: 12, offset:1 },
+                }
             }
         });
     </script>
