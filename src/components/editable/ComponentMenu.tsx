@@ -158,13 +158,13 @@ export class ComponentMenu extends React.Component<any, any> {
 
 
     render() {
-        return <Card bordered={false} size={"small"} title="Controls" bodyStyle={{padding: '0px'}}>
-            <Card size="small" bodyStyle={{ fontSize: '12px', padding: '0px', marginBottom: '1px' }} bordered={false} title="Containers">
+        return <Card bordered={false}  title={"Controls"} bodyStyle={{padding: '1px'}}>
+            <Card size="small" bodyStyle={{ fontSize: '12px', padding: '0px', marginBottom: '1px' }} bordered={false} title={<small>Containers</small>}>
                 {this.asDraggableCard("NewPage", "Page", "Page", "Page", "p1", "layout")}
                 {this.asDraggableCard("NewSection", "Section", "Section", "Section", "s1", "menu")}
                 {this.asDraggableCard("NewColumn", "Column", "Column", "Column", "c1", "column-width")}
             </Card>
-            <Card size="small" bodyStyle={{ fontSize: '12px', padding: '0px', marginBottom: '1px' }}  bordered={false} title="Basic">
+            <Card size="small" bodyStyle={{ fontSize: '12px', padding: '0px', marginBottom: '1px' }}  bordered={false} title={<small>Basic</small>}>
                 {this.asDraggableCard("NewTextField", "Field", "Text", "Field", "input", "font-size")}
                 {this.asDraggableCard("NewTextField", "Field", "Number", "Field", "number", "calculator")}
                 {this.asDraggableCard("NewTextField", "Field", "Check", "Field", "checkbox", "check-square")}
@@ -176,14 +176,14 @@ export class ComponentMenu extends React.Component<any, any> {
                 {this.asDraggableCard("NewTextField", "Field", "Select", "Field", "select", "menu")}
                 {this.asDraggableCard("NewTextField", "Field", "Cascader", "Field", "cascader", "menu-unfold")}
             </Card>
-            <Card size="small" bodyStyle={{ fontSize: '12px',padding: '0px', marginBottom: '1px' }}  bordered={false} title="Date and Time">
+            <Card size="small" bodyStyle={{ fontSize: '12px',padding: '0px', marginBottom: '1px' }}  bordered={false} title={<small>Date and Time</small>}>
                 {this.asDraggableCard("NewTextField", "Field", "Date", "Field", "datepicker", "calendar")}
                 {this.asDraggableCard("NewTextField", "Field", "Range", "Field", "daterange", "calendar")}
                 {this.asDraggableCard("NewTextField", "Field", "Month", "Field", "monthpicker", "calendar")}
                 {this.asDraggableCard("NewTextField", "Field", "Time", "Field", "timepicker", "calendar")}
                 {this.asDraggableCard("NewTextField", "Field", "Year", "Field", "yearpicker", "calendar")}
             </Card>
-            <Card size="small" bodyStyle={{ fontSize: '12px',padding: '0px', marginBottom: '1px' }}  bordered={false} title="Interactive">
+            <Card size="small" bodyStyle={{ fontSize: '12px',padding: '0px', marginBottom: '1px' }}  bordered={false} title={<small>Interactive</small>}>
                 {this.asDraggableCard("NewTextField", "Field", "Slider", "Field", "slider", "control")}
                 {this.asDraggableCard("NewTextField", "Field", "Rating", "Field", "starrating", "star")}
                 {this.asDraggableCard("NewTextField", "Field", "Switch", "Field", "switch", "poweroff")}

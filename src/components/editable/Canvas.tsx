@@ -17,6 +17,8 @@ export interface CanvasProps {
     store: RootStore;
 }
 
+const boxShadow = `0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)`;
+
 export class Canvas extends React.Component<CanvasProps, any>{
     factory: Factory;
     constructor(props: CanvasProps) {
@@ -148,7 +150,7 @@ export class Canvas extends React.Component<CanvasProps, any>{
     }
 
     state = {
-        siderCollapsed: true,  drawerPlacement: 'left'
+        siderCollapsed: false
     };
 
     onSiderCollapse = (siderCollapsed) => {
@@ -162,30 +164,30 @@ export class Canvas extends React.Component<CanvasProps, any>{
     contentContainer: any;
     render() {
         let { formStore } = this.props.store;
-        return <Layout style={{ height: "100vh", overflow:"hidden" }}>
+        return <Layout style={{height: "100vh", overflow:"hidden"}}>
             <Menu mode="horizontal" theme="light" multiple={true}>
                 <Menu.Item title="Form Controls" onClick={this.toggleSider} key="controls">
-                    <Icon theme={this.state.siderCollapsed ? 'outlined' : 'filled'} type="control" /> Show Controls
+                    <Icon theme={this.state.siderCollapsed ? 'outlined' : 'filled'} type="control" />
                 </Menu.Item>
             </Menu>
             <Layout.Content>
             <DragDropContext onDragEnd={this.onDragEnd}>
-                <Layout style={{ height: "100vh"}}>
-                    <div style={{borderRight: '1px solid lightgray', display: this.state.siderCollapsed ? 'none' : 'block'}}>
-                        <Layout.Sider trigger={null} collapsed={this.state.siderCollapsed}
-                        collapsible={true} onCollapse={this.onSiderCollapse} theme={"light"}>
-                            <div style={{ display: this.state.siderCollapsed ? 'none' : 'block', backgroundColor: 'white', height: '100%' }}>
-                                <ComponentMenu />
-                            </div>
-                        </Layout.Sider>
-                    </div>
+                <Layout>
+                    <Layout.Sider trigger={null} collapsed={this.state.siderCollapsed}
+                    collapsible={true} onCollapse={this.onSiderCollapse} theme={"light"} collapsedWidth={0}>
+                        <div style={{ minHeight: '100vh', border: '1px solid #ededed', padding: '0px', boxShadow: boxShadow }}>
+                            <ComponentMenu />
+                        </div>
+                    </Layout.Sider>
                     <Content>
                         <Row gutter={0}>
-                            <Col span={7} style={{overflowY: "scroll", height:"100vh"}}>
-                                <ComponentTree store={formStore}/>
+                            <Col span={8}>
+                                <div style={{ border: '1px solid #ededed', padding: '0px', boxShadow: boxShadow }}>
+                                    <ComponentTree store={formStore}/>
+                                </div>
                             </Col>
-                            <Col span={17}>
-                                <div style={{overflowY: "scroll", height: "100vh"}}>
+                            <Col span={16}>
+                                <div style={{ minHeight: '100vh', border: '1px solid #ededed', padding: '0px', boxShadow: boxShadow }}>
                                     <FormView store={formStore} />
                                 </div>
                             </Col>

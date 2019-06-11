@@ -14,7 +14,6 @@ export declare class Canvas extends React.Component<CanvasProps, any> {
     onDragEnd: (result: DropResult) => void;
     state: {
         siderCollapsed: boolean;
-        drawerPlacement: string;
     };
     onSiderCollapse: (siderCollapsed: any) => void;
     toggleSider: () => void;

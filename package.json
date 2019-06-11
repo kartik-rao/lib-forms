@@ -44,6 +44,7 @@
   "devDependencies": {
     "@kartikrao/lib-forms-core": "^3.8.7",
     "@kartikrao/lib-logging": "^1.6.0",
+    "@types/atlaskit__tree": "^4.1.1",
     "@types/enzyme": "^3.1.9",
     "@types/enzyme-adapter-react-16": "^1.0.2",
     "@types/jasmine": "^2.8.6",
