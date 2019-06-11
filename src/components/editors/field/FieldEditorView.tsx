@@ -18,7 +18,7 @@ export class EditorView extends React.Component<IComponentEditorView,any> {
         let {field} = editorStore;
 
         return field && <Drawer title={`Field ${field.name} (id=${field.id} class=${field.className})`}
-            width={800} onClose={() => editorStore.setField(null)} visible={editorStore.visible}
+            width={800} onClose={() => editorStore.setEditable(null)} visible={editorStore.showFieldEditor}
             style={{ overflow: 'auto', height: 'calc(100% - 108px)', paddingBottom: '108px' }}>
             {editorStore.field &&
                 <Tabs>

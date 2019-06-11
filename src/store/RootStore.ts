@@ -17,7 +17,7 @@ class RootStore {
     @action initialize(data: IFormProps) {
         this.formStore = new FormStore();
         let factory = new Factory(this.formStore);
-        this.editorStore = new EditorStore({formStore: this.formStore, factory: factory, field: null});
+        this.editorStore = new EditorStore({formStore: this.formStore, factory: factory, item: null});
         this.formData = factory.makeForm(data);
     }
 

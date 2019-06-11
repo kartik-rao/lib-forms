@@ -5,15 +5,21 @@ import { Factory } from "@kartikrao/lib-forms-core/lib/models/factory";
 import Field from "@kartikrao/lib-forms-core/lib/models/field";
 import { GenericConstraint } from "@kartikrao/lib-forms-core/lib/models/validation.constraints";
 import FormStore from "@kartikrao/lib-forms-core/lib/store/FormStore";
+import Page from "@kartikrao/lib-forms-core/lib/models/page";
+import Section from "@kartikrao/lib-forms-core/lib/models/section";
+import Column from "@kartikrao/lib-forms-core/lib/models/column";
 
 export interface IEditorStoreProps {
-    field?: Field
+    item?: Page|Field|Section|Column;
     formStore: FormStore;
     factory: Factory;
 }
 
 class EditorStore implements IEditorStoreProps {
-    field: Field
+    field: Field;
+    page: Page;
+    section: Section;
+    column: Column;
     formStore: FormStore;
     factory: Factory;
 
@@ -22,9 +28,9 @@ class EditorStore implements IEditorStoreProps {
     }
 
     @action initialize(data: IEditorStoreProps) {
-        this.field = data.field;
         this.formStore = data.formStore;
         this.factory = data.factory;
+        this.setEditable(data.item);
         return;
     }
 
@@ -111,24 +117,55 @@ class EditorStore implements IEditorStoreProps {
     }
 
     @action setFieldProperty = (key: string, value: any) => {
-        this.field[key] = value;
+        this.field.componentProps[key] = value;
     }
 
     @action setComponentProperty = (key: string, value: any) => {
         this.field.componentProps[key] = value;
     }
 
-    @action setField = (f: Field) => {
-        this.field = f;
+    @action reset() {
+        this.page = null;
+        this.column = null;
+        this.section = null;
+        this.field = null;
     }
 
-    @computed get visible() {
-        return !!this.field;
+    @computed get showFieldEditor() {return !!this.field;}
+    @computed get showPageEditor() {return !!this.page;}
+    @computed get showColumnEditor() {return !!this.column;}
+    @computed get showSectionEditor() {return !!this.section;}
+
+    @action setEditable = (item: Page|Section|Column|Field) => {
+        this.reset();
+        if (item) {
+            switch(item._type) {
+                case "Page" : {
+                    this.page = item as Page;
+                    break;
+                }
+                case "Section" : {
+                    this.section = item as Section;
+                    break;
+                }
+                case "Column" : {
+                    this.column = item as Column;
+                    break;
+                }
+                case "Field" : {
+                    this.field = item as Field;
+                    break;
+                }
+            }
+        }
     }
 }
 
 decorate(EditorStore, {
-    field: observable
-})
+    field: observable,
+    page: observable,
+    section: observable,
+    column: observable
+});
 
 export default EditorStore;

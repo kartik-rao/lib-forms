@@ -4,13 +4,19 @@ import { Factory } from "@kartikrao/lib-forms-core/lib/models/factory";
 import Field from "@kartikrao/lib-forms-core/lib/models/field";
 import { GenericConstraint } from "@kartikrao/lib-forms-core/lib/models/validation.constraints";
 import FormStore from "@kartikrao/lib-forms-core/lib/store/FormStore";
+import Page from "@kartikrao/lib-forms-core/lib/models/page";
+import Section from "@kartikrao/lib-forms-core/lib/models/section";
+import Column from "@kartikrao/lib-forms-core/lib/models/column";
 export interface IEditorStoreProps {
-    field?: Field;
+    item?: Page | Field | Section | Column;
     formStore: FormStore;
     factory: Factory;
 }
 declare class EditorStore implements IEditorStoreProps {
     field: Field;
+    page: Page;
+    section: Section;
+    column: Column;
     formStore: FormStore;
     factory: Factory;
     constructor(data: IEditorStoreProps);
@@ -29,7 +35,11 @@ declare class EditorStore implements IEditorStoreProps {
     removeValidationRule: (key: string) => void;
     setFieldProperty: (key: string, value: any) => void;
     setComponentProperty: (key: string, value: any) => void;
-    setField: (f: Field) => void;
-    readonly visible: boolean;
+    reset(): void;
+    readonly showFieldEditor: boolean;
+    readonly showPageEditor: boolean;
+    readonly showColumnEditor: boolean;
+    readonly showSectionEditor: boolean;
+    setEditable: (item: Page | Field | Section | Column) => void;
 }
 export default EditorStore;
