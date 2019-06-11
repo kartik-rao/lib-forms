@@ -2,12 +2,12 @@ import { observer } from "mobx-react";
 import {toJS, action} from "mobx";
 import * as React from "react";
 import { Form, Input, Select,  Button, DatePicker, InputNumber} from "antd";
-import { IFieldEditorView } from "./IFieldEditorView"
+import { IComponentEditorView } from "../../IComponentEditorView";
 import { IFieldProps, ISelectProps, ChoiceOption } from "@kartikrao/lib-forms-core/lib/models/field.properties";
 import { FormComponentProps } from "antd/lib/form";
-import { ChoiceOptionEditorView } from "./partials/ChoiceOptionEditorView";
+import { ChoiceOptionEditorView } from "./ChoiceOptionEditorView";
 
-export interface IFieldPropertiesViewProps extends FormComponentProps, IFieldEditorView {
+export interface IFieldPropertiesViewProps extends FormComponentProps, IComponentEditorView {
 
 }
 
@@ -20,7 +20,7 @@ class FieldPropertiesView extends React.Component<IFieldPropertiesViewProps, any
     handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        let {field} = this.props.editorStore;
+        let {field} = this.props.store.editorStore;
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 let merge = {componentProps: {}};
@@ -38,11 +38,11 @@ class FieldPropertiesView extends React.Component<IFieldPropertiesViewProps, any
     }
 
     @action.bound updateOptions(options: ChoiceOption[]) {
-        this.props.editorStore.field.componentProps["options"] = options;
+        this.props.store.editorStore.field.componentProps["options"] = options;
     }
 
     render() {
-        let field = toJS(this.props.editorStore.field) as IFieldProps;
+        let field = toJS(this.props.store.editorStore.field) as IFieldProps;
         let formLayoutProps = {
             labelcol: {span: 8, offset: 2},
             wrappercol: {span: 8, offset: 2}

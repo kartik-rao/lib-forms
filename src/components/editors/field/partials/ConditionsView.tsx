@@ -3,7 +3,7 @@ import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { IPredicate } from "@kartikrao/lib-forms-core/lib/models/condition.predicate";
-import { IFieldEditorView } from "./IFieldEditorView";
+import { IFieldEditorView } from "../IFieldEditorView";
 
 
 @observer

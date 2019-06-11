@@ -5,11 +5,11 @@ import * as React from "react";
 import Field from "@kartikrao/lib-forms-core/lib/models/field";
 import { ValidationRuleNames } from "@kartikrao/lib-forms-core/lib/models/validation";
 import moment from 'moment';
-import { IFieldEditorView } from "./IFieldEditorView";
-import { ValidationListView } from "./partials/ValidationListView";
+import { IComponentEditorView } from "../../IComponentEditorView";
+import { ValidationListView } from "./ValidationListView";
 
 @observer
-export class ValidationView extends React.Component<IFieldEditorView,any> {
+export class ValidationView extends React.Component<IComponentEditorView,any> {
 
     readonly dateFormat : string = "YYYY-MM-DD"
     @observable ruleType: string = null;
@@ -17,7 +17,7 @@ export class ValidationView extends React.Component<IFieldEditorView,any> {
     @observable isEditing: boolean = false;
     @observable isAdding: boolean = false;
 
-    constructor(props:IFieldEditorView) {
+    constructor(props:IComponentEditorView) {
         super(props);
     }
 
@@ -99,19 +99,21 @@ export class ValidationView extends React.Component<IFieldEditorView,any> {
 
     @action
     applyRule = () => {
+        let {editorStore} = this.props.store;
         if (this.isEditing == true) {
-            this.props.editorStore.updateValidationRule(this.ruleType, this.properties);
+            editorStore.updateValidationRule(this.ruleType, this.properties);
         } else {
-            this.props.editorStore.addValidationRule(this.ruleType, this.properties);
+            editorStore.addValidationRule(this.ruleType, this.properties);
         }
         this.cancel();
     }
 
     @action
     onEdit = (rule: string) => {
+        let {editorStore} = this.props.store;
         this.isEditing = true
         this.ruleType = rule;
-        this.properties= this.props.editorStore.field.validator.rule[rule];
+        this.properties= editorStore.field.validator.rule[rule];
     }
 
     @action
@@ -120,7 +122,7 @@ export class ValidationView extends React.Component<IFieldEditorView,any> {
     }
 
     render() {
-        let {editorStore} = this.props;
+        let {editorStore} = this.props.store;
         let {field} = editorStore;
         let fieldList = [];
         let hasValidation = Object.keys(field.validator.rule.constraints).length > 0;
