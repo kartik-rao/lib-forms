@@ -2,15 +2,15 @@ import Column from "@kartikrao/lib-forms-core/lib/models/column";
 import Field from "@kartikrao/lib-forms-core/lib/models/field";
 import Page from "@kartikrao/lib-forms-core/lib/models/page";
 import Section from "@kartikrao/lib-forms-core/lib/models/section";
-import FormStore from "@kartikrao/lib-forms-core/lib/store/FormStore";
-import { Tag, Card, Badge, Row, Col, Divider } from "antd";
+import { Card, Badge, Divider, Button } from "antd";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import styled from 'styled-components';
+import RootStore from "../../models/RootStore";
 
 export interface ComponentTreeProps {
-    store: FormStore;
+    store: RootStore;
 }
 
 const ItemList = styled.div`
@@ -118,6 +118,7 @@ class PageItem extends React.Component<any, any> {
             {(provided, snapshot) => (
                 <Container ref={provided.innerRef} {...provided.draggableProps}
                 style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                    <Button type="primary" size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
                     <Badge {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Page")} text={`Page - ${page.title}`}/>
                     <Droppable droppableId={`${page.uuid}|sections`} type="Section">
                         {(provided, snapshot) => {
@@ -149,7 +150,8 @@ export class ComponentTree extends React.Component<ComponentTreeProps, any> {
     }
 
     render() {
-        let { form } = this.props.store;
+        let {formStore, editorStore} = this.props.store;
+        let { form } = formStore;
         let { pages } = form.content;
 
         return <Card title={"Layout"} bordered={false} style={{height: '100%'}}

@@ -17,8 +17,6 @@ export interface CanvasProps {
     store: RootStore;
 }
 
-const boxShadow = `0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)`;
-
 export class Canvas extends React.Component<CanvasProps, any>{
     factory: Factory;
     constructor(props: CanvasProps) {
@@ -181,7 +179,7 @@ export class Canvas extends React.Component<CanvasProps, any>{
                     <Content style={{overflow: "hidden", padding: '0'}}>
                         <Col span={8} style={{height: '100%'}}>
                             <div className="fl-full-height fl-grey-box fl-shadow-sides">
-                                <ComponentTree store={formStore}/>
+                                <ComponentTree store={this.props.store}/>
                             </div>
                         </Col>
                         <Col span={16} style={{height: '100%'}}>

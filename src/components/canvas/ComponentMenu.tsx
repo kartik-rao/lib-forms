@@ -1,4 +1,4 @@
-import { Icon, Menu, Divider, Card } from 'antd';
+import { Card, Icon, Menu } from 'antd';
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import styled from 'styled-components';
