@@ -152,13 +152,13 @@ export class ComponentTree extends React.Component<ComponentTreeProps, any> {
         let { form } = this.props.store;
         let { pages } = form.content;
 
-        return <div>
-            <Card title={"Layout"} bordered={false} bodyStyle={{maxHeight:'650px', padding: '8px', overflow: 'auto', paddingBottom:'48px'}}>
+        return <Card title={"Layout"} bordered={false} style={{height: '100%'}}
+                bodyStyle={{height:'100%', padding: '8px', overflow: 'auto', paddingBottom:'48px'}}>
             <Droppable droppableId="pages" type="Page">
             {(provided, snapshot) => {
                 return <ItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
                     { pages.map((page: Page, index) => {
-                        return <div>
+                        return <div key={page.uuid} >
                             <PageItem key={page.uuid} page={page} index={index}></PageItem>
                             <Divider style={{margin: '12px 0'}}/>
                         </div>
@@ -168,6 +168,5 @@ export class ComponentTree extends React.Component<ComponentTreeProps, any> {
             }}
         </Droppable>
         </Card>
-        </div>
     }
 }

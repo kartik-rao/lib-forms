@@ -164,7 +164,7 @@ export class Canvas extends React.Component<CanvasProps, any>{
     contentContainer: any;
     render() {
         let { formStore } = this.props.store;
-        return <Layout style={{height: "100vh", overflow:"hidden"}}>
+        return <Layout style={{height: "100%", overflow:"hidden"}}>
             <Menu mode="horizontal" theme="light" multiple={true}>
                 <Menu.Item title="Form Controls" onClick={this.toggleSider} key="controls">
                     <Icon theme={this.state.siderCollapsed ? 'outlined' : 'filled'} type="control" />
@@ -172,26 +172,24 @@ export class Canvas extends React.Component<CanvasProps, any>{
             </Menu>
             <Layout.Content>
             <DragDropContext onDragEnd={this.onDragEnd}>
-                <Layout>
+                <Layout style={{height: '100%', overflow: "hidden"}}>
                     <Layout.Sider trigger={null} collapsed={this.state.siderCollapsed}
                     collapsible={true} onCollapse={this.onSiderCollapse} theme={"light"} collapsedWidth={0}>
-                        <div style={{ minHeight: '100vh', border: '1px solid #ededed', padding: '0px', boxShadow: boxShadow }}>
+                        <div style={{ border: '1px solid #ededed', padding: '0px' }} className="fl-shadow-sides fl-full-height">
                             <ComponentMenu />
                         </div>
                     </Layout.Sider>
-                    <Content>
-                        <Row gutter={0}>
-                            <Col span={8}>
-                                <div style={{ border: '1px solid #ededed', padding: '0px', boxShadow: boxShadow }}>
-                                    <ComponentTree store={formStore}/>
-                                </div>
-                            </Col>
-                            <Col span={16}>
-                                <div style={{ border: '1px solid #ededed', padding: '0px', boxShadow: boxShadow }}>
-                                    <FormView store={formStore} />
-                                </div>
-                            </Col>
-                        </Row>
+                    <Content style={{overflow: "hidden", padding: '0'}}>
+                        <Col span={8} style={{height: '100%'}}>
+                            <div style={{border: '1px solid #ededed', padding: '0' }} className="fl-shadow-sides fl-full-height">
+                                <ComponentTree store={formStore}/>
+                            </div>
+                        </Col>
+                        <Col span={16} style={{height: '100%'}}>
+                            <div style={{ border: '1px solid #ededed', padding: '0'}} className="fl-shadow-sides fl-full-height">
+                                <FormView store={formStore} />
+                            </div>
+                        </Col>
                     </Content>
                 </Layout>
         </DragDropContext>

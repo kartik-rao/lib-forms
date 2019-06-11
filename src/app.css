@@ -15,6 +15,7 @@
 html, body {
     overflow: hidden;
     scroll-behavior: smooth;
+    background-color: blue;
 }
 
 body {
@@ -76,13 +77,39 @@ body {
   -ms-overflow-style: none;  /* IE 10+ */
 }
 
+
 ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 7px;
 }
+
 ::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background-color: rgba(0,0,0,.5);
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
     box-shadow: 0 0 1px rgba(255,255,255,.5);
+    z-index: 11;
+}
+
+.fl-shadow-bottom {
+    -webkit-box-shadow: 0px 3px 3px 0px rgba(128,128,128,0.4);
+    -moz-box-shadow: 0px 3px 3px 0px rgba(128,128,128,0.4);
+    box-shadow: 0px 3px 3px 0px rgba(128,128,128,0.4);
+    z-index: 11;
+}
+
+.fl-shadow-top {
+    -webkit-box-shadow: 0px -3px 3px 0px rgba(128,128,128,0.4);
+    -moz-box-shadow: 0px -3px 3px 0px rgba(128,128,128,0.4);
+    box-shadow: 0px -3px 3px 0px rgba(128,128,128,0.4);
+}
+
+.fl-shadow-sides {
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.fl-full-height {
+    height: 100%
 }
