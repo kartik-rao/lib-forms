@@ -187,7 +187,7 @@ export class Canvas extends React.Component<CanvasProps, any>{
                                 </div>
                             </Col>
                             <Col span={16}>
-                                <div style={{ minHeight: '100vh', border: '1px solid #ededed', padding: '0px', boxShadow: boxShadow }}>
+                                <div style={{ border: '1px solid #ededed', padding: '0px', boxShadow: boxShadow }}>
                                     <FormView store={formStore} />
                                 </div>
                             </Col>

@@ -3,7 +3,7 @@ import Field from "@kartikrao/lib-forms-core/lib/models/field";
 import Page from "@kartikrao/lib-forms-core/lib/models/page";
 import Section from "@kartikrao/lib-forms-core/lib/models/section";
 import FormStore from "@kartikrao/lib-forms-core/lib/store/FormStore";
-import { Tag, Card, Badge, Row, Col } from "antd";
+import { Tag, Card, Badge, Row, Col, Divider } from "antd";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
@@ -34,7 +34,7 @@ const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
     marginLeft : '12px',
-    marginTop : '8px',
+    marginTop : '4px',
     borderRadius: '15px',
     ...draggableStyle
 })
@@ -153,14 +153,15 @@ export class ComponentTree extends React.Component<ComponentTreeProps, any> {
         let { pages } = form.content;
 
         return <div>
-            <Card title={"Layout"} bordered={false} bodyStyle={{padding: '8px', overflow: 'auto'}}>
+            <Card title={"Layout"} bordered={false} bodyStyle={{maxHeight:'650px', padding: '8px', overflow: 'auto', paddingBottom:'48px'}}>
             <Droppable droppableId="pages" type="Page">
             {(provided, snapshot) => {
                 return <ItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
                     { pages.map((page: Page, index) => {
-                        return <Row style={{margin: '5px 0 5px 0'}}>
-                            <Col><PageItem key={page.uuid} page={page} index={index}></PageItem></Col>
-                        </Row>
+                        return <div>
+                            <PageItem key={page.uuid} page={page} index={index}></PageItem>
+                            <Divider style={{margin: '12px 0'}}/>
+                        </div>
                     })}
                 {provided.placeholder}
                 </ItemList>
