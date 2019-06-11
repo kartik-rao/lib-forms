@@ -1,5 +1,5 @@
 import * as React from "react";
-import RootStore from "../../models/RootStore";
+import RootStore from "../../store/RootStore";
 export interface ComponentTreeProps {
     store: RootStore;
 }

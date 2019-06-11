@@ -7,7 +7,7 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import styled from 'styled-components';
-import RootStore from "../../models/RootStore";
+import RootStore from "../../store/RootStore";
 
 export interface ComponentTreeProps {
     store: RootStore;

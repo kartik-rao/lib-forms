@@ -7,7 +7,7 @@ import { Col, Icon, Layout, Menu } from 'antd';
 import { computed } from "mobx";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import RootStore from "../../models/RootStore";
+import RootStore from "../../store/RootStore";
 import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
 
