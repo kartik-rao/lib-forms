@@ -17,6 +17,5 @@ export declare class Canvas extends React.Component<CanvasProps, any> {
     };
     onSiderCollapse: (siderCollapsed: any) => void;
     toggleSider: () => void;
-    contentContainer: any;
     render(): JSX.Element;
 }

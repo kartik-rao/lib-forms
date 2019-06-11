@@ -1,9 +1,9 @@
 import Column from "@kartikrao/lib-forms-core/lib/models/column";
+import { Factory } from "@kartikrao/lib-forms-core/lib/models/factory";
 import Page from "@kartikrao/lib-forms-core/lib/models/page";
 import Section from "@kartikrao/lib-forms-core/lib/models/section";
 import { FormView } from "@kartikrao/lib-forms-core/lib/views/FormView";
-import {Factory} from "@kartikrao/lib-forms-core/lib/models/factory"
-import { Card, Col, Layout, Row, Menu, Icon } from 'antd';
+import { Col, Icon, Layout, Menu } from 'antd';
 import { computed } from "mobx";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
@@ -161,32 +161,31 @@ export class Canvas extends React.Component<CanvasProps, any>{
         this.setState({siderCollapsed: !this.state.siderCollapsed});
     }
 
-    contentContainer: any;
     render() {
         let { formStore } = this.props.store;
-        return <Layout style={{height: "100%", overflow:"hidden"}}>
-            <Menu mode="horizontal" theme="light" multiple={true}>
+        return <Layout className="fl-full-height-nopad">
+            <Menu mode="horizontal" theme="light" multiple={true} className="fl-shadow-sides">
                 <Menu.Item title="Form Controls" onClick={this.toggleSider} key="controls">
                     <Icon theme={this.state.siderCollapsed ? 'outlined' : 'filled'} type="control" />
                 </Menu.Item>
             </Menu>
             <Layout.Content>
             <DragDropContext onDragEnd={this.onDragEnd}>
-                <Layout style={{height: '100%', overflow: "hidden"}}>
-                    <Layout.Sider trigger={null} collapsed={this.state.siderCollapsed}
+                <Layout className="fl-full-height-nopad">
+                    <Layout.Sider trigger={null} collapsed={this.state.siderCollapsed} style={{zIndex: 11}}
                     collapsible={true} onCollapse={this.onSiderCollapse} theme={"light"} collapsedWidth={0}>
-                        <div style={{ border: '1px solid #ededed', padding: '0px' }} className="fl-shadow-sides fl-full-height">
+                        <div className="fl-full-height fl-grey-box fl-shadow-sides">
                             <ComponentMenu />
                         </div>
                     </Layout.Sider>
                     <Content style={{overflow: "hidden", padding: '0'}}>
                         <Col span={8} style={{height: '100%'}}>
-                            <div style={{border: '1px solid #ededed', padding: '0' }} className="fl-shadow-sides fl-full-height">
+                            <div className="fl-full-height fl-grey-box fl-shadow-sides">
                                 <ComponentTree store={formStore}/>
                             </div>
                         </Col>
                         <Col span={16} style={{height: '100%'}}>
-                            <div style={{ border: '1px solid #ededed', padding: '0'}} className="fl-shadow-sides fl-full-height">
+                            <div className="fl-grey-box fl-shadow-sides fl-full-height">
                                 <FormView store={formStore} />
                             </div>
                         </Col>
@@ -197,4 +196,3 @@ export class Canvas extends React.Component<CanvasProps, any>{
     </Layout>
     }
 }
-//box-shadow: 0 2px 8px #f0f1f2

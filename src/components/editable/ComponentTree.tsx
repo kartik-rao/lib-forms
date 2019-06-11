@@ -14,7 +14,7 @@ export interface ComponentTreeProps {
 }
 
 const ItemList = styled.div`
-
+    min-height: 50px;
 `;
 
 const Container = styled.div`
@@ -34,8 +34,7 @@ const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
     marginLeft : '12px',
-    marginTop : '4px',
-    borderRadius: '15px',
+    marginTop : '8px',
     ...draggableStyle
 })
 
@@ -93,9 +92,10 @@ class SectionItem extends React.Component<any, any> {
                         {sec.columns.map((col: Column, index) => {
                             return <ColumnItem key={col.uuid} col={col} index={index}></ColumnItem>
                         })}
-                    { provided.placeholder }
+                    { provided.placeholder}
                     </ItemList>
                 }}
+
             </Droppable>
             {provided.placeholder}
           </Container>
