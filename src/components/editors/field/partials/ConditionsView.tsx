@@ -3,11 +3,11 @@ import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { IPredicate } from "@kartikrao/lib-forms-core/lib/models/condition.predicate";
-import { IFieldEditorView } from "../IFieldEditorView";
+import { IComponentEditorView } from "../../IComponentEditorView";
 
 
 @observer
-export class ConditionsView extends React.Component<IFieldEditorView,any> {
+export class ConditionsView extends React.Component<IComponentEditorView,any> {
     @observable field: string = null;
     @observable expression: string = null;
     @observable value: string = null;
@@ -40,14 +40,14 @@ export class ConditionsView extends React.Component<IFieldEditorView,any> {
 
     @action
     addPredicate(p: IPredicate) {
-        let {editorStore} = this.props;
+        let {editorStore} = this.props.store;
         editorStore.addPredicate(p);
         return;
     }
 
     @action
     removePredicate(uuid: string) {
-        let {editorStore} = this.props;
+        let {editorStore} = this.props.store;
         editorStore.removePredicate(uuid);
     }
 
@@ -78,7 +78,7 @@ export class ConditionsView extends React.Component<IFieldEditorView,any> {
     }
 
     render() {
-        let {field, availableConditionSources, availableExpressions, availableOperators, numPredicates} = this.props.editorStore;
+        let {field, availableConditionSources, availableExpressions, availableOperators, numPredicates} = this.props.store.editorStore;
         let columns : any = [
             { title: 'Field', dataIndex: 'field', key: 'field' },
             { title: 'Condition', dataIndex: 'condition', key: 'condition' },

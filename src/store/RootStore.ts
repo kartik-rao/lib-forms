@@ -2,7 +2,7 @@ import { IFormProps } from "@kartikrao/lib-forms-core";
 import { Factory } from "@kartikrao/lib-forms-core/lib/models/factory";
 import Field from "@kartikrao/lib-forms-core/lib/models/field";
 import Form from "@kartikrao/lib-forms-core/lib/models/form";
-import EditorStore from "@kartikrao/lib-forms-core/lib/store/EditorStore";
+import EditorStore from "./EditorStore";
 import FormStore from "@kartikrao/lib-forms-core/lib/store/FormStore";
 import { action, configure, decorate, observable } from "mobx";
 
