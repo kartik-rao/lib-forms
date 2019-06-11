@@ -137,6 +137,7 @@ class EditorStore implements IEditorStoreProps {
     @computed get showSectionEditor() {return !!this.section;}
 
     @action setEditable = (item: Page|Section|Column|Field) => {
+
         this.reset();
         if (item) {
             switch(item._type) {

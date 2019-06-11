@@ -65,6 +65,6 @@ export class ValidationListView extends React.Component<IValidationListViewProps
                 rows.push(row);
             });
         }
-        return <Table bordered={true} pagination={numConstraints > 5 ? {position: 'bottom'} : false} dataSource={rows} columns={columns} rowKey='key'/>
+        return <Table size="small" pagination={numConstraints > 5 ? {position: 'bottom'} : false} dataSource={rows} columns={columns} rowKey='key'/>
     }
 }

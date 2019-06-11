@@ -30,7 +30,7 @@ export class ComponentTree extends React.Component<ComponentTreeProps, any> {
     }
 
     render() {
-        let {formStore, editorStore} = this.props.store;
+        let { formStore } = this.props.store;
         let { form } = formStore;
         let { pages } = form.content;
 

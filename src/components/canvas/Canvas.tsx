@@ -10,13 +10,15 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import RootStore from "../../store/RootStore";
 import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
-
+import {FieldEditorView} from "../editors/field/FieldEditorView";
+import { observer } from "mobx-react";
 const { Content } = Layout;
 
 export interface CanvasProps {
     store: RootStore;
 }
 
+@observer
 export class Canvas extends React.Component<CanvasProps, any>{
     factory: Factory;
     constructor(props: CanvasProps) {
@@ -102,7 +104,6 @@ export class Canvas extends React.Component<CanvasProps, any>{
             let [sParentId] = source.droppableId.split('|');
             let [dParentId] = destination.droppableId.split('|');
             let sameParent = sParentId == dParentId;
-            console.log(`onDragEnd - ${type} sameParent=[${sameParent}]`);
             if (type == "Section") {
                 let prev = this.itemMap[sParentId] as Page;
                 if (sameParent) {
@@ -187,6 +188,7 @@ export class Canvas extends React.Component<CanvasProps, any>{
                                 <FormView store={formStore} />
                             </div>
                         </Col>
+                        <FieldEditorView store={this.props.store}/>
                     </Content>
                 </Layout>
         </DragDropContext>

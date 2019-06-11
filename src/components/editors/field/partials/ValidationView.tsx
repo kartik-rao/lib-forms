@@ -1,10 +1,10 @@
-import { Button, Card, Checkbox, DatePicker, Empty, Form, Input, InputNumber, Select, Icon } from "antd";
-import { toJS, observable, action, computed } from "mobx";
-import { observer } from "mobx-react";
-import * as React from "react";
 import Field from "@kartikrao/lib-forms-core/lib/models/field";
 import { ValidationRuleNames } from "@kartikrao/lib-forms-core/lib/models/validation";
+import { Button, Card, Checkbox, DatePicker, Empty, Form, Icon, Input, InputNumber, Select } from "antd";
+import { action, computed, observable, toJS } from "mobx";
+import { observer } from "mobx-react";
 import moment from 'moment';
+import * as React from "react";
 import { IComponentEditorView } from "../../IComponentEditorView";
 import { ValidationListView } from "./ValidationListView";
 
@@ -12,13 +12,21 @@ import { ValidationListView } from "./ValidationListView";
 export class ValidationView extends React.Component<IComponentEditorView,any> {
 
     readonly dateFormat : string = "YYYY-MM-DD"
-    @observable ruleType: string = null;
-    @observable properties: any = {};
-    @observable isEditing: boolean = false;
-    @observable isAdding: boolean = false;
+    @observable ruleType: string;
+    @observable properties: any;
+    @observable isEditing: boolean;
+    @observable isAdding: boolean;
 
     constructor(props:IComponentEditorView) {
         super(props);
+        this.initialize(props);
+    }
+
+    @action initialize(props: IComponentEditorView) {
+        this.ruleType = null;
+        this.properties = {};
+        this.isEditing = false;
+        this.isAdding = false;
     }
 
     @action
@@ -131,8 +139,13 @@ export class ValidationView extends React.Component<IComponentEditorView,any> {
             fieldList.push(editorStore.formStore.idFieldMap[id]);
         });
 
+        let formLayoutProps = {
+            labelcol: {span: 6, offset: 1},
+            wrappercol: {span: 14, offset: 1}
+        };
+
         return <div>
-            <Card title="Rules" actions={[<Icon onClick={() => this.setIsAdding(true)} type="plus"/>]}>
+            <Card title="Rules" size="small" bodyStyle={{padding: '0'}} actions={[<Icon onClick={() => this.setIsAdding(true)} type="plus"/>]}>
                 {!hasValidation && <Empty description={
                     <span>No validation on this field</span>
                     }>
@@ -144,7 +157,7 @@ export class ValidationView extends React.Component<IComponentEditorView,any> {
                 }
             </Card>
             {(this.isAdding || this.isEditing) && <Card style={{marginTop:'15px'}} title={`${this.isEditing == true ? "Edit" : "Add"} Rule ${this.ruleType ? ' - ' + this.ruleType: ''}`}>
-            <Form>
+            <Form layout="horizontal" labelCol={formLayoutProps.labelcol} wrapperCol={formLayoutProps.wrappercol}>
                 <Form.Item label="Rule">
                     <Select onChange={(e) => this.setRuleType(e)} style={{ width: 200 }} placeholder="Select a rule to apply" value={this.ruleType}>
                         {ValidationRuleNames.map((rule: any) => {

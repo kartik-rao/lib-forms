@@ -6,6 +6,7 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 import RootStore from "../../../store/RootStore";
 import { Container, getBadgeStyle, getItemStyle, ItemList } from "./dnd.common";
 import { FieldItem } from "./FieldItem";
+import { observer } from "mobx-react";
 
 export interface IColumnItemProps {
     col: Column;
@@ -14,6 +15,7 @@ export interface IColumnItemProps {
     store: RootStore;
 }
 
+@observer
 export class ColumnItem extends React.Component<IColumnItemProps, any> {
     render() {
         let col = this.props.col;

@@ -8,14 +8,23 @@ import { IComponentEditorView } from "../../IComponentEditorView";
 
 @observer
 export class ConditionsView extends React.Component<IComponentEditorView,any> {
-    @observable field: string = null;
-    @observable expression: string = null;
-    @observable value: string = null;
-    @observable operator: string = null;
-    @observable isAdding: boolean = false;
+    @observable field: string;
+    @observable expression: string;
+    @observable value: string;
+    @observable operator: string;
+    @observable isAdding: boolean;
 
-    constructor(props:any) {
+    constructor(props:IComponentEditorView) {
         super(props);
+        this.initialize(props);
+    }
+
+    @action initialize(props: IComponentEditorView) {
+        this.field = null;
+        this.expression = null;
+        this.value = null;
+        this.operator = null;
+        this.isAdding = false;
     }
 
     @action
@@ -92,10 +101,14 @@ export class ConditionsView extends React.Component<IComponentEditorView,any> {
                 ),
               }
         ]
+        let formLayoutProps = {
+            labelcol: {span: 4, offset: 1},
+            wrappercol: {span: 12, offset: 1}
+        };
         return <div>
             <Card title="Conditions" actions={[<Icon type="plus" style={{visibility: numPredicates == 0 ? 'visible' : 'hidden'}} onClick={() => this.setIsAdding(true)}/>]}>
             { numPredicates > 0 && <div>
-                <Table dataSource={field.condition.predicates || []} columns={columns} rowKey='uuid'/>
+                <Table size="small" dataSource={field.condition.predicates || []} columns={columns} rowKey='uuid'/>
                 </div>
             }
             { numPredicates == 0 && <Empty description={
@@ -105,7 +118,7 @@ export class ConditionsView extends React.Component<IComponentEditorView,any> {
             }
             </Card>
             {this.isAdding  && <Card title="Add condition">
-                <Form onSubmit={(e)=> this.handleSubmit(e)}>
+                <Form layout="horizontal" labelCol={formLayoutProps.labelcol} wrapperCol={formLayoutProps.wrappercol} onSubmit={(e)=> this.handleSubmit(e)}>
                     <Form.Item label="Source field" help="Field the condition will get its source value from" required>
                         <Select showSearch={true} onChange={(e) => this.setField(e)} value={this.field}>
                             { availableConditionSources.map((f)=>{

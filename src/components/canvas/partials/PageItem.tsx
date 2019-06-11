@@ -6,6 +6,7 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 import RootStore from "../../../store/RootStore";
 import { Container, getBadgeStyle, getItemStyle, ItemList } from "./dnd.common";
 import { SectionItem } from "./SectionItem";
+import { observer } from "mobx-react";
 
 export interface IPageItemProps {
     page: Page;
@@ -14,11 +15,11 @@ export interface IPageItemProps {
     store: RootStore;
 }
 
+@observer
 export class PageItem extends React.Component<IPageItemProps, any> {
 
     constructor(props: IPageItemProps) {
         super(props);
-        this.state = { isExpanded: false };
     }
 
     render() {

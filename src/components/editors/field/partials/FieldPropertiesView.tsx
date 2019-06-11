@@ -44,12 +44,12 @@ class FieldPropertiesView extends React.Component<IFieldPropertiesViewProps, any
     render() {
         let field = toJS(this.props.store.editorStore.field) as IFieldProps;
         let formLayoutProps = {
-            labelcol: {span: 8, offset: 2},
-            wrappercol: {span: 8, offset: 2}
+            labelcol: {span: 10, offset: 1},
+            wrappercol: {span: 12, offset: 1}
         };
         let {getFieldDecorator, getFieldValue} = this.props.form;
 
-        return  <Form {...formLayoutProps} onSubmit={(e) => this.handleSubmit(e)}>
+        return  <Form labelCol={formLayoutProps.labelcol} wrapperCol={formLayoutProps.wrappercol} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
             {/* GENERAL PROPERTIES */}
             <Form.Item label="Name" required>
                 {

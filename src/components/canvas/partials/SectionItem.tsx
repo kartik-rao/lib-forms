@@ -6,6 +6,7 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 import RootStore from "../../../store/RootStore";
 import { ColumnItem } from "./ColumnItem";
 import { Container, getBadgeStyle, getItemStyle, ItemList } from "./dnd.common";
+import { observer } from "mobx-react";
 
 export interface ISectionItemProps {
     sec: Section;
@@ -14,6 +15,7 @@ export interface ISectionItemProps {
     store: RootStore;
 }
 
+@observer
 export class SectionItem extends React.Component<ISectionItemProps, any> {
     render() {
         let sec = this.props.sec;
