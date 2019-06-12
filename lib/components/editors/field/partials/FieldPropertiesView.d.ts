@@ -1,7 +1,7 @@
-import * as React from "react";
-import { IComponentEditorView } from "../../IComponentEditorView";
 import { ChoiceOption } from "@kartikrao/lib-forms-core/lib/models/field.properties";
 import { FormComponentProps } from "antd/lib/form";
+import * as React from "react";
+import { IComponentEditorView } from "../../IComponentEditorView";
 export interface IFieldPropertiesViewProps extends FormComponentProps, IComponentEditorView {
 }
 declare class FieldPropertiesView extends React.Component<IFieldPropertiesViewProps, any> {

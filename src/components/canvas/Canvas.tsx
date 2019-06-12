@@ -3,7 +3,7 @@ import { Factory } from "@kartikrao/lib-forms-core/lib/models/factory";
 import Page from "@kartikrao/lib-forms-core/lib/models/page";
 import Section from "@kartikrao/lib-forms-core/lib/models/section";
 import { FormView } from "@kartikrao/lib-forms-core/lib/views/FormView";
-import { Col, Icon, Layout, Menu } from 'antd';
+import { Col, Icon, Layout, Menu, Modal } from 'antd';
 import { computed } from "mobx";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
@@ -17,6 +17,10 @@ const { Content } = Layout;
 
 export interface CanvasProps {
     store: RootStore;
+}
+
+const genRandom = () => {
+    return `${Math.ceil(Math.random() * 1e6)}`;
 }
 
 @observer
@@ -50,21 +54,24 @@ export class Canvas extends React.Component<CanvasProps, any>{
         const { destination, type } = result;
         const { form } = this.props.store.formStore;
         const dIndex = destination.index;
+        let id = genRandom();
         if (type == "Page") {
+            let nextPageNum = form.content.pages.length;
             let page = this.factory.makePages({
-                id: `page-${form.content.pages.length}`,
-                title: "Untitled Page",
-                name: "Untitled Page",
+                id   : `${nextPageNum}`,
+                title: `Page ${nextPageNum}`,
+                name : `Page ${nextPageNum}`,
                 sections: []
             })[0];
             form.addPage(page, dIndex);
         } else {
             let [dParentId] = destination.droppableId.split('|');
+
             if (type == "Section") {
                 let page = this.itemMap[dParentId] as Page;
                 let section = this.factory.makeSections({
-                    id: `section-${page.sections.length}`,
-                    name: `Untitled Section`,
+                    id: `${id}`,
+                    name: `Section_${id}`,
                     columns: []
                 })[0];
                 page.addSection(section, dIndex);
@@ -72,8 +79,8 @@ export class Canvas extends React.Component<CanvasProps, any>{
             if (type == "Column") {
                 let section = this.itemMap[dParentId] as Section;
                 let column = this.factory.makeColumns({
-                    id: `column-${section.columns.length}`,
-                    name: 'Untitled Column',
+                    id: `${id}`,
+                    name: `Column_${id}`,
                     fields: []
                 })[0];
                 section.addColumn(column, dIndex)
@@ -81,8 +88,8 @@ export class Canvas extends React.Component<CanvasProps, any>{
             if (type == "Field") {
                 let column = this.itemMap[dParentId] as Column;
                 let field = this.factory.makeFields({
-                    id: `field-${column.fields.length}`,
-                    name: "Untitled Field",
+                    id: `${id}`,
+                    name: `Field_${id}`,
                     label: `Untitled ${result.draggableId}`,
                     inputType: result.draggableId,
                     componentProps: {},
@@ -141,7 +148,6 @@ export class Canvas extends React.Component<CanvasProps, any>{
 
     onDragEnd = (result : DropResult) => {
         const { source, type } = result;
-        console.log(`onDragEnd - ${type}`, result);
         if (source.droppableId.startsWith('New')) {
             this.handleNewItem(result);
         } else {

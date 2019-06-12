@@ -1,5 +1,5 @@
 import Field from "@kartikrao/lib-forms-core/lib/models/field";
-import { ValidationRuleNames } from "@kartikrao/lib-forms-core/lib/models/validation";
+import { ValidationRuleNames, ValidationRuleMap } from "@kartikrao/lib-forms-core/lib/models/validation";
 import { ValidationAllowedRules } from "@kartikrao/lib-forms-core/lib/models/validation";
 import { notification, Button, Card, Checkbox, DatePicker, Empty, Form, Icon, Input, InputNumber, Select } from "antd";
 import { action, computed, observable, toJS } from "mobx";
@@ -110,14 +110,15 @@ export class ValidationView extends React.Component<IComponentEditorView,any> {
     @action
     applyRule = () => {
         let {editorStore} = this.props.store;
+        let ruleLabel = ValidationRuleMap[this.ruleType];
         if (this.isEditing == true) {
             editorStore.updateValidationRule(this.ruleType, this.properties);
             notification.info({message: `Field - ${editorStore.field.label||editorStore.field.name}`,
-            description:`Rule ${this.ruleType} saved`});
+                description:`Rule "${ruleLabel}" saved`, duration: 7});
         } else {
             editorStore.addValidationRule(this.ruleType, this.properties);
             notification.info({message: `Field - ${editorStore.field.label||editorStore.field.name}`,
-            description:`Rule ${this.ruleType} added`});
+                description:`Rule ${ruleLabel} added`, duration: 7});
         }
         this.cancel();
     }

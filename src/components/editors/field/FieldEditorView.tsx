@@ -29,7 +29,7 @@ export class FieldEditorView extends React.Component<IComponentEditorView,any> {
             width={700} onClose={() => editorStore.setEditable(null)} visible={editorStore.showFieldEditor}
             style={{ overflow: 'auto', height: 'calc(80% - 108px)', paddingBottom: '108px' }}>
             {
-                <Tabs>
+                <Tabs size="small">
                     <Tabs.TabPane tab="Properties" key="1">
                         <Row><Col span={24}><FieldPropertiesView store={this.props.store}/></Col></Row>
                     </Tabs.TabPane>

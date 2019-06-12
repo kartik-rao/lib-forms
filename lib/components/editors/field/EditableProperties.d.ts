@@ -11,11 +11,10 @@ interface IFieldDecoratorConfig {
     formatValue?: string;
     formatKey?: string;
     help: string;
+    defaultValue: any;
 }
 export declare const FieldPropertiesMap: {
-    "input": IFieldDecoratorConfig[];
-    "radio": IFieldDecoratorConfig[];
-    "checkbox": (IFieldDecoratorConfig | {
+    "input": (IFieldDecoratorConfig | {
         key: string;
         label: string;
         type: string;
@@ -23,7 +22,10 @@ export declare const FieldPropertiesMap: {
             label: string;
             value: string;
         }[];
+        defaultValue: string;
     })[];
+    "radio": IFieldDecoratorConfig[];
+    "checkbox": IFieldDecoratorConfig[];
     "number": IFieldDecoratorConfig[];
     "select": IFieldDecoratorConfig[];
     "cascader": IFieldDecoratorConfig[];
@@ -39,6 +41,7 @@ export declare const FieldPropertiesMap: {
             value: string;
             label: string;
         }[];
+        defaultValue: string;
     })[];
     "daterange": (IFieldDecoratorConfig | {
         key: string;
@@ -48,6 +51,7 @@ export declare const FieldPropertiesMap: {
             value: string;
             label: string;
         }[];
+        defaultValue: string;
         formatKey?: undefined;
         rules?: undefined;
     } | {
@@ -56,6 +60,7 @@ export declare const FieldPropertiesMap: {
         type: string;
         formatKey: string;
         options?: undefined;
+        defaultValue?: undefined;
         rules?: undefined;
     } | {
         key: string;
@@ -66,9 +71,9 @@ export declare const FieldPropertiesMap: {
             message: string;
         }[];
         options?: undefined;
+        defaultValue?: undefined;
         formatKey?: undefined;
     })[];
 };
-export declare const generateFieldItems: (field: IFieldProps, getFieldDecorator: any, getFieldValue: any) => JSX.Element;
 export declare const asDecoratedProperty: (item: IFieldProps, decorator: any, valueFn: any, config: IFieldDecoratorConfig, index: any) => React.ReactNode;
 export {};

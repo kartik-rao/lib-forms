@@ -4,8 +4,8 @@ import * as React from "react";
 import * as moment from "moment";
 
 export const makeProp = (key: string, label: string, type: string, other: any = {}) : IFieldDecoratorConfig => {
-    let {options, rules, formatKey, formatValue, help} = other;
-    return {key: key, label:label, type: type, options: options, rules: rules, formatKey: formatKey, formatValue: formatValue, help: help}
+    let {options, rules, formatKey, formatValue, help, defaultValue} = other;
+    return {key: key, label:label, type: type, options: options, rules: rules, formatKey: formatKey, formatValue: formatValue, help: help, defaultValue: defaultValue}
 }
 
 interface IFieldDecoratorConfig {
@@ -18,6 +18,7 @@ interface IFieldDecoratorConfig {
     formatValue?: string;
     formatKey?: string;
     help: string;
+    defaultValue: any;
 }
 
 const basicProps = [
@@ -37,7 +38,12 @@ export const FieldPropertiesMap = {
         ...basicProps,
         ValuePropName,
         makeProp("c_placeholder", "Placeholder", 'string'),
-        makeProp("c_defaultValue", "Default Value", 'string')
+        makeProp("c_defaultValue", "Default Value", 'string'),
+        {key: "c_size", label:"Size", type: 'options', options: [
+            {label: "default", value: "default"},
+            {label: "small", value: "small"},
+            {label: "large", value: "large"}]
+        , defaultValue: 'default'}
     ],
     "radio"    : [
         ...basicProps,
@@ -48,12 +54,7 @@ export const FieldPropertiesMap = {
     "checkbox" : [
         ...basicProps,
         ValuePropName,
-        makeProp("c_defaultChecked", "boolean", 'string'),
-        {key: "c_size", label:"Size", type: 'options', options: [
-            {label: "default", value: "default"},
-            {label: "small", value: "small"},
-            {label: "large", value: "large"}]
-        }
+        makeProp("c_defaultChecked", "Checked", 'boolean'),
     ],
     "number"   : [
         ...basicProps,
@@ -101,7 +102,7 @@ export const FieldPropertiesMap = {
             {value:"DD/MM/YYYY", label:"DD/MM/YYYY"},
             {value:"MM/DD/YYYY", label:"MM/DD/YYYY"},
             {value:"YYYY/MM/DD", label:"YYYY/MM/DD"}
-        ]}
+        ], defaultValue: "YYYY-MM-DD"}
     ],
     "daterange": [
         ...basicProps,
@@ -112,7 +113,7 @@ export const FieldPropertiesMap = {
             {value:"DD/MM/YYYY", label:"DD/MM/YYYY"},
             {value:"MM/DD/YYYY", label:"MM/DD/YYYY"},
             {value:"YYYY/MM/DD", label:"YYYY/MM/DD"}
-        ]},
+        ], defaultValue: "YYYY-MM-DD"},
         {key: "c_defaultStartValue", label:"Default Start Date", type: "date", formatKey: 'c_dateFormat'},
         {key: "c_defaultEndValue", label:"Default End Date", type: "date", formatKey: 'c_dateFormat'},
         {key: "c_startValuePropsName", label:"Start Date Property Name", type: "string", rules: [ {pattern: /^[aA-zZ][\w|_|0-9]+/, message: "Must be valid property name"}]},
@@ -120,15 +121,8 @@ export const FieldPropertiesMap = {
     ]
 }
 
-export const generateFieldItems = (field: IFieldProps, getFieldDecorator: any, getFieldValue: any) => {
-    let items = FieldPropertiesMap[field.inputType]
-    return <>{items && items.length > 0 && items.map((item, index)=> {
-        return asDecoratedProperty(field, getFieldDecorator, getFieldValue, item, index)
-    })}</>
-}
-
 export const asDecoratedProperty = (item: IFieldProps, decorator: any, valueFn: any, config: IFieldDecoratorConfig, index) : React.ReactNode => {
-    let {key, label, type, options, rules, required, formatValue, formatKey, help} = config;
+    let {key, label, type, options, rules, required, formatValue, formatKey, help, defaultValue} = config;
     let isCprop = key.indexOf("c_") > -1;
     let isFoProp = key.indexOf("fo_") > -1;
     let unprefixKey = isCprop ? key.replace("c_", "") : (isFoProp ? key.replace("fo_", ""): key);
@@ -150,7 +144,7 @@ export const asDecoratedProperty = (item: IFieldProps, decorator: any, valueFn: 
         case "string" : fragment = <Input/>; break;
         case "text" : fragment = <Input.TextArea/>; break;
         case "boolean" : fragment = <Switch/>; break;
-        case "number" : fragment = <InputNumber/>; break;
+        case "number" : fragment = <InputNumber />; break;
         case "options" : {fragment = <Select>
             {options && options.map((opt: ChoiceOption, oi) => {
                 return <Select.Option key={oi} value={opt.value}>{opt.label}</Select.Option>
@@ -158,10 +152,14 @@ export const asDecoratedProperty = (item: IFieldProps, decorator: any, valueFn: 
         </Select>; break;}
         case "date" : fragment = <DatePicker format={format}/>; break;
     }
+    let value = (typeof initialValue != 'undefined' && initialValue != null) ? initialValue : defaultValue;
+    let valuePropName = (item.inputType == 'checkbox' && unprefixKey == 'defaultChecked') ? 'checked' : 'value';
+    console.log(`${unprefixKey} - initialValue=${value}, valuePropName=${valuePropName}`);
     return <Form.Item label={label} required={required} key={index} help={help}>
         {
             decorator(key, {
-                initialValue: initialValue,
+                valuePropName: valuePropName,
+                initialValue: value,
                 rules: rules
             })(fragment)
         }
