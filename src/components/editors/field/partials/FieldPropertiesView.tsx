@@ -73,7 +73,6 @@ class FieldPropertiesView extends React.Component<IFieldPropertiesViewProps, any
             },
         };
         let {getFieldDecorator, getFieldValue} = this.props.form;
-        console.log(field.inputType, field.componentProps['options']);
         let formItems = FieldPropertiesMap[field.inputType];
         return  <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
             {formItems && formItems.map((item, index) => {
