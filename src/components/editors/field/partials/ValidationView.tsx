@@ -1,5 +1,6 @@
 import Field from "@kartikrao/lib-forms-core/lib/models/field";
 import { ValidationRuleNames } from "@kartikrao/lib-forms-core/lib/models/validation";
+import { ValidationAllowedRules } from "@kartikrao/lib-forms-core/lib/models/validation";
 import { notification, Button, Card, Checkbox, DatePicker, Empty, Form, Icon, Input, InputNumber, Select } from "antd";
 import { action, computed, observable, toJS } from "mobx";
 import { observer } from "mobx-react";
@@ -7,6 +8,7 @@ import moment from 'moment';
 import * as React from "react";
 import { IComponentEditorView } from "../../IComponentEditorView";
 import { ValidationListView } from "./ValidationListView";
+import {formItemLayout, tailFormItemLayout} from "./FormLayoutCommon";
 
 @observer
 export class ValidationView extends React.Component<IComponentEditorView,any> {
@@ -143,48 +145,31 @@ export class ValidationView extends React.Component<IComponentEditorView,any> {
             fieldList.push(editorStore.formStore.idFieldMap[id]);
         });
 
-        const formItemLayout = {
-            labelCol: {
-              xs: { span: 24 },
-              sm: { span: 8 },
-            },
-            wrapperCol: {
-              xs: { span: 18 },
-              sm: { span: 12 },
-            },
-          };
-
-
-        const tailFormItemLayout = {
-            wrapperCol: {
-              xs: {
-                span: 24,
-                offset: 0,
-              },
-              sm: {
-                span: 12,
-                offset: 14,
-              },
-            },
-        };
+        let availableRules = ValidationRuleNames.filter((rule: any) => {
+            let rules = ValidationAllowedRules[field.inputType];
+            return rules && rules.length > 0 && rules.indexOf(rule.key) > -1
+        });
 
         return <div>
-            <Card title="Rules" size="small" bodyStyle={{padding: '0'}} actions={[<Icon onClick={() => this.setIsAdding(true)} type="plus"/>]}>
+            <Card title="Rules" size="small" bodyStyle={{padding: '0'}} actions={[<span style={{visibility: availableRules.length>0 ? 'visible' : 'hidden'}}><Icon onClick={() => this.setIsAdding(true)}
+                type="plus"/></span>]}>
                 {!hasValidation && <Empty description={
-                    <span>No validation on this field</span>
+                    <span>{availableRules.length > 0 ? "No validation set on this field" : "No validation available for this field"}</span>
                     }>
                 </Empty>}
                 {!!hasValidation && <ValidationListView
-                        validation={field.validator.rule}
-                        onEdit={this.onEdit}
-                        onRemove={editorStore.removeValidationRule}/>
+                    validation={field.validator.rule}
+                    onEdit={this.onEdit}
+                    onRemove={editorStore.removeValidationRule}/>
                 }
             </Card>
-            {(this.isAdding || this.isEditing) && <Card size="small" bodyStyle={{padding: '12px'}} style={{marginTop:'15px'}} title={`${this.isEditing == true ? "Edit" : "Add"} Rule ${this.ruleType ? ' - ' + this.ruleType: ''}`}>
+
+            {(this.isAdding || this.isEditing) && <Card size="small" bodyStyle={{padding: '8px'}} style={{marginTop:'15px'}}
+                    title={`${this.isEditing == true ? "Edit" : "Add"} Rule ${this.ruleType ? ' - ' + this.ruleType: ''}`}>
             <Form layout="horizontal" {...formItemLayout}>
                 <Form.Item label="Rule">
                     <Select onChange={(e) => this.setRuleType(e)} style={{ width: 200 }} placeholder="Select a rule to apply" value={this.ruleType}>
-                        {ValidationRuleNames.map((rule: any) => {
+                        {availableRules.map((rule: any) => {
                             return <Select.Option disabled={!!field.validator.rule[rule.value]} key={rule.key} value={rule.value}>{rule.label}</Select.Option>
                         })}
                     </Select>

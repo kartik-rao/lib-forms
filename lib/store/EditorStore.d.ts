@@ -40,6 +40,6 @@ declare class EditorStore implements IEditorStoreProps {
     readonly showPageEditor: boolean;
     readonly showColumnEditor: boolean;
     readonly showSectionEditor: boolean;
-    setEditable: (item: Page | Field | Section | Column) => void;
+    setEditable: (item: Field | Page | Section | Column) => void;
 }
 export default EditorStore;

@@ -1,5 +1,6 @@
-import { Tabs, Drawer, Row, Col } from "antd";
+import { Tabs, Drawer, Row, Col, Modal } from "antd";
 import { observer } from "mobx-react";
+import {action} from "mobx";
 import * as React from "react";
 import { ConditionsView } from "./partials/ConditionsView";
 import FieldPropertiesView from "./partials/FieldPropertiesView";
@@ -12,14 +13,22 @@ export class FieldEditorView extends React.Component<IComponentEditorView,any> {
         super(props);
     }
 
+    @action onOk() {
+        this.props.store.editorStore.setEditable(null);
+    }
+
+    @action onCancel() {
+
+    }
+
     render() {
         let {editorStore} = this.props.store;
         let {field} = editorStore;
 
-        return field && <Drawer title={`Field ${field.name} (id=${field.id} class=${field.className})`}
+        return field && <Drawer title={`Field ${field.name} (id=${field.id||''} class=${field.className})`}
             width={700} onClose={() => editorStore.setEditable(null)} visible={editorStore.showFieldEditor}
-            style={{ overflow: 'auto', height: 'calc(100% - 108px)', paddingBottom: '108px' }}>
-            {editorStore.field &&
+            style={{ overflow: 'auto', height: 'calc(80% - 108px)', paddingBottom: '108px' }}>
+            {
                 <Tabs>
                     <Tabs.TabPane tab="Properties" key="1">
                         <Row><Col span={24}><FieldPropertiesView store={this.props.store}/></Col></Row>

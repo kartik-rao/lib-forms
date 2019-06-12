@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import { IPredicate } from "@kartikrao/lib-forms-core/lib/models/condition.predicate";
 import { IComponentEditorView } from "../../IComponentEditorView";
-
+import {formItemLayout, tailFormItemLayout} from "./FormLayoutCommon";
 
 @observer
 export class ConditionsView extends React.Component<IComponentEditorView,any> {
@@ -101,24 +101,21 @@ export class ConditionsView extends React.Component<IComponentEditorView,any> {
                 ),
               }
         ]
-        let formLayoutProps = {
-            labelcol: {span: 4, offset: 1},
-            wrappercol: {span: 12, offset: 1}
-        };
+
         return <div>
-            <Card title="Conditions" actions={[<Icon type="plus" style={{visibility: numPredicates == 0 ? 'visible' : 'hidden'}} onClick={() => this.setIsAdding(true)}/>]}>
-            { numPredicates > 0 && <div>
-                <Table size="small" dataSource={field.condition.predicates || []} columns={columns} rowKey='uuid'/>
-                </div>
-            }
-            { numPredicates == 0 && <Empty description={
+            <Card title="Conditions" size="small" bodyStyle={{padding:0}} actions={[<Icon type="plus" style={{visibility: numPredicates == 0 ? 'visible' : 'hidden'}} onClick={() => this.setIsAdding(true)}/>]}>
+                { numPredicates > 0 && <div>
+                    <Table size="small" pagination={numPredicates > 5 ? {position: 'bottom'} : false} dataSource={field.condition.predicates || []} columns={columns} rowKey='uuid'/>
+                    </div>
+                }
+                { numPredicates == 0 && <Empty description={
                     <span>No conditional rendering on this field</span>
                     }>
                 </Empty>
-            }
+                }
             </Card>
-            {this.isAdding  && <Card title="Add condition">
-                <Form layout="horizontal" labelCol={formLayoutProps.labelcol} wrapperCol={formLayoutProps.wrappercol} onSubmit={(e)=> this.handleSubmit(e)}>
+            {this.isAdding  && <Card size="small" title="Add condition" bodyStyle={{padding: '8px'}} style={{marginTop: '15px'}}>
+                <Form layout="horizontal" {...formItemLayout} onSubmit={(e)=> this.handleSubmit(e)}>
                     <Form.Item label="Source field" help="Field the condition will get its source value from" required>
                         <Select showSearch={true} onChange={(e) => this.setField(e)} value={this.field}>
                             { availableConditionSources.map((f)=>{
@@ -147,9 +144,9 @@ export class ConditionsView extends React.Component<IComponentEditorView,any> {
                             }
                         </Select>
                     </Form.Item>
-                    <Form.Item>
-                        <Button style={{float: 'right', marginLeft: '10px'}} icon="plus" htmlType="submit" type="primary" disabled={!this.field || !this.expression}>Add</Button>
-                        <Button style={{float: 'right'}} onClick={() => this.cancel()}>Cancel</Button>
+                    <Form.Item {...tailFormItemLayout}>
+                        <Button style={{marginRight: '15px'}} size="small" icon="plus" htmlType="submit" type="primary" disabled={!this.field || !this.expression}>Add</Button>
+                        <Button  size="small" type="danger" onClick={() => this.cancel()}>Cancel</Button>
                     </Form.Item>
                 </Form>
             </Card>}

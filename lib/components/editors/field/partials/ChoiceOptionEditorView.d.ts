@@ -19,6 +19,7 @@ export declare class ChoiceOptionEditorView extends React.Component<IChoiceOptio
     edit(record: ChoiceOption): void;
     add(): void;
     remove(index: number): void;
+    setSearchInput(node: React.ReactNode): void;
     getColumnSearchProps: (dataIndex: any) => {
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, }: {
             setSelectedKeys: any;

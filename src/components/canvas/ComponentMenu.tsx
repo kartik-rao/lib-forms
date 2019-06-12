@@ -184,6 +184,7 @@ export class ComponentMenu extends React.Component<any, any> {
                 {this.asDraggableCard("NewTextField", "Field", "Year", "Field", "yearpicker", "calendar")}
             </Card>
             <Card size="small" bodyStyle={{ fontSize: '12px',padding: '0px', marginBottom: '1px' }}  bordered={false} title={<small>Interactive</small>}>
+                {this.asDraggableCard("NewTextField", "Field", "HTML", "Field", "htmlfragment", "code")}
                 {this.asDraggableCard("NewTextField", "Field", "Slider", "Field", "slider", "control")}
                 {this.asDraggableCard("NewTextField", "Field", "Rating", "Field", "starrating", "star")}
                 {this.asDraggableCard("NewTextField", "Field", "Switch", "Field", "switch", "poweroff")}

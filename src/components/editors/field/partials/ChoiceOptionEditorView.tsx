@@ -56,36 +56,25 @@ export class ChoiceOptionEditorView extends React.Component<IChoiceOptionEditorP
         this.props.onChange(this.items);
     }
 
+    @action.bound setSearchInput(node: React.ReactNode) {
+        this.searchInput = node;
+    }
 
     getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({
           setSelectedKeys, selectedKeys, confirm, clearFilters,
         }) => (
           <div style={{ padding: 8 }}>
-            <Input
-              ref={node => { this.searchInput = node; }}
-              placeholder={`Search ${dataIndex}`}
-              value={selectedKeys[0]}
-              onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-              onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
-              style={{ width: 188, marginBottom: 8, display: 'block' }}
+            <Input ref={node => { this.setSearchInput(node); }} placeholder={`Search ${dataIndex}`}
+              value={selectedKeys[0]} onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+              onPressEnter={() => this.handleSearch(selectedKeys, confirm)} style={{ width: 188, marginBottom: 8, display: 'block' }}
             />
-            <Button
-              type="primary"
-              onClick={() => this.handleSearch(selectedKeys, confirm)}
-              icon="search"
-              size="small"
-              style={{ width: 90, marginRight: 8 }}
-            >
+            <Button type="primary" onClick={() => this.handleSearch(selectedKeys, confirm)}
+              icon="search" size="small" style={{ width: 90, marginRight: 8 }}>
               Search
             </Button>
-            <Button
-              onClick={() => this.handleReset(clearFilters)}
-              size="small"
-              style={{ width: 90 }}
-            >
-              Reset
-            </Button>
+            <Button onClick={() => this.handleReset(clearFilters)} size="small"
+              style={{ width: 90 }}>Reset</Button>
           </div>
         ),
         filterIcon: filtered => <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />,
@@ -116,6 +105,7 @@ export class ChoiceOptionEditorView extends React.Component<IChoiceOptionEditorP
     }
 
     render() {
+        console.log("COEV - PRERENDER", this.props);
         let columns = [{
           title: '',
           key: "operate",
@@ -153,13 +143,13 @@ export class ChoiceOptionEditorView extends React.Component<IChoiceOptionEditorP
         });
 
         return <div>
-            <Card title="Options" style={{padding: 0}}>
+            <Card title="Options" size="small" bodyStyle={{padding: 0}}>
                 {this.items.length == 0 && <Empty description={
                     <span>No options on this field</span>
                     }>
                 </Empty>}
                 {this.items.length > 0 && <ReactDragListView onDragEnd={this.move} handleSelector="i" nodeSelector="tr.ant-table-row">
-                    <Table size="middle" pagination={rows.length > 5 ? {position: 'bottom'} : false} dataSource={rows} columns={columns} rowKey='key'/>
+                    <Table size="small" pagination={rows.length > 5 ? {position: 'bottom'} : false} dataSource={rows} columns={columns} rowKey='key'/>
                   </ReactDragListView>
                 }
             </Card>

@@ -12,6 +12,7 @@ import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
 import {FieldEditorView} from "../editors/field/FieldEditorView";
 import { observer } from "mobx-react";
+import { RichTextEditor } from "../editors/field/partials/RichTextEditor";
 const { Content } = Layout;
 
 export interface CanvasProps {
