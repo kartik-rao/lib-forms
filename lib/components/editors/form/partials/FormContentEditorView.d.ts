@@ -8,7 +8,8 @@ declare class FormContentEditorView extends React.Component<IFormContentEditorVi
     constructor(props: IFormContentEditorViewProps);
     form: Form;
     handleSubmit: (e: any) => void;
+    onchange: (e: any) => void;
     render(): JSX.Element;
 }
-declare const WrappedFormContentEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof FormContentEditorView, Pick<IFormContentEditorViewProps, "wrappedComponentRef" | "store">>;
+declare const WrappedFormContentEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof FormContentEditorView, Pick<IFormContentEditorViewProps, "store" | "wrappedComponentRef">>;
 export default WrappedFormContentEditorView;

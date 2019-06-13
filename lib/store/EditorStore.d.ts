@@ -43,6 +43,6 @@ declare class EditorStore implements IEditorStoreProps {
     readonly showColumnEditor: boolean;
     readonly showSectionEditor: boolean;
     setFormEditorVisible(visible?: boolean): void;
-    setEditable: (item: Page | Field | Section | Column) => void;
+    setEditable: (item: Field | Page | Section | Column) => void;
 }
 export default EditorStore;

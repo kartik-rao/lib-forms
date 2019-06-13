@@ -5,6 +5,7 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import { IEditorView } from "../common/IComponentEditorView";
 import FormContentEditorView from "./partials/FormContentEditorView";
+import FormPropertiesEditorView from "./partials/FormPropertiesEditorView";
 
 @observer
 export class FormEditorView extends React.Component<IEditorView, any> {
@@ -15,10 +16,13 @@ export class FormEditorView extends React.Component<IEditorView, any> {
 
         return form && <Drawer title={`Form "${form.name}" `}
             onClose={() => editorStore.setFormEditorVisible(false)} visible={editorStore.formEditorVisible == true}
-            width={500}
+            width={700}
             style={{ overflow: 'hidden'}}>
             {   <Tabs size="small">
                     <Tabs.TabPane tab="Properties" key="1">
+                        <Row><Col span={24}><FormPropertiesEditorView store={this.props.store}/></Col></Row>
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab="Content" key="2">
                         <Row><Col span={24}><FormContentEditorView store={this.props.store}/></Col></Row>
                     </Tabs.TabPane>
                 </Tabs>
