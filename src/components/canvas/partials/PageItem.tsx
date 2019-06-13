@@ -24,12 +24,14 @@ export class PageItem extends React.Component<IPageItemProps, any> {
 
     render() {
         let page: Page = this.props.page;
+        let {editorStore} = this.props.store;
+        let {title, subtitle, name} = page;
         return ( <div style={{padding: '4px'}}>
             <Draggable type="Page" draggableId={page.uuid} index={this.props.index}>
             {(provided, snapshot) => (
                 <Container ref={provided.innerRef} {...provided.draggableProps}
                 style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                    <Button shape="circle" size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
+                    <Button onClick={() => {editorStore.setEditable(page)}} shape="circle" size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
                     <Badge {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Page")} text={`Page - ${page.title}`}/>
                     <Droppable droppableId={`${page.uuid}|sections`} type="Section">
                         {(provided, snapshot) => {

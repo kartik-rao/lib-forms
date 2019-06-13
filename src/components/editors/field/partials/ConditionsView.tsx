@@ -3,23 +3,23 @@ import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { IPredicate } from "@kartikrao/lib-forms-core/lib/models/condition.predicate";
-import { IComponentEditorView } from "../../IComponentEditorView";
-import {formItemLayout, tailFormItemLayout} from "./FormLayoutCommon";
+import { IEditorView } from "../../common/IComponentEditorView";
+import {formItemLayout, tailFormItemLayout} from "../../common/FormLayoutCommon";
 
 @observer
-export class ConditionsView extends React.Component<IComponentEditorView,any> {
+export class ConditionsView extends React.Component<IEditorView,any> {
     @observable field: string;
     @observable expression: string;
     @observable value: string;
     @observable operator: string;
     @observable isAdding: boolean;
 
-    constructor(props:IComponentEditorView) {
+    constructor(props:IEditorView) {
         super(props);
         this.initialize(props);
     }
 
-    @action initialize(props: IComponentEditorView) {
+    @action initialize(props: IEditorView) {
         this.field = null;
         this.expression = null;
         this.value = null;

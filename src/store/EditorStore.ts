@@ -11,6 +11,7 @@ import Column from "@kartikrao/lib-forms-core/lib/models/column";
 
 export interface IEditorStoreProps {
     item?: Page|Field|Section|Column;
+    formEditorVisible?: boolean;
     formStore: FormStore;
     factory: Factory;
 }
@@ -22,6 +23,7 @@ class EditorStore implements IEditorStoreProps {
     column: Column;
     formStore: FormStore;
     factory: Factory;
+    formEditorVisible: boolean;
 
     constructor(data: IEditorStoreProps) {
         this.initialize(data);
@@ -31,6 +33,7 @@ class EditorStore implements IEditorStoreProps {
         this.formStore = data.formStore;
         this.factory = data.factory;
         this.setEditable(data.item);
+        this.formEditorVisible = false;
         return;
     }
 
@@ -136,8 +139,12 @@ class EditorStore implements IEditorStoreProps {
     @computed get showColumnEditor() {return !!this.column;}
     @computed get showSectionEditor() {return !!this.section;}
 
-    @action setEditable = (item: Page|Section|Column|Field) => {
+    @action setFormEditorVisible(visible: boolean = false) {
+        this.reset();
+        this.formEditorVisible = visible;
+    }
 
+    @action setEditable = (item: Page|Section|Column|Field) => {
         this.reset();
         if (item) {
             switch(item._type) {
@@ -166,7 +173,8 @@ decorate(EditorStore, {
     field: observable,
     page: observable,
     section: observable,
-    column: observable
+    column: observable,
+    formEditorVisible: observable
 });
 
 export default EditorStore;

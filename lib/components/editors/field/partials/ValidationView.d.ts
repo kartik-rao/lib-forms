@@ -1,13 +1,13 @@
 import * as React from "react";
-import { IComponentEditorView } from "../../IComponentEditorView";
-export declare class ValidationView extends React.Component<IComponentEditorView, any> {
+import { IEditorView } from "../../common/IComponentEditorView";
+export declare class ValidationView extends React.Component<IEditorView, any> {
     readonly dateFormat: string;
     ruleType: string;
     properties: any;
     isEditing: boolean;
     isAdding: boolean;
-    constructor(props: IComponentEditorView);
-    initialize(props: IComponentEditorView): void;
+    constructor(props: IEditorView);
+    initialize(props: IEditorView): void;
     setRuleType(type: any): void;
     setRuleProperty(name: string, value: any): void;
     cancel(): void;

@@ -4,18 +4,18 @@ import { FormComponentProps } from "antd/lib/form";
 import { action, toJS } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
-import { IComponentEditorView } from "../../IComponentEditorView";
-import { asDecoratedProperty, FieldPropertiesMap } from "../EditableProperties";
+import { IEditorView } from "../../common/IComponentEditorView";
+import { asDecoratedProperty, FieldPropertiesMap } from "./EditableFieldProperties";
 import { ChoiceOptionEditorView } from "./ChoiceOptionEditorView";
 
-export interface IFieldPropertiesViewProps extends FormComponentProps, IComponentEditorView {
+export interface IPropertiesViewProps extends FormComponentProps, IEditorView {
 
 }
 
 
 @observer
-class FieldPropertiesView extends React.Component<IFieldPropertiesViewProps, any> {
-    constructor(props: IFieldPropertiesViewProps) {
+class PropertiesView extends React.Component<IPropertiesViewProps, any> {
+    constructor(props: IPropertiesViewProps) {
         super(props);
     }
 
@@ -98,5 +98,5 @@ class FieldPropertiesView extends React.Component<IFieldPropertiesViewProps, any
     }
 }
 
-const WrappedFieldPropertiesView = Form.create<IFieldPropertiesViewProps>({ name: 'FieldPropertiesView' })(FieldPropertiesView);
-export default WrappedFieldPropertiesView;
+const WrappedPropertiesView = Form.create<IPropertiesViewProps>({ name: 'PropertiesView' })(PropertiesView);
+export default WrappedPropertiesView;

@@ -1,14 +1,15 @@
 import Page from "@kartikrao/lib-forms-core/lib/models/page";
-import { Card, Divider } from "antd";
+import { Card, Divider, Button, Badge } from "antd";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import RootStore from "../../store/RootStore";
-import { ItemList } from "./partials/dnd.common";
+import { ItemList, getBadgeStyle } from "./partials/dnd.common";
 import { PageItem } from "./partials/PageItem";
 import Section from "@kartikrao/lib-forms-core/lib/models/section";
 import Column from "@kartikrao/lib-forms-core/lib/models/column";
 import Field from "@kartikrao/lib-forms-core/lib/models/field";
+import { toJS } from "mobx";
 
 
 export interface ComponentTreeProps {
@@ -30,12 +31,14 @@ export class ComponentTree extends React.Component<ComponentTreeProps, any> {
     }
 
     render() {
-        let { formStore } = this.props.store;
+        let { formStore, editorStore } = this.props.store;
         let { form } = formStore;
         let { pages } = form.content;
-
+        console.log(toJS(form));
         return <Card title={"Layout"} bordered={false} style={{height: '100%'}}
                 bodyStyle={{height:'100%', padding: '8px', overflow: 'auto', paddingBottom:'48px'}}>
+            <Button onClick={() => {editorStore.setFormEditorVisible(true);console.log(editorStore.formEditorVisible)}} shape="circle" size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
+            <Badge status="default" color={getBadgeStyle("Page")} text={`Form - ${form.name}`}/>
             <Droppable droppableId="pages" type="Page">
             {(provided, snapshot) => {
                 return <ItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>

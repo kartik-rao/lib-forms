@@ -6,12 +6,12 @@ import { action, computed, observable, toJS } from "mobx";
 import { observer } from "mobx-react";
 import moment from 'moment';
 import * as React from "react";
-import { IComponentEditorView } from "../../IComponentEditorView";
+import { IEditorView } from "../../common/IComponentEditorView";
 import { ValidationListView } from "./ValidationListView";
-import {formItemLayout, tailFormItemLayout} from "./FormLayoutCommon";
+import {formItemLayout, tailFormItemLayout} from "../../common/FormLayoutCommon";
 
 @observer
-export class ValidationView extends React.Component<IComponentEditorView,any> {
+export class ValidationView extends React.Component<IEditorView,any> {
 
     readonly dateFormat : string = "YYYY-MM-DD"
     @observable ruleType: string;
@@ -19,12 +19,12 @@ export class ValidationView extends React.Component<IComponentEditorView,any> {
     @observable isEditing: boolean;
     @observable isAdding: boolean;
 
-    constructor(props:IComponentEditorView) {
+    constructor(props:IEditorView) {
         super(props);
         this.initialize(props);
     }
 
-    @action initialize(props: IComponentEditorView) {
+    @action initialize(props: IEditorView) {
         this.ruleType = null;
         this.properties = {};
         this.isEditing = false;

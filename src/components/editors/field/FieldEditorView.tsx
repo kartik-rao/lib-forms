@@ -3,12 +3,12 @@ import { observer } from "mobx-react";
 import {action} from "mobx";
 import * as React from "react";
 import { ConditionsView } from "./partials/ConditionsView";
-import FieldPropertiesView from "./partials/FieldPropertiesView";
+import FieldPropertiesView from "./partials/PropertiesView";
 import { ValidationView } from "./partials/ValidationView";
-import {IComponentEditorView} from "../IComponentEditorView";
+import {IEditorView} from "../common/IComponentEditorView";
 
 @observer
-export class FieldEditorView extends React.Component<IComponentEditorView,any> {
+export class FieldEditorView extends React.Component<IEditorView,any> {
     constructor(props:any) {
         super(props);
     }

@@ -1,14 +1,14 @@
 import * as React from "react";
 import { IPredicate } from "@kartikrao/lib-forms-core/lib/models/condition.predicate";
-import { IComponentEditorView } from "../../IComponentEditorView";
-export declare class ConditionsView extends React.Component<IComponentEditorView, any> {
+import { IEditorView } from "../../common/IComponentEditorView";
+export declare class ConditionsView extends React.Component<IEditorView, any> {
     field: string;
     expression: string;
     value: string;
     operator: string;
     isAdding: boolean;
-    constructor(props: IComponentEditorView);
-    initialize(props: IComponentEditorView): void;
+    constructor(props: IEditorView);
+    initialize(props: IEditorView): void;
     setField: (e: any) => void;
     setExpression: (e: any) => void;
     setValue: (e: any) => void;

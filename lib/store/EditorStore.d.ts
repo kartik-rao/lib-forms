@@ -9,6 +9,7 @@ import Section from "@kartikrao/lib-forms-core/lib/models/section";
 import Column from "@kartikrao/lib-forms-core/lib/models/column";
 export interface IEditorStoreProps {
     item?: Page | Field | Section | Column;
+    formEditorVisible?: boolean;
     formStore: FormStore;
     factory: Factory;
 }
@@ -19,6 +20,7 @@ declare class EditorStore implements IEditorStoreProps {
     column: Column;
     formStore: FormStore;
     factory: Factory;
+    formEditorVisible: boolean;
     constructor(data: IEditorStoreProps);
     initialize(data: IEditorStoreProps): void;
     readonly availableConditionSources: any[];
@@ -40,6 +42,7 @@ declare class EditorStore implements IEditorStoreProps {
     readonly showPageEditor: boolean;
     readonly showColumnEditor: boolean;
     readonly showSectionEditor: boolean;
-    setEditable: (item: Field | Page | Section | Column) => void;
+    setFormEditorVisible(visible?: boolean): void;
+    setEditable: (item: Page | Field | Section | Column) => void;
 }
 export default EditorStore;

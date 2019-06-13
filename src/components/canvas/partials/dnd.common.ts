@@ -10,6 +10,7 @@ export const Container = styled.div`
 
 export const getBadgeStyle = (type: string) => {
     switch (type) {
+        case "Form": return "cyan";
         case "Page": return "magenta";
         case "Section" : return "geekblue";
         case "Column" : return "gold";

@@ -1,6 +1,6 @@
 import * as React from "react";
-import { IComponentEditorView } from "../IComponentEditorView";
-export declare class FieldEditorView extends React.Component<IComponentEditorView, any> {
+import { IEditorView } from "../common/IComponentEditorView";
+export declare class FieldEditorView extends React.Component<IEditorView, any> {
     constructor(props: any);
     onOk(): void;
     onCancel(): void;
