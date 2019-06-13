@@ -34,11 +34,11 @@ export class ComponentTree extends React.Component<ComponentTreeProps, any> {
         let { formStore, editorStore } = this.props.store;
         let { form } = formStore;
         let { pages } = form.content;
-        console.log(toJS(form));
+
         return <Card title={"Layout"} bordered={false} style={{height: '100%'}}
-                bodyStyle={{height:'100%', padding: '8px', overflow: 'auto', paddingBottom:'48px'}}>
-            <Button onClick={() => {editorStore.setFormEditorVisible(true);console.log(editorStore.formEditorVisible)}} shape="circle" size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
-            <Badge status="default" color={getBadgeStyle("Page")} text={`Form - ${form.name}`}/>
+                bodyStyle={{height:'100%', padding: '10px', overflow: 'auto', paddingBottom:'48px'}}>
+            <Button onClick={() => {editorStore.setFormEditorVisible(true)}} shape="circle" size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
+            <Badge status="default" color={getBadgeStyle("Form")} text={`Form - ${form.name}`}/>
             <Droppable droppableId="pages" type="Page">
             {(provided, snapshot) => {
                 return <ItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
