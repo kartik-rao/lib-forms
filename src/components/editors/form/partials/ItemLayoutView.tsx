@@ -177,27 +177,34 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
         let columns = [{
             title: 'Dimension',
             dataIndex: 'dimension',
-            key: 'dimension',
+            key: 'dimension'
           },
+          {title: 'Label', children: [
+                {
+                title: 'Offset',
+                dataIndex: 'labelOffset',
+                key: 'labelOffset',
+              },
+              {
+                title: 'Span',
+                dataIndex: 'labelSpan',
+                key: 'labelSpan',
+              }
+          ]},
           {
-            title: 'Label Offset',
-            dataIndex: 'labelOffset',
-            key: 'labelOffset',
-          },
-          {
-            title: 'Label Span',
-            dataIndex: 'labelSpan',
-            key: 'labelSpan',
-          },
-          {
-            title: 'Field Offset',
-            dataIndex: 'wrapperOffset',
-            key: 'wrapperOffset',
-          },
-          {
-            title: 'Field Span',
-            dataIndex: 'wrapperSpan',
-            key: 'wrapperSpan',
+              title: 'Field',
+              children: [
+                  {
+                    title: 'Offset',
+                    dataIndex: 'wrapperOffset',
+                    key: 'wrapperOffset',
+                  },
+                  {
+                    title: 'Span',
+                    dataIndex: 'wrapperSpan',
+                    key: 'wrapperSpan',
+                  }
+              ]
           },
           {
             title: 'Actions',
@@ -215,7 +222,7 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
         let {isAdding, isEditing} = this;
 
         return <Card size="small" bodyStyle={{padding: 0}}>
-            <Table title={() =><strong>Item Layout</strong>} size="small" bordered={false} pagination={false} dataSource={this.currentDimensions} columns={columns}
+            <Table title={() =><span>Item Layout <small>click (+) to see preview</small></span>} size="small" bordered={false} pagination={false} dataSource={this.currentDimensions} columns={columns}
                 rowKey='dimension' expandedRowRender={(record) => <ItemLayoutPreview {...record}/>}
                 footer={() => {return this.availableDimensions.length > 0 ? <Button onClick={() => this.setIsAdding()}>Add</Button> : <></>}}/>
             {(isAdding || isEditing) && this.availableDimensions.length > 0 && <Card size="small" title={this.isAdding ? "Add Field Layout" : "Edit Field Layout"} style={{marginTop: '15px'}}>
