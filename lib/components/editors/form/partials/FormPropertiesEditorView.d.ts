@@ -10,5 +10,5 @@ declare class FormPropertiesEditorView extends React.Component<IFormPropertiesEd
     handleSubmit: (e: any) => void;
     render(): JSX.Element;
 }
-declare const WrappedFormContentEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof FormPropertiesEditorView, Pick<IFormPropertiesEditorViewProps, "store" | "wrappedComponentRef">>;
+declare const WrappedFormContentEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof FormPropertiesEditorView, Pick<IFormPropertiesEditorViewProps, "wrappedComponentRef" | "store">>;
 export default WrappedFormContentEditorView;

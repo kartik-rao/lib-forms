@@ -6,6 +6,7 @@ import * as React from "react";
 import { IEditorView } from "../common/IComponentEditorView";
 import FormContentEditorView from "./partials/FormContentEditorView";
 import FormPropertiesEditorView from "./partials/FormPropertiesEditorView";
+import ItemLayoutView from "./partials/ItemLayoutView";
 
 @observer
 export class FormEditorView extends React.Component<IEditorView, any> {
@@ -22,8 +23,11 @@ export class FormEditorView extends React.Component<IEditorView, any> {
                     <Tabs.TabPane tab="Properties" key="1">
                         <Row><Col span={24}><FormPropertiesEditorView store={this.props.store}/></Col></Row>
                     </Tabs.TabPane>
-                    <Tabs.TabPane tab="Content" key="2">
+                    <Tabs.TabPane tab="Form Layout" key="2">
                         <Row><Col span={24}><FormContentEditorView store={this.props.store}/></Col></Row>
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab="Field Layout" key="3">
+                        <Row><Col span={24}><ItemLayoutView store={this.props.store}/></Col></Row>
                     </Tabs.TabPane>
                 </Tabs>
             }

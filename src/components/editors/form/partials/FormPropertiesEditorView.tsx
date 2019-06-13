@@ -53,7 +53,7 @@ class FormPropertiesEditorView extends React.Component<IFormPropertiesEditorView
                 notification.info({message: `Form - ${form.name}`,
                     description:"Form properties applied successfully"});
                 form.desc = values.desc;
-
+                form.layout = values.layout;
                 form.content = {...form.content, ...values.content}
                 form.status = {...form.status, ...values.status}
             }
@@ -97,6 +97,26 @@ class FormPropertiesEditorView extends React.Component<IFormPropertiesEditorView
                             initialValue: form.content.subtitle,
                             rules: [{type: 'string'}]
                         })(<Input/>)
+                    }
+                </Form.Item>
+                <Form.Item label="Form Layout" help={<ul>
+                    <li><i>Note: Changing form layouts will reset field layouts to defaults</i></li>
+                    <li>Horizontal：Labeld placed next to controls.</li>
+                    <li>Vertical：Labels placed above controls (default).</li>
+                    <li>Inline：All controls render in one line.</li>
+                </ul>}>
+                        {
+                        getFieldDecorator('layout', {
+                            initialValue: form.layout,
+                            rules: [
+                                {type: 'string'},
+                                {required: true, message: 'A Layout is required'}
+                            ]
+                        })(<Select>
+                            <Select.Option key="horizontal">Horizontal</Select.Option>
+                            <Select.Option key="vertical">Vertical</Select.Option>
+                            <Select.Option key="inline">Inline</Select.Option>
+                        </Select>)
                     }
                 </Form.Item>
                 <Form.Item label="Entry Timezone Offset" help="UTC by default, used to mark entry times">
