@@ -1,7 +1,7 @@
 import { FormComponentProps } from "antd/lib/form";
 import * as React from "react";
-import { IEditorView } from "../../common/IComponentEditorView";
 import RootStore from "../../../../store/RootStore";
+import { IEditorView } from "../../common/IComponentEditorView";
 export interface IFormContentEditorViewProps extends FormComponentProps, IEditorView {
     store: RootStore;
 }

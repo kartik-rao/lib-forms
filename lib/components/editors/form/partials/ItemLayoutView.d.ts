@@ -1,8 +1,10 @@
-import * as React from "react";
-import RootStore from "../../../../store/RootStore";
 import { FormComponentProps } from "antd/lib/form";
+import * as React from "react";
+import { IFormItemLayoutOptions } from "@kartikrao/lib-forms-core";
 export interface IItemLayoutViewProps extends FormComponentProps {
-    store: RootStore;
+    formLayout: string;
+    itemLayoutOptions: IFormItemLayoutOptions;
+    onSave: (item: IFormItemLayoutOptions) => void;
 }
 export declare class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
     isAdding: boolean;
@@ -18,7 +20,6 @@ export declare class ItemLayoutView extends React.Component<IItemLayoutViewProps
     };
     onChange: (key: string, value: any) => void;
     constructor(props: IItemLayoutViewProps);
-    initialize(props: IItemLayoutViewProps): void;
     readonly currentDimensions: any[];
     readonly availableDimensions: string[];
     setIsAdding: () => void;
@@ -29,5 +30,5 @@ export declare class ItemLayoutView extends React.Component<IItemLayoutViewProps
     save: () => void;
     render(): JSX.Element;
 }
-declare const WrappedIItemLayoutViewProps: import("antd/lib/form/interface").ConnectedComponentClass<typeof ItemLayoutView, Pick<IItemLayoutViewProps, "store" | "wrappedComponentRef">>;
+declare const WrappedIItemLayoutViewProps: import("antd/lib/form/interface").ConnectedComponentClass<typeof ItemLayoutView, Pick<IItemLayoutViewProps, "formLayout" | "itemLayoutOptions" | "onSave" | "wrappedComponentRef">>;
 export default WrappedIItemLayoutViewProps;

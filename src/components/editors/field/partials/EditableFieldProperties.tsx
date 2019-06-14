@@ -154,7 +154,6 @@ export const asDecoratedProperty = (item: IFieldProps, decorator: any, valueFn: 
     }
     let value = (typeof initialValue != 'undefined' && initialValue != null) ? initialValue : defaultValue;
     let valuePropName = (item.inputType == 'checkbox' && unprefixKey == 'defaultChecked') ? 'checked' : 'value';
-    console.log(`${unprefixKey} - initialValue=${value}, valuePropName=${valuePropName}`);
     return <Form.Item label={label} required={required} key={index} help={help}>
         {
             decorator(key, {

@@ -1,13 +1,16 @@
-import { Button, Table, Divider, Form, Card, Select, Slider, Modal } from "antd";
-import { action, observable, set, computed, toJS } from "mobx";
-import * as React from "react";
-import RootStore from "../../../../store/RootStore";
-import { ItemLayoutPreview } from "./ItemLayoutPreview";
+import { Button, Card, Form, Modal, Select, Slider, Table } from "antd";
 import { FormComponentProps } from "antd/lib/form";
+import { action, computed, observable, set } from "mobx";
 import { observer } from "mobx-react";
+import * as React from "react";
+
+import { ItemLayoutPreview } from "./ItemLayoutPreview";
+import { IFormItemLayoutOptions } from "@kartikrao/lib-forms-core";
 
 export interface IItemLayoutViewProps extends FormComponentProps {
-    store: RootStore;
+    formLayout: string;
+    itemLayoutOptions: IFormItemLayoutOptions;
+    onSave: (item: IFormItemLayoutOptions) => void;
 }
 
 const dimensionNameMap = {
@@ -83,31 +86,23 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
         super(props);
     }
 
-    @action initialize(props: IItemLayoutViewProps) {
-
-    }
-
     @computed get currentDimensions() {
-        let {formStore} = this.props.store.editorStore;
-        let {layout} = formStore.form;
-        let {labelCol, wrapperCol} = formStore.form.itemLayoutOptions;
+        let {labelCol, wrapperCol} = this.props.itemLayoutOptions;
         let rows = [];
         let dMap = {};
         Object.keys(labelCol).forEach((d) => {
-            dMap[d] = {formLayout: layout, dimension: d, labelSpan: labelCol[d].span, labelOffset: labelCol[d].offset || 0};
+            dMap[d] = {formLayout: this.props.formLayout, dimension: d, labelSpan: labelCol[d].span, labelOffset: labelCol[d].offset || 0};
         });
         Object.keys(wrapperCol).forEach((d) => {
             dMap[d]['wrapperSpan'] =  wrapperCol[d].span;
             dMap[d]['wrapperOffset'] = wrapperCol[d].offset || 0;
             rows.push(dMap[d]);
         });
-
         return rows;
     }
 
     @computed get availableDimensions() {
-        let {formStore} = this.props.store.editorStore;
-        let {labelCol} = formStore.form.itemLayoutOptions;
+        let {labelCol} = this.props.itemLayoutOptions;
         let usedDimensions = Object.keys(labelCol);
         let available = ["xs", "sm", "md", "lg", "xl"].filter((d) => {
             return usedDimensions.indexOf(d) < 0;
@@ -155,22 +150,20 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
     }
 
     @action remove = (record: any) => {
-        let {form} = this.props.store.editorStore.formStore;
-        let {labelCol, wrapperCol} = form.itemLayoutOptions;
-        delete labelCol[record.dimension];
-        delete wrapperCol[record.dimension];
+        let itemLayoutOptions = {...this.props.itemLayoutOptions}
+        delete itemLayoutOptions.labelCol[record.dimension];
+        delete itemLayoutOptions.wrapperCol[record.dimension];
+        this.props.onSave(itemLayoutOptions);
     }
 
     @action save = () => {
         let {fieldLayout} = this;
-        let {form} = this.props.store.editorStore.formStore;
-        console.log("New Field Layout", fieldLayout);
-        console.log("Old Field Layout", toJS(form.itemLayoutOptions));
-        form.itemLayoutOptions.labelCol = {...form.itemLayoutOptions.labelCol, ...fieldLayout.labelCol};
-        form.itemLayoutOptions.wrapperCol = {...form.itemLayoutOptions.wrapperCol, ...fieldLayout.wrapperCol};
-        console.log("After Save", toJS(form.itemLayoutOptions));
+        let itemLayoutOptions : IFormItemLayoutOptions = {labelCol: {}, wrapperCol: {}}
+        itemLayoutOptions.labelCol = {...this.props.itemLayoutOptions.labelCol, ...fieldLayout.labelCol};
+        itemLayoutOptions.wrapperCol = {...this.props.itemLayoutOptions.wrapperCol, ...fieldLayout.wrapperCol};
         this.isAdding = false;
         this.isEditing = false;
+        this.props.onSave(itemLayoutOptions);
     }
 
     render() {
@@ -218,15 +211,14 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
         }];
 
         let {getFieldDecorator} = this.props.form;
-        let {layout} = this.props.store.editorStore.formStore.form;
         let {isAdding, isEditing} = this;
 
         return <Card size="small" bodyStyle={{padding: 0}}>
-            <Table title={() =><span>Item Layout <small>click (+) to see preview</small></span>} size="small" bordered={false} pagination={false} dataSource={this.currentDimensions} columns={columns}
+            <Table title={() =><span>Field Layouts <small>click (+) to see preview</small></span>} size="small" bordered={false} pagination={false} dataSource={this.currentDimensions} columns={columns}
                 rowKey='dimension' expandedRowRender={(record) => <ItemLayoutPreview {...record}/>}
                 footer={() => {return this.availableDimensions.length > 0 ? <Button onClick={() => this.setIsAdding()}>Add</Button> : <></>}}/>
             {(isAdding || isEditing) && this.availableDimensions.length > 0 && <Card size="small" title={this.isAdding ? "Add Field Layout" : "Edit Field Layout"} style={{marginTop: '15px'}}>
-                    <ItemLayoutPreview formLayout={layout} dimension={ this.dimension } labelOffset={this.labelOffset} labelSpan={this.labelSpan}
+                    <ItemLayoutPreview formLayout={this.props.formLayout} dimension={ this.dimension } labelOffset={this.labelOffset} labelSpan={this.labelSpan}
                         wrapperOffset={this.wrapperOffset} wrapperSpan={this.wrapperSpan}/>
                     <p>Assign 24 units (aliquots) across the label and field to control how label-field pairs are displayed</p>
                     <Form {...formItemLayout} layout={"horizontal"}>

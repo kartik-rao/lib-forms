@@ -99,26 +99,6 @@ class FormPropertiesEditorView extends React.Component<IFormPropertiesEditorView
                         })(<Input/>)
                     }
                 </Form.Item>
-                <Form.Item label="Form Layout" help={<ul>
-                    <li><i>Note: Changing form layouts will reset field layouts to defaults</i></li>
-                    <li>Horizontal：Labeld placed next to controls.</li>
-                    <li>Vertical：Labels placed above controls (default).</li>
-                    <li>Inline：All controls render in one line.</li>
-                </ul>}>
-                        {
-                        getFieldDecorator('layout', {
-                            initialValue: form.layout,
-                            rules: [
-                                {type: 'string'},
-                                {required: true, message: 'A Layout is required'}
-                            ]
-                        })(<Select>
-                            <Select.Option key="horizontal">Horizontal</Select.Option>
-                            <Select.Option key="vertical">Vertical</Select.Option>
-                            <Select.Option key="inline">Inline</Select.Option>
-                        </Select>)
-                    }
-                </Form.Item>
                 <Form.Item label="Entry Timezone Offset" help="UTC by default, used to mark entry times">
                         {
                         getFieldDecorator('status.timezone', {
