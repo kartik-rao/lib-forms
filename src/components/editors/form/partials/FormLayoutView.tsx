@@ -126,7 +126,7 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
     render() {
         let {getFieldDecorator} = this.props.form;
         return <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
-                <p>Change form layout to render labels next to or above fields, add field layouts for fine grained control of rendering on a variety of screen sizes</p>
+                <p>Change form layout to render labels next to or above fields, add field layouts for fine grained control of rendering on a variety of screen sizes.</p>
                 <Divider/>
                 <Form.Item label="Form Layout" help={<ul>
                     <li>Horizontal：Labels placed next to controls.</li>
