@@ -1,7 +1,7 @@
 import { Button, Table } from "antd";
 import { observer } from "mobx-react";
 import * as React from "react";
-import ValidationRule, { ValidationRuleMap } from "@kartikrao/lib-forms-core/lib/models/validation";
+import { ValidationRule, ValidationRuleMap } from "@kartikrao/lib-forms-core";
 
 export interface IValidationListViewProps {
     validation: ValidationRule;

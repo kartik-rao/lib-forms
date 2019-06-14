@@ -4,7 +4,7 @@ import Form from "antd/lib/form/Form";
 import { action, observable, set, toJS } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
-import RootStore from "../../../../store/RootStore";
+import {RootStore} from "../../../../store/RootStore";
 import { IEditorView } from "../../common/IComponentEditorView";
 
 

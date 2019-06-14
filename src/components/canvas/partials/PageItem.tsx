@@ -1,9 +1,9 @@
-import Page from "@kartikrao/lib-forms-core/lib/models/page";
-import Section from "@kartikrao/lib-forms-core/lib/models/section";
+import {Page, Section} from "@kartikrao/lib-forms-core";
+
 import { Badge, Button } from "antd";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import RootStore from "../../../store/RootStore";
+import {RootStore} from "../../../store/RootStore";
 import { Container, getBadgeStyle, getItemStyle, ItemList } from "./dnd.common";
 import { SectionItem } from "./SectionItem";
 import { observer } from "mobx-react";

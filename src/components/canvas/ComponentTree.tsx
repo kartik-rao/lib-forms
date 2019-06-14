@@ -1,16 +1,11 @@
-import Page from "@kartikrao/lib-forms-core/lib/models/page";
-import { Card, Divider, Button, Badge, Popover } from "antd";
+import { Page } from "@kartikrao/lib-forms-core";
+import { Badge, Button, Card, Divider } from "antd";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { Droppable } from "react-beautiful-dnd";
-import RootStore from "../../store/RootStore";
-import { ItemList, getBadgeStyle } from "./partials/dnd.common";
+import { RootStore } from "../../store/RootStore";
+import { getBadgeStyle, ItemList } from "./partials/dnd.common";
 import { PageItem } from "./partials/PageItem";
-import Section from "@kartikrao/lib-forms-core/lib/models/section";
-import Column from "@kartikrao/lib-forms-core/lib/models/column";
-import Field from "@kartikrao/lib-forms-core/lib/models/field";
-import { toJS } from "mobx";
-
 
 export interface ComponentTreeProps {
     store: RootStore;

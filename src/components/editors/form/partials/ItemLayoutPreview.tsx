@@ -1,50 +1,37 @@
+import { ItemLayoutOptions, ScreenWidth } from "@kartikrao/lib-forms-core";
 import { Col, Row } from "antd";
-import { action, observable, computed } from "mobx";
-import * as React from "react";
+import { computed, observable, toJS } from "mobx";
 import { observer } from "mobx-react";
+import * as React from "react";
 
 export interface IITemLayoutPreview {
-    labelOffset: number;
-    labelSpan: number;
-    wrapperSpan: number;
-    wrapperOffset: number;
-    dimension: string;
+    itemLayoutOptions : ItemLayoutOptions;
+    dimension: ScreenWidth;
     formLayout: string;
 }
 
 @observer
 export class ItemLayoutPreview extends React.Component<IITemLayoutPreview, any> {
 
-    @observable labelOffset;
-    @observable labelSpan;
-    @observable wrapperSpan;
-    @observable wrapperOffset;
-    @observable dimension;
-    @observable formLayout;
-
     @computed get shouldRender() {
-        return !!this.dimension && !isNaN(this.labelOffset) && !isNaN(this.labelSpan)
-            && !isNaN(this.wrapperSpan) && !isNaN(this.wrapperOffset);
+        return this.props.formLayout
+            && this.props.itemLayoutOptions && this.props.dimension && this.props.itemLayoutOptions[this.props.dimension];
     }
 
     constructor(props: IITemLayoutPreview) {
         super(props);
-        this.initialize(props);
-    }
-
-    @action initialize(props: IITemLayoutPreview) {
-        this.labelOffset = props.labelOffset;
-        this.labelSpan = props.labelSpan;
-        this.wrapperSpan = props.wrapperSpan;
-        this.wrapperOffset = props.wrapperOffset;
-        this.dimension = props.dimension;
-        this.formLayout = props.formLayout;
     }
 
     render() {
-        let {formLayout, dimension, wrapperOffset, wrapperSpan, labelSpan, labelOffset} = this.props;
+        console.log("PREVIEW", this.props.dimension, toJS(this.props.itemLayoutOptions))
+        let {formLayout} = this.props;
+        let {wrapperCol, labelCol} = this.props.itemLayoutOptions;
+        let wrapperSpan = wrapperCol[this.props.dimension].span;
+        let wrapperOffset = wrapperCol[this.props.dimension].offset
+        let labelSpan = labelCol[this.props.dimension].span;
+        let labelOffset = labelCol[this.props.dimension].offset;
+
         let {shouldRender} = this;
-        console.log("Preview", this.props)
         return <div style={{background: '#ffff'}}>
         {shouldRender && formLayout == 'horizontal' && <Row className="fl-layout-demo-row">
         <Col span={labelOffset}>{'\u00A0'}</Col>

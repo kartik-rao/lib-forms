@@ -1,6 +1,4 @@
-import Field from "@kartikrao/lib-forms-core/lib/models/field";
-import { ValidationRuleNames, ValidationRuleMap } from "@kartikrao/lib-forms-core/lib/models/validation";
-import { ValidationAllowedRules } from "@kartikrao/lib-forms-core/lib/models/validation";
+import {Field, ValidationAllowedRules, ValidationRuleNames, ValidationRuleMap} from "@kartikrao/lib-forms-core";
 import { notification, Button, Card, Checkbox, DatePicker, Empty, Form, Icon, Input, InputNumber, Select } from "antd";
 import { action, computed, observable, toJS } from "mobx";
 import { observer } from "mobx-react";

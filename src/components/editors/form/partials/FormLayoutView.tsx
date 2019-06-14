@@ -1,10 +1,10 @@
-import { IFormItemLayoutOptions, IFormLayoutOptions } from "@kartikrao/lib-forms-core/lib/models/form.properties";
+import { ItemLayoutOptions, IItemLayoutOptions, FormLayoutOptions, IFormLayoutOptions } from "@kartikrao/lib-forms-core";
 import { Button, Form, notification, Select, Divider } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { action, computed, observable, toJS } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
-import RootStore from "../../../../store/RootStore";
+import {RootStore} from "../../../../store/RootStore";
 import ItemLayoutView from "./ItemLayoutView";
 
 
@@ -48,11 +48,11 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
 
     @action initialize(props: IFormLayoutViewProps) {
         let {form} = props.store.formStore;
-        let {itemLayoutOptions, formLayoutOptions} = form;
+        let {itemLayoutOptions, formLayoutOptions, layout} = form;
 
-        this.itemLayoutOptions = itemLayoutOptions ? toJS(itemLayoutOptions) : {};
-        this.formLayoutOptions = formLayoutOptions ? toJS(formLayoutOptions) : {};
-        this.selectedFormLayout = form.layout;
+        this.itemLayoutOptions = itemLayoutOptions;
+        this.formLayoutOptions = formLayoutOptions;
+        this.selectedFormLayout = layout;
     }
 
     @action setProperty(key: string, e) {
@@ -107,7 +107,7 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
     }
 
     @observable selectedFormLayout    : string;
-    @observable itemLayoutOptions : IFormItemLayoutOptions;
+    @observable itemLayoutOptions : ItemLayoutOptions;
     @observable formLayoutOptions : IFormLayoutOptions;
     @observable selectedDimension : ScreenWidth;
 
@@ -116,44 +116,47 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
         return this.selectedFormLayout != form.layout;
     }
 
-    @action saveLayout = (layout: IFormLayoutOptions) => {
+    @action saveLayout = (layout: ItemLayoutOptions) => {
         let {form} = this.props.store.editorStore.formStore;
         form.itemLayoutOptions = layout;
         notification.info({message: `Form - ${form.name}`,
                 description:"Form properties applied successfully"});
+        console.log("Post Save", form.itemLayoutOptions);
     }
 
     render() {
         let {getFieldDecorator} = this.props.form;
-        return <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
-                <p>Change form layout to render labels next to or above fields, add field layouts for fine grained control of rendering on a variety of screen sizes.</p>
-                <Divider/>
-                <Form.Item label="Form Layout" help={<ul>
-                    <li>Horizontal：Labels placed next to controls.</li>
-                    <li>Vertical：Labels placed above controls (default).</li>
-                    <li>Inline：All controls render in one line.</li>
-                </ul>}>
-                        {
-                        getFieldDecorator('selectedFormLayout', {
-                            initialValue: this.selectedFormLayout,
-                            rules: [
-                                {type: 'string'},
-                                {required: true, message: 'A Layout is required'}
-                            ]
-                        })(<Select onChange={(e) => {this.setProperty('selectedFormLayout', e)}}>
-                            <Select.Option key="horizontal">Horizontal</Select.Option>
-                            <Select.Option key="vertical">Vertical</Select.Option>
-                            <Select.Option key="inline">Inline</Select.Option>
-                        </Select>)
-                    }
-                </Form.Item>
-                {this.hasFormLayoutChanged && <Form.Item {...tailFormItemLayout}>
-                    <Button size="small" type="primary">Update Form Layout</Button>
-                </Form.Item>}
-                <Divider />
-                <ItemLayoutView onSave={this.saveLayout}
-                        formLayout={this.selectedFormLayout} itemLayoutOptions={this.itemLayoutOptions}/>
-     </Form>
+        return <div>
+            <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
+            <p>Change form layout to render labels next to or above fields, add field layouts for fine grained control of rendering on a variety of screen sizes.</p>
+            <Divider/>
+            <Form.Item label="Form Layout" help={<ul>
+                <li>Horizontal：Labels placed next to controls.</li>
+                <li>Vertical：Labels placed above controls (default).</li>
+                <li>Inline：All controls render in one line.</li>
+            </ul>}>
+                    {
+                    getFieldDecorator('selectedFormLayout', {
+                        initialValue: this.selectedFormLayout,
+                        rules: [
+                            {type: 'string'},
+                            {required: true, message: 'A Layout is required'}
+                        ]
+                    })(<Select onChange={(e) => {this.setProperty('selectedFormLayout', e)}}>
+                        <Select.Option key="horizontal">Horizontal</Select.Option>
+                        <Select.Option key="vertical">Vertical</Select.Option>
+                        <Select.Option key="inline">Inline</Select.Option>
+                    </Select>)
+                }
+            </Form.Item>
+            {this.hasFormLayoutChanged && <Form.Item {...tailFormItemLayout}>
+                <Button size="small" type="primary">Update Form Layout</Button>
+            </Form.Item>}
+        </Form>
+        <Divider />
+        <ItemLayoutView onSave={this.saveLayout}
+                formLayout={this.selectedFormLayout} itemLayoutOptions={this.itemLayoutOptions}/>
+    </div>
     }
 }
 

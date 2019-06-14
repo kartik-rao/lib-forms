@@ -5,12 +5,12 @@ import { observer } from "mobx-react";
 import * as React from "react";
 
 import { ItemLayoutPreview } from "./ItemLayoutPreview";
-import { IFormItemLayoutOptions } from "@kartikrao/lib-forms-core";
+import { ItemLayoutOptions, ScreenWidth, AllScreenWidths } from "@kartikrao/lib-forms-core";
 
 export interface IItemLayoutViewProps extends FormComponentProps {
     formLayout: string;
-    itemLayoutOptions: IFormItemLayoutOptions;
-    onSave: (item: IFormItemLayoutOptions) => void;
+    itemLayoutOptions: ItemLayoutOptions;
+    onSave: (item: ItemLayoutOptions) => void;
 }
 
 const dimensionNameMap = {
@@ -50,7 +50,7 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
 
     @observable isAdding : boolean;
     @observable isEditing : boolean;
-    @observable dimension : string;
+    @observable dimension : ScreenWidth;
     @observable labelSpan : number;
     @observable wrapperSpan : number;
     @observable labelOffset : number;
@@ -86,7 +86,7 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
         super(props);
     }
 
-    @computed get currentDimensions() {
+    @computed get currentDimensions() : ScreenWidth[] {
         let {labelCol, wrapperCol} = this.props.itemLayoutOptions;
         let rows = [];
         let dMap = {};
@@ -101,12 +101,13 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
         return rows;
     }
 
-    @computed get availableDimensions() {
+    @computed get availableDimensions() : ScreenWidth[] {
         let {labelCol} = this.props.itemLayoutOptions;
         let usedDimensions = Object.keys(labelCol);
-        let available = ["xs", "sm", "md", "lg", "xl"].filter((d) => {
+        let available: ScreenWidth[] = (AllScreenWidths as ScreenWidth[]).filter((d) => {
             return usedDimensions.indexOf(d) < 0;
         });
+
         return available;
     }
 
@@ -150,19 +151,19 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
     }
 
     @action remove = (record: any) => {
-        let itemLayoutOptions = {...this.props.itemLayoutOptions}
-        delete itemLayoutOptions.labelCol[record.dimension];
-        delete itemLayoutOptions.wrapperCol[record.dimension];
+        let {itemLayoutOptions} = this.props;
+        itemLayoutOptions.labelCol[record.dimension] = null;
+        itemLayoutOptions.wrapperCol[record.dimension] = null;
         this.props.onSave(itemLayoutOptions);
     }
 
     @action save = () => {
-        let {fieldLayout} = this;
-        let itemLayoutOptions : IFormItemLayoutOptions = {labelCol: {}, wrapperCol: {}}
-        itemLayoutOptions.labelCol = {...this.props.itemLayoutOptions.labelCol, ...fieldLayout.labelCol};
-        itemLayoutOptions.wrapperCol = {...this.props.itemLayoutOptions.wrapperCol, ...fieldLayout.wrapperCol};
+        let {itemLayoutOptions} = this.props;
+        itemLayoutOptions.wrapperCol[this.dimension] = {span: this.wrapperSpan, offset: this.wrapperOffset}
+        itemLayoutOptions.labelCol[this.dimension] = {span: this.labelSpan, offset: this.labelOffset}
         this.isAdding = false;
         this.isEditing = false;
+        console.log("Pre Save", itemLayoutOptions);
         this.props.onSave(itemLayoutOptions);
     }
 
@@ -218,8 +219,7 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
                 rowKey='dimension' expandedRowRender={(record) => <ItemLayoutPreview {...record}/>}
                 footer={() => {return this.availableDimensions.length > 0 ? <Button onClick={() => this.setIsAdding()}>Add</Button> : <></>}}/>
             {(isAdding || isEditing) && this.availableDimensions.length > 0 && <Card size="small" title={this.isAdding ? "Add Field Layout" : "Edit Field Layout"} style={{marginTop: '15px'}}>
-                    <ItemLayoutPreview formLayout={this.props.formLayout} dimension={ this.dimension } labelOffset={this.labelOffset} labelSpan={this.labelSpan}
-                        wrapperOffset={this.wrapperOffset} wrapperSpan={this.wrapperSpan}/>
+                    <ItemLayoutPreview formLayout={this.props.formLayout} itemLayoutOptions={this.props.itemLayoutOptions} dimension={ this.dimension }/>
                     <p>Assign 24 units (aliquots) across the label and field to control how label-field pairs are displayed</p>
                     <Form {...formItemLayout} layout={"horizontal"}>
                         <Form.Item label="Target Screen Width" help={<ul>

@@ -1,17 +1,13 @@
-import { IFormProps } from "@kartikrao/lib-forms-core";
-import { Factory } from "@kartikrao/lib-forms-core/lib/models/factory";
-import Field from "@kartikrao/lib-forms-core/lib/models/field";
-import Form from "@kartikrao/lib-forms-core/lib/models/form";
 import EditorStore from "./EditorStore";
-import FormStore from "@kartikrao/lib-forms-core/lib/store/FormStore";
+import { FormStore, Form, Field, IFormProps, Factory } from "@kartikrao/lib-forms-core";
 import { action, configure, decorate, observable } from "mobx";
 
 configure({enforceActions: "always"});
 
-class RootStore {
+export class RootStore {
     formStore: FormStore;
     editorStore: EditorStore;
-    formData: Form;
+    @observable formData: Form;
     selectedField: Field;
 
     @action initialize(data: IFormProps) {
@@ -25,9 +21,3 @@ class RootStore {
         this.initialize(data);
     }
 }
-
-decorate(RootStore, {
-    formData: observable
-});
-
-export default RootStore;

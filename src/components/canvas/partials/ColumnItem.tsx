@@ -1,9 +1,9 @@
-import Column from "@kartikrao/lib-forms-core/lib/models/column";
-import Field from "@kartikrao/lib-forms-core/lib/models/field";
+import {Column, Field} from "@kartikrao/lib-forms-core";
+
 import { Badge, Button } from "antd";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import RootStore from "../../../store/RootStore";
+import {RootStore} from "../../../store/RootStore";
 import { Container, getBadgeStyle, getItemStyle, ItemList } from "./dnd.common";
 import { FieldItem } from "./FieldItem";
 import { observer } from "mobx-react";

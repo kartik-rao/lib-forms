@@ -1,20 +1,15 @@
-import Column from "@kartikrao/lib-forms-core/lib/models/column";
-import { Factory } from "@kartikrao/lib-forms-core/lib/models/factory";
-import Page from "@kartikrao/lib-forms-core/lib/models/page";
-import Section from "@kartikrao/lib-forms-core/lib/models/section";
-import { FormView } from "@kartikrao/lib-forms-core/lib/views/FormView";
 import { Col, Icon, Layout, Menu } from 'antd';
 import { computed } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import RootStore from "../../store/RootStore";
+import { RootStore } from "../../store/RootStore";
 import { FieldEditorView } from "../editors/field/FieldEditorView";
+import { FormEditorView } from "../editors/form/FormEditorView";
 import PageEditorView from "../editors/page/PageEditorView";
 import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
-import { FormEditorView } from "../editors/form/FormEditorView";
-
+import {Page, Section , Column, FormView, Factory} from "@kartikrao/lib-forms-core";
 const { Content } = Layout;
 
 export interface CanvasProps {

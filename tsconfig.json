@@ -1,6 +1,6 @@
-{
+{   "compileOnSave": true,
     "compilerOptions": {
-      "incremental" :true,
+      "incremental" :false,
       "module": "esnext",
       "target": "es6",
       "lib": ["es6", "dom"],

@@ -1,8 +1,8 @@
-import Field from "@kartikrao/lib-forms-core/lib/models/field";
+import {Field} from "@kartikrao/lib-forms-core";
 import { Badge, Button } from "antd";
 import * as React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import RootStore from "../../../store/RootStore";
+import {RootStore} from "../../../store/RootStore";
 import { Container, getBadgeStyle, getItemStyle } from "./dnd.common";
 import { observer } from "mobx-react";
 

@@ -2,7 +2,7 @@ import { Button, Card, Empty, Form, Icon, Input, Select, Table } from "antd";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
-import { IPredicate } from "@kartikrao/lib-forms-core/lib/models/condition.predicate";
+import { IPredicate } from "@kartikrao/lib-forms-core";
 import { IEditorView } from "../../common/IComponentEditorView";
 import {formItemLayout, tailFormItemLayout} from "../../common/FormLayoutCommon";
 

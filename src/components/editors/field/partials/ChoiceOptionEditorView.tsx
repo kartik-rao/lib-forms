@@ -1,4 +1,4 @@
-import { ChoiceOption } from "@kartikrao/lib-forms-core/lib/models/field.properties";
+import { ChoiceOption } from "@kartikrao/lib-forms-core";
 import { Button, Card, Empty, Icon, Input, Table } from "antd";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";

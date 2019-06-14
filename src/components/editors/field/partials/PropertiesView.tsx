@@ -1,4 +1,4 @@
-import { ChoiceOption, IFieldProps } from "@kartikrao/lib-forms-core/lib/models/field.properties";
+import { ChoiceOption, IFieldProps } from "@kartikrao/lib-forms-core";
 import { Button, Empty, Form, notification } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { action, toJS } from "mobx";

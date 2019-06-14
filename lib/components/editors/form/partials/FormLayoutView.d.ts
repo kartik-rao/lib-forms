@@ -1,4 +1,4 @@
-import { IFormItemLayoutOptions, IFormLayoutOptions } from "@kartikrao/lib-forms-core/lib/models/form.properties";
+import { IItemLayoutOptions, FormLayoutOptions, IFormLayoutOptions } from "@kartikrao/lib-forms-core/lib/models/layout";
 import { FormComponentProps } from "antd/lib/form";
 import * as React from "react";
 import RootStore from "../../../../store/RootStore";
@@ -21,11 +21,11 @@ export declare class FormLayoutView extends React.Component<IFormLayoutViewProps
     readonly dimensions: string[];
     handleSubmit: (e: any) => void;
     selectedFormLayout: string;
-    itemLayoutOptions: IFormItemLayoutOptions;
+    itemLayoutOptions: IItemLayoutOptions;
     formLayoutOptions: IFormLayoutOptions;
     selectedDimension: ScreenWidth;
     readonly hasFormLayoutChanged: boolean;
-    saveLayout: (layout: IFormLayoutOptions) => void;
+    saveLayout: (layout: FormLayoutOptions) => void;
     render(): JSX.Element;
 }
 declare const WrappedIFormLayoutViewProps: import("antd/lib/form/interface").ConnectedComponentClass<typeof FormLayoutView, Pick<IFormLayoutViewProps, "store" | "wrappedComponentRef">>;
