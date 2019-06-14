@@ -68,3 +68,5 @@ export class ValidationListView extends React.Component<IValidationListViewProps
         return <Table size="small" pagination={numConstraints > 5 ? {position: 'bottom'} : false} dataSource={rows} columns={columns} rowKey='key'/>
     }
 }
+
+// TODO: Use table tree view to list constraints
