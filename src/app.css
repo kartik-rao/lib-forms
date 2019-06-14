@@ -137,3 +137,8 @@ tr.ant-table-expanded-row {
 .ant-form-vertical .ant-form-extra {
     margin-left: 8px;
 }
+
+.fl-tree-button {
+    margin-right: 10px;
+     user-select: none;
+}

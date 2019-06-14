@@ -14,12 +14,12 @@ export interface IFormContentEditorViewProps extends FormComponentProps, IEditor
 
 const formItemLayout = {
     labelCol: {
-      xs: { span: 10 },
-      sm: { span: 10 },
+      xs: { span: 8, offset: 10 },
+      sm: { span: 8, offset: 10},
     },
     wrapperCol: {
-      xs: { span: 14 },
-      sm: { span: 14 },
+      xs: { span: 4, offset: 2 },
+      sm: { span: 4, offset: 2 },
     },
 };
 
@@ -104,7 +104,7 @@ class FormContentEditorView extends React.Component<IFormContentEditorViewProps,
                     })(<Switch />)}
                 </Form.Item>
                 <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit" style={{marginTop: '15px'}}>Apply</Button>
+                    <Button type="primary" size="small" htmlType="submit" style={{marginTop: '15px'}}>Apply</Button>
                 </Form.Item>
             </Form>
     }

@@ -23,7 +23,7 @@ export class FieldItem extends React.Component<IFieldItemProps, any> {
             {(provided, snapshot) => (
                 <Container ref={provided.innerRef} {...provided.draggableProps}
                         style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                    <Button shape="circle" onClick={() => editorStore.setEditable(fld)} size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
+                    <Button type="dashed" shape="circle" onClick={() => editorStore.setEditable(fld)} size="small" icon="edit" className="fl-tree-button"></Button>
                     <Badge {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Field")} text={`Field - ${label}`}/>
                     {provided.placeholder}
                 </Container>

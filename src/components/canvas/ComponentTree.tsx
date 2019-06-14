@@ -1,5 +1,5 @@
 import Page from "@kartikrao/lib-forms-core/lib/models/page";
-import { Card, Divider, Button, Badge } from "antd";
+import { Card, Divider, Button, Badge, Popover } from "antd";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { Droppable } from "react-beautiful-dnd";
@@ -14,10 +14,6 @@ import { toJS } from "mobx";
 
 export interface ComponentTreeProps {
     store: RootStore;
-}
-
-const onSelect = (itemType: string, item: Page|Section|Column|Field) => {
-
 }
 
 @observer
@@ -37,7 +33,7 @@ export class ComponentTree extends React.Component<ComponentTreeProps, any> {
 
         return <Card title={"Layout"} bordered={false} style={{height: '100%'}}
                 bodyStyle={{height:'100%', padding: '10px', overflow: 'auto', paddingBottom:'48px'}}>
-            <Button onClick={() => {editorStore.setFormEditorVisible(true)}} shape="circle" size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
+            <Button type="dashed" onClick={() => {editorStore.setFormEditorVisible(true)}} shape="circle" size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
             <Badge status="default" color={getBadgeStyle("Form")} text={`Form - ${form.name}`}/>
             <Droppable droppableId="pages" type="Page">
             {(provided, snapshot) => {

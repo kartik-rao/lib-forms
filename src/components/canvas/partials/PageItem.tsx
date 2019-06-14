@@ -31,7 +31,7 @@ export class PageItem extends React.Component<IPageItemProps, any> {
             {(provided, snapshot) => (
                 <Container ref={provided.innerRef} {...provided.draggableProps}
                 style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                    <Button onClick={() => {editorStore.setEditable(page)}} shape="circle" size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
+                    <Button type="dashed" onClick={() => {editorStore.setEditable(page)}} shape="circle" size="small" icon="edit" className="fl-tree-button"></Button>
                     <Badge {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Page")} text={`Page - ${page.title}`}/>
                     <Droppable droppableId={`${page.uuid}|sections`} type="Section">
                         {(provided, snapshot) => {

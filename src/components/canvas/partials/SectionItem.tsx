@@ -1,6 +1,6 @@
 import Column from "@kartikrao/lib-forms-core/lib/models/column";
 import Section from "@kartikrao/lib-forms-core/lib/models/section";
-import { Badge } from "antd";
+import { Badge, Button } from "antd";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import RootStore from "../../../store/RootStore";
@@ -19,10 +19,12 @@ export interface ISectionItemProps {
 export class SectionItem extends React.Component<ISectionItemProps, any> {
     render() {
         let sec = this.props.sec;
+        let {editorStore} = this.props.store;
         return <Draggable type="Section" draggableId={sec.uuid} index={this.props.index}>
         {(provided, snapshot) => (
           <Container ref={provided.innerRef} {...provided.draggableProps}
           style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+              <Button type="dashed" shape="circle" onClick={() => editorStore.setEditable(sec)} size="small" icon="edit" className="fl-tree-button"></Button>
               <Badge {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Section")} text={`Section - ${sec.name}`}/>
                 <Droppable droppableId={`${sec.uuid}|columns`} type="Column">
                 {(provided, snapshot) => {
