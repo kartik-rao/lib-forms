@@ -7,6 +7,7 @@ import { RootStore } from "../../store/RootStore";
 import { FieldEditorView } from "../editors/field/FieldEditorView";
 import { FormEditorView } from "../editors/form/FormEditorView";
 import PageEditorView from "../editors/page/PageEditorView";
+import {SectionEditorView} from "../editors/section/SectionEditorView";
 import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
 import {Page, Section , Column, FormView, Factory} from "@kartikrao/lib-forms-core";
@@ -195,6 +196,7 @@ export class Canvas extends React.Component<CanvasProps, any>{
                         <FieldEditorView store={this.props.store}/>
                         <FormEditorView store={this.props.store}/>
                         <PageEditorView store={this.props.store}/>
+                        <SectionEditorView store={this.props.store}/>
                     </Content>
                 </Layout>
         </DragDropContext>

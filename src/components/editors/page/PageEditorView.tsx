@@ -91,7 +91,7 @@ class PageEditorView extends React.Component<IPageEditorViewProps, any> {
                         }
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit" style={{marginTop: '15px'}}>Apply</Button>
+                        <Button type="primary" htmlType="submit" style={{marginTop: '15px'}} onClick={this.handleSubmit}>Apply</Button>
                     </Form.Item>
                 </Form>
                 </Col></Row>
