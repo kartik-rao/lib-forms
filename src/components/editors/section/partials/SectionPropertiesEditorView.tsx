@@ -1,9 +1,10 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Drawer, Form, notification, Button, Input, Row, Col, Card } from "antd";
+import { Drawer, Form, notification, Button, Input, Row, Col, Card, Slider } from "antd";
 import { IEditorView } from "../../common/IComponentEditorView";
-import { action } from "mobx";
+import { action, observable, computed } from "mobx";
 import { FormComponentProps } from "antd/lib/form";
+import { SectionLayoutPreview } from "./SectionLayoutPreview";
 
 export interface ISectionPropertiesEditorViewProps extends FormComponentProps, IEditorView {
 
@@ -36,6 +37,8 @@ const tailFormItemLayout = {
 @observer
 class SectionPropertiesEditorView extends React.Component<ISectionPropertiesEditorViewProps, any> {
 
+    @observable gutter: number;
+
     constructor(props: ISectionPropertiesEditorViewProps) {
         super(props);
     }
@@ -66,30 +69,27 @@ class SectionPropertiesEditorView extends React.Component<ISectionPropertiesEdit
             return <></>
         }
         return  <Card size="small" bordered={false}>
-                <Row><Col span={24}>
-                <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
-                    <Form.Item required={true} label="Name">
-                         {
-                            getFieldDecorator('name', {
-                                initialValue: section.name,
-                                rules: [{type: 'string'}]
-                            })(<Input/>)
-                        }
-                    </Form.Item>
-                    <Form.Item required={true} label="Title">
-                         {
-                            getFieldDecorator('title', {
-                                initialValue: section.title,
-                                rules: [{type: 'string'}]
-                            })(<Input/>)
-                        }
-                    </Form.Item>
-                    <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit" style={{marginTop: '15px'}} onClick={this.handleSubmit}>Apply</Button>
-                    </Form.Item>
-                </Form>
-                </Col>
-            </Row>
+            <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
+                <Form.Item required={true} label="Name">
+                        {
+                        getFieldDecorator('name', {
+                            initialValue: section.name,
+                            rules: [{type: 'string'}]
+                        })(<Input/>)
+                    }
+                </Form.Item>
+                <Form.Item required={true} label="Title">
+                        {
+                        getFieldDecorator('title', {
+                            initialValue: section.title,
+                            rules: [{type: 'string'}]
+                        })(<Input/>)
+                    }
+                </Form.Item>
+                <Form.Item {...tailFormItemLayout}>
+                    <Button type="primary" htmlType="submit" style={{marginTop: '15px'}} onClick={this.handleSubmit}>Apply</Button>
+                </Form.Item>
+            </Form>
         </Card>
     }
 }

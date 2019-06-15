@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import { IEditorView } from "../common/IComponentEditorView";
 import SectionPropertiesEditorView from "./partials/SectionPropertiesEditorView";
+import SectionLayoutEditor from "./partials/SectionLayoutEditor";
 
 const formItemLayout = {
     labelCol: {
@@ -46,13 +47,10 @@ export class SectionEditorView extends React.Component<IEditorView, any> {
                     <Tabs.TabPane tab="Settings" key="1">
                         <Row><Col span={24}><SectionPropertiesEditorView store={this.props.store}/></Col></Row>
                     </Tabs.TabPane>
-                    <Tabs.TabPane tab="Content" key="2">
-                        <Row><Col span={24}></Col></Row>
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab="Layout" key="3">
+                    <Tabs.TabPane tab="Layout" key="2">
                         <Row>
                             <Col span={24}>
-
+                                <SectionLayoutEditor store={this.props.store} section={section}/>
                             </Col>
                         </Row>
                     </Tabs.TabPane>
