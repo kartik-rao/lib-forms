@@ -99,7 +99,7 @@ class SectionLayoutEditorView extends React.Component<ISectionLayoutEditorViewPr
                     getFieldDecorator('gutter', {
                         initialValue: this.gutter || 0,
                         rules: [{type: 'number'}]
-                    })(<Slider step={8} max={96} onChange={(e) => this.updateGutter(e)}/>)
+                    })(<Slider step={8} max={48} onChange={(e) => this.updateGutter(e)}/>)
                 }
             </Form.Item>
             {this.props.section.columns.map((column, index) => {
