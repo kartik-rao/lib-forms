@@ -150,8 +150,9 @@ export class ValidationView extends React.Component<IEditorView,any> {
         });
 
         return <div>
-            <Card title="Rules" size="small" bodyStyle={{padding: '0'}} actions={[<span style={{visibility: availableRules.length>0 ? 'visible' : 'hidden'}}><Icon onClick={() => this.setIsAdding(true)}
-                type="plus"/></span>]}>
+            <Card  size="small" bodyStyle={{padding: '0'}}
+                actions={[<span style={{visibility: availableRules.length>0 ? 'visible' : 'hidden'}}>
+                    <Button size="small" onClick={() => this.setIsAdding(true)}>Add</Button></span>]}>
                 {!hasValidation && <Empty description={
                     <span>{availableRules.length > 0 ? "No validation set on this field" : "No validation available for this field"}</span>
                     }>

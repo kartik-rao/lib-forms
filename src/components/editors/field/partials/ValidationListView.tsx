@@ -1,7 +1,8 @@
-import { Button, Table } from "antd";
+import { Button, Table, Timeline, Tag } from "antd";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { ValidationRule, ValidationRuleMap } from "@kartikrao/lib-forms-core";
+import { toJS } from "mobx";
 
 export interface IValidationListViewProps {
     validation: ValidationRule;
@@ -22,21 +23,34 @@ export class ValidationListView extends React.Component<IValidationListViewProps
             key: 'name',
           },
           {
-            title: 'Message',
-            dataIndex: 'defaultMessage',
-            key: 'defaultMessage',
-          },
-          {
             title: 'Constraints',
             dataIndex: 'constraint',
             key: 'constraint',
             render: (text, record) => {
-                return <ul>
+                return <>
                         {Object.keys(record.constraint).map((key) => {
-                            return key == 'message' ? null : <li key={key}>{key} - {record.constraint[key]}</li>;
+                            let value;
+                            if(!Array.isArray(record.constraint[key])) {
+                                value = [record.constraint[key]];
+                            } else {
+                                value = record.constraint[key]
+                            }
+                            return key == 'message' ? null : <div key={key}>
+                                <Tag key={`${key}-k`}>{key}</Tag>
+                                <span key={`${key}-v`}>{
+                                    value.map((v, vi) => {
+                                        return <Tag key={`${key}-v-${vi}`} color="#87d068">{v}</Tag>
+                                    })
+                                }</span>
+                            </div>
                         })}
-                    </ul>
+                    </>
                 }
+          },
+          {
+            title: 'Message',
+            dataIndex: 'defaultMessage',
+            key: 'defaultMessage',
           },
           {
             title: 'Actions',
@@ -65,8 +79,6 @@ export class ValidationListView extends React.Component<IValidationListViewProps
                 rows.push(row);
             });
         }
-        return <Table size="small" pagination={numConstraints > 5 ? {position: 'bottom'} : false} dataSource={rows} columns={columns} rowKey='key'/>
+        return <Table title={() => <span>Validation rules</span>} size="small" pagination={numConstraints > 5 ? {position: 'bottom'} : false} dataSource={rows} columns={columns} rowKey='key'/>
     }
 }
-
-// TODO: Use table tree view to list constraints
