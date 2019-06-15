@@ -40,6 +40,7 @@ const tailFormItemLayout = {
 
 @observer
 export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
+    @observable selectedFormLayout    : string;
 
     constructor(props: IFormLayoutViewProps) {
         super(props);
@@ -48,47 +49,12 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
 
     @action initialize(props: IFormLayoutViewProps) {
         let {form} = props.store.formStore;
-        let {itemLayoutOptions, formLayoutOptions, layout} = form;
-
-        this.itemLayoutOptions = itemLayoutOptions;
-        this.formLayoutOptions = formLayoutOptions;
-        this.selectedFormLayout = layout;
+        this.selectedFormLayout = form.layout;
     }
 
     @action setProperty(key: string, e) {
         let value = e && typeof(e) == 'object' && e.target ? e.target.value: e;
         this[key] = value;
-    }
-
-    @computed get selectedItemLayout() {
-        let {selectedDimension} = this;
-        if(selectedDimension) {
-            let {itemLayoutOptions} = this;
-            let response = {
-                formLayout: this.selectedFormLayout,
-                dimension: selectedDimension,
-                labelOffset: 0,
-                labelSpan: 0,
-                wrapperOffset: 0,
-                wrapperSpan: 0
-            };
-            let {wrapperCol, labelCol} = itemLayoutOptions;
-            response.labelOffset = labelCol[selectedDimension].offset;
-            response.labelSpan = labelCol[selectedDimension].span;
-            response.wrapperOffset = wrapperCol[selectedDimension].offset;
-            response.wrapperSpan = wrapperCol[selectedDimension].span;
-            return response;
-        }
-    }
-
-    @computed get dimensions() {
-        if (this.itemLayoutOptions.wrapperCol) {
-            return Object.keys(this.itemLayoutOptions.wrapperCol);
-        } else if (this.itemLayoutOptions.labelCol) {
-            return Object.keys(this.itemLayoutOptions.labelCol);
-        } else {
-            return ["xs", "sm", "md", "lg", "xl"];
-        }
     }
 
     @action.bound handleSubmit = (e) => {
@@ -97,19 +63,13 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
         let {form} = this.props.store.editorStore.formStore;
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                notification.info({message: `Form - ${form.name}`,
-                    description:"Form properties applied successfully"});
                 form.layout = values.layout;
-                form.formLayoutOptions = values.formLayoutOptions;
+                notification.info({message: `Form - ${form.name}`,
+                    description:`Form layout set to "${form.layout}" `});
             }
         });
         return;
     }
-
-    @observable selectedFormLayout    : string;
-    @observable itemLayoutOptions : ItemLayoutOptions;
-    @observable formLayoutOptions : IFormLayoutOptions;
-    @observable selectedDimension : ScreenWidth;
 
     @computed get hasFormLayoutChanged() {
         let {form} = this.props.store.editorStore.formStore;
@@ -120,12 +80,12 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
         let {form} = this.props.store.editorStore.formStore;
         form.itemLayoutOptions = layout;
         notification.info({message: `Form - ${form.name}`,
-                description:"Form properties applied successfully"});
-        console.log("Post Save", form.itemLayoutOptions);
+                description:"Field layout updated successfully"});
     }
 
     render() {
         let {getFieldDecorator} = this.props.form;
+        let {form} = this.props.store.editorStore.formStore;
         return <div>
             <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
             <p>Change form layout to render labels next to or above fields, add field layouts for fine grained control of rendering on a variety of screen sizes.</p>
@@ -150,12 +110,12 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
                 }
             </Form.Item>
             {this.hasFormLayoutChanged && <Form.Item {...tailFormItemLayout}>
-                <Button size="small" type="primary">Update Form Layout</Button>
+                <Button size="small" type="primary">Save Form Layout</Button>
             </Form.Item>}
         </Form>
         <Divider />
         <ItemLayoutView onSave={this.saveLayout}
-                formLayout={this.selectedFormLayout} itemLayoutOptions={this.itemLayoutOptions}/>
+                formLayout={this.selectedFormLayout} itemLayoutOptions={form.itemLayoutOptions}/>
     </div>
     }
 }

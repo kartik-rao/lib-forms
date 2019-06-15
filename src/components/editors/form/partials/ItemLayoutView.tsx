@@ -1,11 +1,11 @@
+import { ItemLayoutOptions, ScreenWidth } from "@kartikrao/lib-forms-core";
 import { Button, Card, Form, Modal, Select, Slider, Table } from "antd";
 import { FormComponentProps } from "antd/lib/form";
-import { action, computed, observable, set } from "mobx";
+import { action, computed, observable, toJS } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
-
 import { ItemLayoutPreview } from "./ItemLayoutPreview";
-import { ItemLayoutOptions, ScreenWidth, AllScreenWidths } from "@kartikrao/lib-forms-core";
+
 
 export interface IItemLayoutViewProps extends FormComponentProps {
     formLayout: string;
@@ -50,91 +50,84 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
 
     @observable isAdding : boolean;
     @observable isEditing : boolean;
-    @observable dimension : ScreenWidth;
-    @observable labelSpan : number;
-    @observable wrapperSpan : number;
-    @observable labelOffset : number;
-    @observable wrapperOffset : number;
+    @observable selectedDimension : ScreenWidth;
+    @observable itemLayout: ItemLayoutOptions;
 
-    @computed get fieldLayout() {
-        if (!this.dimension) {
-            return null;
-        }
-        let {dimension} = this;
-        let fieldLayout = {
-            labelCol : {},
-            wrapperCol : {}
-        };
-
-        fieldLayout.labelCol[dimension] = {
-            span: this.labelSpan,
-            offset: this.labelOffset
-        };
-        fieldLayout.wrapperCol[dimension] = {
-            span: this.wrapperSpan,
-            offset: this.wrapperOffset
-        };
-
-        return fieldLayout;
+    @action setDimension = (dimension: ScreenWidth) => {
+        this.selectedDimension = dimension;
     }
 
-    @action.bound onChange = (key: string, value: any) => {
-        set(this, key, value);
+    @action.bound setLayoutProperty = (key: string, value: any) => {
+        let target;
+        let {selectedDimension} = this;
+        if (key.indexOf('wrapper') > -1) {
+            target = this.itemLayout.wrapperCol[selectedDimension];
+        } else {
+            target = this.itemLayout.labelCol[selectedDimension];
+        }
+
+        if (key.indexOf('Span') > -1) {
+            target.span = value;
+        } else {
+            target.offset = value;
+        }
+        console.log("After Set o/s", target.offset, target.span);
+        return;
+    }
+
+    @action initialize({itemLayoutOptions}) {
+        this.itemLayout = new ItemLayoutOptions(toJS(itemLayoutOptions))
     }
 
     constructor(props: IItemLayoutViewProps) {
         super(props);
+        this.initialize(props);
     }
 
-    @computed get currentDimensions() : ScreenWidth[] {
+    @computed get asRows() : any[] {
         let {labelCol, wrapperCol} = this.props.itemLayoutOptions;
         let rows = [];
         let dMap = {};
-        Object.keys(labelCol).forEach((d) => {
-            dMap[d] = {formLayout: this.props.formLayout, dimension: d, labelSpan: labelCol[d].span, labelOffset: labelCol[d].offset || 0};
-        });
-        Object.keys(wrapperCol).forEach((d) => {
-            dMap[d]['wrapperSpan'] =  wrapperCol[d].span;
-            dMap[d]['wrapperOffset'] = wrapperCol[d].offset || 0;
+
+        wrapperCol.used.forEach((d) => {
+            dMap[d] = {
+                formLayout: this.props.formLayout,
+                dimension: d,
+                labelSpan: labelCol[d].span,
+                labelOffset: labelCol[d].offset || 0,
+                wrapperOffset : wrapperCol[d].offset || 0,
+                wrapperSpan: wrapperCol[d].span,
+            };
             rows.push(dMap[d]);
         });
         return rows;
     }
 
     @computed get availableDimensions() : ScreenWidth[] {
-        let {labelCol} = this.props.itemLayoutOptions;
-        let usedDimensions = Object.keys(labelCol);
-        let available: ScreenWidth[] = (AllScreenWidths as ScreenWidth[]).filter((d) => {
-            return usedDimensions.indexOf(d) < 0;
-        });
-
-        return available;
+        let {wrapperCol} = this.itemLayout;
+        return wrapperCol.unused;
     }
 
     @action setIsAdding = () => {
+        let dimension = this.availableDimensions[0];
+        // Initialize defaults for this dimension
+        this.itemLayout.wrapperCol.add(dimension, {offset:0, span:12});
+        this.itemLayout.labelCol.add(dimension, {offset:0, span:12});
+
+        this.selectedDimension = dimension;
+        // Now the layout editor form should render
         this.isAdding = true;
-        this.labelOffset = 0;
-        this.labelSpan = 8;
-        this.wrapperOffset = 2;
-        this.wrapperSpan = 14;
-        this.dimension = this.availableDimensions[0];
     }
 
     @action reset = () => {
         this.isAdding = false;
         this.isEditing = false;
-        this.labelOffset = null;
-        this.labelSpan = null;
-        this.wrapperOffset = null;
-        this.wrapperSpan = null;
+        // this.itemLayout = this.props.itemLayoutOptions;
+        this.selectedDimension = null;
     }
 
     @action setIsEditing = (record: any) => {
-        this.labelOffset = record.labelOffset;
-        this.labelSpan = record.labelSpan;
-        this.wrapperOffset = record.wrapperOffset;
-        this.wrapperSpan = record.wrapperSpan;
-        this.dimension = record.dimension;
+        this.selectedDimension = record.dimension;
         this.isEditing = true;
     }
 
@@ -158,13 +151,10 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
     }
 
     @action save = () => {
-        let {itemLayoutOptions} = this.props;
-        itemLayoutOptions.wrapperCol[this.dimension] = {span: this.wrapperSpan, offset: this.wrapperOffset}
-        itemLayoutOptions.labelCol[this.dimension] = {span: this.labelSpan, offset: this.labelOffset}
         this.isAdding = false;
         this.isEditing = false;
-        console.log("Pre Save", itemLayoutOptions);
-        this.props.onSave(itemLayoutOptions);
+        this.props.onSave(this.itemLayout);
+        this.reset();
     }
 
     render() {
@@ -213,13 +203,15 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
 
         let {getFieldDecorator} = this.props.form;
         let {isAdding, isEditing} = this;
+        let {labelCol, wrapperCol} = this.itemLayout;
 
         return <Card size="small" bodyStyle={{padding: 0}}>
-            <Table title={() =><span>Field Layouts <small>click (+) to see preview</small></span>} size="small" bordered={false} pagination={false} dataSource={this.currentDimensions} columns={columns}
-                rowKey='dimension' expandedRowRender={(record) => <ItemLayoutPreview {...record}/>}
+            <Table title={() =><span>Field Layouts <small>click (+) to see preview</small></span>} size="small" bordered={false} pagination={false} dataSource={this.asRows} columns={columns}
+                defaultExpandAllRows={false} rowKey='dimension'
+                expandedRowRender={(record) => <ItemLayoutPreview  formLayout={this.props.formLayout} dimension={record.dimension} itemLayoutOptions={this.props.itemLayoutOptions}/>}
                 footer={() => {return this.availableDimensions.length > 0 ? <Button onClick={() => this.setIsAdding()}>Add</Button> : <></>}}/>
-            {(isAdding || isEditing) && this.availableDimensions.length > 0 && <Card size="small" title={this.isAdding ? "Add Field Layout" : "Edit Field Layout"} style={{marginTop: '15px'}}>
-                    <ItemLayoutPreview formLayout={this.props.formLayout} itemLayoutOptions={this.props.itemLayoutOptions} dimension={ this.dimension }/>
+            {(isAdding || isEditing) && this.selectedDimension && <Card size="small" title={this.isAdding ? "Add Field Layout" : `Edit Field Layout - ${this.selectedDimension}`} style={{marginTop: '15px'}}>
+                    <ItemLayoutPreview formLayout={this.props.formLayout} itemLayoutOptions={this.itemLayout} dimension={ this.selectedDimension }/>
                     <p>Assign 24 units (aliquots) across the label and field to control how label-field pairs are displayed</p>
                     <Form {...formItemLayout} layout={"horizontal"}>
                         <Form.Item label="Target Screen Width" help={<ul>
@@ -231,12 +223,12 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
                         </ul>}>
                                 {
                                 getFieldDecorator('dimension', {
-                                    initialValue: this.dimension,
+                                    initialValue: this.selectedDimension,
                                     rules: [
                                         {type: 'string'},
                                         {required: true, message: 'A dimension'}
                                     ]
-                                })(<Select onChange={(e) => {this.onChange('dimension', e)}}>
+                                })(<Select onChange={(e) => {this.setDimension(e as ScreenWidth)}}>
                                     {this.availableDimensions.map((d) => {
                                         return <Select.Option key={d}>{dimensionNameMap[d]}</Select.Option>
                                     })}
@@ -246,45 +238,45 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
                         <Form.Item label="Label Offset" help="Left offset for label">
                                 {
                                 getFieldDecorator('labelOffset', {
-                                    initialValue: this.labelOffset,
+                                    initialValue: labelCol[this.selectedDimension].offset || 0,
                                     rules: [
                                         {type: 'number'}
                                     ]
-                                })(<Slider step={1} min={0} max={24} onChange={(e) => {this.onChange('labelOffset', e)}}/>)
+                                })(<Slider step={1} min={0} max={24} onChange={(e) => {this.setLayoutProperty('labelOffset', e)}}/>)
                             }
                         </Form.Item>
                         <Form.Item label="Label Width" help="Label available width">
                                 {
                                 getFieldDecorator('labelSpan', {
-                                    initialValue: this.labelSpan,
+                                    initialValue: labelCol[this.selectedDimension].span || 0,
                                     rules: [
                                         {type: 'number'}
                                     ]
-                                })(<Slider step={1} min={0} max={24} onChange={(e) => {this.onChange('labelSpan', e)}}/>)
+                                })(<Slider step={1} min={0} max={24} onChange={(e) => {this.setLayoutProperty('labelSpan', e)}}/>)
                             }
                         </Form.Item>
                         <Form.Item label="Field Offset" help="Left offset for fields">
                                 {
                                 getFieldDecorator('wrapperOffset', {
-                                    initialValue: this.wrapperOffset,
+                                    initialValue: wrapperCol[this.selectedDimension].offset || 0,
                                     rules: [
                                         {type: 'number'}
                                     ]
-                                })(<Slider step={1} min={0} max={24} onChange={(e) => {this.onChange('wrapperOffset', e)}}/>)
+                                })(<Slider step={1} min={0} max={24} onChange={(e) => {this.setLayoutProperty('wrapperOffset', e)}}/>)
                             }
                         </Form.Item>
                         <Form.Item label="Field width" help="Field available width">
                                 {
                                 getFieldDecorator('wrapperSpan', {
-                                    initialValue: this.wrapperSpan,
+                                    initialValue: wrapperCol[this.selectedDimension].span || 0,
                                     rules: [
                                         {type: 'number'}
                                     ]
-                                })(<Slider step={1} min={1} max={24} onChange={(e) => {this.onChange('wrapperSpan', e)}}/>)
+                                })(<Slider step={1} min={1} max={24} onChange={(e) => {this.setLayoutProperty('wrapperSpan', e)}}/>)
                             }
                         </Form.Item>
                         <Form.Item {...tailFormItemLayout}>
-                            <Button size="small" type="primary" style={{marginRight: '15px'}} onClick={this.save}>Apply</Button>
+                            <Button size="small" type="primary" style={{marginRight: '15px'}} onClick={this.save}>Save</Button>
                             <Button size="small" type="danger" style={{marginTop: '15px'}} onClick={this.reset}>Cancel</Button>
                         </Form.Item>
                     </Form>

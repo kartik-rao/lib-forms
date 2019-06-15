@@ -1,6 +1,6 @@
 import { ItemLayoutOptions, ScreenWidth } from "@kartikrao/lib-forms-core";
 import { Col, Row } from "antd";
-import { computed, observable, toJS } from "mobx";
+import { computed } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
 
@@ -14,8 +14,8 @@ export interface IITemLayoutPreview {
 export class ItemLayoutPreview extends React.Component<IITemLayoutPreview, any> {
 
     @computed get shouldRender() {
-        return this.props.formLayout
-            && this.props.itemLayoutOptions && this.props.dimension && this.props.itemLayoutOptions[this.props.dimension];
+        let {formLayout, itemLayoutOptions, dimension} = this.props;
+        return formLayout && itemLayoutOptions && dimension && itemLayoutOptions.wrapperCol[dimension];
     }
 
     constructor(props: IITemLayoutPreview) {
@@ -23,18 +23,18 @@ export class ItemLayoutPreview extends React.Component<IITemLayoutPreview, any> 
     }
 
     render() {
-        console.log("PREVIEW", this.props.dimension, toJS(this.props.itemLayoutOptions))
-        let {formLayout} = this.props;
-        let {wrapperCol, labelCol} = this.props.itemLayoutOptions;
-        let wrapperSpan = wrapperCol[this.props.dimension].span;
-        let wrapperOffset = wrapperCol[this.props.dimension].offset
-        let labelSpan = labelCol[this.props.dimension].span;
-        let labelOffset = labelCol[this.props.dimension].offset;
 
         let {shouldRender} = this;
+        let {formLayout, dimension} = this.props;
+        let {wrapperCol, labelCol} = this.props.itemLayoutOptions;
+        let wrapperSpan = wrapperCol[dimension].span;
+        let wrapperOffset = wrapperCol[dimension].offset || 0;
+        let labelSpan = labelCol[dimension].span;
+        let labelOffset = labelCol[dimension].offset || 0;
+
         return <div style={{background: '#ffff'}}>
         {shouldRender && formLayout == 'horizontal' && <Row className="fl-layout-demo-row">
-        <Col span={labelOffset}>{'\u00A0'}</Col>
+            <Col span={labelOffset}>{'\u00A0'}</Col>
             <Col span={labelSpan} style={{background: 'rgba(0,160,233,0.6)', padding: '2px'}}>
                 <strong style={{color: 'white'}}>Label - {(100*(labelSpan + labelOffset)/24).toFixed(2)}%</strong>
             </Col>
