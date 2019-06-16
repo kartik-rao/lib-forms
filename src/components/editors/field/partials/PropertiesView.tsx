@@ -6,7 +6,7 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import { IEditorView } from "../../common/IComponentEditorView";
 import { asDecoratedProperty, FieldPropertiesMap } from "./EditableFieldProperties";
-import { ChoiceOptionEditorView } from "./ChoiceOptionEditorView";
+
 
 export interface IPropertiesViewProps extends FormComponentProps, IEditorView {
 
@@ -88,9 +88,6 @@ class PropertiesView extends React.Component<IPropertiesViewProps, any> {
                     <span>No editable properties available for this field</span>
                     }>
             </Empty>}
-            {(field.inputType == 'select' || field.inputType == 'checkboxgroup' || field.inputType == 'radiogroup') &&
-                <ChoiceOptionEditorView type="select" items={field.componentProps['options']} onChange={this.updateOptions}/>
-            }
             {formItems && <Form.Item {...tailFormItemLayout}>
                 <Button type="primary" htmlType="submit" style={{marginTop: '15px'}}>Apply</Button>
             </Form.Item>}

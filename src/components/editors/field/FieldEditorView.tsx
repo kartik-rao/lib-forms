@@ -1,4 +1,4 @@
-import { Tabs, Drawer, Row, Col, Modal } from "antd";
+import { Tabs, Drawer, Row, Col } from "antd";
 import { observer } from "mobx-react";
 import {action} from "mobx";
 import * as React from "react";
@@ -6,11 +6,17 @@ import { ConditionsView } from "./partials/ConditionsView";
 import FieldPropertiesView from "./partials/PropertiesView";
 import { ValidationView } from "./partials/ValidationView";
 import {IEditorView} from "../common/IComponentEditorView";
+import ChoiceOptionEditorView from "./partials/ChoiceOptionEditorView";
+import { ChoiceOption } from "@kartikrao/lib-forms-core";
 
 @observer
 export class FieldEditorView extends React.Component<IEditorView,any> {
     constructor(props:any) {
         super(props);
+    }
+
+    @action.bound updateOptions(options: ChoiceOption[]) {
+        this.props.store.editorStore.field.componentProps["options"] = options;
     }
 
     @action onOk() {
@@ -39,6 +45,13 @@ export class FieldEditorView extends React.Component<IEditorView,any> {
                     <Tabs.TabPane tab="Condition" key="3">
                         <Row><Col span={24}><ConditionsView store={this.props.store}/></Col></Row>
                     </Tabs.TabPane>
+                    {['select', 'radiogroup', 'checkboxgroup'].indexOf(field.inputType) && <Tabs.TabPane tab="Options" key="4">
+                        <Row>
+                            <Col span={24}>
+                            <ChoiceOptionEditorView type="select" items={field.componentProps['options']} onChange={this.updateOptions}/>
+                            </Col>
+                        </Row>
+                    </Tabs.TabPane>}
                 </Tabs>
             }
         </Drawer>

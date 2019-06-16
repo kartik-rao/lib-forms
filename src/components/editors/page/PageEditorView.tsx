@@ -1,9 +1,10 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Drawer, Form, notification, Button, Input, Row, Col, Card } from "antd";
+import { Drawer, Form, notification, Button, Input, Row, Col, Card, Tabs } from "antd";
 import { IEditorView } from "../common/IComponentEditorView";
-import { action } from "mobx";
+import { action, computed } from "mobx";
 import { FormComponentProps } from "antd/lib/form";
+import {formItemLayout, tailFormItemLayout} from "../common/FormLayoutCommon";
 
 export interface IPageEditorViewProps extends FormComponentProps, IEditorView {
 
@@ -28,61 +29,45 @@ class PageEditorView extends React.Component<IPageEditorViewProps, any> {
         return;
     }
 
+    @computed get hasErrors() {
+        let errors = this.props.form.getFieldsError();
+        let fieldsWithErrors = Object.keys(errors).filter((field) => {
+            return !!errors[field]
+        });
+        return fieldsWithErrors.length > 0;
+    }
+
     render() {
         let {editorStore} = this.props.store;
         let {page} = editorStore;
-        const formItemLayout = {
-            labelCol: {
-              xs: { span: 12, offset: 4 },
-              sm: { span: 8, offset: 4},
-            },
-            wrapperCol: {
-              xs: { span: 16 },
-              sm: { span: 12 },
-            },
-        };
-
-        const tailFormItemLayout = {
-            wrapperCol: {
-              xs: {
-                span: 4,
-                offset: 20,
-              },
-              sm: {
-                span: 4,
-                offset: 20,
-              },
-            },
-        };
-
-
         let {getFieldDecorator} = this.props.form;
 
         return page && <Drawer title={`Page "${page.name}" (id=${page.id||''})`}
             onClose={() => editorStore.setEditable(null)} visible={editorStore.showPageEditor}
-            width={500}
-            style={{ overflow: 'hidden'}}>
+            width={600} closable={!this.hasErrors} maskClosable={!this.hasErrors}
+            style={{ overflow: 'auto', height: 'calc(80% - 108px)', paddingBottom: '108px' }}>
             {
+                <Tabs>
+                <Tabs.TabPane key="1" tab="Settings">
                 <Card size="small" bordered={false}>
-                <Row><Col span={24}>
                 <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
-                    <Form.Item required={true} label="Name">
+                    <Form.Item required={true} label="Name" help="Choose a name that distinguishes this page from others">
                          {
                             getFieldDecorator('name', {
                                 initialValue: page.name,
-                                rules: [{type: 'string'}]
+                                rules: [{type: 'string'}, {required: true, message: 'A name is required'}]
                             })(<Input/>)
                         }
                     </Form.Item>
-                    <Form.Item required={true} label="Title">
+                    <Form.Item required={true} label="Title" help="The title of this page, displayed above the page's content">
                          {
                             getFieldDecorator('title', {
                                 initialValue: page.title,
-                                rules: [{type: 'string'}]
+                                rules: [{type: 'string'}, {required: true, message: 'A title is required'}]
                             })(<Input/>)
                         }
                     </Form.Item>
-                    <Form.Item label="Subtitle">
+                    <Form.Item label="Subtitle" help="A subtitle for this page, displayed underneath the title">
                          {
                             getFieldDecorator('subtitle', {
                                 initialValue: page.subtitle,
@@ -94,8 +79,9 @@ class PageEditorView extends React.Component<IPageEditorViewProps, any> {
                         <Button type="primary" htmlType="submit" style={{marginTop: '15px'}} onClick={this.handleSubmit}>Apply</Button>
                     </Form.Item>
                 </Form>
-                </Col></Row>
                 </Card>
+                </Tabs.TabPane>
+                </Tabs>
             }
         </Drawer>
     }

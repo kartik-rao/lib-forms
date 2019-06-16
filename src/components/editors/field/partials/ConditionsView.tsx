@@ -103,7 +103,7 @@ export class ConditionsView extends React.Component<IEditorView,any> {
         ]
 
         return <div>
-            <Card title="Conditions" size="small" bodyStyle={{padding:0}} actions={[<Icon type="plus" style={{visibility: numPredicates == 0 ? 'visible' : 'hidden'}} onClick={() => this.setIsAdding(true)}/>]}>
+            <Card title="Conditions" size="small" bodyStyle={{padding:0}} actions={[<Button style={{visibility: numPredicates == 0 ? 'visible' : 'hidden'}} onClick={() => this.setIsAdding(true)}>Add</Button>]}>
                 { numPredicates > 0 && <div>
                     <Table size="small" pagination={numPredicates > 5 ? {position: 'bottom'} : false} dataSource={field.condition.predicates || []} columns={columns} rowKey='uuid'/>
                     </div>
@@ -145,8 +145,8 @@ export class ConditionsView extends React.Component<IEditorView,any> {
                         </Select>
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
-                        <Button style={{marginRight: '15px'}} size="small" icon="plus" htmlType="submit" type="primary" disabled={!this.field || !this.expression}>Add</Button>
-                        <Button  size="small" type="danger" onClick={() => this.cancel()}>Cancel</Button>
+                        <Button style={{marginRight: '15px'}} icon="plus" htmlType="submit" type="primary" disabled={!this.field || !this.expression}>Add</Button>
+                        <Button type="danger" onClick={() => this.cancel()}>Cancel</Button>
                     </Form.Item>
                 </Form>
             </Card>}

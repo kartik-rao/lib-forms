@@ -6,35 +6,11 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import {RootStore} from "../../../../store/RootStore";
 import { IEditorView } from "../../common/IComponentEditorView";
-
+import {formItemLayout, tailFormItemLayout} from "../../common/FormLayoutCommon";
 
 export interface IFormContentEditorViewProps extends FormComponentProps, IEditorView {
     store: RootStore;
 }
-
-const formItemLayout = {
-    labelCol: {
-      xs: { span: 8, offset: 10 },
-      sm: { span: 8, offset: 10},
-    },
-    wrapperCol: {
-      xs: { span: 4, offset: 2 },
-      sm: { span: 4, offset: 2 },
-    },
-};
-
-const tailFormItemLayout = {
-    wrapperCol: {
-      xs: {
-        span: 4,
-        offset: 20,
-      },
-      sm: {
-        span: 4,
-        offset: 20,
-      },
-    },
-};
 
 @observer
 class FormContentEditorView extends React.Component<IFormContentEditorViewProps,any> {
@@ -70,41 +46,41 @@ class FormContentEditorView extends React.Component<IFormContentEditorViewProps,
             return <></>
         }
         let form = toJS(editorStore.formStore.form);
-        let {formLayoutOptions, itemLayoutOptions} = form;
-        console.log("FCEV", formLayoutOptions);
+        let {formLayoutOptions} = form;
+
         return <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
-                <Form.Item label="Validation disables paging">
+                <Form.Item label="Validation disables paging" help="Allow page navigation when validation failures exist on current page">
                     {getFieldDecorator('formLayoutOptions.validationDisablesPaging', {
                         valuePropName: 'defaultChecked',
                         initialValue: formLayoutOptions.validationDisablesPaging,
                     })(<Switch />)}
                 </Form.Item>
-                <Form.Item label="Show Page Number">
+                <Form.Item label="Show Page Number" help="Show current/total pages in the form header">
                     {getFieldDecorator('formLayoutOptions.showSteps', {
                         valuePropName: 'defaultChecked',
                         initialValue: formLayoutOptions.showSteps,
                     })(<Switch />)}
                 </Form.Item>
-                <Form.Item label="Show Page Title">
+                <Form.Item label="Show Page Title" help="Show the title of each page">
                     {getFieldDecorator('formLayoutOptions.showPageTitles', {
                         valuePropName: 'defaultChecked',
                         initialValue: formLayoutOptions.showPageTitles,
                     })(<Switch />)}
                 </Form.Item>
-                <Form.Item label="Show Section Title">
+                <Form.Item label="Show Section Title" help="Show section title above section content">
                     {getFieldDecorator('formLayoutOptions.showSectionTitles', {
                         valuePropName: 'defaultChecked',
                         initialValue: formLayoutOptions.showSectionTitles,
                     })(<Switch />)}
                 </Form.Item>
-                <Form.Item label="Show Section Border">
+                <Form.Item label="Show Section Border" help="Show borders around a section block">
                     {getFieldDecorator('formLayoutOptions.showSectionBorders', {
                         valuePropName: 'defaultChecked',
                         initialValue: formLayoutOptions.showSectionBorders,
                     })(<Switch />)}
                 </Form.Item>
                 <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" size="small" htmlType="submit" style={{marginTop: '15px'}}>Apply</Button>
+                    <Button type="primary" htmlType="submit" style={{marginTop: '15px'}}>Apply</Button>
                 </Form.Item>
             </Form>
     }

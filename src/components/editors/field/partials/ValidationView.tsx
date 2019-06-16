@@ -325,12 +325,12 @@ export class ValidationView extends React.Component<IEditorView,any> {
                     </Form.Item>}
                 </div> }
                 <Form.Item {...tailFormItemLayout} style={{marginTop: '15px'}}>
-                    <Button size="small" style={{marginRight: '10px'}} type="primary" htmlType="submit"
+                    <Button style={{marginRight: '10px'}} type="primary" htmlType="submit"
                         disabled={!this.isRuleValid}
                         onClick={this.applyRule}>
                         {this.isEditing == true ? "Apply" : "Add"}
                     </Button>
-                    <Button size="small" type="danger" onClick={() => this.cancel()}>Cancel</Button>
+                    <Button type="danger" onClick={() => this.cancel()}>Cancel</Button>
                 </Form.Item>
             </Form>
          </Card>}

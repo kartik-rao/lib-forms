@@ -1,33 +1,41 @@
 import { ChoiceOption } from "@kartikrao/lib-forms-core";
-import { Button, Card, Empty, Icon, Input, Table } from "antd";
-import { action, observable } from "mobx";
+import { FormComponentProps } from "antd/lib/form";
+import Form from "antd/lib/form/Form";
+import { Button, Card, Empty, Icon, Input, Table, Divider } from "antd";
+import { action, observable, computed } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
 import ReactDragListView from "react-drag-listview";
 import Highlighter from 'react-highlight-words';
+import {formItemLayout, tailFormItemLayout} from "../../common/FormLayoutCommon";
 
-export interface IChoiceOptionEditorProps {
+export interface IChoiceOptionEditorViewProps extends FormComponentProps {
     type: string;
     items: ChoiceOption[];
     onChange: (options: ChoiceOption[]) => void;
 }
 
 @observer
-export class ChoiceOptionEditorView extends React.Component<IChoiceOptionEditorProps> {
+class ChoiceOptionEditorView extends React.Component<IChoiceOptionEditorViewProps> {
     @observable type: string;
     @observable items : any[];
     @observable label: string;
     @observable value: string;
     @observable isEditing: boolean;
-    @observable searchText: string;
     @observable searchInput: any;
+    @observable showAdd: boolean;
+    @observable searchText: string;
 
-    constructor(props: IChoiceOptionEditorProps) {
+    constructor(props: IChoiceOptionEditorViewProps) {
         super(props);
         this.initialize(props);
     }
 
-    @action initialize(props: IChoiceOptionEditorProps) {
+    @action showAddChoiceItem = (show: boolean) => {
+        this.showAdd = show;
+    }
+
+    @action initialize(props: IChoiceOptionEditorViewProps) {
         this.type = props.type;
         this.items = props.items;
         this.value = null;
@@ -46,10 +54,12 @@ export class ChoiceOptionEditorView extends React.Component<IChoiceOptionEditorP
         this.value = record.value;
     }
 
-    @action add() {
-        this.items.push({label: this.label, value: this.value});
-        this.props.onChange(this.items);
+    @action addChoiceOption = (e) => {
+        console.log("Adding", e);
+        // this.items.push({label: this.label, value: this.value});
+        // this.props.onChange(this.items);
     }
+
 
     @action remove(index: number) {
         this.items.splice(index, 1);
@@ -94,14 +104,21 @@ export class ChoiceOptionEditorView extends React.Component<IChoiceOptionEditorP
         ),
     })
 
+    @computed get uniqueValuePattern() : RegExp {
+        let allValues = this.items.map((item) => {
+            return item.value;
+        });
+        return new RegExp(`^((?!(${allValues.join("|")})).)*$`, "gi");
+    }
+
     @action handleSearch = (selectedKeys, confirm) => {
         confirm();
-        this.setState({ searchText: selectedKeys[0] });
+        this.searchText = selectedKeys[0];
     }
 
     @action handleReset = (clearFilters) => {
         clearFilters();
-        this.setState({ searchText: '' });
+        this.searchText = '';
     }
 
     render() {
@@ -141,18 +158,45 @@ export class ChoiceOptionEditorView extends React.Component<IChoiceOptionEditorP
         this.items.forEach((item: ChoiceOption, index: number) => {
             rows.push({index: index, label: item.label, value: item.value, key: index});
         });
-
-        return <div>
-            <Card title="Options" size="small" bodyStyle={{padding: 0}}>
-                {this.items.length == 0 && <Empty description={
-                    <span>No options on this field</span>
-                    }>
-                </Empty>}
-                {this.items.length > 0 && <ReactDragListView onDragEnd={this.move} handleSelector="i" nodeSelector="tr.ant-table-row">
-                    <Table size="small" pagination={rows.length > 5 ? {position: 'bottom'} : false} dataSource={rows} columns={columns} rowKey='key'/>
-                  </ReactDragListView>
-                }
-            </Card>
-        </div>
+        let {getFieldDecorator} = this.props.form;
+        return <Card size="small" bodyStyle={{padding: 0}} bordered={false}>
+              {this.items.length == 0 && <Empty description={
+                  <span>No options on this field</span>
+                  }>
+              </Empty>}
+              {this.items.length > 0 && <ReactDragListView onDragEnd={this.move} handleSelector="i" nodeSelector="tr.ant-table-row">
+                  <Table size="small" pagination={rows.length > 5 ? {position: 'bottom'} : false} dataSource={rows} columns={columns} rowKey='key'
+                  footer={() => this.showAdd ? <></> : <Button onClick={(e) => this.showAddChoiceItem(true)}>Add</Button>} />
+                </ReactDragListView>
+              }
+              {this.showAdd && <Card title="Add option" size="small" style={{marginTop : '15px'}}>
+                <Form {...formItemLayout} layout="horizontal" onSubmit={(e) => this.addChoiceOption(e)}>
+                    <Form.Item help="Enter the label shown to the user (must be unique)" label="Label">
+                        { getFieldDecorator('label', {
+                            valuePropName: 'label',
+                            rules: [
+                                {type: 'string'},
+                                {required: true, message: 'A label is required'}
+                            ]
+                        })(<Input />)}
+                    </Form.Item>
+                    <Form.Item help="Enter the value that will be submitted (must be unique)" label="Value">
+                        { getFieldDecorator('value', {
+                            valuePropName: 'value',
+                            rules: [{type: 'string'},
+                            { required: true, message: 'A value is required' },
+                            { pattern : this.uniqueValuePattern, message: "Invalid value, must be unique"}
+                        ]
+                        })(<Input />)}
+                    </Form.Item>
+                    <Form.Item {...tailFormItemLayout}>
+                        <Button type="danger" style={{marginRight: '15px'}} onClick={() => this.showAddChoiceItem(false)}>Cancel</Button>
+                        <Button type="primary" htmlType="submit">Save</Button>
+                    </Form.Item>
+              </Form></Card>}
+          </Card>
     }
 }
+
+const WrappedChoiceOptionEditorView = Form.create<IChoiceOptionEditorViewProps>({ name: 'ChoiceOptionEditorView' })(ChoiceOptionEditorView);
+export default WrappedChoiceOptionEditorView;

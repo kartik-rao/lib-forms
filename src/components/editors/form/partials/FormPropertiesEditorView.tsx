@@ -4,34 +4,11 @@ import Form from "antd/lib/form/Form";
 import { action, toJS } from "mobx";
 import * as React from "react";
 import { IEditorView } from "../../common/IComponentEditorView";
+import {formItemLayout, tailFormItemLayout} from "../../common/FormLayoutCommon";
 
 export interface IFormPropertiesEditorViewProps extends FormComponentProps, IEditorView {
 
 }
-
-const formItemLayout = {
-    labelCol: {
-      xs: { span: 14, offset: 1 },
-      sm: { span: 10, offset: 1 },
-    },
-    wrapperCol: {
-      xs: { span: 16 },
-      sm: { span: 12 },
-    },
-};
-
-const tailFormItemLayout = {
-    wrapperCol: {
-      xs: {
-        span: 4,
-        offset: 20,
-      },
-      sm: {
-        span: 4,
-        offset: 20,
-      },
-    },
-};
 
 var moment = require('moment-timezone');
 const timezones = moment.tz.names().map((name) => {
@@ -54,7 +31,8 @@ class FormPropertiesEditorView extends React.Component<IFormPropertiesEditorView
                     description:"Form properties applied successfully"});
                 form.desc = values.desc;
                 form.layout = values.layout;
-                form.content = {...form.content, ...values.content}
+                form.content.title = values.content.title;
+                form.content.subtitle = values.content.subtitle;
                 form.status = {...form.status, ...values.status}
             }
         });
