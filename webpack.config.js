@@ -57,7 +57,8 @@ module.exports = {
         "react": "React",
         "react-dom": "ReactDOM",
         "antd" : "antd",
-        "moment" : "moment"
+        "moment" : "moment",
+        "moment-timezone": "moment-timezone"
     },
     devServer: {
         compress: true,
@@ -69,7 +70,7 @@ module.exports = {
         new CheckerPlugin(),
         new HtmlWebpackPlugin({template: 'public/template.html', inject: false}),
         new ExtractTextPlugin({filename:"style.css", allChunks: true}),
-        // new BundleAnalyzerPlugin()
+        new BundleAnalyzerPlugin()
     ],
     optimization: {
         minimize: false,
