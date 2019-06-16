@@ -5,30 +5,6 @@ import { IEditorView } from "../common/IComponentEditorView";
 import SectionPropertiesEditorView from "./partials/SectionPropertiesEditorView";
 import SectionLayoutEditor from "./partials/SectionLayoutEditor";
 
-const formItemLayout = {
-    labelCol: {
-      xs: { span: 12, offset: 4 },
-      sm: { span: 8, offset: 4},
-    },
-    wrapperCol: {
-      xs: { span: 16 },
-      sm: { span: 12 },
-    },
-};
-
-const tailFormItemLayout = {
-    wrapperCol: {
-      xs: {
-        span: 4,
-        offset: 20,
-      },
-      sm: {
-        span: 4,
-        offset: 20,
-      },
-    },
-};
-
 @observer
 export class SectionEditorView extends React.Component<IEditorView, any> {
 
