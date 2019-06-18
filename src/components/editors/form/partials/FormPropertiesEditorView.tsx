@@ -10,7 +10,7 @@ export interface IFormPropertiesEditorViewProps extends FormComponentProps, IEdi
 
 }
 
-var moment = require('moment-timezone');
+import * as moment from 'moment-timezone';
 const timezones = moment.tz.names().map((name) => {
     return {label: name, value: name};
 })

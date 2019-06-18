@@ -58,7 +58,7 @@ module.exports = {
         "react-dom": "ReactDOM",
         "antd" : "antd",
         "moment" : "moment",
-        "moment-timezone": "moment-timezone"
+        "moment-timezone": "moment"
     },
     devServer: {
         compress: true,
