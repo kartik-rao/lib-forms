@@ -11,8 +11,8 @@
     <script src="/public/react.development.js"></script>
     <script src="/public/react-dom.development.js"></script>
     <script src="/public/moment.min.js"></script>
-    <script src="/public/antd.js"></script>
-
+    <script src="/public/antd.min.js"></script>
+    <script src="/public/moment-timezone-with-data-2012-2022.min.js"></script>
     <script src="vendor.js" type="text/javascript"></script>
     <script src="main.js" type="text/javascript"></script>
     <div id="root"></div>
@@ -27,6 +27,7 @@
                 subtitle: 'Form subtitle',
                 pages: [
                     {
+                        id: 1,
                         title: 'Page 1',
                         sections: [
                             {
@@ -74,6 +75,12 @@
                                             },
                                             componentProps: {
                                                 options : [{label: 'L1', value: 'V1'},{label: 'L2', value: 'V2'},{label: 'L3', value: 'V3'}]
+                                            }
+                                        },
+                                        {
+                                            id: 'f13', name: "f13", type: 'checkbox', label: "f13 - Checkbox", inputType : "checkbox",
+                                            componentProps: {
+                                                defaultChecked: true
                                             }
                                         }
                                     ]
@@ -133,6 +140,7 @@
                                 columns: [
                                     {
                                         id: 3,
+                                        span: 12,
                                         name: 'P2S1C1',
                                         title: 'P2S1C1',
                                         fields: [{
@@ -161,6 +169,7 @@
                                 columns: [
                                     {
                                         id: 4,
+                                        span: 12,
                                         name: 'P3S1C1',
                                         title: 'P3S1C1',
                                         fields: [{
@@ -187,8 +196,18 @@
                 showSectionBorders : true,
                 showPageBorders: true,
                 validationDisablesPaging: false,
-                wrapperOffset: 0,
-                wrapperSpan: 24
+                wrapperCol : {},
+                labelCol: {}
+            },
+            itemLayoutOptions : {
+                labelCol: {
+                    xs: { span: 8 },
+                    sm: { span: 8 },
+                },
+                wrapperCol: {
+                    xs: { span: 15, offset:1 },
+                    sm: { span: 12, offset:1 },
+                }
             }
         });
     </script>

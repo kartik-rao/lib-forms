@@ -1,6 +1,8 @@
 var path = require('path');
+const webpack = require('webpack');
+const { WebpackPluginServe: Serve } = require('webpack-plugin-serve');
 const tsImportPluginFactory = require('ts-import-plugin');
-const tsImportPlugin = tsImportPluginFactory({ style: 'css', libraryDirectory: 'es' })
+const tsImportPlugin = tsImportPluginFactory({ libraryName:"antd", style: 'css', libraryDirectory: 'es' })
 
 const env = process.env.NODE_ENV || 'development';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -10,7 +12,10 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = {
     mode: env,
-    entry: {main: path.join(__dirname, 'src/index.tsx'), style: path.join(__dirname, 'src/app.css')},
+    entry: {
+        main: [path.join(__dirname, 'src/index.tsx'), 'webpack-plugin-serve/client'],
+        style: path.join(__dirname, 'src/app.css')
+    },
     target: 'web',
     module: {
         rules: [
@@ -54,9 +59,9 @@ module.exports = {
         extensions: ['.ts', '.js', '.jsx', '.tsx', '.css'],
     },
     externals: {
+        "antd" : "antd",
         "react": "React",
         "react-dom": "ReactDOM",
-        "antd" : "antd",
         "moment" : "moment",
         "moment-timezone": "moment"
     },
@@ -68,12 +73,15 @@ module.exports = {
     },
     plugins: [
         new CheckerPlugin(),
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-au/),
         new HtmlWebpackPlugin({template: 'public/template.html', inject: false}),
         new ExtractTextPlugin({filename:"style.css", allChunks: true}),
-        new BundleAnalyzerPlugin()
+        new Serve({compress: true, client: {address: 'localhost:8080'}, liveReload: true})
+        // new BundleAnalyzerPlugin()
     ],
     optimization: {
         minimize: false,
         splitChunks: { chunks: "initial", name: "vendor" }
-    }
+    },
+    watch: true
 };
