@@ -1,27 +1,24 @@
+import { ItemLayoutOptions, ScreenWidth } from "@kartikrao/lib-forms-core";
 import { FormComponentProps } from "antd/lib/form";
 import * as React from "react";
-import { IFormItemLayoutOptions } from "@kartikrao/lib-forms-core";
 export interface IItemLayoutViewProps extends FormComponentProps {
     formLayout: string;
-    itemLayoutOptions: IFormItemLayoutOptions;
-    onSave: (item: IFormItemLayoutOptions) => void;
+    itemLayoutOptions: ItemLayoutOptions;
+    onSave: (item: ItemLayoutOptions) => void;
 }
 export declare class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
     isAdding: boolean;
     isEditing: boolean;
-    dimension: string;
-    labelSpan: number;
-    wrapperSpan: number;
-    labelOffset: number;
-    wrapperOffset: number;
-    readonly fieldLayout: {
-        labelCol: {};
-        wrapperCol: {};
-    };
-    onChange: (key: string, value: any) => void;
+    selectedDimension: ScreenWidth;
+    itemLayout: ItemLayoutOptions;
+    setDimension: (dimension: ScreenWidth) => void;
+    setLayoutProperty: (key: string, value: any) => void;
+    initialize({ itemLayoutOptions }: {
+        itemLayoutOptions: any;
+    }): void;
     constructor(props: IItemLayoutViewProps);
-    readonly currentDimensions: any[];
-    readonly availableDimensions: string[];
+    readonly asRows: any[];
+    readonly availableDimensions: ScreenWidth[];
     setIsAdding: () => void;
     reset: () => void;
     setIsEditing: (record: any) => void;

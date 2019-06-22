@@ -1,5 +1,5 @@
 import * as React from "react";
-import ValidationRule from "@kartikrao/lib-forms-core/lib/models/validation";
+import { ValidationRule } from "@kartikrao/lib-forms-core";
 export interface IValidationListViewProps {
     validation: ValidationRule;
     onRemove: (rule: string) => void;

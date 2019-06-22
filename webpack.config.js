@@ -1,6 +1,5 @@
 var path = require('path');
 const webpack = require('webpack');
-const { WebpackPluginServe: Serve } = require('webpack-plugin-serve');
 const tsImportPluginFactory = require('ts-import-plugin');
 const tsImportPlugin = tsImportPluginFactory({ libraryName:"antd", style: 'css', libraryDirectory: 'es' })
 
@@ -13,7 +12,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
     mode: env,
     entry: {
-        main: [path.join(__dirname, 'src/index.tsx'), 'webpack-plugin-serve/client'],
+        main : path.join(__dirname, 'src/index.tsx'),
         style: path.join(__dirname, 'src/app.css')
     },
     target: 'web',
@@ -32,7 +31,7 @@ module.exports = {
                             before: [ tsImportPlugin ]
                         }),
                         compilerOptions: {
-                            module: 'esnext'
+                            module: 'es2015'
                         }
                     }
                 },
@@ -53,7 +52,7 @@ module.exports = {
         path: path.join(__dirname, 'dist'),
         filename: '[name].js',
         library: 'Forms',
-        libraryTarget: 'window'
+        libraryTarget: 'window',
     },
     resolve: {
         extensions: ['.ts', '.js', '.jsx', '.tsx', '.css'],
@@ -65,23 +64,19 @@ module.exports = {
         "moment" : "moment",
         "moment-timezone": "moment"
     },
-    devServer: {
-        compress: true,
-        hot: true,
-        contentBase: [[path.join(__dirname, 'public'), path.join(__dirname, 'assets')]],
-        port: 8080
-    },
     plugins: [
         new CheckerPlugin(),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-au/),
-        new HtmlWebpackPlugin({template: 'public/template.html', inject: false}),
+        new HtmlWebpackPlugin({
+            title: 'lib-forms',
+            hash: true,
+            template: 'public/template.html',
+            inject: false}),
         new ExtractTextPlugin({filename:"style.css", allChunks: true}),
-        new Serve({compress: true, client: {address: 'localhost:8080'}, liveReload: true})
         // new BundleAnalyzerPlugin()
     ],
     optimization: {
         minimize: false,
         splitChunks: { chunks: "initial", name: "vendor" }
-    },
-    watch: true
+    }
 };

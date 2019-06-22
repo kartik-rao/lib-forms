@@ -1,6 +1,6 @@
-import Page from "@kartikrao/lib-forms-core/lib/models/page";
+import { Page } from "@kartikrao/lib-forms-core";
 import * as React from "react";
-import RootStore from "../../../store/RootStore";
+import { RootStore } from "../../../store/RootStore";
 export interface IPageItemProps {
     page: Page;
     key: string;

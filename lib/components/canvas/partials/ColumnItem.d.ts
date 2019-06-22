@@ -1,6 +1,6 @@
-import Column from "@kartikrao/lib-forms-core/lib/models/column";
+import { Column } from "@kartikrao/lib-forms-core";
 import * as React from "react";
-import RootStore from "../../../store/RootStore";
+import { RootStore } from "../../../store/RootStore";
 export interface IColumnItemProps {
     col: Column;
     key: string;

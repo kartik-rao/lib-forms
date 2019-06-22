@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IPredicate } from "@kartikrao/lib-forms-core/lib/models/condition.predicate";
+import { IPredicate } from "@kartikrao/lib-forms-core";
 import { IEditorView } from "../../common/IComponentEditorView";
 export declare class ConditionsView extends React.Component<IEditorView, any> {
     field: string;

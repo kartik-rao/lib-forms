@@ -1,23 +1,26 @@
-import { ChoiceOption } from "@kartikrao/lib-forms-core/lib/models/field.properties";
+import { ChoiceOption } from "@kartikrao/lib-forms-core";
+import { FormComponentProps } from "antd/lib/form";
 import * as React from "react";
-export interface IChoiceOptionEditorProps {
+export interface IChoiceOptionEditorViewProps extends FormComponentProps {
     type: string;
     items: ChoiceOption[];
     onChange: (options: ChoiceOption[]) => void;
 }
-export declare class ChoiceOptionEditorView extends React.Component<IChoiceOptionEditorProps> {
+declare class ChoiceOptionEditorView extends React.Component<IChoiceOptionEditorViewProps> {
     type: string;
     items: any[];
     label: string;
     value: string;
     isEditing: boolean;
-    searchText: string;
     searchInput: any;
-    constructor(props: IChoiceOptionEditorProps);
-    initialize(props: IChoiceOptionEditorProps): void;
+    showAdd: boolean;
+    searchText: string;
+    constructor(props: IChoiceOptionEditorViewProps);
+    showAddChoiceItem: (show: boolean) => void;
+    initialize(props: IChoiceOptionEditorViewProps): void;
     move(fromIndex: number, toIndex: number): void;
     edit(record: ChoiceOption): void;
-    add(): void;
+    addChoiceOption: (e: any) => void;
     remove(index: number): void;
     setSearchInput(node: React.ReactNode): void;
     getColumnSearchProps: (dataIndex: any) => {
@@ -32,7 +35,10 @@ export declare class ChoiceOptionEditorView extends React.Component<IChoiceOptio
         onFilterDropdownVisibleChange: (visible: any) => void;
         render: (text: any) => JSX.Element;
     };
+    readonly uniqueValuePattern: RegExp;
     handleSearch: (selectedKeys: any, confirm: any) => void;
     handleReset: (clearFilters: any) => void;
     render(): JSX.Element;
 }
+declare const WrappedChoiceOptionEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof ChoiceOptionEditorView, Pick<IChoiceOptionEditorViewProps, "onChange" | "type" | "wrappedComponentRef" | "items">>;
+export default WrappedChoiceOptionEditorView;

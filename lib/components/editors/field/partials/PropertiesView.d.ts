@@ -1,4 +1,4 @@
-import { ChoiceOption } from "@kartikrao/lib-forms-core/lib/models/field.properties";
+import { ChoiceOption } from "@kartikrao/lib-forms-core";
 import { FormComponentProps } from "antd/lib/form";
 import * as React from "react";
 import { IEditorView } from "../../common/IComponentEditorView";

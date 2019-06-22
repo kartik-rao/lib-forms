@@ -1,6 +1,6 @@
-import Section from "@kartikrao/lib-forms-core/lib/models/section";
+import { Section } from "@kartikrao/lib-forms-core";
 import * as React from "react";
-import RootStore from "../../../store/RootStore";
+import { RootStore } from "../../../store/RootStore";
 export interface ISectionItemProps {
     sec: Section;
     key: string;

@@ -1,6 +1,6 @@
-import Field from "@kartikrao/lib-forms-core/lib/models/field";
+import { Field } from "@kartikrao/lib-forms-core";
 import * as React from "react";
-import RootStore from "../../../store/RootStore";
+import { RootStore } from "../../../store/RootStore";
 export interface IFieldItemProps {
     fld: Field;
     key: string;

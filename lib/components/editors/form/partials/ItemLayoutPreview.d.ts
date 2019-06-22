@@ -1,21 +1,12 @@
+import { ItemLayoutOptions, ScreenWidth } from "@kartikrao/lib-forms-core";
 import * as React from "react";
 export interface IITemLayoutPreview {
-    labelOffset: number;
-    labelSpan: number;
-    wrapperSpan: number;
-    wrapperOffset: number;
-    dimension: string;
+    itemLayoutOptions: ItemLayoutOptions;
+    dimension: ScreenWidth;
     formLayout: string;
 }
 export declare class ItemLayoutPreview extends React.Component<IITemLayoutPreview, any> {
-    labelOffset: any;
-    labelSpan: any;
-    wrapperSpan: any;
-    wrapperOffset: any;
-    dimension: any;
-    formLayout: any;
-    readonly shouldRender: boolean;
+    readonly shouldRender: import("@kartikrao/lib-forms-core").ColSpanOffset;
     constructor(props: IITemLayoutPreview);
-    initialize(props: IITemLayoutPreview): void;
     render(): JSX.Element;
 }
