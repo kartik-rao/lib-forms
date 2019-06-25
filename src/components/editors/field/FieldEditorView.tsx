@@ -1,13 +1,13 @@
-import { Tabs, Drawer, Row, Col } from "antd";
+import { ChoiceOption } from "@kartikrao/lib-forms-core";
+import { Col, Drawer, Row, Tabs } from "antd";
+import { action } from "mobx";
 import { observer } from "mobx-react";
-import {action} from "mobx";
 import * as React from "react";
-import { ConditionsView } from "./partials/ConditionsView";
+import { IEditorView } from "../common/IComponentEditorView";
+import ChoiceOptionEditorView from "./partials/ChoiceOptionEditorView";
+import ConditionsView from "./partials/ConditionsView";
 import FieldPropertiesView from "./partials/PropertiesView";
 import { ValidationView } from "./partials/ValidationView";
-import {IEditorView} from "../common/IComponentEditorView";
-import ChoiceOptionEditorView from "./partials/ChoiceOptionEditorView";
-import { ChoiceOption } from "@kartikrao/lib-forms-core";
 
 @observer
 export class FieldEditorView extends React.Component<IEditorView,any> {

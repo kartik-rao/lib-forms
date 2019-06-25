@@ -1,50 +1,40 @@
-import { Button, Card, Empty, Form, Icon, Input, Select, Table } from "antd";
+import { Button, Card, Empty, Form, Icon, Input, Select, Table, Tag } from "antd";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
-import { IPredicate } from "@kartikrao/lib-forms-core";
+import { IPredicate, Predicate } from "@kartikrao/lib-forms-core";
 import { IEditorView } from "../../common/IComponentEditorView";
 import {formItemLayout, tailFormItemLayout} from "../../common/FormLayoutCommon";
+import { FormComponentProps } from "antd/lib/form";
+
+export interface IConditionsEditorViewProps extends FormComponentProps, IEditorView {
+
+}
 
 @observer
-export class ConditionsView extends React.Component<IEditorView,any> {
+class ConditionsEditorView extends React.Component<IConditionsEditorViewProps,any> {
+    @observable isAdding: boolean;
+    @observable isEditing: boolean;
+
+    @observable uuid: string;
     @observable field: string;
-    @observable expression: string;
+    @observable condition: string;
     @observable value: string;
     @observable operator: string;
-    @observable isAdding: boolean;
 
-    constructor(props:IEditorView) {
+
+    constructor(props:IConditionsEditorViewProps) {
         super(props);
         this.initialize(props);
     }
 
-    @action initialize(props: IEditorView) {
-        this.field = null;
-        this.expression = null;
-        this.value = null;
-        this.operator = null;
-        this.isAdding = false;
+    @action initialize(props: IConditionsEditorViewProps) {
+        this.reset();
     }
 
-    @action
-    setField = (e) => {
-        this.field = e;
-    }
-
-    @action
-    setExpression = (e) => {
-        this.expression = e;
-    }
-
-    @action
-    setValue = (e) => {
-        this.value = e.target.value;
-    }
-
-    @action
-    setOperator = (e) => {
-        this.operator = e;
+    @action setPredicateAttribute = (attr: "field"|"condition"|"operator"|"value", value) => {
+        console.log(`Set ${attr} = "${value}"`);
+        this[attr] = value;
     }
 
     @action
@@ -60,10 +50,26 @@ export class ConditionsView extends React.Component<IEditorView,any> {
         editorStore.removePredicate(uuid);
     }
 
-    @action cancel() {
+    @action
+    editPredicate(uuid: string) {
+        let {editorStore} = this.props.store;
+        let predicate = editorStore.field.condition.predicates.find((p:Predicate) => {
+            return p.uuid == uuid;
+        });
+        this.uuid = predicate.uuid;
+        this.field = predicate.field;
+        this.condition = predicate.condition;
+        this.value = predicate.value;
+        this.operator = predicate.operator;
+        this.setIsEditing(true);
+    }
+
+    @action reset() {
         this.isAdding = false;
+        this.isEditing = false;
+        this.uuid =  null;
         this.field = null;
-        this.expression = null;
+        this.condition = null;
         this.value = null;
         this.operator = null;
     }
@@ -72,40 +78,64 @@ export class ConditionsView extends React.Component<IEditorView,any> {
     handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        this.addPredicate({
-            field: this.field,
-            condition: this.expression,
-            value: this.value,
-            operator: this.operator
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                if(this.isEditing) {
+                    let {editorStore} = this.props.store;
+                    let predicate = editorStore.field.condition.predicates.find((p:Predicate) => {
+                        return p.uuid == this.uuid;
+                    });
+                    predicate.field = this.field;
+                    predicate.condition = this.condition;
+                    predicate.operator = this.operator;
+                    predicate.value = this.value;
+                } else {
+                    this.addPredicate({
+                        field: this.field,
+                        condition: this.condition,
+                        operator: this.operator,
+                        value: this.value
+                    });
+                }
+                this.reset();
+            }
         });
-
-        this.cancel();
     }
 
     @action setIsAdding (value: boolean) {
         this.isAdding = value;
     }
 
+    @action setIsEditing(value: boolean) {
+        this.isEditing = value;
+    }
+
     render() {
         let {field, availableConditionSources, availableExpressions, availableOperators, numPredicates} = this.props.store.editorStore;
         let columns : any = [
+            { title: 'Operator', dataIndex: 'operator', key: 'operator', render: (text, record) => (
+                record.operator ? <Tag>{record.operator}</Tag> : <></>
+            )},
             { title: 'Field', dataIndex: 'field', key: 'field' },
             { title: 'Condition', dataIndex: 'condition', key: 'condition' },
             { title: 'Value', dataIndex: 'value', key: 'value'},
-            { title: 'Operator', dataIndex: 'operator', key: 'operator'},
             { title: 'Action', key: 'action',
                 render: (text, record) => (
                   <span>
-                    <a href="javascript:;" onClick={(e) => this.removePredicate(record.uuid)}>Delete</a>
+                      <Button style={{marginRight: '10px'}} icon="edit" shape="circle" size="small" onClick={(e) => this.editPredicate(record.uuid)}></Button>
+                      <Button icon="delete" shape="circle" size="small" onClick={(e) => this.removePredicate(record.uuid)}></Button>
                   </span>
-                ),
-              }
+                )
+            }
         ]
 
+        let {getFieldDecorator} = this.props.form;
+
         return <div>
-            <Card title="Conditions" size="small" bodyStyle={{padding:0}} actions={[<Button style={{visibility: numPredicates == 0 ? 'visible' : 'hidden'}} onClick={() => this.setIsAdding(true)}>Add</Button>]}>
+            <Card title="Conditions" size="small" bodyStyle={{padding:0}} actions={[<Button onClick={() => this.setIsAdding(true)}>Add</Button>]}>
                 { numPredicates > 0 && <div>
-                    <Table size="small" pagination={numPredicates > 5 ? {position: 'bottom'} : false} dataSource={field.condition.predicates || []} columns={columns} rowKey='uuid'/>
+                    <Table size="small" pagination={numPredicates > 5 ? {position: 'bottom'} : false}
+                        dataSource={field.condition.predicates || []} columns={columns} rowKey='uuid'/>
                     </div>
                 }
                 { numPredicates == 0 && <Empty description={
@@ -114,42 +144,67 @@ export class ConditionsView extends React.Component<IEditorView,any> {
                 </Empty>
                 }
             </Card>
-            {this.isAdding  && <Card size="small" title="Add condition" bodyStyle={{padding: '8px'}} style={{marginTop: '15px'}}>
+            {(this.isAdding || this.isEditing) && <Card size="small" title="Add condition" bodyStyle={{padding: '8px'}} style={{marginTop: '15px'}}>
                 <Form layout="horizontal" {...formItemLayout} onSubmit={(e)=> this.handleSubmit(e)}>
-                    <Form.Item label="Source field" help="Field the condition will get its source value from" required>
-                        <Select showSearch={true} onChange={(e) => this.setField(e)} value={this.field}>
-                            { availableConditionSources.map((f)=>{
-                                return <Select.Option key={f.id} value={f.id} disabled={field.id == f.id}>{f.name}</Select.Option>
-                            })}
-                        </Select>
+                    <Form.Item label="Source field" help="Field the condition is predicated upon" required>
+                        {
+                            getFieldDecorator('field', {
+                                initialValue: this.field,
+                                rules: [{type: 'string'}, {required: true}]
+                            })(<Select onChange={(e) => this.setPredicateAttribute('field', e)}>
+                                { availableConditionSources.map((f)=>{
+                                    return <Select.Option key={f.id} value={f.id} disabled={field.id == f.id}>{f.name}</Select.Option>
+                                })}
+                            </Select>)
+                        }
                     </Form.Item>
-                    <Form.Item label="Expression" help="The expression to evaluate"  required>
-                        <Select onChange={(e) => this.setExpression(e)}  value={this.expression}>
-                            {
-                                availableExpressions.map((e)=> {
-                                    return <Select.Option key={e.value} value={e.value}>{e.name}</Select.Option>
-                                })
-                            }
-                        </Select>
+                    <Form.Item label="Condition" help="The expression to evaluate">
+                        {
+                            getFieldDecorator('condition', {
+                                initialValue: this.condition,
+                                rules: [{type: 'string'}, {required: true}]
+                            })(<Select onChange={(e) => this.setPredicateAttribute('condition', e)}>
+                                {
+                                    availableExpressions.map((e)=> {
+                                        return <Select.Option key={e.value} value={e.value}>{e.name}</Select.Option>
+                                    })
+                                }
+                            </Select>)
+                        }
                     </Form.Item>
-                    <Form.Item label="Value" help="The target value"  required={!this.expression || this.expression.indexOf('hasval') > -1 || !this.field}>
-                        <Input type="text" disabled={ !this.expression || this.expression.indexOf('hasval') > -1 || !this.field} onChange={(e) => this.setValue(e)}></Input>
+                    <Form.Item label="Value" help="The target value" required={this.condition && this.condition.indexOf('hasval') == -1}>
+                        {
+                            getFieldDecorator('value', {
+                                initialValue: this.value,
+                                rules: [{type: 'string'}, {required: this.condition && this.condition.indexOf('hasval') == -1}]
+                            })(<Input type="text"
+                                disabled={ !this.field || !this.condition || this.condition.indexOf('hasval') > -1}
+                                onChange={(e) => this.setPredicateAttribute('value', e.target.value)}/>)
+                        }
                     </Form.Item>
                     <Form.Item label="Operator" help="Operator to combine conditions">
-                        <Select onChange={(e) => this.setOperator(e)} value={this.operator} disabled={numPredicates == 0}>
-                            {
-                                availableOperators.map((e)=> {
-                                    return <Select.Option key={e.value} value={e.value}>{e.name}</Select.Option>
-                                })
-                            }
-                        </Select>
+                        {
+                            getFieldDecorator('operator', {
+                                initialValue: this.operator,
+                                rules: [{type: 'string'}, {required: numPredicates > 0}]
+                            })(<Select onChange={(e) => this.setPredicateAttribute('operator', e)} disabled={numPredicates == 0}>
+                                {
+                                    availableOperators.map((e)=> {
+                                        return <Select.Option key={e.value} value={e.value}>{e.name}</Select.Option>
+                                    })
+                                }
+                            </Select>)
+                        }
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
-                        <Button style={{marginRight: '15px'}} icon="plus" htmlType="submit" type="primary" disabled={!this.field || !this.expression}>Add</Button>
-                        <Button type="danger" onClick={() => this.cancel()}>Cancel</Button>
+                        <Button style={{marginRight: '15px'}} size="small" htmlType="submit" type="primary" disabled={!this.field || !this.condition}>Save</Button>
+                        <Button type="danger" size="small" onClick={() => this.reset()}>Cancel</Button>
                     </Form.Item>
                 </Form>
             </Card>}
         </div>
     }
 }
+
+const WrappedConditionsEditorView = Form.create<IConditionsEditorViewProps>({ name: 'ConditionsEditorView' })(ConditionsEditorView);
+export default WrappedConditionsEditorView;
