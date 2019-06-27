@@ -1,12 +1,12 @@
-import {Field, ValidationAllowedRules, ValidationRuleNames, ValidationRuleMap} from "@kartikrao/lib-forms-core";
-import { notification, Button, Card, Checkbox, DatePicker, Empty, Form, Icon, Input, InputNumber, Select } from "antd";
+import { Field, ValidationAllowedRules, ValidationRuleMap, ValidationRuleNames } from "@kartikrao/lib-forms-core";
+import { Button, Card, Checkbox, DatePicker, Empty, Form, Input, InputNumber, notification, Select } from "antd";
 import { action, computed, observable, toJS } from "mobx";
 import { observer } from "mobx-react";
 import moment from 'moment';
 import * as React from "react";
+import { formItemLayout, tailFormItemLayout } from "../../common/FormLayoutCommon";
 import { IEditorView } from "../../common/IComponentEditorView";
 import { ValidationListView } from "./ValidationListView";
-import {formItemLayout, tailFormItemLayout} from "../../common/FormLayoutCommon";
 
 @observer
 export class ValidationView extends React.Component<IEditorView,any> {
@@ -326,11 +326,12 @@ export class ValidationView extends React.Component<IEditorView,any> {
                 </div> }
                 <Form.Item {...tailFormItemLayout} style={{marginTop: '15px'}}>
                     <Button style={{marginRight: '10px'}} type="primary" htmlType="submit"
+                        size="small"
                         disabled={!this.isRuleValid}
                         onClick={this.applyRule}>
                         {this.isEditing == true ? "Apply" : "Add"}
                     </Button>
-                    <Button type="danger" onClick={() => this.cancel()}>Cancel</Button>
+                    <Button size="small" type="danger" onClick={() => this.cancel()}>Cancel</Button>
                 </Form.Item>
             </Form>
          </Card>}

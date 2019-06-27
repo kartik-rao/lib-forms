@@ -132,7 +132,7 @@ class ConditionsEditorView extends React.Component<IConditionsEditorViewProps,an
         let {getFieldDecorator} = this.props.form;
 
         return <div>
-            <Card title="Conditions" size="small" bodyStyle={{padding:0}} actions={[<Button onClick={() => this.setIsAdding(true)}>Add</Button>]}>
+            <Card title="Conditions" size="small" bodyStyle={{padding:0}} actions={[<Button size="small" onClick={() => this.setIsAdding(true)}>Add</Button>]}>
                 { numPredicates > 0 && <div>
                     <Table size="small" pagination={numPredicates > 5 ? {position: 'bottom'} : false}
                         dataSource={field.condition.predicates || []} columns={columns} rowKey='uuid'/>

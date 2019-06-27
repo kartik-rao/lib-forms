@@ -166,7 +166,7 @@ class ChoiceOptionEditorView extends React.Component<IChoiceOptionEditorViewProp
               </Empty>}
               {this.items.length > 0 && <ReactDragListView onDragEnd={this.move} handleSelector="i" nodeSelector="tr.ant-table-row">
                   <Table size="small" pagination={rows.length > 5 ? {position: 'bottom'} : false} dataSource={rows} columns={columns} rowKey='key'
-                  footer={() => this.showAdd ? <></> : <Button onClick={(e) => this.showAddChoiceItem(true)}>Add</Button>} />
+                  footer={() => this.showAdd ? <></> : <Button size="small" onClick={(e) => this.showAddChoiceItem(true)}>Add</Button>} />
                 </ReactDragListView>
               }
               {this.showAdd && <Card title="Add option" size="small" style={{marginTop : '15px'}}>

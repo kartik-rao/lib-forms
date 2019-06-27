@@ -30,7 +30,6 @@ export class FieldEditorView extends React.Component<IEditorView,any> {
     render() {
         let {editorStore} = this.props.store;
         let {field} = editorStore;
-
         return field && <Drawer title={`Field ${field.name} (id=${field.id||''} class=${field.className})`}
             width={700} onClose={() => editorStore.setEditable(null)} visible={editorStore.showFieldEditor}
             style={{ overflow: 'auto', height: 'calc(80% - 108px)', paddingBottom: '108px' }}>
@@ -45,7 +44,7 @@ export class FieldEditorView extends React.Component<IEditorView,any> {
                     <Tabs.TabPane tab="Condition" key="3">
                         <Row><Col span={24}><ConditionsView store={this.props.store}/></Col></Row>
                     </Tabs.TabPane>
-                    {['select', 'radiogroup', 'checkboxgroup'].indexOf(field.inputType) && <Tabs.TabPane tab="Options" key="4">
+                    {['select', 'radiogroup', 'checkboxgroup'].indexOf(field.inputType) > -1 && <Tabs.TabPane tab="Options" key="4">
                         <Row>
                             <Col span={24}>
                             <ChoiceOptionEditorView type="select" items={field.componentProps['options']} onChange={this.updateOptions}/>
