@@ -45,6 +45,11 @@ const tailFormItemLayout = {
     },
 };
 
+let defaultDimensions = {
+    'vertical': {offset:0, span:12},
+    'horizontal': {offset:0, span:10}
+};
+
 @observer
 export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
 
@@ -71,12 +76,11 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
         } else {
             target.offset = value;
         }
-        console.log("After Set o/s", target.offset, target.span);
         return;
     }
 
     @action initialize({itemLayoutOptions}) {
-        this.itemLayout = new ItemLayoutOptions(toJS(itemLayoutOptions))
+        this.itemLayout = new ItemLayoutOptions({});
     }
 
     constructor(props: IItemLayoutViewProps) {
@@ -104,9 +108,10 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
     }
 
     @computed get availableDimensions() : ScreenWidth[] {
-        let {wrapperCol} = this.itemLayout;
+        let {wrapperCol} = this.props.itemLayoutOptions;
         return wrapperCol.unused;
     }
+
 
     @action setIsAdding = () => {
         let dimension = this.availableDimensions[0];
@@ -122,12 +127,14 @@ export class ItemLayoutView extends React.Component<IItemLayoutViewProps, any> {
     @action reset = () => {
         this.isAdding = false;
         this.isEditing = false;
-        // this.itemLayout = this.props.itemLayoutOptions;
+        this.itemLayout = new ItemLayoutOptions({});
         this.selectedDimension = null;
     }
 
     @action setIsEditing = (record: any) => {
         this.selectedDimension = record.dimension;
+        this.itemLayout.wrapperCol.add(record.dimension, this.props.itemLayoutOptions.wrapperCol[record.dimension]);
+        this.itemLayout.labelCol.add(record.dimension, this.props.itemLayoutOptions.labelCol[record.dimension]);
         this.isEditing = true;
     }
 

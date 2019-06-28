@@ -1,4 +1,4 @@
-import { action, computed, decorate, observable } from "mobx";
+import { action, computed, decorate, observable, toJS } from "mobx";
 import { ICondition, Page, Field, Section, Column, FormStore, Factory, Predicate, IPredicate, GenericConstraint } from "@kartikrao/lib-forms-core";
 
 export interface IEditorStoreProps {
@@ -158,6 +158,10 @@ class EditorStore implements IEditorStoreProps {
                 }
             }
         }
+    }
+
+    @computed get asJSONForm() {
+        return toJS(this.formStore.form, {exportMapsAsObjects: true});
     }
 }
 

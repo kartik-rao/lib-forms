@@ -1,4 +1,4 @@
-import { ItemLayoutOptions, IItemLayoutOptions, FormLayoutOptions, IFormLayoutOptions } from "@kartikrao/lib-forms-core";
+import { ItemLayoutOptions, IItemLayoutOptions, FormLayoutOptions, IFormLayoutOptions, AllScreenWidths } from "@kartikrao/lib-forms-core";
 import { Button, Form, notification, Select, Divider } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { action, computed, observable, toJS } from "mobx";
@@ -28,19 +28,20 @@ const formItemLayout = {
 const tailFormItemLayout = {
     wrapperCol: {
       xs: {
-        span: 6,
-        offset: 18,
+        span: 2,
+        offset: 22,
       },
       sm: {
-        span: 6,
-        offset: 18,
+        span: 2,
+        offset: 22,
       },
     },
 };
 
 @observer
 export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
-    @observable selectedFormLayout    : string;
+    @observable selectedFormLayout : string;
+    @observable selectedLabelAlign : "left"|"right";
 
     constructor(props: IFormLayoutViewProps) {
         super(props);
@@ -50,6 +51,7 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
     @action initialize(props: IFormLayoutViewProps) {
         let {form} = props.store.formStore;
         this.selectedFormLayout = form.layout;
+        this.selectedLabelAlign = form.formLayoutOptions.labelAlign;
     }
 
     @action setProperty(key: string, e) {
@@ -61,9 +63,11 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
         e.preventDefault();
         e.stopPropagation();
         let {form} = this.props.store.editorStore.formStore;
+        console.log("Submitting");
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                form.layout = values.layout;
+                form.layout = this.selectedFormLayout;
+                form.formLayoutOptions.labelAlign = this.selectedLabelAlign;
                 notification.info({message: `Form - ${form.name}`,
                     description:`Form layout set to "${form.layout}" `});
             }
@@ -73,12 +77,16 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
 
     @computed get hasFormLayoutChanged() {
         let {form} = this.props.store.editorStore.formStore;
-        return this.selectedFormLayout != form.layout;
+        return this.selectedFormLayout != form.layout || this.selectedLabelAlign != form.formLayoutOptions.labelAlign;
     }
 
-    @action saveLayout = (layout: ItemLayoutOptions) => {
+    @action saveItemLayout = (layout: ItemLayoutOptions) => {
         let {form} = this.props.store.editorStore.formStore;
-        form.itemLayoutOptions = layout;
+        AllScreenWidths.map((w: ScreenWidth) => {
+            layout.labelCol[w] && form.itemLayoutOptions.labelCol.add(w, layout.labelCol[w]);
+            layout.wrapperCol[w] && form.itemLayoutOptions.wrapperCol.add(w, layout.wrapperCol[w]);
+        });
+        form.formLayoutOptions.labelAlign = this.selectedLabelAlign;
         notification.info({message: `Form - ${form.name}`,
                 description:"Field layout updated successfully"});
     }
@@ -109,13 +117,27 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
                     </Select>)
                 }
             </Form.Item>
+            <Form.Item label="Label Alignment" help="Horizontal position of the labels">
+            {
+                    getFieldDecorator('selectedLabelAlign', {
+                        initialValue: this.selectedLabelAlign,
+                        rules: [
+                            {type: 'string'},
+                            {required: true, message: 'An alignment is required'}
+                        ]
+                    })(<Select onChange={(e) => {this.setProperty('selectedLabelAlign', e)}}>
+                        <Select.Option key="left">Left</Select.Option>
+                        <Select.Option key="right">Right</Select.Option>
+                    </Select>)
+                }
+            </Form.Item>
             {this.hasFormLayoutChanged && <Form.Item {...tailFormItemLayout}>
-                <Button size="small" type="primary">Save Form Layout</Button>
+                <Button size="small" type="primary" htmlType="submit">Save</Button>
             </Form.Item>}
         </Form>
         <Divider />
-        <ItemLayoutView onSave={this.saveLayout}
-                formLayout={this.selectedFormLayout} itemLayoutOptions={form.itemLayoutOptions}/>
+        <ItemLayoutView onSave={this.saveItemLayout}
+            formLayout={this.selectedFormLayout} itemLayoutOptions={form.itemLayoutOptions}/>
     </div>
     }
 }
