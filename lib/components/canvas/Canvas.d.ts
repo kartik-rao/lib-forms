@@ -1,7 +1,7 @@
+import { Factory } from "@kartikrao/lib-forms-core";
 import * as React from "react";
 import { DropResult } from "react-beautiful-dnd";
 import { EditorStore } from "../../store/EditorStore";
-import { Factory } from "@kartikrao/lib-forms-core";
 export interface CanvasProps {
     store: EditorStore;
 }
