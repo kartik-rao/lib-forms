@@ -46,7 +46,7 @@
     "yup": "^0.26.10"
   },
   "devDependencies": {
-    "@kartikrao/lib-forms-core": "^5.0.10",
+    "@kartikrao/lib-forms-core": "^5.1.0",
     "@kartikrao/lib-logging": "^1.6.0",
     "@types/atlaskit__tree": "^4.1.1",
     "@types/draft-js": "^0.10.32",
