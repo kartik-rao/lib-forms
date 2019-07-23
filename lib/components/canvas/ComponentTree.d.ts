@@ -1,7 +1,7 @@
 import * as React from "react";
-import { RootStore } from "../../store/RootStore";
+import { EditorStore } from "../../store/EditorStore";
 export interface ComponentTreeProps {
-    store: RootStore;
+    store: EditorStore;
 }
 export declare class ComponentTree extends React.Component<ComponentTreeProps, any> {
     nodeMap: any;

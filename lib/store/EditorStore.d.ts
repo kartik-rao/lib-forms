@@ -1,20 +1,21 @@
-import { ICondition, Page, Field, Section, Column, FormStore, Factory, IPredicate, GenericConstraint } from "@kartikrao/lib-forms-core";
+import { ICondition, Page, Field, Section, Column, FormStore, Factory, IPredicate, GenericConstraint, IFormProps, Form } from "@kartikrao/lib-forms-core";
 export interface IEditorStoreProps {
     item?: Page | Field | Section | Column;
-    formEditorVisible?: boolean;
+    showFormEditor?: boolean;
     formStore: FormStore;
     factory: Factory;
 }
-declare class EditorStore implements IEditorStoreProps {
-    field: Field;
-    page: Page;
-    section: Section;
-    column: Column;
+export declare class EditorStore implements IEditorStoreProps {
+    selectedField: Field;
+    selectedPage: Page;
+    selectedSection: Section;
+    selectedColumn: Column;
+    showFormEditor: boolean;
+    formData: Form;
     formStore: FormStore;
     factory: Factory;
-    formEditorVisible: boolean;
-    constructor(data: IEditorStoreProps);
-    initialize(data: IEditorStoreProps): void;
+    constructor(data: IFormProps);
+    initialize(data: IFormProps): void;
     readonly availableConditionSources: any[];
     readonly availableExpressions: any[];
     readonly availableOperators: any[];
@@ -35,6 +36,6 @@ declare class EditorStore implements IEditorStoreProps {
     readonly showColumnEditor: boolean;
     readonly showSectionEditor: boolean;
     setFormEditorVisible(visible?: boolean): void;
-    setEditable: (item: Field | Page | Section | Column) => void;
+    setEditable: (item: Page | Field | Section | Column) => void;
+    readonly asJSONForm: Form;
 }
-export default EditorStore;

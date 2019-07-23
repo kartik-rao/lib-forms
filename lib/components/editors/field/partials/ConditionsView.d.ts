@@ -1,22 +1,28 @@
 import * as React from "react";
 import { IPredicate } from "@kartikrao/lib-forms-core";
 import { IEditorView } from "../../common/IComponentEditorView";
-export declare class ConditionsView extends React.Component<IEditorView, any> {
+import { FormComponentProps } from "antd/lib/form";
+export interface IConditionsEditorViewProps extends FormComponentProps, IEditorView {
+}
+declare class ConditionsEditorView extends React.Component<IConditionsEditorViewProps, any> {
+    isAdding: boolean;
+    isEditing: boolean;
+    uuid: string;
     field: string;
-    expression: string;
+    condition: string;
     value: string;
     operator: string;
-    isAdding: boolean;
-    constructor(props: IEditorView);
-    initialize(props: IEditorView): void;
-    setField: (e: any) => void;
-    setExpression: (e: any) => void;
-    setValue: (e: any) => void;
-    setOperator: (e: any) => void;
+    constructor(props: IConditionsEditorViewProps);
+    initialize(props: IConditionsEditorViewProps): void;
+    setPredicateAttribute: (attr: "condition" | "value" | "field" | "operator", value: any) => void;
     addPredicate(p: IPredicate): void;
     removePredicate(uuid: string): void;
-    cancel(): void;
+    editPredicate(uuid: string): void;
+    reset(): void;
     handleSubmit: (e: any) => void;
     setIsAdding(value: boolean): void;
+    setIsEditing(value: boolean): void;
     render(): JSX.Element;
 }
+declare const WrappedConditionsEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof ConditionsEditorView, Pick<IConditionsEditorViewProps, "store" | "wrappedComponentRef">>;
+export default WrappedConditionsEditorView;

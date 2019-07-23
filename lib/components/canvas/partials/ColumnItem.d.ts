@@ -1,11 +1,11 @@
 import { Column } from "@kartikrao/lib-forms-core";
 import * as React from "react";
-import { RootStore } from "../../../store/RootStore";
+import { EditorStore } from "../../../store/EditorStore";
 export interface IColumnItemProps {
     col: Column;
     key: string;
     index: number;
-    store: RootStore;
+    store: EditorStore;
 }
 export declare class ColumnItem extends React.Component<IColumnItemProps, any> {
     render(): JSX.Element;
