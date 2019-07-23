@@ -31,7 +31,8 @@
     "moment": "^2.24.0",
     "@kartikrao/lib-forms-core": "^5.1.0",
     "@kartikrao/lib-logging": "^1.6.0",
-    "react-beautiful-dnd": "^11.0.3"
+    "react-beautiful-dnd": "^11.0.3",
+    "moment-timezone": "^0.5.25"
   },
   "dependencies": {
     "draft-js": "^0.10.5",
