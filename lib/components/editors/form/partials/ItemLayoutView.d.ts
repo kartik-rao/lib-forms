@@ -27,5 +27,5 @@ export declare class ItemLayoutView extends React.Component<IItemLayoutViewProps
     save: () => void;
     render(): JSX.Element;
 }
-declare const WrappedIItemLayoutViewProps: import("antd/lib/form/interface").ConnectedComponentClass<typeof ItemLayoutView, Pick<IItemLayoutViewProps, "wrappedComponentRef" | "formLayout" | "itemLayoutOptions" | "onSave">>;
+declare const WrappedIItemLayoutViewProps: import("antd/lib/form/interface").ConnectedComponentClass<typeof ItemLayoutView, Pick<IItemLayoutViewProps, "wrappedComponentRef" | "itemLayoutOptions" | "formLayout" | "onSave">>;
 export default WrappedIItemLayoutViewProps;

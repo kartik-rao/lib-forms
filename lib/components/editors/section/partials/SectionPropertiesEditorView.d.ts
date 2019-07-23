@@ -9,5 +9,5 @@ declare class SectionPropertiesEditorView extends React.Component<ISectionProper
     handleSubmit: (e: any) => void;
     render(): JSX.Element;
 }
-declare const WrappedSectionPropertiesEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof SectionPropertiesEditorView, Pick<ISectionPropertiesEditorViewProps, "store" | "wrappedComponentRef">>;
+declare const WrappedSectionPropertiesEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof SectionPropertiesEditorView, Pick<ISectionPropertiesEditorViewProps, "wrappedComponentRef" | "store">>;
 export default WrappedSectionPropertiesEditorView;

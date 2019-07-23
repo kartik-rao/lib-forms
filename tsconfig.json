@@ -12,13 +12,14 @@
       "outDir": "lib",
       "declaration": true,
       "skipLibCheck": true
-
     },
     "include": [
-      "src/**/*.ts",
-      "src/**/*.tsx"
+      "src/index.ts",
+      "src/**/*.ts?"
     ],
     "exclude": [
-      "node_modules"
+      "node_modules",
+      "dist",
+      "lib"
     ]
   }

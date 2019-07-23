@@ -40,5 +40,5 @@ declare class ChoiceOptionEditorView extends React.Component<IChoiceOptionEditor
     handleReset: (clearFilters: any) => void;
     render(): JSX.Element;
 }
-declare const WrappedChoiceOptionEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof ChoiceOptionEditorView, Pick<IChoiceOptionEditorViewProps, "onChange" | "type" | "wrappedComponentRef" | "items">>;
+declare const WrappedChoiceOptionEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof ChoiceOptionEditorView, Pick<IChoiceOptionEditorViewProps, "onChange" | "type" | "items" | "wrappedComponentRef">>;
 export default WrappedChoiceOptionEditorView;

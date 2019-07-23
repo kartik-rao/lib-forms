@@ -10,5 +10,5 @@ declare class PropertiesView extends React.Component<IPropertiesViewProps, any> 
     updateOptions(options: ChoiceOption[]): void;
     render(): JSX.Element;
 }
-declare const WrappedPropertiesView: import("antd/lib/form/interface").ConnectedComponentClass<typeof PropertiesView, Pick<IPropertiesViewProps, "store" | "wrappedComponentRef">>;
+declare const WrappedPropertiesView: import("antd/lib/form/interface").ConnectedComponentClass<typeof PropertiesView, Pick<IPropertiesViewProps, "wrappedComponentRef" | "store">>;
 export default WrappedPropertiesView;

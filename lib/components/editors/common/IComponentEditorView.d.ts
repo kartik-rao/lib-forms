@@ -1,4 +1,4 @@
-import RootStore from "../../../store/RootStore";
+import { EditorStore } from "../../../store/EditorStore";
 export interface IEditorView {
-    store: RootStore;
+    store: EditorStore;
 }

@@ -16,5 +16,5 @@ declare class SectionLayoutEditorView extends React.Component<ISectionLayoutEdit
     handleSubmit: (e: any) => void;
     render(): JSX.Element;
 }
-declare const WrappedSectionLayoutEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof SectionLayoutEditorView, Pick<ISectionLayoutEditorViewProps, "section" | "store" | "wrappedComponentRef">>;
+declare const WrappedSectionLayoutEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof SectionLayoutEditorView, Pick<ISectionLayoutEditorViewProps, "wrappedComponentRef" | "section" | "store">>;
 export default WrappedSectionLayoutEditorView;

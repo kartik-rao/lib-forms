@@ -24,5 +24,5 @@ declare class ConditionsEditorView extends React.Component<IConditionsEditorView
     setIsEditing(value: boolean): void;
     render(): JSX.Element;
 }
-declare const WrappedConditionsEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof ConditionsEditorView, Pick<IConditionsEditorViewProps, "store" | "wrappedComponentRef">>;
+declare const WrappedConditionsEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof ConditionsEditorView, Pick<IConditionsEditorViewProps, "wrappedComponentRef" | "store">>;
 export default WrappedConditionsEditorView;

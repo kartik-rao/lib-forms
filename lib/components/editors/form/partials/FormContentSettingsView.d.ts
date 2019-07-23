@@ -12,5 +12,5 @@ declare class FormContentEditorView extends React.Component<IFormContentEditorVi
     onChange: (key: string, value: any) => void;
     render(): JSX.Element;
 }
-declare const WrappedFormContentEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof FormContentEditorView, Pick<IFormContentEditorViewProps, "store" | "wrappedComponentRef">>;
+declare const WrappedFormContentEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof FormContentEditorView, Pick<IFormContentEditorViewProps, "wrappedComponentRef" | "store">>;
 export default WrappedFormContentEditorView;

@@ -8,5 +8,5 @@ declare class PageEditorView extends React.Component<IPageEditorViewProps, any> 
     readonly hasErrors: boolean;
     render(): JSX.Element;
 }
-declare const WrappedPageEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof PageEditorView, Pick<IPageEditorViewProps, "store" | "wrappedComponentRef">>;
+declare const WrappedPageEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof PageEditorView, Pick<IPageEditorViewProps, "wrappedComponentRef" | "store">>;
 export default WrappedPageEditorView;
