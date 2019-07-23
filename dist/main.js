@@ -191,28 +191,28 @@ var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_)
 var external_ReactDOM_ = __webpack_require__(8);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/col/index.js
-var es_col = __webpack_require__(23);
+var es_col = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/col/style/css.js
 var css = __webpack_require__(56);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/icon/index.js + 3 modules
-var es_icon = __webpack_require__(11);
+var es_icon = __webpack_require__(10);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/icon/style/css.js
-var style_css = __webpack_require__(114);
+var style_css = __webpack_require__(124);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/layout/index.js
 var es_layout = __webpack_require__(81);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/layout/style/css.js
-var layout_style_css = __webpack_require__(197);
+var layout_style_css = __webpack_require__(198);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/menu/index.js + 3 modules
 var menu = __webpack_require__(54);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/menu/style/css.js
-var menu_style_css = __webpack_require__(198);
+var menu_style_css = __webpack_require__(199);
 
 // EXTERNAL MODULE: ./node_modules/mobx/lib/mobx.module.js
 var mobx_module = __webpack_require__(2);
@@ -223,17 +223,11 @@ var mobx_react_module = __webpack_require__(12);
 // EXTERNAL MODULE: ./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js + 33 modules
 var react_beautiful_dnd_esm = __webpack_require__(34);
 
-// EXTERNAL MODULE: ./node_modules/antd/es/tabs/index.js + 15 modules
-var tabs = __webpack_require__(36);
-
-// EXTERNAL MODULE: ./node_modules/antd/es/tabs/style/css.js
-var tabs_style_css = __webpack_require__(116);
-
 // EXTERNAL MODULE: ./node_modules/antd/es/drawer/index.js + 3 modules
 var drawer = __webpack_require__(60);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/drawer/style/css.js
-var drawer_style_css = __webpack_require__(91);
+var drawer_style_css = __webpack_require__(92);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/row/index.js
 var es_row = __webpack_require__(29);
@@ -241,11 +235,21 @@ var es_row = __webpack_require__(29);
 // EXTERNAL MODULE: ./node_modules/antd/es/row/style/css.js
 var row_style_css = __webpack_require__(64);
 
+// EXTERNAL MODULE: ./node_modules/antd/es/tabs/index.js + 15 modules
+var tabs = __webpack_require__(37);
+
+// EXTERNAL MODULE: ./node_modules/antd/es/tabs/style/css.js
+var tabs_style_css = __webpack_require__(116);
+
+// EXTERNAL MODULE: ./node_modules/antd/lib/form/Form.js
+var Form = __webpack_require__(30);
+var Form_default = /*#__PURE__*/__webpack_require__.n(Form);
+
 // EXTERNAL MODULE: ./node_modules/antd/es/button/index.js + 2 modules
 var es_button = __webpack_require__(17);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/button/style/css.js
-var button_style_css = __webpack_require__(37);
+var button_style_css = __webpack_require__(38);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/card/index.js + 2 modules
 var card = __webpack_require__(28);
@@ -254,34 +258,32 @@ var card = __webpack_require__(28);
 var card_style_css = __webpack_require__(57);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/empty/index.js
-var empty = __webpack_require__(49);
+var empty = __webpack_require__(48);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/empty/style/css.js
-var empty_style_css = __webpack_require__(92);
-
-// EXTERNAL MODULE: ./node_modules/antd/es/form/index.js + 10 modules
-var es_form = __webpack_require__(13);
-
-// EXTERNAL MODULE: ./node_modules/antd/es/form/style/css.js
-var form_style_css = __webpack_require__(65);
+var empty_style_css = __webpack_require__(93);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/input/index.js + 7 modules
-var input = __webpack_require__(22);
+var input = __webpack_require__(21);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/input/style/css.js
-var input_style_css = __webpack_require__(66);
-
-// EXTERNAL MODULE: ./node_modules/antd/es/select/index.js + 9 modules
-var es_select = __webpack_require__(27);
-
-// EXTERNAL MODULE: ./node_modules/antd/es/select/style/css.js
-var select_style_css = __webpack_require__(83);
+var input_style_css = __webpack_require__(65);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/table/index.js + 47 modules
 var table = __webpack_require__(76);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/table/style/css.js + 4 modules
 var table_style_css = __webpack_require__(142);
+
+// EXTERNAL MODULE: ./node_modules/antd/es/divider/style/css.js
+var divider_style_css = __webpack_require__(157);
+
+// EXTERNAL MODULE: ./node_modules/react-drag-listview/es/index.js + 3 modules
+var es = __webpack_require__(277);
+
+// EXTERNAL MODULE: ./node_modules/react-highlight-words/dist/main.js
+var main = __webpack_require__(260);
+var main_default = /*#__PURE__*/__webpack_require__.n(main);
 
 // CONCATENATED MODULE: ./src/components/editors/common/FormLayoutCommon.ts
 const FormLayoutCommon_tailFormItemLayout = {
@@ -307,7 +309,7 @@ const FormLayoutCommon_formItemLayout = {
     },
 };
 
-// CONCATENATED MODULE: ./src/components/editors/field/partials/ConditionsView.tsx
+// CONCATENATED MODULE: ./src/components/editors/field/partials/ChoiceOptionEditorView.tsx
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -334,150 +336,401 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-let ConditionsView_ConditionsView = class ConditionsView extends external_React_["Component"] {
+
+let ChoiceOptionEditorView_ChoiceOptionEditorView = class ChoiceOptionEditorView extends external_React_["Component"] {
     constructor(props) {
         super(props);
-        this.setField = (e) => {
-            this.field = e;
+        this.showAddChoiceItem = (show) => {
+            this.showAdd = show;
         };
-        this.setExpression = (e) => {
-            this.expression = e;
+        this.addChoiceOption = (e) => {
+            console.log("Adding", e);
+            // this.items.push({label: this.label, value: this.value});
+            // this.props.onChange(this.items);
         };
-        this.setValue = (e) => {
-            this.value = e.target.value;
+        this.getColumnSearchProps = (dataIndex) => ({
+            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, }) => (external_React_["createElement"]("div", { style: { padding: 8 } },
+                external_React_["createElement"](input["a" /* default */], { ref: node => { this.setSearchInput(node); }, placeholder: `Search ${dataIndex}`, value: selectedKeys[0], onChange: e => setSelectedKeys(e.target.value ? [e.target.value] : []), onPressEnter: () => this.handleSearch(selectedKeys, confirm), style: { width: 188, marginBottom: 8, display: 'block' } }),
+                external_React_["createElement"](es_button["a" /* default */], { type: "primary", onClick: () => this.handleSearch(selectedKeys, confirm), icon: "search", size: "small", style: { width: 90, marginRight: 8 } }, "Search"),
+                external_React_["createElement"](es_button["a" /* default */], { onClick: () => this.handleReset(clearFilters), size: "small", style: { width: 90 } }, "Reset"))),
+            filterIcon: filtered => external_React_["createElement"](es_icon["a" /* default */], { type: "search", style: { color: filtered ? '#1890ff' : undefined } }),
+            onFilter: (value, record) => record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+            onFilterDropdownVisibleChange: (visible) => {
+                if (visible) {
+                    setTimeout(() => this.searchInput.select());
+                }
+            },
+            render: (text) => (external_React_["createElement"](main_default.a, { highlightStyle: { backgroundColor: '#ffc069', padding: 0 }, searchWords: [this.searchText], autoEscape: true, textToHighlight: text.toString() })),
+        });
+        this.handleSearch = (selectedKeys, confirm) => {
+            confirm();
+            this.searchText = selectedKeys[0];
         };
-        this.setOperator = (e) => {
-            this.operator = e;
-        };
-        this.handleSubmit = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            this.addPredicate({
-                field: this.field,
-                condition: this.expression,
-                value: this.value,
-                operator: this.operator
-            });
-            this.cancel();
+        this.handleReset = (clearFilters) => {
+            clearFilters();
+            this.searchText = '';
         };
         this.initialize(props);
     }
     initialize(props) {
-        this.field = null;
-        this.expression = null;
+        this.type = props.type;
+        this.items = props.items;
         this.value = null;
-        this.operator = null;
-        this.isAdding = false;
+        this.label = null;
+        this.isEditing = false;
+    }
+    move(fromIndex, toIndex) {
+        this.items.splice(toIndex, 0, this.items.splice(fromIndex, 1)[0]);
+        this.props.onChange(this.items);
+    }
+    edit(record) {
+        this.isEditing = true;
+        this.label = record.label;
+        this.value = record.value;
+    }
+    remove(index) {
+        this.items.splice(index, 1);
+        this.props.onChange(this.items);
+    }
+    setSearchInput(node) {
+        this.searchInput = node;
+    }
+    get uniqueValuePattern() {
+        let allValues = this.items.map((item) => {
+            return item.value;
+        });
+        return new RegExp(`^((?!(${allValues.join("|")})).)*$`, "gi");
+    }
+    render() {
+        console.log("COEV - PRERENDER", this.props);
+        let columns = [{
+                title: '',
+                key: "operate",
+                render: (text, record, index) => external_React_["createElement"]("span", { style: { float: 'right', marginRight: '20%' } },
+                    external_React_["createElement"](es_icon["a" /* default */], { className: "drag-handle", type: "drag" }))
+            }, Object.assign({ title: 'Label', dataIndex: 'label', key: 'label', sorter: true }, this.getColumnSearchProps('label')), Object.assign({ title: 'Value', dataIndex: 'value', key: 'value', sorter: true }, this.getColumnSearchProps('value')), {
+                title: 'Actions',
+                key: 'action',
+                render: (text, record) => (external_React_["createElement"]("span", null,
+                    external_React_["createElement"](es_button["a" /* default */], { shape: "circle", type: "default", onClick: () => { this.edit(record); }, icon: "tool", size: "small", style: { marginLeft: '5px', marginRight: '5px' } }),
+                    external_React_["createElement"](es_button["a" /* default */], { shape: "circle", type: "danger", onClick: () => { this.remove(record.index); }, icon: "delete", size: "small", style: { marginLeft: '5px', marginRight: '5px' } }))),
+            }];
+        let rows = [];
+        this.items.forEach((item, index) => {
+            rows.push({ index: index, label: item.label, value: item.value, key: index });
+        });
+        let { getFieldDecorator } = this.props.form;
+        return external_React_["createElement"](card["a" /* default */], { size: "small", bodyStyle: { padding: 0 }, bordered: false },
+            this.items.length == 0 && external_React_["createElement"](empty["a" /* default */], { description: external_React_["createElement"]("span", null, "No options on this field") }),
+            this.items.length > 0 && external_React_["createElement"](es["a" /* default */], { onDragEnd: this.move, handleSelector: "i", nodeSelector: "tr.ant-table-row" },
+                external_React_["createElement"](table["a" /* default */], { size: "small", pagination: rows.length > 5 ? { position: 'bottom' } : false, dataSource: rows, columns: columns, rowKey: 'key', footer: () => this.showAdd ? external_React_["createElement"](external_React_["Fragment"], null) : external_React_["createElement"](es_button["a" /* default */], { size: "small", onClick: (e) => this.showAddChoiceItem(true) }, "Add") })),
+            this.showAdd && external_React_["createElement"](card["a" /* default */], { title: "Add option", size: "small", style: { marginTop: '15px' } },
+                external_React_["createElement"](Form_default.a, Object.assign({}, FormLayoutCommon_formItemLayout, { layout: "horizontal", onSubmit: (e) => this.addChoiceOption(e) }),
+                    external_React_["createElement"](Form_default.a.Item, { help: "Enter the label shown to the user (must be unique)", label: "Label" }, getFieldDecorator('label', {
+                        valuePropName: 'label',
+                        rules: [
+                            { type: 'string' },
+                            { required: true, message: 'A label is required' }
+                        ]
+                    })(external_React_["createElement"](input["a" /* default */], null))),
+                    external_React_["createElement"](Form_default.a.Item, { help: "Enter the value that will be submitted (must be unique)", label: "Value" }, getFieldDecorator('value', {
+                        valuePropName: 'value',
+                        rules: [{ type: 'string' },
+                            { required: true, message: 'A value is required' },
+                            { pattern: this.uniqueValuePattern, message: "Invalid value, must be unique" }
+                        ]
+                    })(external_React_["createElement"](input["a" /* default */], null))),
+                    external_React_["createElement"](Form_default.a.Item, Object.assign({}, FormLayoutCommon_tailFormItemLayout),
+                        external_React_["createElement"](es_button["a" /* default */], { type: "danger", style: { marginRight: '15px' }, onClick: () => this.showAddChoiceItem(false) }, "Cancel"),
+                        external_React_["createElement"](es_button["a" /* default */], { type: "primary", htmlType: "submit" }, "Save")))));
+    }
+};
+__decorate([
+    mobx_module["j" /* observable */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "type", void 0);
+__decorate([
+    mobx_module["j" /* observable */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "items", void 0);
+__decorate([
+    mobx_module["j" /* observable */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "label", void 0);
+__decorate([
+    mobx_module["j" /* observable */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "value", void 0);
+__decorate([
+    mobx_module["j" /* observable */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "isEditing", void 0);
+__decorate([
+    mobx_module["j" /* observable */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "searchInput", void 0);
+__decorate([
+    mobx_module["j" /* observable */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "showAdd", void 0);
+__decorate([
+    mobx_module["j" /* observable */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "searchText", void 0);
+__decorate([
+    mobx_module["b" /* action */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "showAddChoiceItem", void 0);
+__decorate([
+    mobx_module["b" /* action */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "initialize", null);
+__decorate([
+    mobx_module["b" /* action */].bound
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "move", null);
+__decorate([
+    mobx_module["b" /* action */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "edit", null);
+__decorate([
+    mobx_module["b" /* action */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "addChoiceOption", void 0);
+__decorate([
+    mobx_module["b" /* action */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "remove", null);
+__decorate([
+    mobx_module["b" /* action */].bound
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "setSearchInput", null);
+__decorate([
+    mobx_module["c" /* computed */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "uniqueValuePattern", null);
+__decorate([
+    mobx_module["b" /* action */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "handleSearch", void 0);
+__decorate([
+    mobx_module["b" /* action */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "handleReset", void 0);
+ChoiceOptionEditorView_ChoiceOptionEditorView = __decorate([
+    mobx_react_module["a" /* observer */]
+], ChoiceOptionEditorView_ChoiceOptionEditorView);
+const WrappedChoiceOptionEditorView = Form_default.a.create({ name: 'ChoiceOptionEditorView' })(ChoiceOptionEditorView_ChoiceOptionEditorView);
+/* harmony default export */ var partials_ChoiceOptionEditorView = (WrappedChoiceOptionEditorView);
+
+// EXTERNAL MODULE: ./node_modules/antd/es/form/index.js + 10 modules
+var es_form = __webpack_require__(11);
+
+// EXTERNAL MODULE: ./node_modules/antd/es/form/style/css.js
+var form_style_css = __webpack_require__(66);
+
+// EXTERNAL MODULE: ./node_modules/antd/es/select/index.js + 9 modules
+var es_select = __webpack_require__(24);
+
+// EXTERNAL MODULE: ./node_modules/antd/es/select/style/css.js
+var select_style_css = __webpack_require__(83);
+
+// EXTERNAL MODULE: ./node_modules/antd/es/tag/index.js + 1 modules
+var tag = __webpack_require__(90);
+
+// EXTERNAL MODULE: ./node_modules/antd/es/tag/style/css.js
+var tag_style_css = __webpack_require__(183);
+
+// CONCATENATED MODULE: ./src/components/editors/field/partials/ConditionsView.tsx
+var ConditionsView_decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let ConditionsView_ConditionsEditorView = class ConditionsEditorView extends external_React_["Component"] {
+    constructor(props) {
+        super(props);
+        this.setPredicateAttribute = (attr, value) => {
+            console.log(`Set ${attr} = "${value}"`);
+            this[attr] = value;
+        };
+        this.handleSubmit = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.props.form.validateFieldsAndScroll((err, values) => {
+                if (!err) {
+                    if (this.isEditing) {
+                        let { store } = this.props;
+                        let predicate = store.selectedField.condition.predicates.find((p) => {
+                            return p.uuid == this.uuid;
+                        });
+                        predicate.field = this.field;
+                        predicate.condition = this.condition;
+                        predicate.operator = this.operator;
+                        predicate.value = this.value;
+                    }
+                    else {
+                        this.addPredicate({
+                            field: this.field,
+                            condition: this.condition,
+                            operator: this.operator,
+                            value: this.value
+                        });
+                    }
+                    this.reset();
+                }
+            });
+        };
+        this.initialize(props);
+    }
+    initialize(props) {
+        this.reset();
     }
     addPredicate(p) {
-        let { editorStore } = this.props.store;
-        editorStore.addPredicate(p);
+        let { store } = this.props;
+        store.addPredicate(p);
         return;
     }
     removePredicate(uuid) {
-        let { editorStore } = this.props.store;
-        editorStore.removePredicate(uuid);
+        let { store } = this.props;
+        store.removePredicate(uuid);
     }
-    cancel() {
+    editPredicate(uuid) {
+        let { store } = this.props;
+        let predicate = store.selectedField.condition.predicates.find((p) => {
+            return p.uuid == uuid;
+        });
+        this.uuid = predicate.uuid;
+        this.field = predicate.field;
+        this.condition = predicate.condition;
+        this.value = predicate.value;
+        this.operator = predicate.operator;
+        this.setIsEditing(true);
+    }
+    reset() {
         this.isAdding = false;
+        this.isEditing = false;
+        this.uuid = null;
         this.field = null;
-        this.expression = null;
+        this.condition = null;
         this.value = null;
         this.operator = null;
     }
     setIsAdding(value) {
         this.isAdding = value;
     }
+    setIsEditing(value) {
+        this.isEditing = value;
+    }
     render() {
-        let { field, availableConditionSources, availableExpressions, availableOperators, numPredicates } = this.props.store.editorStore;
+        let { selectedField: field, availableConditionSources, availableExpressions, availableOperators, numPredicates } = this.props.store;
         let columns = [
+            { title: 'Operator', dataIndex: 'operator', key: 'operator', render: (text, record) => (record.operator ? external_React_["createElement"](tag["a" /* default */], null, record.operator) : external_React_["createElement"](external_React_["Fragment"], null)) },
             { title: 'Field', dataIndex: 'field', key: 'field' },
             { title: 'Condition', dataIndex: 'condition', key: 'condition' },
             { title: 'Value', dataIndex: 'value', key: 'value' },
-            { title: 'Operator', dataIndex: 'operator', key: 'operator' },
             { title: 'Action', key: 'action',
                 render: (text, record) => (external_React_["createElement"]("span", null,
-                    external_React_["createElement"]("a", { href: "javascript:;", onClick: (e) => this.removePredicate(record.uuid) }, "Delete"))),
+                    external_React_["createElement"](es_button["a" /* default */], { style: { marginRight: '10px' }, icon: "edit", shape: "circle", size: "small", onClick: (e) => this.editPredicate(record.uuid) }),
+                    external_React_["createElement"](es_button["a" /* default */], { icon: "delete", shape: "circle", size: "small", onClick: (e) => this.removePredicate(record.uuid) })))
             }
         ];
+        let { getFieldDecorator } = this.props.form;
         return external_React_["createElement"]("div", null,
-            external_React_["createElement"](card["a" /* default */], { title: "Conditions", size: "small", bodyStyle: { padding: 0 }, actions: [external_React_["createElement"](es_button["a" /* default */], { style: { visibility: numPredicates == 0 ? 'visible' : 'hidden' }, onClick: () => this.setIsAdding(true) }, "Add")] },
+            external_React_["createElement"](card["a" /* default */], { title: "Conditions", size: "small", bodyStyle: { padding: 0 }, actions: [external_React_["createElement"](es_button["a" /* default */], { size: "small", onClick: () => this.setIsAdding(true) }, "Add")] },
                 numPredicates > 0 && external_React_["createElement"]("div", null,
                     external_React_["createElement"](table["a" /* default */], { size: "small", pagination: numPredicates > 5 ? { position: 'bottom' } : false, dataSource: field.condition.predicates || [], columns: columns, rowKey: 'uuid' })),
                 numPredicates == 0 && external_React_["createElement"](empty["a" /* default */], { description: external_React_["createElement"]("span", null, "No conditional rendering on this field") })),
-            this.isAdding && external_React_["createElement"](card["a" /* default */], { size: "small", title: "Add condition", bodyStyle: { padding: '8px' }, style: { marginTop: '15px' } },
+            (this.isAdding || this.isEditing) && external_React_["createElement"](card["a" /* default */], { size: "small", title: "Add condition", bodyStyle: { padding: '8px' }, style: { marginTop: '15px' } },
                 external_React_["createElement"](es_form["a" /* default */], Object.assign({ layout: "horizontal" }, FormLayoutCommon_formItemLayout, { onSubmit: (e) => this.handleSubmit(e) }),
-                    external_React_["createElement"](es_form["a" /* default */].Item, { label: "Source field", help: "Field the condition will get its source value from", required: true },
-                        external_React_["createElement"](es_select["a" /* default */], { showSearch: true, onChange: (e) => this.setField(e), value: this.field }, availableConditionSources.map((f) => {
-                            return external_React_["createElement"](es_select["a" /* default */].Option, { key: f.id, value: f.id, disabled: field.id == f.id }, f.name);
-                        }))),
-                    external_React_["createElement"](es_form["a" /* default */].Item, { label: "Expression", help: "The expression to evaluate", required: true },
-                        external_React_["createElement"](es_select["a" /* default */], { onChange: (e) => this.setExpression(e), value: this.expression }, availableExpressions.map((e) => {
-                            return external_React_["createElement"](es_select["a" /* default */].Option, { key: e.value, value: e.value }, e.name);
-                        }))),
-                    external_React_["createElement"](es_form["a" /* default */].Item, { label: "Value", help: "The target value", required: !this.expression || this.expression.indexOf('hasval') > -1 || !this.field },
-                        external_React_["createElement"](input["a" /* default */], { type: "text", disabled: !this.expression || this.expression.indexOf('hasval') > -1 || !this.field, onChange: (e) => this.setValue(e) })),
-                    external_React_["createElement"](es_form["a" /* default */].Item, { label: "Operator", help: "Operator to combine conditions" },
-                        external_React_["createElement"](es_select["a" /* default */], { onChange: (e) => this.setOperator(e), value: this.operator, disabled: numPredicates == 0 }, availableOperators.map((e) => {
-                            return external_React_["createElement"](es_select["a" /* default */].Option, { key: e.value, value: e.value }, e.name);
-                        }))),
+                    external_React_["createElement"](es_form["a" /* default */].Item, { label: "Source field", help: "Field the condition is predicated upon", required: true }, getFieldDecorator('field', {
+                        initialValue: this.field,
+                        rules: [{ type: 'string' }, { required: true }]
+                    })(external_React_["createElement"](es_select["a" /* default */], { onChange: (e) => this.setPredicateAttribute('field', e) }, availableConditionSources.map((f) => {
+                        return external_React_["createElement"](es_select["a" /* default */].Option, { key: f.id, value: f.id, disabled: field.id == f.id }, f.name);
+                    })))),
+                    external_React_["createElement"](es_form["a" /* default */].Item, { label: "Condition", help: "The expression to evaluate" }, getFieldDecorator('condition', {
+                        initialValue: this.condition,
+                        rules: [{ type: 'string' }, { required: true }]
+                    })(external_React_["createElement"](es_select["a" /* default */], { onChange: (e) => this.setPredicateAttribute('condition', e) }, availableExpressions.map((e) => {
+                        return external_React_["createElement"](es_select["a" /* default */].Option, { key: e.value, value: e.value }, e.name);
+                    })))),
+                    external_React_["createElement"](es_form["a" /* default */].Item, { label: "Value", help: "The target value", required: this.condition && this.condition.indexOf('hasval') == -1 }, getFieldDecorator('value', {
+                        initialValue: this.value,
+                        rules: [{ type: 'string' }, { required: this.condition && this.condition.indexOf('hasval') == -1 }]
+                    })(external_React_["createElement"](input["a" /* default */], { type: "text", disabled: !this.field || !this.condition || this.condition.indexOf('hasval') > -1, onChange: (e) => this.setPredicateAttribute('value', e.target.value) }))),
+                    external_React_["createElement"](es_form["a" /* default */].Item, { label: "Operator", help: "Operator to combine conditions" }, getFieldDecorator('operator', {
+                        initialValue: this.operator,
+                        rules: [{ type: 'string' }, { required: numPredicates > 0 }]
+                    })(external_React_["createElement"](es_select["a" /* default */], { onChange: (e) => this.setPredicateAttribute('operator', e), disabled: numPredicates == 0 }, availableOperators.map((e) => {
+                        return external_React_["createElement"](es_select["a" /* default */].Option, { key: e.value, value: e.value }, e.name);
+                    })))),
                     external_React_["createElement"](es_form["a" /* default */].Item, Object.assign({}, FormLayoutCommon_tailFormItemLayout),
-                        external_React_["createElement"](es_button["a" /* default */], { style: { marginRight: '15px' }, icon: "plus", htmlType: "submit", type: "primary", disabled: !this.field || !this.expression }, "Add"),
-                        external_React_["createElement"](es_button["a" /* default */], { type: "danger", onClick: () => this.cancel() }, "Cancel")))));
+                        external_React_["createElement"](es_button["a" /* default */], { style: { marginRight: '15px' }, size: "small", htmlType: "submit", type: "primary", disabled: !this.field || !this.condition }, "Save"),
+                        external_React_["createElement"](es_button["a" /* default */], { type: "danger", size: "small", onClick: () => this.reset() }, "Cancel")))));
     }
 };
-__decorate([
-    mobx_module["k" /* observable */]
-], ConditionsView_ConditionsView.prototype, "field", void 0);
-__decorate([
-    mobx_module["k" /* observable */]
-], ConditionsView_ConditionsView.prototype, "expression", void 0);
-__decorate([
-    mobx_module["k" /* observable */]
-], ConditionsView_ConditionsView.prototype, "value", void 0);
-__decorate([
-    mobx_module["k" /* observable */]
-], ConditionsView_ConditionsView.prototype, "operator", void 0);
-__decorate([
-    mobx_module["k" /* observable */]
-], ConditionsView_ConditionsView.prototype, "isAdding", void 0);
-__decorate([
+ConditionsView_decorate([
+    mobx_module["j" /* observable */]
+], ConditionsView_ConditionsEditorView.prototype, "isAdding", void 0);
+ConditionsView_decorate([
+    mobx_module["j" /* observable */]
+], ConditionsView_ConditionsEditorView.prototype, "isEditing", void 0);
+ConditionsView_decorate([
+    mobx_module["j" /* observable */]
+], ConditionsView_ConditionsEditorView.prototype, "uuid", void 0);
+ConditionsView_decorate([
+    mobx_module["j" /* observable */]
+], ConditionsView_ConditionsEditorView.prototype, "field", void 0);
+ConditionsView_decorate([
+    mobx_module["j" /* observable */]
+], ConditionsView_ConditionsEditorView.prototype, "condition", void 0);
+ConditionsView_decorate([
+    mobx_module["j" /* observable */]
+], ConditionsView_ConditionsEditorView.prototype, "value", void 0);
+ConditionsView_decorate([
+    mobx_module["j" /* observable */]
+], ConditionsView_ConditionsEditorView.prototype, "operator", void 0);
+ConditionsView_decorate([
     mobx_module["b" /* action */]
-], ConditionsView_ConditionsView.prototype, "initialize", null);
-__decorate([
+], ConditionsView_ConditionsEditorView.prototype, "initialize", null);
+ConditionsView_decorate([
     mobx_module["b" /* action */]
-], ConditionsView_ConditionsView.prototype, "setField", void 0);
-__decorate([
+], ConditionsView_ConditionsEditorView.prototype, "setPredicateAttribute", void 0);
+ConditionsView_decorate([
     mobx_module["b" /* action */]
-], ConditionsView_ConditionsView.prototype, "setExpression", void 0);
-__decorate([
+], ConditionsView_ConditionsEditorView.prototype, "addPredicate", null);
+ConditionsView_decorate([
     mobx_module["b" /* action */]
-], ConditionsView_ConditionsView.prototype, "setValue", void 0);
-__decorate([
+], ConditionsView_ConditionsEditorView.prototype, "removePredicate", null);
+ConditionsView_decorate([
     mobx_module["b" /* action */]
-], ConditionsView_ConditionsView.prototype, "setOperator", void 0);
-__decorate([
+], ConditionsView_ConditionsEditorView.prototype, "editPredicate", null);
+ConditionsView_decorate([
     mobx_module["b" /* action */]
-], ConditionsView_ConditionsView.prototype, "addPredicate", null);
-__decorate([
+], ConditionsView_ConditionsEditorView.prototype, "reset", null);
+ConditionsView_decorate([
     mobx_module["b" /* action */]
-], ConditionsView_ConditionsView.prototype, "removePredicate", null);
-__decorate([
+], ConditionsView_ConditionsEditorView.prototype, "handleSubmit", void 0);
+ConditionsView_decorate([
     mobx_module["b" /* action */]
-], ConditionsView_ConditionsView.prototype, "cancel", null);
-__decorate([
+], ConditionsView_ConditionsEditorView.prototype, "setIsAdding", null);
+ConditionsView_decorate([
     mobx_module["b" /* action */]
-], ConditionsView_ConditionsView.prototype, "handleSubmit", void 0);
-__decorate([
-    mobx_module["b" /* action */]
-], ConditionsView_ConditionsView.prototype, "setIsAdding", null);
-ConditionsView_ConditionsView = __decorate([
+], ConditionsView_ConditionsEditorView.prototype, "setIsEditing", null);
+ConditionsView_ConditionsEditorView = ConditionsView_decorate([
     mobx_react_module["a" /* observer */]
-], ConditionsView_ConditionsView);
-
+], ConditionsView_ConditionsEditorView);
+const WrappedConditionsEditorView = es_form["a" /* default */].create({ name: 'ConditionsEditorView' })(ConditionsView_ConditionsEditorView);
+/* harmony default export */ var ConditionsView = (WrappedConditionsEditorView);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/notification/index.js + 3 modules
-var notification = __webpack_require__(41);
+var notification = __webpack_require__(43);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/notification/style/css.js
 var notification_style_css = __webpack_require__(75);
@@ -486,19 +739,19 @@ var notification_style_css = __webpack_require__(75);
 var date_picker = __webpack_require__(79);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/date-picker/style/css.js + 1 modules
-var date_picker_style_css = __webpack_require__(189);
+var date_picker_style_css = __webpack_require__(190);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/input-number/index.js + 4 modules
 var input_number = __webpack_require__(52);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/input-number/style/css.js
-var input_number_style_css = __webpack_require__(180);
+var input_number_style_css = __webpack_require__(184);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/switch/index.js
 var es_switch = __webpack_require__(63);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/switch/style/css.js
-var switch_style_css = __webpack_require__(181);
+var switch_style_css = __webpack_require__(185);
 
 // EXTERNAL MODULE: external "moment"
 var external_moment_ = __webpack_require__(16);
@@ -695,7 +948,7 @@ let PropertiesView_PropertiesView = class PropertiesView extends external_React_
         this.handleSubmit = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            let { field } = this.props.store.editorStore;
+            let { selectedField: field } = this.props.store;
             this.props.form.validateFieldsAndScroll((err, values) => {
                 if (!err) {
                     let merge = { componentProps: {}, fieldOptions: {} };
@@ -713,9 +966,9 @@ let PropertiesView_PropertiesView = class PropertiesView extends external_React_
                         }
                     });
                     console.log("Merge object", merge);
-                    console.log("Pre Update Field", Object(mobx_module["o" /* toJS */])(field));
+                    console.log("Pre Update Field", Object(mobx_module["n" /* toJS */])(field));
                     field.mergeUpdate(merge);
-                    console.log("Updated Field", Object(mobx_module["o" /* toJS */])(field));
+                    console.log("Updated Field", Object(mobx_module["n" /* toJS */])(field));
                     notification["a" /* default */].info({ message: `Field - ${field.label || field.name}`,
                         description: "Field properties applied successfully" });
                 }
@@ -724,10 +977,10 @@ let PropertiesView_PropertiesView = class PropertiesView extends external_React_
         };
     }
     updateOptions(options) {
-        this.props.store.editorStore.field.componentProps["options"] = options;
+        this.props.store.selectedField.componentProps["options"] = options;
     }
     render() {
-        let field = Object(mobx_module["o" /* toJS */])(this.props.store.editorStore.field);
+        let field = Object(mobx_module["n" /* toJS */])(this.props.store.selectedField);
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
@@ -773,22 +1026,16 @@ const WrappedPropertiesView = es_form["a" /* default */].create({ name: 'Propert
 /* harmony default export */ var partials_PropertiesView = (WrappedPropertiesView);
 
 // EXTERNAL MODULE: ./node_modules/@kartikrao/lib-forms-core/lib/index.js + 38 modules
-var lib = __webpack_require__(44);
+var lib = __webpack_require__(41);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/checkbox/index.js + 2 modules
 var es_checkbox = __webpack_require__(62);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/checkbox/style/css.js
-var checkbox_style_css = __webpack_require__(200);
+var checkbox_style_css = __webpack_require__(201);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/timeline/style/css.js
-var timeline_style_css = __webpack_require__(476);
-
-// EXTERNAL MODULE: ./node_modules/antd/es/tag/index.js + 1 modules
-var tag = __webpack_require__(124);
-
-// EXTERNAL MODULE: ./node_modules/antd/es/tag/style/css.js
-var tag_style_css = __webpack_require__(232);
+var timeline_style_css = __webpack_require__(499);
 
 // CONCATENATED MODULE: ./src/components/editors/field/partials/ValidationListView.tsx
 var ValidationListView_decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
@@ -860,7 +1107,7 @@ let ValidationListView_ValidationListView = class ValidationListView extends ext
                 let row = {};
                 let { message } = constraints[rule];
                 row.rule = rule;
-                row.name = lib["g" /* ValidationRuleMap */][rule];
+                row.name = lib["h" /* ValidationRuleMap */][rule];
                 row.key = index;
                 row.defaultMessage = message;
                 row.constraint = constraints[rule];
@@ -909,32 +1156,30 @@ var ValidationView_decorate = (undefined && undefined.__decorate) || function (d
 
 
 
-
-
 let ValidationView_ValidationView = class ValidationView extends external_React_["Component"] {
     constructor(props) {
         super(props);
         this.dateFormat = "YYYY-MM-DD";
         this.applyRule = () => {
-            let { editorStore } = this.props.store;
-            let ruleLabel = lib["g" /* ValidationRuleMap */][this.ruleType];
+            let { store } = this.props;
+            let ruleLabel = lib["h" /* ValidationRuleMap */][this.ruleType];
             if (this.isEditing == true) {
-                editorStore.updateValidationRule(this.ruleType, this.properties);
-                notification["a" /* default */].info({ message: `Field - ${editorStore.field.label || editorStore.field.name}`,
+                store.updateValidationRule(this.ruleType, this.properties);
+                notification["a" /* default */].info({ message: `Field - ${store.selectedField.label || store.selectedField.name}`,
                     description: `Rule "${ruleLabel}" saved`, duration: 7 });
             }
             else {
-                editorStore.addValidationRule(this.ruleType, this.properties);
-                notification["a" /* default */].info({ message: `Field - ${editorStore.field.label || editorStore.field.name}`,
+                store.addValidationRule(this.ruleType, this.properties);
+                notification["a" /* default */].info({ message: `Field - ${store.selectedField.label || store.selectedField.name}`,
                     description: `Rule ${ruleLabel} added`, duration: 7 });
             }
             this.cancel();
         };
         this.onEdit = (rule) => {
-            let { editorStore } = this.props.store;
+            let { store } = this.props;
             this.isEditing = true;
             this.ruleType = rule;
-            this.properties = editorStore.field.validator.rule[rule];
+            this.properties = store.selectedField.validator.rule[rule];
         };
         this.initialize(props);
     }
@@ -1018,22 +1263,22 @@ let ValidationView_ValidationView = class ValidationView extends external_React_
         this.isAdding = isAdding;
     }
     render() {
-        let { editorStore } = this.props.store;
-        let { field } = editorStore;
+        let { store } = this.props;
+        let { selectedField: field } = store;
         let fieldList = [];
         let hasValidation = Object.keys(field.validator.rule.constraints).length > 0;
-        Object.keys(Object(mobx_module["o" /* toJS */])(editorStore.formStore.idFieldMap)).map((id) => {
-            fieldList.push(editorStore.formStore.idFieldMap[id]);
+        Object.keys(Object(mobx_module["n" /* toJS */])(store.formStore.idFieldMap)).map((id) => {
+            fieldList.push(store.formStore.idFieldMap[id]);
         });
-        let availableRules = lib["h" /* ValidationRuleNames */].filter((rule) => {
-            let rules = lib["f" /* ValidationAllowedRules */][field.inputType];
+        let availableRules = lib["i" /* ValidationRuleNames */].filter((rule) => {
+            let rules = lib["g" /* ValidationAllowedRules */][field.inputType];
             return rules && rules.length > 0 && rules.indexOf(rule.key) > -1;
         });
         return external_React_["createElement"]("div", null,
             external_React_["createElement"](card["a" /* default */], { size: "small", bodyStyle: { padding: '0' }, actions: [external_React_["createElement"]("span", { style: { visibility: availableRules.length > 0 ? 'visible' : 'hidden' } },
                         external_React_["createElement"](es_button["a" /* default */], { size: "small", onClick: () => this.setIsAdding(true) }, "Add"))] },
                 !hasValidation && external_React_["createElement"](empty["a" /* default */], { description: external_React_["createElement"]("span", null, availableRules.length > 0 ? "No validation set on this field" : "No validation available for this field") }),
-                !!hasValidation && external_React_["createElement"](ValidationListView_ValidationListView, { validation: field.validator.rule, onEdit: this.onEdit, onRemove: editorStore.removeValidationRule })),
+                !!hasValidation && external_React_["createElement"](ValidationListView_ValidationListView, { validation: field.validator.rule, onEdit: this.onEdit, onRemove: store.removeValidationRule })),
             (this.isAdding || this.isEditing) && external_React_["createElement"](card["a" /* default */], { size: "small", bodyStyle: { padding: '8px' }, style: { marginTop: '15px' }, title: `${this.isEditing == true ? "Edit" : "Add"} Rule ${this.ruleType ? ' - ' + this.ruleType : ''}` },
                 external_React_["createElement"](es_form["a" /* default */], Object.assign({ layout: "horizontal" }, FormLayoutCommon_formItemLayout),
                     external_React_["createElement"](es_form["a" /* default */].Item, { label: "Rule" },
@@ -1142,21 +1387,21 @@ let ValidationView_ValidationView = class ValidationView extends external_React_
                         this.properties['even'] && external_React_["createElement"](es_form["a" /* default */].Item, { label: "Message - Not Even", help: "Shown when 'Not Even' validation fails (optional)" },
                             external_React_["createElement"](input["a" /* default */], { type: "text", value: this.properties.notEven, onChange: (e) => this.setRuleProperty('notEven', e.target.value) }))),
                     external_React_["createElement"](es_form["a" /* default */].Item, Object.assign({}, FormLayoutCommon_tailFormItemLayout, { style: { marginTop: '15px' } }),
-                        external_React_["createElement"](es_button["a" /* default */], { style: { marginRight: '10px' }, type: "primary", htmlType: "submit", disabled: !this.isRuleValid, onClick: this.applyRule }, this.isEditing == true ? "Apply" : "Add"),
-                        external_React_["createElement"](es_button["a" /* default */], { type: "danger", onClick: () => this.cancel() }, "Cancel")))));
+                        external_React_["createElement"](es_button["a" /* default */], { style: { marginRight: '10px' }, type: "primary", htmlType: "submit", size: "small", disabled: !this.isRuleValid, onClick: this.applyRule }, this.isEditing == true ? "Apply" : "Add"),
+                        external_React_["createElement"](es_button["a" /* default */], { size: "small", type: "danger", onClick: () => this.cancel() }, "Cancel")))));
     }
 };
 ValidationView_decorate([
-    mobx_module["k" /* observable */]
+    mobx_module["j" /* observable */]
 ], ValidationView_ValidationView.prototype, "ruleType", void 0);
 ValidationView_decorate([
-    mobx_module["k" /* observable */]
+    mobx_module["j" /* observable */]
 ], ValidationView_ValidationView.prototype, "properties", void 0);
 ValidationView_decorate([
-    mobx_module["k" /* observable */]
+    mobx_module["j" /* observable */]
 ], ValidationView_ValidationView.prototype, "isEditing", void 0);
 ValidationView_decorate([
-    mobx_module["k" /* observable */]
+    mobx_module["j" /* observable */]
 ], ValidationView_ValidationView.prototype, "isAdding", void 0);
 ValidationView_decorate([
     mobx_module["b" /* action */]
@@ -1187,216 +1432,6 @@ ValidationView_ValidationView = ValidationView_decorate([
 ], ValidationView_ValidationView);
 
 
-// EXTERNAL MODULE: ./node_modules/antd/lib/form/Form.js
-var Form = __webpack_require__(30);
-var Form_default = /*#__PURE__*/__webpack_require__.n(Form);
-
-// EXTERNAL MODULE: ./node_modules/antd/es/divider/style/css.js
-var divider_style_css = __webpack_require__(183);
-
-// EXTERNAL MODULE: ./node_modules/react-drag-listview/es/index.js + 3 modules
-var es = __webpack_require__(277);
-
-// EXTERNAL MODULE: ./node_modules/react-highlight-words/dist/main.js
-var main = __webpack_require__(269);
-var main_default = /*#__PURE__*/__webpack_require__.n(main);
-
-// CONCATENATED MODULE: ./src/components/editors/field/partials/ChoiceOptionEditorView.tsx
-var ChoiceOptionEditorView_decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-let ChoiceOptionEditorView_ChoiceOptionEditorView = class ChoiceOptionEditorView extends external_React_["Component"] {
-    constructor(props) {
-        super(props);
-        this.showAddChoiceItem = (show) => {
-            this.showAdd = show;
-        };
-        this.addChoiceOption = (e) => {
-            console.log("Adding", e);
-            // this.items.push({label: this.label, value: this.value});
-            // this.props.onChange(this.items);
-        };
-        this.getColumnSearchProps = (dataIndex) => ({
-            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, }) => (external_React_["createElement"]("div", { style: { padding: 8 } },
-                external_React_["createElement"](input["a" /* default */], { ref: node => { this.setSearchInput(node); }, placeholder: `Search ${dataIndex}`, value: selectedKeys[0], onChange: e => setSelectedKeys(e.target.value ? [e.target.value] : []), onPressEnter: () => this.handleSearch(selectedKeys, confirm), style: { width: 188, marginBottom: 8, display: 'block' } }),
-                external_React_["createElement"](es_button["a" /* default */], { type: "primary", onClick: () => this.handleSearch(selectedKeys, confirm), icon: "search", size: "small", style: { width: 90, marginRight: 8 } }, "Search"),
-                external_React_["createElement"](es_button["a" /* default */], { onClick: () => this.handleReset(clearFilters), size: "small", style: { width: 90 } }, "Reset"))),
-            filterIcon: filtered => external_React_["createElement"](es_icon["a" /* default */], { type: "search", style: { color: filtered ? '#1890ff' : undefined } }),
-            onFilter: (value, record) => record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-            onFilterDropdownVisibleChange: (visible) => {
-                if (visible) {
-                    setTimeout(() => this.searchInput.select());
-                }
-            },
-            render: (text) => (external_React_["createElement"](main_default.a, { highlightStyle: { backgroundColor: '#ffc069', padding: 0 }, searchWords: [this.searchText], autoEscape: true, textToHighlight: text.toString() })),
-        });
-        this.handleSearch = (selectedKeys, confirm) => {
-            confirm();
-            this.searchText = selectedKeys[0];
-        };
-        this.handleReset = (clearFilters) => {
-            clearFilters();
-            this.searchText = '';
-        };
-        this.initialize(props);
-    }
-    initialize(props) {
-        this.type = props.type;
-        this.items = props.items;
-        this.value = null;
-        this.label = null;
-        this.isEditing = false;
-    }
-    move(fromIndex, toIndex) {
-        this.items.splice(toIndex, 0, this.items.splice(fromIndex, 1)[0]);
-        this.props.onChange(this.items);
-    }
-    edit(record) {
-        this.isEditing = true;
-        this.label = record.label;
-        this.value = record.value;
-    }
-    remove(index) {
-        this.items.splice(index, 1);
-        this.props.onChange(this.items);
-    }
-    setSearchInput(node) {
-        this.searchInput = node;
-    }
-    get uniqueValuePattern() {
-        let allValues = this.items.map((item) => {
-            return item.value;
-        });
-        return new RegExp(`^((?!(${allValues.join("|")})).)*$`, "gi");
-    }
-    render() {
-        console.log("COEV - PRERENDER", this.props);
-        let columns = [{
-                title: '',
-                key: "operate",
-                render: (text, record, index) => external_React_["createElement"]("span", { style: { float: 'right', marginRight: '20%' } },
-                    external_React_["createElement"](es_icon["a" /* default */], { className: "drag-handle", type: "drag" }))
-            }, Object.assign({ title: 'Label', dataIndex: 'label', key: 'label', sorter: true }, this.getColumnSearchProps('label')), Object.assign({ title: 'Value', dataIndex: 'value', key: 'value', sorter: true }, this.getColumnSearchProps('value')), {
-                title: 'Actions',
-                key: 'action',
-                render: (text, record) => (external_React_["createElement"]("span", null,
-                    external_React_["createElement"](es_button["a" /* default */], { shape: "circle", type: "default", onClick: () => { this.edit(record); }, icon: "tool", size: "small", style: { marginLeft: '5px', marginRight: '5px' } }),
-                    external_React_["createElement"](es_button["a" /* default */], { shape: "circle", type: "danger", onClick: () => { this.remove(record.index); }, icon: "delete", size: "small", style: { marginLeft: '5px', marginRight: '5px' } }))),
-            }];
-        let rows = [];
-        this.items.forEach((item, index) => {
-            rows.push({ index: index, label: item.label, value: item.value, key: index });
-        });
-        let { getFieldDecorator } = this.props.form;
-        return external_React_["createElement"](card["a" /* default */], { size: "small", bodyStyle: { padding: 0 }, bordered: false },
-            this.items.length == 0 && external_React_["createElement"](empty["a" /* default */], { description: external_React_["createElement"]("span", null, "No options on this field") }),
-            this.items.length > 0 && external_React_["createElement"](es["a" /* default */], { onDragEnd: this.move, handleSelector: "i", nodeSelector: "tr.ant-table-row" },
-                external_React_["createElement"](table["a" /* default */], { size: "small", pagination: rows.length > 5 ? { position: 'bottom' } : false, dataSource: rows, columns: columns, rowKey: 'key', footer: () => this.showAdd ? external_React_["createElement"](external_React_["Fragment"], null) : external_React_["createElement"](es_button["a" /* default */], { onClick: (e) => this.showAddChoiceItem(true) }, "Add") })),
-            this.showAdd && external_React_["createElement"](card["a" /* default */], { title: "Add option", size: "small", style: { marginTop: '15px' } },
-                external_React_["createElement"](Form_default.a, Object.assign({}, FormLayoutCommon_formItemLayout, { layout: "horizontal", onSubmit: (e) => this.addChoiceOption(e) }),
-                    external_React_["createElement"](Form_default.a.Item, { help: "Enter the label shown to the user (must be unique)", label: "Label" }, getFieldDecorator('label', {
-                        valuePropName: 'label',
-                        rules: [
-                            { type: 'string' },
-                            { required: true, message: 'A label is required' }
-                        ]
-                    })(external_React_["createElement"](input["a" /* default */], null))),
-                    external_React_["createElement"](Form_default.a.Item, { help: "Enter the value that will be submitted (must be unique)", label: "Value" }, getFieldDecorator('value', {
-                        valuePropName: 'value',
-                        rules: [{ type: 'string' },
-                            { required: true, message: 'A value is required' },
-                            { pattern: this.uniqueValuePattern, message: "Invalid value, must be unique" }
-                        ]
-                    })(external_React_["createElement"](input["a" /* default */], null))),
-                    external_React_["createElement"](Form_default.a.Item, Object.assign({}, FormLayoutCommon_tailFormItemLayout),
-                        external_React_["createElement"](es_button["a" /* default */], { type: "danger", style: { marginRight: '15px' }, onClick: () => this.showAddChoiceItem(false) }, "Cancel"),
-                        external_React_["createElement"](es_button["a" /* default */], { type: "primary", htmlType: "submit" }, "Save")))));
-    }
-};
-ChoiceOptionEditorView_decorate([
-    mobx_module["k" /* observable */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "type", void 0);
-ChoiceOptionEditorView_decorate([
-    mobx_module["k" /* observable */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "items", void 0);
-ChoiceOptionEditorView_decorate([
-    mobx_module["k" /* observable */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "label", void 0);
-ChoiceOptionEditorView_decorate([
-    mobx_module["k" /* observable */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "value", void 0);
-ChoiceOptionEditorView_decorate([
-    mobx_module["k" /* observable */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "isEditing", void 0);
-ChoiceOptionEditorView_decorate([
-    mobx_module["k" /* observable */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "searchInput", void 0);
-ChoiceOptionEditorView_decorate([
-    mobx_module["k" /* observable */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "showAdd", void 0);
-ChoiceOptionEditorView_decorate([
-    mobx_module["k" /* observable */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "searchText", void 0);
-ChoiceOptionEditorView_decorate([
-    mobx_module["b" /* action */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "showAddChoiceItem", void 0);
-ChoiceOptionEditorView_decorate([
-    mobx_module["b" /* action */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "initialize", null);
-ChoiceOptionEditorView_decorate([
-    mobx_module["b" /* action */].bound
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "move", null);
-ChoiceOptionEditorView_decorate([
-    mobx_module["b" /* action */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "edit", null);
-ChoiceOptionEditorView_decorate([
-    mobx_module["b" /* action */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "addChoiceOption", void 0);
-ChoiceOptionEditorView_decorate([
-    mobx_module["b" /* action */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "remove", null);
-ChoiceOptionEditorView_decorate([
-    mobx_module["b" /* action */].bound
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "setSearchInput", null);
-ChoiceOptionEditorView_decorate([
-    mobx_module["c" /* computed */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "uniqueValuePattern", null);
-ChoiceOptionEditorView_decorate([
-    mobx_module["b" /* action */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "handleSearch", void 0);
-ChoiceOptionEditorView_decorate([
-    mobx_module["b" /* action */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView.prototype, "handleReset", void 0);
-ChoiceOptionEditorView_ChoiceOptionEditorView = ChoiceOptionEditorView_decorate([
-    mobx_react_module["a" /* observer */]
-], ChoiceOptionEditorView_ChoiceOptionEditorView);
-const WrappedChoiceOptionEditorView = Form_default.a.create({ name: 'ChoiceOptionEditorView' })(ChoiceOptionEditorView_ChoiceOptionEditorView);
-/* harmony default export */ var partials_ChoiceOptionEditorView = (WrappedChoiceOptionEditorView);
-
 // CONCATENATED MODULE: ./src/components/editors/field/FieldEditorView.tsx
 var FieldEditorView_decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1424,17 +1459,17 @@ let FieldEditorView_FieldEditorView = class FieldEditorView extends external_Rea
         super(props);
     }
     updateOptions(options) {
-        this.props.store.editorStore.field.componentProps["options"] = options;
+        this.props.store.selectedField.componentProps["options"] = options;
     }
     onOk() {
-        this.props.store.editorStore.setEditable(null);
+        this.props.store.setEditable(null);
     }
     onCancel() {
     }
     render() {
-        let { editorStore } = this.props.store;
-        let { field } = editorStore;
-        return field && external_React_["createElement"](drawer["a" /* default */], { title: `Field ${field.name} (id=${field.id || ''} class=${field.className})`, width: 700, onClose: () => editorStore.setEditable(null), visible: editorStore.showFieldEditor, style: { overflow: 'auto', height: 'calc(80% - 108px)', paddingBottom: '108px' } }, external_React_["createElement"](tabs["a" /* default */], { size: "small" },
+        let { store } = this.props;
+        let { selectedField: field } = store;
+        return field && external_React_["createElement"](drawer["a" /* default */], { title: `Field ${field.name} (id=${field.id || ''} class=${field.className})`, width: 700, onClose: () => store.setEditable(null), visible: store.showFieldEditor, style: { overflow: 'auto', height: 'calc(80% - 108px)', paddingBottom: '108px' } }, external_React_["createElement"](tabs["a" /* default */], { size: "small" },
             external_React_["createElement"](tabs["a" /* default */].TabPane, { tab: "Properties", key: "1" },
                 external_React_["createElement"](es_row["a" /* default */], null,
                     external_React_["createElement"](es_col["a" /* default */], { span: 24 },
@@ -1446,8 +1481,8 @@ let FieldEditorView_FieldEditorView = class FieldEditorView extends external_Rea
             external_React_["createElement"](tabs["a" /* default */].TabPane, { tab: "Condition", key: "3" },
                 external_React_["createElement"](es_row["a" /* default */], null,
                     external_React_["createElement"](es_col["a" /* default */], { span: 24 },
-                        external_React_["createElement"](ConditionsView_ConditionsView, { store: this.props.store })))),
-            ['select', 'radiogroup', 'checkboxgroup'].indexOf(field.inputType) && external_React_["createElement"](tabs["a" /* default */].TabPane, { tab: "Options", key: "4" },
+                        external_React_["createElement"](ConditionsView, { store: this.props.store })))),
+            ['select', 'radiogroup', 'checkboxgroup'].indexOf(field.inputType) > -1 && external_React_["createElement"](tabs["a" /* default */].TabPane, { tab: "Options", key: "4" },
                 external_React_["createElement"](es_row["a" /* default */], null,
                     external_React_["createElement"](es_col["a" /* default */], { span: 24 },
                         external_React_["createElement"](partials_ChoiceOptionEditorView, { type: "select", items: field.componentProps['options'], onChange: this.updateOptions }))))));
@@ -1491,7 +1526,7 @@ let FormContentSettingsView_FormContentEditorView = class FormContentEditorView 
         this.handleSubmit = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            let { form } = this.props.store.editorStore.formStore;
+            let { form } = this.props.store.formStore;
             this.props.form.validateFieldsAndScroll((err, values) => {
                 if (!err) {
                     notification["a" /* default */].info({ message: `Form - ${form.name}`,
@@ -1503,16 +1538,16 @@ let FormContentSettingsView_FormContentEditorView = class FormContentEditorView 
             return;
         };
         this.onChange = (key, value) => {
-            Object(mobx_module["m" /* set */])(this, key, value);
+            Object(mobx_module["l" /* set */])(this, key, value);
         };
     }
     render() {
         let { getFieldDecorator } = this.props.form;
-        let { editorStore } = this.props.store;
-        if (!editorStore.formStore.form) {
+        let { store } = this.props;
+        if (!store.formStore.form) {
             return external_React_["createElement"](external_React_["Fragment"], null);
         }
-        let form = Object(mobx_module["o" /* toJS */])(editorStore.formStore.form);
+        let form = Object(mobx_module["n" /* toJS */])(store.formStore.form);
         let { formLayoutOptions } = form;
         return external_React_["createElement"](Form_default.a, Object.assign({}, FormLayoutCommon_formItemLayout, { onSubmit: (e) => this.handleSubmit(e), layout: "horizontal" }),
             external_React_["createElement"](Form_default.a.Item, { label: "Validation disables paging", help: "Allow page navigation when validation failures exist on current page" }, getFieldDecorator('formLayoutOptions.validationDisablesPaging', {
@@ -1540,7 +1575,7 @@ let FormContentSettingsView_FormContentEditorView = class FormContentEditorView 
     }
 };
 FormContentSettingsView_decorate([
-    mobx_module["k" /* observable */]
+    mobx_module["j" /* observable */]
 ], FormContentSettingsView_FormContentEditorView.prototype, "selectedFormLayout", void 0);
 FormContentSettingsView_decorate([
     mobx_module["b" /* action */].bound
@@ -1555,7 +1590,7 @@ const WrappedFormContentEditorView = Form_default.a.create({ name: 'FormContentE
 /* harmony default export */ var FormContentSettingsView = (WrappedFormContentEditorView);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/divider/index.js
-var divider = __webpack_require__(109);
+var divider = __webpack_require__(110);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/modal/index.js + 7 modules
 var modal = __webpack_require__(276);
@@ -1567,7 +1602,7 @@ var modal_style_css = __webpack_require__(501);
 var slider = __webpack_require__(70);
 
 // EXTERNAL MODULE: ./node_modules/antd/es/slider/style/css.js
-var slider_style_css = __webpack_require__(186);
+var slider_style_css = __webpack_require__(187);
 
 // CONCATENATED MODULE: ./src/components/editors/form/partials/ItemLayoutPreview.tsx
 var ItemLayoutPreview_decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
@@ -1694,6 +1729,10 @@ const ItemLayoutView_tailFormItemLayout = {
         },
     },
 };
+let defaultDimensions = {
+    'vertical': { offset: 0, span: 12 },
+    'horizontal': { offset: 0, span: 10 }
+};
 let ItemLayoutView_ItemLayoutView = class ItemLayoutView extends external_React_["Component"] {
     constructor(props) {
         super(props);
@@ -1715,7 +1754,6 @@ let ItemLayoutView_ItemLayoutView = class ItemLayoutView extends external_React_
             else {
                 target.offset = value;
             }
-            console.log("After Set o/s", target.offset, target.span);
             return;
         };
         this.setIsAdding = () => {
@@ -1730,11 +1768,13 @@ let ItemLayoutView_ItemLayoutView = class ItemLayoutView extends external_React_
         this.reset = () => {
             this.isAdding = false;
             this.isEditing = false;
-            // this.itemLayout = this.props.itemLayoutOptions;
+            this.itemLayout = new lib["e" /* ItemLayoutOptions */]({});
             this.selectedDimension = null;
         };
         this.setIsEditing = (record) => {
             this.selectedDimension = record.dimension;
+            this.itemLayout.wrapperCol.add(record.dimension, this.props.itemLayoutOptions.wrapperCol[record.dimension]);
+            this.itemLayout.labelCol.add(record.dimension, this.props.itemLayoutOptions.labelCol[record.dimension]);
             this.isEditing = true;
         };
         this.confirmRemove = (record) => {
@@ -1763,7 +1803,7 @@ let ItemLayoutView_ItemLayoutView = class ItemLayoutView extends external_React_
         this.initialize(props);
     }
     initialize({ itemLayoutOptions }) {
-        this.itemLayout = new lib["d" /* ItemLayoutOptions */](Object(mobx_module["o" /* toJS */])(itemLayoutOptions));
+        this.itemLayout = new lib["e" /* ItemLayoutOptions */]({});
     }
     get asRows() {
         let { labelCol, wrapperCol } = this.props.itemLayoutOptions;
@@ -1783,7 +1823,7 @@ let ItemLayoutView_ItemLayoutView = class ItemLayoutView extends external_React_
         return rows;
     }
     get availableDimensions() {
-        let { wrapperCol } = this.itemLayout;
+        let { wrapperCol } = this.props.itemLayoutOptions;
         return wrapperCol.unused;
     }
     render() {
@@ -1881,16 +1921,16 @@ let ItemLayoutView_ItemLayoutView = class ItemLayoutView extends external_React_
     }
 };
 ItemLayoutView_decorate([
-    mobx_module["k" /* observable */]
+    mobx_module["j" /* observable */]
 ], ItemLayoutView_ItemLayoutView.prototype, "isAdding", void 0);
 ItemLayoutView_decorate([
-    mobx_module["k" /* observable */]
+    mobx_module["j" /* observable */]
 ], ItemLayoutView_ItemLayoutView.prototype, "isEditing", void 0);
 ItemLayoutView_decorate([
-    mobx_module["k" /* observable */]
+    mobx_module["j" /* observable */]
 ], ItemLayoutView_ItemLayoutView.prototype, "selectedDimension", void 0);
 ItemLayoutView_decorate([
-    mobx_module["k" /* observable */]
+    mobx_module["j" /* observable */]
 ], ItemLayoutView_ItemLayoutView.prototype, "itemLayout", void 0);
 ItemLayoutView_decorate([
     mobx_module["b" /* action */]
@@ -1950,6 +1990,7 @@ var FormLayoutView_decorate = (undefined && undefined.__decorate) || function (d
 
 
 
+
 const FormLayoutView_formItemLayout = {
     labelCol: {
         xs: { span: 10 },
@@ -1963,12 +2004,12 @@ const FormLayoutView_formItemLayout = {
 const FormLayoutView_tailFormItemLayout = {
     wrapperCol: {
         xs: {
-            span: 6,
-            offset: 18,
+            span: 2,
+            offset: 22,
         },
         sm: {
-            span: 6,
-            offset: 18,
+            span: 2,
+            offset: 22,
         },
     },
 };
@@ -1978,19 +2019,25 @@ let FormLayoutView_FormLayoutView = class FormLayoutView extends external_React_
         this.handleSubmit = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            let { form } = this.props.store.editorStore.formStore;
+            let { form } = this.props.store.formStore;
+            console.log("Submitting");
             this.props.form.validateFieldsAndScroll((err, values) => {
                 if (!err) {
-                    form.layout = values.layout;
+                    form.layout = this.selectedFormLayout;
+                    form.formLayoutOptions.labelAlign = this.selectedLabelAlign;
                     notification["a" /* default */].info({ message: `Form - ${form.name}`,
                         description: `Form layout set to "${form.layout}" ` });
                 }
             });
             return;
         };
-        this.saveLayout = (layout) => {
-            let { form } = this.props.store.editorStore.formStore;
-            form.itemLayoutOptions = layout;
+        this.saveItemLayout = (layout) => {
+            let { form } = this.props.store.formStore;
+            lib["a" /* AllScreenWidths */].map((w) => {
+                layout.labelCol[w] && form.itemLayoutOptions.labelCol.add(w, layout.labelCol[w]);
+                layout.wrapperCol[w] && form.itemLayoutOptions.wrapperCol.add(w, layout.wrapperCol[w]);
+            });
+            form.formLayoutOptions.labelAlign = this.selectedLabelAlign;
             notification["a" /* default */].info({ message: `Form - ${form.name}`,
                 description: "Field layout updated successfully" });
         };
@@ -1999,18 +2046,19 @@ let FormLayoutView_FormLayoutView = class FormLayoutView extends external_React_
     initialize(props) {
         let { form } = props.store.formStore;
         this.selectedFormLayout = form.layout;
+        this.selectedLabelAlign = form.formLayoutOptions.labelAlign;
     }
     setProperty(key, e) {
         let value = e && typeof (e) == 'object' && e.target ? e.target.value : e;
         this[key] = value;
     }
     get hasFormLayoutChanged() {
-        let { form } = this.props.store.editorStore.formStore;
-        return this.selectedFormLayout != form.layout;
+        let { form } = this.props.store.formStore;
+        return this.selectedFormLayout != form.layout || this.selectedLabelAlign != form.formLayoutOptions.labelAlign;
     }
     render() {
         let { getFieldDecorator } = this.props.form;
-        let { form } = this.props.store.editorStore.formStore;
+        let { form } = this.props.store.formStore;
         return external_React_["createElement"]("div", null,
             external_React_["createElement"](es_form["a" /* default */], Object.assign({}, FormLayoutView_formItemLayout, { onSubmit: (e) => this.handleSubmit(e), layout: "horizontal" }),
                 external_React_["createElement"]("p", null, "Change form layout to render labels next to or above fields, add field layouts for fine grained control of rendering on a variety of screen sizes."),
@@ -2028,15 +2076,27 @@ let FormLayoutView_FormLayoutView = class FormLayoutView extends external_React_
                     external_React_["createElement"](es_select["a" /* default */].Option, { key: "horizontal" }, "Horizontal"),
                     external_React_["createElement"](es_select["a" /* default */].Option, { key: "vertical" }, "Vertical"),
                     external_React_["createElement"](es_select["a" /* default */].Option, { key: "inline" }, "Inline")))),
+                external_React_["createElement"](es_form["a" /* default */].Item, { label: "Label Alignment", help: "Horizontal position of the labels" }, getFieldDecorator('selectedLabelAlign', {
+                    initialValue: this.selectedLabelAlign,
+                    rules: [
+                        { type: 'string' },
+                        { required: true, message: 'An alignment is required' }
+                    ]
+                })(external_React_["createElement"](es_select["a" /* default */], { onChange: (e) => { this.setProperty('selectedLabelAlign', e); } },
+                    external_React_["createElement"](es_select["a" /* default */].Option, { key: "left" }, "Left"),
+                    external_React_["createElement"](es_select["a" /* default */].Option, { key: "right" }, "Right")))),
                 this.hasFormLayoutChanged && external_React_["createElement"](es_form["a" /* default */].Item, Object.assign({}, FormLayoutView_tailFormItemLayout),
-                    external_React_["createElement"](es_button["a" /* default */], { size: "small", type: "primary" }, "Save Form Layout"))),
+                    external_React_["createElement"](es_button["a" /* default */], { size: "small", type: "primary", htmlType: "submit" }, "Save"))),
             external_React_["createElement"](divider["a" /* default */], null),
-            external_React_["createElement"](partials_ItemLayoutView, { onSave: this.saveLayout, formLayout: this.selectedFormLayout, itemLayoutOptions: form.itemLayoutOptions }));
+            external_React_["createElement"](partials_ItemLayoutView, { onSave: this.saveItemLayout, formLayout: this.selectedFormLayout, itemLayoutOptions: form.itemLayoutOptions }));
     }
 };
 FormLayoutView_decorate([
-    mobx_module["k" /* observable */]
+    mobx_module["j" /* observable */]
 ], FormLayoutView_FormLayoutView.prototype, "selectedFormLayout", void 0);
+FormLayoutView_decorate([
+    mobx_module["j" /* observable */]
+], FormLayoutView_FormLayoutView.prototype, "selectedLabelAlign", void 0);
 FormLayoutView_decorate([
     mobx_module["b" /* action */]
 ], FormLayoutView_FormLayoutView.prototype, "initialize", null);
@@ -2051,7 +2111,7 @@ FormLayoutView_decorate([
 ], FormLayoutView_FormLayoutView.prototype, "hasFormLayoutChanged", null);
 FormLayoutView_decorate([
     mobx_module["b" /* action */]
-], FormLayoutView_FormLayoutView.prototype, "saveLayout", void 0);
+], FormLayoutView_FormLayoutView.prototype, "saveItemLayout", void 0);
 FormLayoutView_FormLayoutView = FormLayoutView_decorate([
     mobx_react_module["a" /* observer */]
 ], FormLayoutView_FormLayoutView);
@@ -2094,7 +2154,7 @@ class FormPropertiesEditorView_FormPropertiesEditorView extends external_React_[
         this.handleSubmit = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            let { form } = this.props.store.editorStore.formStore;
+            let { form } = this.props.store.formStore;
             this.props.form.validateFieldsAndScroll((err, values) => {
                 if (!err) {
                     notification["a" /* default */].info({ message: `Form - ${form.name}`,
@@ -2111,8 +2171,8 @@ class FormPropertiesEditorView_FormPropertiesEditorView extends external_React_[
     }
     render() {
         let { getFieldDecorator } = this.props.form;
-        let { editorStore } = this.props.store;
-        let form = editorStore.formEditorVisible ? Object(mobx_module["o" /* toJS */])(editorStore.formStore.form) : null;
+        let { store } = this.props;
+        let form = store.showFormEditor ? Object(mobx_module["n" /* toJS */])(store.formStore.form) : null;
         return external_React_["createElement"](Form_default.a, Object.assign({}, FormLayoutCommon_formItemLayout, { onSubmit: (e) => this.handleSubmit(e), layout: "horizontal" }),
             external_React_["createElement"](Form_default.a.Item, { required: true, label: "Name" }, getFieldDecorator('name', {
                 initialValue: form.name,
@@ -2181,9 +2241,9 @@ var FormEditorView_decorate = (undefined && undefined.__decorate) || function (d
 
 let FormEditorView_FormEditorView = class FormEditorView extends external_React_["Component"] {
     render() {
-        let { editorStore } = this.props.store;
-        let form = editorStore.formEditorVisible ? Object(mobx_module["o" /* toJS */])(editorStore.formStore.form) : null;
-        return form && external_React_["createElement"](drawer["a" /* default */], { title: `Form "${form.name}" `, onClose: () => editorStore.setFormEditorVisible(false), visible: editorStore.formEditorVisible == true, width: 700, style: { overflow: 'hidden' } }, external_React_["createElement"](tabs["a" /* default */], { size: "small" },
+        let { store } = this.props;
+        let form = store.showFormEditor ? Object(mobx_module["n" /* toJS */])(store.formStore.form) : null;
+        return form && external_React_["createElement"](drawer["a" /* default */], { title: `Form "${form.name}" `, onClose: () => store.setFormEditorVisible(false), visible: store.showFormEditor == true, width: 700, style: { overflow: 'hidden' } }, external_React_["createElement"](tabs["a" /* default */], { size: "small" },
             external_React_["createElement"](tabs["a" /* default */].TabPane, { tab: "Settings", key: "1" },
                 external_React_["createElement"](es_row["a" /* default */], null,
                     external_React_["createElement"](es_col["a" /* default */], { span: 24 },
@@ -2238,7 +2298,7 @@ let PageEditorView_PageEditorView = class PageEditorView extends external_React_
         this.handleSubmit = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            let { page } = this.props.store.editorStore;
+            let { selectedPage: page } = this.props.store;
             this.props.form.validateFieldsAndScroll((err, values) => {
                 if (!err) {
                     notification["a" /* default */].info({ message: `Page - ${page.name}`,
@@ -2259,10 +2319,10 @@ let PageEditorView_PageEditorView = class PageEditorView extends external_React_
         return fieldsWithErrors.length > 0;
     }
     render() {
-        let { editorStore } = this.props.store;
-        let { page } = editorStore;
+        let { store } = this.props;
+        let { selectedPage: page } = store;
         let { getFieldDecorator } = this.props.form;
-        return page && external_React_["createElement"](drawer["a" /* default */], { title: `Page "${page.name}" (id=${page.id || ''})`, onClose: () => editorStore.setEditable(null), visible: editorStore.showPageEditor, width: 600, closable: !this.hasErrors, maskClosable: !this.hasErrors, style: { overflow: 'auto', height: 'calc(80% - 108px)', paddingBottom: '108px' } }, external_React_["createElement"](tabs["a" /* default */], null,
+        return page && external_React_["createElement"](drawer["a" /* default */], { title: `Page "${page.name}" (id=${page.id || ''})`, onClose: () => store.setEditable(null), visible: store.showPageEditor, width: 600, closable: !this.hasErrors, maskClosable: !this.hasErrors, style: { overflow: 'auto', height: 'calc(80% - 108px)', paddingBottom: '108px' } }, external_React_["createElement"](tabs["a" /* default */], null,
             external_React_["createElement"](tabs["a" /* default */].TabPane, { key: "1", tab: "Settings" },
                 external_React_["createElement"](card["a" /* default */], { size: "small", bordered: false },
                     external_React_["createElement"](es_form["a" /* default */], Object.assign({}, FormLayoutCommon_formItemLayout, { onSubmit: (e) => this.handleSubmit(e), layout: "horizontal" }),
@@ -2350,7 +2410,7 @@ let SectionPropertiesEditorView_SectionPropertiesEditorView = class SectionPrope
         this.handleSubmit = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            let { section } = this.props.store.editorStore;
+            let { selectedSection: section } = this.props.store;
             this.props.form.validateFieldsAndScroll((err, values) => {
                 if (!err) {
                     notification["a" /* default */].info({ message: `Section - ${section.name}`,
@@ -2364,10 +2424,10 @@ let SectionPropertiesEditorView_SectionPropertiesEditorView = class SectionPrope
         };
     }
     render() {
-        let { editorStore } = this.props.store;
-        let { section } = editorStore;
+        let { store } = this.props;
+        let { selectedSection: section } = store;
         let { getFieldDecorator } = this.props.form;
-        console.log("SPEV.render", editorStore.section);
+        console.log("SPEV.render", store.selectedSection);
         if (!section) {
             return external_React_["createElement"](external_React_["Fragment"], null);
         }
@@ -2386,7 +2446,7 @@ let SectionPropertiesEditorView_SectionPropertiesEditorView = class SectionPrope
     }
 };
 SectionPropertiesEditorView_decorate([
-    mobx_module["k" /* observable */]
+    mobx_module["j" /* observable */]
 ], SectionPropertiesEditorView_SectionPropertiesEditorView.prototype, "gutter", void 0);
 SectionPropertiesEditorView_decorate([
     mobx_module["b" /* action */].bound
@@ -2487,7 +2547,7 @@ class SectionLayoutEditor_SectionLayoutEditorView extends external_React_["Compo
         this.handleSubmit = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            let { section } = this.props.store.editorStore;
+            let { selectedSection: section } = this.props.store;
             section.columns.map((column, index) => {
                 let thisSpan = this.columnSpans.get(`col${index}`);
                 if (column.span != thisSpan) {
@@ -2507,7 +2567,7 @@ class SectionLayoutEditor_SectionLayoutEditorView extends external_React_["Compo
     initialize() {
         let { section } = this.props;
         this.gutter = section.gutter;
-        this.columnSpans = mobx_module["k" /* observable */].map({});
+        this.columnSpans = mobx_module["j" /* observable */].map({});
         section.columns.map((col, index) => {
             this.columnSpans.set(`col${index}`, col.span);
         });
@@ -2540,10 +2600,10 @@ class SectionLayoutEditor_SectionLayoutEditorView extends external_React_["Compo
     }
 }
 SectionLayoutEditor_decorate([
-    mobx_module["k" /* observable */]
+    mobx_module["j" /* observable */]
 ], SectionLayoutEditor_SectionLayoutEditorView.prototype, "gutter", void 0);
 SectionLayoutEditor_decorate([
-    mobx_module["k" /* observable */]
+    mobx_module["j" /* observable */]
 ], SectionLayoutEditor_SectionLayoutEditorView.prototype, "columnSpans", void 0);
 SectionLayoutEditor_decorate([
     mobx_module["b" /* action */]
@@ -2587,9 +2647,9 @@ let SectionEditorView_SectionEditorView = class SectionEditorView extends extern
         super(props);
     }
     render() {
-        let { editorStore } = this.props.store;
-        let section = editorStore.showSectionEditor ? editorStore.section : null;
-        return section && external_React_["createElement"](drawer["a" /* default */], { title: `Section "${section.name}" `, onClose: () => editorStore.setEditable(null), visible: editorStore.showSectionEditor == true, width: 700, style: { overflow: 'hidden' } }, external_React_["createElement"](tabs["a" /* default */], { size: "small" },
+        let { store } = this.props;
+        let section = store.showSectionEditor ? store.selectedSection : null;
+        return section && external_React_["createElement"](drawer["a" /* default */], { title: `Section "${section.name}" `, onClose: () => store.setEditable(null), visible: store.showSectionEditor == true, width: 700, style: { overflow: 'hidden' } }, external_React_["createElement"](tabs["a" /* default */], { size: "small" },
             external_React_["createElement"](tabs["a" /* default */].TabPane, { tab: "Settings", key: "1" },
                 external_React_["createElement"](es_row["a" /* default */], null,
                     external_React_["createElement"](es_col["a" /* default */], { span: 24 },
@@ -2606,7 +2666,7 @@ SectionEditorView_SectionEditorView = SectionEditorView_decorate([
 
 
 // EXTERNAL MODULE: ./node_modules/styled-components/dist/styled-components.browser.esm.js
-var styled_components_browser_esm = __webpack_require__(113);
+var styled_components_browser_esm = __webpack_require__(114);
 
 // CONCATENATED MODULE: ./src/components/canvas/ComponentMenu.tsx
 
@@ -2802,9 +2862,9 @@ let FieldItem_FieldItem = class FieldItem extends external_React_["Component"] {
     render() {
         let fld = this.props.fld;
         let label = fld.label; // Otherwise Tree wont update
-        let { editorStore } = this.props.store;
+        let { store } = this.props;
         return external_React_["createElement"](react_beautiful_dnd_esm["b" /* Draggable */], { type: "Field", draggableId: fld.uuid, index: this.props.index }, (provided, snapshot) => (external_React_["createElement"](dnd_common_Container, Object.assign({ ref: provided.innerRef }, provided.draggableProps, { style: dnd_common_getItemStyle(snapshot.isDragging, provided.draggableProps.style) }),
-            external_React_["createElement"](es_button["a" /* default */], { type: "dashed", shape: "circle", onClick: () => editorStore.setEditable(fld), size: "small", icon: "edit", className: "fl-tree-button" }),
+            external_React_["createElement"](es_button["a" /* default */], { type: "dashed", shape: "circle", onClick: () => store.setEditable(fld), size: "small", icon: "edit", className: "fl-tree-button" }),
             external_React_["createElement"](badge["a" /* default */], Object.assign({}, provided.dragHandleProps, { status: snapshot.isDragging ? 'processing' : "default", color: getBadgeStyle("Field"), text: `Field - ${label}` })),
             provided.placeholder)));
     }
@@ -2833,9 +2893,9 @@ var ColumnItem_decorate = (undefined && undefined.__decorate) || function (decor
 let ColumnItem_ColumnItem = class ColumnItem extends external_React_["Component"] {
     render() {
         let col = this.props.col;
-        let { editorStore } = this.props.store;
+        let { store } = this.props;
         return external_React_["createElement"](react_beautiful_dnd_esm["b" /* Draggable */], { type: "Column", draggableId: col.uuid, index: this.props.index }, (provided, snapshot) => (external_React_["createElement"](dnd_common_Container, Object.assign({ ref: provided.innerRef }, provided.draggableProps, { style: dnd_common_getItemStyle(snapshot.isDragging, provided.draggableProps.style) }),
-            external_React_["createElement"](es_button["a" /* default */], { type: "dashed", shape: "circle", onClick: () => editorStore.setEditable(col), size: "small", icon: "edit", className: "fl-tree-button" }),
+            external_React_["createElement"](es_button["a" /* default */], { type: "dashed", shape: "circle", onClick: () => store.setEditable(col), size: "small", icon: "edit", className: "fl-tree-button" }),
             external_React_["createElement"](badge["a" /* default */], Object.assign({}, provided.dragHandleProps, { status: snapshot.isDragging ? 'processing' : "default", color: getBadgeStyle("Column"), text: `Column - ${col.name}` })),
             external_React_["createElement"](react_beautiful_dnd_esm["c" /* Droppable */], { droppableId: `${col.uuid}|fields`, type: "Field" }, (provided, snapshot) => {
                 return external_React_["createElement"](ItemList, Object.assign({ isDraggingOver: snapshot.isDraggingOver, ref: provided.innerRef }, provided.droppableProps),
@@ -2871,9 +2931,9 @@ var SectionItem_decorate = (undefined && undefined.__decorate) || function (deco
 let SectionItem_SectionItem = class SectionItem extends external_React_["Component"] {
     render() {
         let sec = this.props.sec;
-        let { editorStore } = this.props.store;
+        let { store } = this.props;
         return external_React_["createElement"](react_beautiful_dnd_esm["b" /* Draggable */], { type: "Section", draggableId: sec.uuid, index: this.props.index }, (provided, snapshot) => (external_React_["createElement"](dnd_common_Container, Object.assign({ ref: provided.innerRef }, provided.draggableProps, { style: dnd_common_getItemStyle(snapshot.isDragging, provided.draggableProps.style) }),
-            external_React_["createElement"](es_button["a" /* default */], { type: "dashed", shape: "circle", onClick: () => editorStore.setEditable(sec), size: "small", icon: "edit", className: "fl-tree-button" }),
+            external_React_["createElement"](es_button["a" /* default */], { type: "dashed", shape: "circle", onClick: () => store.setEditable(sec), size: "small", icon: "edit", className: "fl-tree-button" }),
             external_React_["createElement"](badge["a" /* default */], Object.assign({}, provided.dragHandleProps, { status: snapshot.isDragging ? 'processing' : "default", color: getBadgeStyle("Section"), text: `Section - ${sec.name}` })),
             external_React_["createElement"](react_beautiful_dnd_esm["c" /* Droppable */], { droppableId: `${sec.uuid}|columns`, type: "Column" }, (provided, snapshot) => {
                 return external_React_["createElement"](ItemList, Object.assign({ isDraggingOver: snapshot.isDraggingOver, ref: provided.innerRef }, provided.droppableProps),
@@ -2912,11 +2972,12 @@ let PageItem_PageItem = class PageItem extends external_React_["Component"] {
     }
     render() {
         let page = this.props.page;
-        let { editorStore } = this.props.store;
+        let { store } = this.props;
+        // Unused but makes view re-render when title etc are changed
         let { title, subtitle, name } = page;
         return (external_React_["createElement"]("div", { style: { padding: '4px' } },
             external_React_["createElement"](react_beautiful_dnd_esm["b" /* Draggable */], { type: "Page", draggableId: page.uuid, index: this.props.index }, (provided, snapshot) => (external_React_["createElement"](dnd_common_Container, Object.assign({ ref: provided.innerRef }, provided.draggableProps, { style: dnd_common_getItemStyle(snapshot.isDragging, provided.draggableProps.style) }),
-                external_React_["createElement"](es_button["a" /* default */], { type: "dashed", onClick: () => { editorStore.setEditable(page); }, shape: "circle", size: "small", icon: "edit", className: "fl-tree-button" }),
+                external_React_["createElement"](es_button["a" /* default */], { type: "dashed", onClick: () => { store.setEditable(page); }, shape: "circle", size: "small", icon: "edit", className: "fl-tree-button" }),
                 external_React_["createElement"](badge["a" /* default */], Object.assign({}, provided.dragHandleProps, { status: snapshot.isDragging ? 'processing' : "default", color: getBadgeStyle("Page"), text: `Page - ${page.title}` })),
                 external_React_["createElement"](react_beautiful_dnd_esm["c" /* Droppable */], { droppableId: `${page.uuid}|sections`, type: "Section" }, (provided, snapshot) => {
                     return external_React_["createElement"](ItemList, Object.assign({ isDraggingOver: snapshot.isDraggingOver, ref: provided.innerRef }, provided.droppableProps),
@@ -2960,11 +3021,11 @@ let ComponentTree_ComponentTree = class ComponentTree extends external_React_["C
         this.props = props;
     }
     render() {
-        let { formStore, editorStore } = this.props.store;
+        let { formStore } = this.props.store;
         let { form } = formStore;
         let { pages } = form.content;
         return external_React_["createElement"](card["a" /* default */], { title: "Layout", bordered: false, style: { height: '100%' }, bodyStyle: { height: '100%', padding: '10px', overflow: 'auto', paddingBottom: '48px' } },
-            external_React_["createElement"](es_button["a" /* default */], { type: "dashed", onClick: () => { editorStore.setFormEditorVisible(true); }, shape: "circle", size: "small", icon: "edit", style: { marginRight: '5px', userSelect: 'none' } }),
+            external_React_["createElement"](es_button["a" /* default */], { type: "dashed", onClick: () => { this.props.store.setFormEditorVisible(true); }, shape: "circle", size: "small", icon: "edit", style: { marginRight: '5px', userSelect: 'none' } }),
             external_React_["createElement"](badge["a" /* default */], { status: "default", color: getBadgeStyle("Form"), text: `Form - ${form.name}` }),
             external_React_["createElement"](react_beautiful_dnd_esm["c" /* Droppable */], { droppableId: "pages", type: "Page" }, (provided, snapshot) => {
                 return external_React_["createElement"](ItemList, Object.assign({ isDraggingOver: snapshot.isDraggingOver, ref: provided.innerRef }, provided.droppableProps),
@@ -3130,7 +3191,7 @@ let Canvas_Canvas = class Canvas extends external_React_["Component"] {
         this.toggleSider = () => {
             this.setState({ siderCollapsed: !this.state.siderCollapsed });
         };
-        this.factory = new lib["a" /* Factory */](this.props.store.formStore);
+        this.factory = new lib["b" /* Factory */](this.props.store.formStore);
     }
     get itemMap() {
         let { form } = this.props.store.formStore;
@@ -3168,7 +3229,7 @@ let Canvas_Canvas = class Canvas extends external_React_["Component"] {
                                     external_React_["createElement"](ComponentTree_ComponentTree, { store: this.props.store }))),
                             external_React_["createElement"](es_col["a" /* default */], { span: 16, style: { height: '100%' } },
                                 external_React_["createElement"]("div", { className: "fl-grey-box fl-shadow-sides fl-full-height" },
-                                    external_React_["createElement"](lib["c" /* FormView */], { store: formStore }))),
+                                    external_React_["createElement"](lib["d" /* FormView */], { store: formStore }))),
                             external_React_["createElement"](FieldEditorView_FieldEditorView, { store: this.props.store }),
                             external_React_["createElement"](FormEditorView_FormEditorView, { store: this.props.store }),
                             external_React_["createElement"](page_PageEditorView, { store: this.props.store }),
@@ -3192,55 +3253,56 @@ var EditorStore_decorate = (undefined && undefined.__decorate) || function (deco
 };
 
 
+Object(mobx_module["d" /* configure */])({ enforceActions: "always" });
 class EditorStore_EditorStore {
     constructor(data) {
         this.addCondition = (c) => {
-            this.field.setCondition(this.factory.makeCondition(c));
+            this.selectedField.setCondition(this.factory.makeCondition(c));
         };
         this.addPredicate = (p) => {
-            if (!this.field.condition) {
+            if (!this.selectedField.condition) {
                 let condition = this.factory.makeCondition({ predicates: [p] });
-                this.field.setCondition(condition);
+                this.selectedField.setCondition(condition);
                 return;
             }
-            this.field.condition.addPredicates(...this.factory.makePredicates(p));
+            this.selectedField.condition.addPredicates(...this.factory.makePredicates(p));
         };
         this.setCondition = (c) => {
-            this.field.setCondition(c);
+            this.selectedField.setCondition(c);
         };
         this.addValidationRule = (key, rule) => {
-            this.field.validator.rule.addConstraint(key, rule);
+            this.selectedField.validator.rule.addConstraint(key, rule);
         };
         this.updateValidationRule = (key, rule) => {
-            this.field.validator.rule.updateConstraint(key, rule);
+            this.selectedField.validator.rule.updateConstraint(key, rule);
         };
         this.removeValidationRule = (key) => {
-            this.field.validator.rule.removeConstraint(key);
+            this.selectedField.validator.rule.removeConstraint(key);
         };
         this.setFieldProperty = (key, value) => {
-            this.field.componentProps[key] = value;
+            this.selectedField.componentProps[key] = value;
         };
         this.setComponentProperty = (key, value) => {
-            this.field.componentProps[key] = value;
+            this.selectedField.componentProps[key] = value;
         };
         this.setEditable = (item) => {
             this.reset();
             if (item) {
                 switch (item._type) {
                     case "Page": {
-                        this.page = item;
+                        this.selectedPage = item;
                         break;
                     }
                     case "Section": {
-                        this.section = item;
+                        this.selectedSection = item;
                         break;
                     }
                     case "Column": {
-                        this.column = item;
+                        this.selectedColumn = item;
                         break;
                     }
                     case "Field": {
-                        this.field = item;
+                        this.selectedField = item;
                         break;
                     }
                 }
@@ -3249,10 +3311,11 @@ class EditorStore_EditorStore {
         this.initialize(data);
     }
     initialize(data) {
-        this.formStore = data.formStore;
-        this.factory = data.factory;
-        this.setEditable(data.item);
-        this.formEditorVisible = false;
+        this.formStore = new lib["c" /* FormStore */]();
+        this.factory = new lib["b" /* Factory */](this.formStore);
+        this.formData = this.factory.makeForm(data);
+        this.setEditable(null);
+        this.showFormEditor = false;
         return;
     }
     get availableConditionSources() {
@@ -3270,26 +3333,26 @@ class EditorStore_EditorStore {
     }
     get availableExpressions() {
         let expressions = [];
-        lib["e" /* Predicate */].PredicateConditions.forEach((p) => {
+        lib["f" /* Predicate */].PredicateConditions.forEach((p) => {
             expressions.push({ value: p, name: p });
         });
         return expressions;
     }
     get availableOperators() {
         let operators = [];
-        lib["e" /* Predicate */].PredicateOperators.forEach((o) => {
+        lib["f" /* Predicate */].PredicateOperators.forEach((o) => {
             operators.push({ value: o, name: o });
         });
         return operators;
     }
     get hasCondition() {
-        return !!this.field.condition;
+        return !!this.selectedField.condition;
     }
     get numPredicates() {
-        return this.field.condition ? this.field.condition.predicates.length : 0;
+        return this.selectedField.condition ? this.selectedField.condition.predicates.length : 0;
     }
     removePredicate(uuid) {
-        let { condition } = this.field;
+        let { condition } = this.selectedField;
         let index = condition.predicates.findIndex((p) => {
             return p.uuid == uuid;
         });
@@ -3297,24 +3360,45 @@ class EditorStore_EditorStore {
             condition.predicates.splice(index, 1);
         }
         if (condition.predicates.length == 0) {
-            this.field.setCondition(null);
+            this.selectedField.setCondition(null);
         }
     }
     reset() {
-        this.page = null;
-        this.column = null;
-        this.section = null;
-        this.field = null;
+        this.selectedPage = null;
+        this.selectedColumn = null;
+        this.selectedSection = null;
+        this.selectedField = null;
     }
-    get showFieldEditor() { return !!this.field; }
-    get showPageEditor() { return !!this.page; }
-    get showColumnEditor() { return !!this.column; }
-    get showSectionEditor() { return !!this.section; }
+    get showFieldEditor() { return !!this.selectedField; }
+    get showPageEditor() { return !!this.selectedPage; }
+    get showColumnEditor() { return !!this.selectedColumn; }
+    get showSectionEditor() { return !!this.selectedSection; }
     setFormEditorVisible(visible = false) {
         this.reset();
-        this.formEditorVisible = visible;
+        this.showFormEditor = visible;
+    }
+    get asJSONForm() {
+        return Object(mobx_module["n" /* toJS */])(this.formStore.form, { exportMapsAsObjects: true });
     }
 }
+EditorStore_decorate([
+    mobx_module["j" /* observable */]
+], EditorStore_EditorStore.prototype, "selectedField", void 0);
+EditorStore_decorate([
+    mobx_module["j" /* observable */]
+], EditorStore_EditorStore.prototype, "selectedPage", void 0);
+EditorStore_decorate([
+    mobx_module["j" /* observable */]
+], EditorStore_EditorStore.prototype, "selectedSection", void 0);
+EditorStore_decorate([
+    mobx_module["j" /* observable */]
+], EditorStore_EditorStore.prototype, "selectedColumn", void 0);
+EditorStore_decorate([
+    mobx_module["j" /* observable */]
+], EditorStore_EditorStore.prototype, "showFormEditor", void 0);
+EditorStore_decorate([
+    mobx_module["j" /* observable */]
+], EditorStore_EditorStore.prototype, "formData", void 0);
 EditorStore_decorate([
     mobx_module["b" /* action */]
 ], EditorStore_EditorStore.prototype, "initialize", null);
@@ -3381,43 +3465,9 @@ EditorStore_decorate([
 EditorStore_decorate([
     mobx_module["b" /* action */]
 ], EditorStore_EditorStore.prototype, "setEditable", void 0);
-Object(mobx_module["f" /* decorate */])(EditorStore_EditorStore, {
-    field: mobx_module["k" /* observable */],
-    page: mobx_module["k" /* observable */],
-    section: mobx_module["k" /* observable */],
-    column: mobx_module["k" /* observable */],
-    formEditorVisible: mobx_module["k" /* observable */]
-});
-/* harmony default export */ var store_EditorStore = (EditorStore_EditorStore);
-
-// CONCATENATED MODULE: ./src/store/RootStore.ts
-var RootStore_decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-Object(mobx_module["d" /* configure */])({ enforceActions: "always" });
-class RootStore_RootStore {
-    constructor(data) {
-        this.initialize(data);
-    }
-    initialize(data) {
-        this.formStore = new lib["b" /* FormStore */]();
-        let factory = new lib["a" /* Factory */](this.formStore);
-        this.editorStore = new store_EditorStore({ formStore: this.formStore, factory: factory, item: null });
-        this.formData = factory.makeForm(data);
-    }
-}
-RootStore_decorate([
-    mobx_module["k" /* observable */]
-], RootStore_RootStore.prototype, "formData", void 0);
-RootStore_decorate([
-    mobx_module["b" /* action */]
-], RootStore_RootStore.prototype, "initialize", null);
+EditorStore_decorate([
+    mobx_module["c" /* computed */]
+], EditorStore_EditorStore.prototype, "asJSONForm", null);
 
 // CONCATENATED MODULE: ./src/index.tsx
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderForm", function() { return renderForm; });
@@ -3428,7 +3478,7 @@ RootStore_decorate([
 
 
 function renderForm(selector, initialState) {
-    let store = new RootStore_RootStore(initialState);
+    let store = new EditorStore_EditorStore(initialState);
     Object(external_ReactDOM_["render"])(external_React_default.a.createElement(es_layout["a" /* default */], { style: { height: '100vh', overflow: 'hidden' } },
         external_React_default.a.createElement(Canvas_Canvas, { store: store })), document.querySelector(selector));
 }
