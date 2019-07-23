@@ -22,7 +22,7 @@ class PropertiesView extends React.Component<IPropertiesViewProps, any> {
     handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        let {field} = this.props.store.editorStore;
+        let {selectedField: field} = this.props.store;
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 let merge = {componentProps: {}, fieldOptions: {}};
@@ -49,11 +49,11 @@ class PropertiesView extends React.Component<IPropertiesViewProps, any> {
     }
 
     @action.bound updateOptions(options: ChoiceOption[]) {
-        this.props.store.editorStore.field.componentProps["options"] = options;
+        this.props.store.selectedField.componentProps["options"] = options;
     }
 
     render() {
-        let field = toJS(this.props.store.editorStore.field) as IFieldProps;
+        let field = toJS(this.props.store.selectedField) as IFieldProps;
 
         const formItemLayout = {
             labelCol: {

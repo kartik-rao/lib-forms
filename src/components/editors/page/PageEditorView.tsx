@@ -16,7 +16,7 @@ class PageEditorView extends React.Component<IPageEditorViewProps, any> {
     @action.bound handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        let {page} = this.props.store.editorStore;
+        let {selectedPage: page} = this.props.store;
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 notification.info({message: `Page - ${page.name}`,
@@ -38,12 +38,12 @@ class PageEditorView extends React.Component<IPageEditorViewProps, any> {
     }
 
     render() {
-        let {editorStore} = this.props.store;
-        let {page} = editorStore;
+        let {store} = this.props;
+        let {selectedPage: page} = store;
         let {getFieldDecorator} = this.props.form;
 
         return page && <Drawer title={`Page "${page.name}" (id=${page.id||''})`}
-            onClose={() => editorStore.setEditable(null)} visible={editorStore.showPageEditor}
+            onClose={() => store.setEditable(null)} visible={store.showPageEditor}
             width={600} closable={!this.hasErrors} maskClosable={!this.hasErrors}
             style={{ overflow: 'auto', height: 'calc(80% - 108px)', paddingBottom: '108px' }}>
             {

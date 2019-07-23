@@ -72,7 +72,7 @@ class SectionLayoutEditorView extends React.Component<ISectionLayoutEditorViewPr
     @action.bound handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        let {section} = this.props.store.editorStore;
+        let {selectedSection: section} = this.props.store;
         section.columns.map((column, index) => {
             let thisSpan = this.columnSpans.get(`col${index}`);
             if (column.span != thisSpan) {

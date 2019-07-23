@@ -4,14 +4,14 @@ import { FormComponentProps } from "antd/lib/form";
 import { action, computed, observable, toJS } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
-import {RootStore} from "../../../../store/RootStore";
+import {EditorStore} from "../../../../store/EditorStore";
 import ItemLayoutView from "./ItemLayoutView";
 
 
 type ScreenWidth = "xs"|"sm"|"md"|"lg"|"xl";
 
 export interface IFormLayoutViewProps extends FormComponentProps {
-    store: RootStore;
+    store: EditorStore;
 }
 
 const formItemLayout = {
@@ -62,7 +62,7 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
     @action.bound handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        let {form} = this.props.store.editorStore.formStore;
+        let {form} = this.props.store.formStore;
         console.log("Submitting");
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
@@ -76,12 +76,12 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
     }
 
     @computed get hasFormLayoutChanged() {
-        let {form} = this.props.store.editorStore.formStore;
+        let {form} = this.props.store.formStore;
         return this.selectedFormLayout != form.layout || this.selectedLabelAlign != form.formLayoutOptions.labelAlign;
     }
 
     @action saveItemLayout = (layout: ItemLayoutOptions) => {
-        let {form} = this.props.store.editorStore.formStore;
+        let {form} = this.props.store.formStore;
         AllScreenWidths.map((w: ScreenWidth) => {
             layout.labelCol[w] && form.itemLayoutOptions.labelCol.add(w, layout.labelCol[w]);
             layout.wrapperCol[w] && form.itemLayoutOptions.wrapperCol.add(w, layout.wrapperCol[w]);
@@ -93,7 +93,7 @@ export class FormLayoutView extends React.Component<IFormLayoutViewProps, any> {
 
     render() {
         let {getFieldDecorator} = this.props.form;
-        let {form} = this.props.store.editorStore.formStore;
+        let {form} = this.props.store.formStore;
         return <div>
             <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
             <p>Change form layout to render labels next to or above fields, add field layouts for fine grained control of rendering on a variety of screen sizes.</p>

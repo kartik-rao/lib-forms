@@ -24,7 +24,7 @@ class FormPropertiesEditorView extends React.Component<IFormPropertiesEditorView
     @action.bound handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        let {form} = this.props.store.editorStore.formStore;
+        let {form} = this.props.store.formStore;
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 notification.info({message: `Form - ${form.name}`,
@@ -41,8 +41,8 @@ class FormPropertiesEditorView extends React.Component<IFormPropertiesEditorView
 
     render () {
         let {getFieldDecorator} = this.props.form;
-        let {editorStore} = this.props.store;
-        let form = editorStore.formEditorVisible ? toJS(editorStore.formStore.form) : null;
+        let {store} = this.props;
+        let form = store.showFormEditor ? toJS(store.formStore.form) : null;
 
         return <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
                 <Form.Item required={true} label="Name">

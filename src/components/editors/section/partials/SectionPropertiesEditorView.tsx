@@ -46,7 +46,7 @@ class SectionPropertiesEditorView extends React.Component<ISectionPropertiesEdit
     @action.bound handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        let {section} = this.props.store.editorStore;
+        let {selectedSection: section} = this.props.store;
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 notification.info({message: `Section - ${section.name}`,
@@ -61,10 +61,10 @@ class SectionPropertiesEditorView extends React.Component<ISectionPropertiesEdit
 
     render() {
 
-        let {editorStore} = this.props.store;
-        let {section} = editorStore;
+        let {store} = this.props;
+        let {selectedSection: section} = store;
         let {getFieldDecorator} = this.props.form;
-        console.log("SPEV.render", editorStore.section);
+        console.log("SPEV.render", store.selectedSection);
         if (!section) {
             return <></>
         }

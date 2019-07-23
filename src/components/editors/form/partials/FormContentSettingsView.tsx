@@ -4,12 +4,12 @@ import Form from "antd/lib/form/Form";
 import { action, observable, set, toJS } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
-import {RootStore} from "../../../../store/RootStore";
+import {EditorStore} from "../../../../store/EditorStore";
 import { IEditorView } from "../../common/IComponentEditorView";
 import {formItemLayout, tailFormItemLayout} from "../../common/FormLayoutCommon";
 
 export interface IFormContentEditorViewProps extends FormComponentProps, IEditorView {
-    store: RootStore;
+    store: EditorStore;
 }
 
 @observer
@@ -23,7 +23,7 @@ class FormContentEditorView extends React.Component<IFormContentEditorViewProps,
     @action.bound handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        let {form} = this.props.store.editorStore.formStore;
+        let {form} = this.props.store.formStore;
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 notification.info({message: `Form - ${form.name}`,
@@ -41,11 +41,11 @@ class FormContentEditorView extends React.Component<IFormContentEditorViewProps,
 
     render () {
         let {getFieldDecorator} = this.props.form;
-        let {editorStore} = this.props.store;
-        if (!editorStore.formStore.form) {
+        let {store} = this.props;
+        if (!store.formStore.form) {
             return <></>
         }
-        let form = toJS(editorStore.formStore.form);
+        let form = toJS(store.formStore.form);
         let {formLayoutOptions} = form;
 
         return <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>

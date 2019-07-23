@@ -10,10 +10,10 @@ import FormPropertiesEditorView from "./partials/FormPropertiesEditorView";
 @observer
 export class FormEditorView extends React.Component<IEditorView, any> {
     render() {
-        let {editorStore} = this.props.store;
-        let form = editorStore.formEditorVisible ? toJS(editorStore.formStore.form) : null;
+        let {store} = this.props;
+        let form = store.showFormEditor ? toJS(store.formStore.form) : null;
         return form && <Drawer title={`Form "${form.name}" `}
-            onClose={() => editorStore.setFormEditorVisible(false)} visible={editorStore.formEditorVisible == true}
+            onClose={() => store.setFormEditorVisible(false)} visible={store.showFormEditor == true}
             width={700}
             style={{ overflow: 'hidden'}}>
             {   <Tabs size="small">

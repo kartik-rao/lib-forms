@@ -3,7 +3,7 @@ import {Page, Section} from "@kartikrao/lib-forms-core";
 import { Badge, Button } from "antd";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import {RootStore} from "../../../store/RootStore";
+import {EditorStore} from "../../../store/EditorStore";
 import { Container, getBadgeStyle, getItemStyle, ItemList } from "./dnd.common";
 import { SectionItem } from "./SectionItem";
 import { observer } from "mobx-react";
@@ -12,7 +12,7 @@ export interface IPageItemProps {
     page: Page;
     key: string;
     index: number;
-    store: RootStore;
+    store: EditorStore;
 }
 
 @observer
@@ -24,14 +24,15 @@ export class PageItem extends React.Component<IPageItemProps, any> {
 
     render() {
         let page: Page = this.props.page;
-        let {editorStore} = this.props.store;
+        let {store} = this.props;
+        // Unused but makes view re-render when title etc are changed
         let {title, subtitle, name} = page;
         return ( <div style={{padding: '4px'}}>
             <Draggable type="Page" draggableId={page.uuid} index={this.props.index}>
             {(provided, snapshot) => (
                 <Container ref={provided.innerRef} {...provided.draggableProps}
                 style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                    <Button type="dashed" onClick={() => {editorStore.setEditable(page)}} shape="circle" size="small" icon="edit" className="fl-tree-button"></Button>
+                    <Button type="dashed" onClick={() => {store.setEditable(page)}} shape="circle" size="small" icon="edit" className="fl-tree-button"></Button>
                     <Badge {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Page")} text={`Page - ${page.title}`}/>
                     <Droppable droppableId={`${page.uuid}|sections`} type="Section">
                         {(provided, snapshot) => {

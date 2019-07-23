@@ -3,7 +3,7 @@ import { computed } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import { RootStore } from "../../store/RootStore";
+import { EditorStore } from "../../store/EditorStore";
 import { FieldEditorView } from "../editors/field/FieldEditorView";
 import { FormEditorView } from "../editors/form/FormEditorView";
 import PageEditorView from "../editors/page/PageEditorView";
@@ -14,7 +14,7 @@ import {Page, Section , Column, FormView, Factory} from "@kartikrao/lib-forms-co
 const { Content } = Layout;
 
 export interface CanvasProps {
-    store: RootStore;
+    store: EditorStore;
 }
 
 const genRandom = () => {

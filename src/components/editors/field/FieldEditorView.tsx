@@ -16,11 +16,11 @@ export class FieldEditorView extends React.Component<IEditorView,any> {
     }
 
     @action.bound updateOptions(options: ChoiceOption[]) {
-        this.props.store.editorStore.field.componentProps["options"] = options;
+        this.props.store.selectedField.componentProps["options"] = options;
     }
 
     @action onOk() {
-        this.props.store.editorStore.setEditable(null);
+        this.props.store.setEditable(null);
     }
 
     @action onCancel() {
@@ -28,10 +28,10 @@ export class FieldEditorView extends React.Component<IEditorView,any> {
     }
 
     render() {
-        let {editorStore} = this.props.store;
-        let {field} = editorStore;
+        let {store} = this.props;
+        let {selectedField: field} = store;
         return field && <Drawer title={`Field ${field.name} (id=${field.id||''} class=${field.className})`}
-            width={700} onClose={() => editorStore.setEditable(null)} visible={editorStore.showFieldEditor}
+            width={700} onClose={() => store.setEditable(null)} visible={store.showFieldEditor}
             style={{ overflow: 'auto', height: 'calc(80% - 108px)', paddingBottom: '108px' }}>
             {
                 <Tabs size="small">

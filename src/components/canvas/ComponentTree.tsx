@@ -3,12 +3,12 @@ import { Badge, Button, Card, Divider } from "antd";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { Droppable } from "react-beautiful-dnd";
-import { RootStore } from "../../store/RootStore";
+import { EditorStore } from "../../store/EditorStore";
 import { getBadgeStyle, ItemList } from "./partials/dnd.common";
 import { PageItem } from "./partials/PageItem";
 
 export interface ComponentTreeProps {
-    store: RootStore;
+    store: EditorStore;
 }
 
 @observer
@@ -22,13 +22,13 @@ export class ComponentTree extends React.Component<ComponentTreeProps, any> {
     }
 
     render() {
-        let { formStore, editorStore } = this.props.store;
+        let { formStore } = this.props.store;
         let { form } = formStore;
         let { pages } = form.content;
 
         return <Card title={"Layout"} bordered={false} style={{height: '100%'}}
                 bodyStyle={{height:'100%', padding: '10px', overflow: 'auto', paddingBottom:'48px'}}>
-            <Button type="dashed" onClick={() => {editorStore.setFormEditorVisible(true)}} shape="circle" size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
+            <Button type="dashed" onClick={() => {this.props.store.setFormEditorVisible(true)}} shape="circle" size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
             <Badge status="default" color={getBadgeStyle("Form")} text={`Form - ${form.name}`}/>
             <Droppable droppableId="pages" type="Page">
             {(provided, snapshot) => {

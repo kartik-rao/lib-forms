@@ -13,10 +13,10 @@ export class SectionEditorView extends React.Component<IEditorView, any> {
     }
 
     render() {
-        let {editorStore} = this.props.store;
-        let section = editorStore.showSectionEditor ? editorStore.section : null;
+        let {store} = this.props;
+        let section = store.showSectionEditor ? store.selectedSection : null;
         return section && <Drawer title={`Section "${section.name}" `}
-            onClose={() => editorStore.setEditable(null)} visible={editorStore.showSectionEditor == true}
+            onClose={() => store.setEditable(null)} visible={store.showSectionEditor == true}
             width={700}
             style={{ overflow: 'hidden'}}>
             {   <Tabs size="small">

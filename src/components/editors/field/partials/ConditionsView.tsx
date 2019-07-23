@@ -39,21 +39,21 @@ class ConditionsEditorView extends React.Component<IConditionsEditorViewProps,an
 
     @action
     addPredicate(p: IPredicate) {
-        let {editorStore} = this.props.store;
-        editorStore.addPredicate(p);
+        let {store} = this.props;
+        store.addPredicate(p);
         return;
     }
 
     @action
     removePredicate(uuid: string) {
-        let {editorStore} = this.props.store;
-        editorStore.removePredicate(uuid);
+        let {store} = this.props;
+        store.removePredicate(uuid);
     }
 
     @action
     editPredicate(uuid: string) {
-        let {editorStore} = this.props.store;
-        let predicate = editorStore.field.condition.predicates.find((p:Predicate) => {
+        let {store} = this.props;
+        let predicate = store.selectedField.condition.predicates.find((p:Predicate) => {
             return p.uuid == uuid;
         });
         this.uuid = predicate.uuid;
@@ -81,8 +81,8 @@ class ConditionsEditorView extends React.Component<IConditionsEditorViewProps,an
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 if(this.isEditing) {
-                    let {editorStore} = this.props.store;
-                    let predicate = editorStore.field.condition.predicates.find((p:Predicate) => {
+                    let {store} = this.props;
+                    let predicate = store.selectedField.condition.predicates.find((p:Predicate) => {
                         return p.uuid == this.uuid;
                     });
                     predicate.field = this.field;
@@ -111,7 +111,7 @@ class ConditionsEditorView extends React.Component<IConditionsEditorViewProps,an
     }
 
     render() {
-        let {field, availableConditionSources, availableExpressions, availableOperators, numPredicates} = this.props.store.editorStore;
+        let {selectedField: field, availableConditionSources, availableExpressions, availableOperators, numPredicates} = this.props.store;
         let columns : any = [
             { title: 'Operator', dataIndex: 'operator', key: 'operator', render: (text, record) => (
                 record.operator ? <Tag>{record.operator}</Tag> : <></>

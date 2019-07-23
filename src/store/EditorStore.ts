@@ -1,31 +1,35 @@
-import { action, computed, decorate, observable, toJS } from "mobx";
-import { ICondition, Page, Field, Section, Column, FormStore, Factory, Predicate, IPredicate, GenericConstraint } from "@kartikrao/lib-forms-core";
+import { action, computed, decorate, observable, toJS, configure } from "mobx";
+import { ICondition, Page, Field, Section, Column, FormStore, Factory, Predicate, IPredicate, GenericConstraint, IFormProps, Form } from "@kartikrao/lib-forms-core";
+
+configure({enforceActions: "always"});
 
 export interface IEditorStoreProps {
     item?: Page|Field|Section|Column;
-    formEditorVisible?: boolean;
+    showFormEditor?: boolean;
     formStore: FormStore;
     factory: Factory;
 }
 
-class EditorStore implements IEditorStoreProps {
-    field: Field;
-    page: Page;
-    section: Section;
-    column: Column;
+export class EditorStore implements IEditorStoreProps {
+    @observable selectedField: Field;
+    @observable selectedPage: Page;
+    @observable selectedSection: Section;
+    @observable selectedColumn: Column;
+    @observable showFormEditor: boolean;
+    @observable formData: Form;
     formStore: FormStore;
     factory: Factory;
-    formEditorVisible: boolean;
 
-    constructor(data: IEditorStoreProps) {
+    constructor(data: IFormProps) {
         this.initialize(data);
     }
 
-    @action initialize(data: IEditorStoreProps) {
-        this.formStore = data.formStore;
-        this.factory = data.factory;
-        this.setEditable(data.item);
-        this.formEditorVisible = false;
+    @action initialize(data: IFormProps) {
+        this.formStore = new FormStore();
+        this.factory = new Factory(this.formStore);
+        this.formData = this.factory.makeForm(data);
+        this.setEditable(null);
+        this.showFormEditor = false;
         return;
     }
 
@@ -60,19 +64,19 @@ class EditorStore implements IEditorStoreProps {
     }
 
     @computed get hasCondition() : boolean {
-        return !!this.field.condition;
+        return !!this.selectedField.condition;
     }
 
     @computed get numPredicates() : number {
-        return this.field.condition ? this.field.condition.predicates.length : 0;
+        return this.selectedField.condition ? this.selectedField.condition.predicates.length : 0;
     }
 
     @action addCondition = (c: ICondition) => {
-        this.field.setCondition(this.factory.makeCondition(c));
+        this.selectedField.setCondition(this.factory.makeCondition(c));
     }
 
     @action removePredicate(uuid: string) {
-        let {condition} = this.field;
+        let {condition} = this.selectedField;
         let index = condition.predicates.findIndex((p: Predicate)=> {
             return p.uuid == uuid;
         });
@@ -82,58 +86,58 @@ class EditorStore implements IEditorStoreProps {
         }
 
         if (condition.predicates.length == 0) {
-            this.field.setCondition(null);
+            this.selectedField.setCondition(null);
         }
     }
 
     @action addPredicate = (p: IPredicate) => {
-        if (!this.field.condition) {
+        if (!this.selectedField.condition) {
             let condition = this.factory.makeCondition({predicates: [p]});
-            this.field.setCondition(condition);
+            this.selectedField.setCondition(condition);
             return;
         }
-        this.field.condition.addPredicates(...this.factory.makePredicates(p));
+        this.selectedField.condition.addPredicates(...this.factory.makePredicates(p));
     }
 
     @action setCondition = (c: ICondition) => {
-        this.field.setCondition(c);
+        this.selectedField.setCondition(c);
     }
 
     @action addValidationRule = (key: string, rule: GenericConstraint) => {
-        this.field.validator.rule.addConstraint(key, rule);
+        this.selectedField.validator.rule.addConstraint(key, rule);
     }
 
     @action updateValidationRule = (key: string, rule: GenericConstraint) => {
-        this.field.validator.rule.updateConstraint(key, rule);
+        this.selectedField.validator.rule.updateConstraint(key, rule);
     }
 
     @action removeValidationRule = (key: string) => {
-        this.field.validator.rule.removeConstraint(key);
+        this.selectedField.validator.rule.removeConstraint(key);
     }
 
     @action setFieldProperty = (key: string, value: any) => {
-        this.field.componentProps[key] = value;
+        this.selectedField.componentProps[key] = value;
     }
 
     @action setComponentProperty = (key: string, value: any) => {
-        this.field.componentProps[key] = value;
+        this.selectedField.componentProps[key] = value;
     }
 
     @action reset() {
-        this.page = null;
-        this.column = null;
-        this.section = null;
-        this.field = null;
+        this.selectedPage = null;
+        this.selectedColumn = null;
+        this.selectedSection = null;
+        this.selectedField = null;
     }
 
-    @computed get showFieldEditor() {return !!this.field;}
-    @computed get showPageEditor() {return !!this.page;}
-    @computed get showColumnEditor() {return !!this.column;}
-    @computed get showSectionEditor() {return !!this.section;}
+    @computed get showFieldEditor() {return !!this.selectedField;}
+    @computed get showPageEditor() {return !!this.selectedPage;}
+    @computed get showColumnEditor() {return !!this.selectedColumn;}
+    @computed get showSectionEditor() {return !!this.selectedSection;}
 
     @action setFormEditorVisible(visible: boolean = false) {
         this.reset();
-        this.formEditorVisible = visible;
+        this.showFormEditor = visible;
     }
 
     @action setEditable = (item: Page|Section|Column|Field) => {
@@ -141,19 +145,19 @@ class EditorStore implements IEditorStoreProps {
         if (item) {
             switch(item._type) {
                 case "Page" : {
-                    this.page = item as Page;
+                    this.selectedPage = item as Page;
                     break;
                 }
                 case "Section" : {
-                    this.section = item as Section;
+                    this.selectedSection = item as Section;
                     break;
                 }
                 case "Column" : {
-                    this.column = item as Column;
+                    this.selectedColumn = item as Column;
                     break;
                 }
                 case "Field" : {
-                    this.field = item as Field;
+                    this.selectedField = item as Field;
                     break;
                 }
             }
@@ -164,13 +168,3 @@ class EditorStore implements IEditorStoreProps {
         return toJS(this.formStore.form, {exportMapsAsObjects: true});
     }
 }
-
-decorate(EditorStore, {
-    field: observable,
-    page: observable,
-    section: observable,
-    column: observable,
-    formEditorVisible: observable
-});
-
-export default EditorStore;

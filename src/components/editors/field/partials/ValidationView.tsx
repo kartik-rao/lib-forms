@@ -107,15 +107,15 @@ export class ValidationView extends React.Component<IEditorView,any> {
 
     @action
     applyRule = () => {
-        let {editorStore} = this.props.store;
+        let {store} = this.props;
         let ruleLabel = ValidationRuleMap[this.ruleType];
         if (this.isEditing == true) {
-            editorStore.updateValidationRule(this.ruleType, this.properties);
-            notification.info({message: `Field - ${editorStore.field.label||editorStore.field.name}`,
+            store.updateValidationRule(this.ruleType, this.properties);
+            notification.info({message: `Field - ${store.selectedField.label||store.selectedField.name}`,
                 description:`Rule "${ruleLabel}" saved`, duration: 7});
         } else {
-            editorStore.addValidationRule(this.ruleType, this.properties);
-            notification.info({message: `Field - ${editorStore.field.label||editorStore.field.name}`,
+            store.addValidationRule(this.ruleType, this.properties);
+            notification.info({message: `Field - ${store.selectedField.label||store.selectedField.name}`,
                 description:`Rule ${ruleLabel} added`, duration: 7});
         }
         this.cancel();
@@ -123,10 +123,10 @@ export class ValidationView extends React.Component<IEditorView,any> {
 
     @action
     onEdit = (rule: string) => {
-        let {editorStore} = this.props.store;
+        let {store} = this.props;
         this.isEditing = true
         this.ruleType = rule;
-        this.properties= editorStore.field.validator.rule[rule];
+        this.properties= store.selectedField.validator.rule[rule];
     }
 
     @action
@@ -135,13 +135,13 @@ export class ValidationView extends React.Component<IEditorView,any> {
     }
 
     render() {
-        let {editorStore} = this.props.store;
-        let {field} = editorStore;
+        let {store} = this.props;
+        let {selectedField: field} = store;
         let fieldList = [];
         let hasValidation = Object.keys(field.validator.rule.constraints).length > 0;
 
-        Object.keys(toJS(editorStore.formStore.idFieldMap)).map((id: string)=> {
-            fieldList.push(editorStore.formStore.idFieldMap[id]);
+        Object.keys(toJS(store.formStore.idFieldMap)).map((id: string)=> {
+            fieldList.push(store.formStore.idFieldMap[id]);
         });
 
         let availableRules = ValidationRuleNames.filter((rule: any) => {
@@ -160,7 +160,7 @@ export class ValidationView extends React.Component<IEditorView,any> {
                 {!!hasValidation && <ValidationListView
                     validation={field.validator.rule}
                     onEdit={this.onEdit}
-                    onRemove={editorStore.removeValidationRule}/>
+                    onRemove={store.removeValidationRule}/>
                 }
             </Card>
 
