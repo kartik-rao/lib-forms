@@ -1,3 +1,4 @@
+import { Column, Factory, FormView, Page, Section } from "@kartikrao/lib-forms-core";
 import { Col, Icon, Layout, Menu } from 'antd';
 import { computed } from "mobx";
 import { observer } from "mobx-react";
@@ -7,10 +8,9 @@ import { EditorStore } from "../../store/EditorStore";
 import { FieldEditorView } from "../editors/field/FieldEditorView";
 import { FormEditorView } from "../editors/form/FormEditorView";
 import PageEditorView from "../editors/page/PageEditorView";
-import {SectionEditorView} from "../editors/section/SectionEditorView";
+import { SectionEditorView } from "../editors/section/SectionEditorView";
 import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
-import {Page, Section , Column, FormView, Factory} from "@kartikrao/lib-forms-core";
 const { Content } = Layout;
 
 export interface CanvasProps {

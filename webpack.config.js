@@ -5,14 +5,14 @@ const tsImportPlugin = tsImportPluginFactory({ libraryName:"antd", style: 'css',
 
 const env = process.env.NODE_ENV || 'development';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CheckerPlugin } = require('awesome-typescript-loader')
+const { CheckerPlugin } = require('awesome-typescript-loader');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     mode: env,
     entry: {
-        main : path.join(__dirname, 'src/index.tsx'),
+        main : path.join(__dirname, 'src/app.tsx'),
         style: path.join(__dirname, 'src/app.css')
     },
     target: 'web',
