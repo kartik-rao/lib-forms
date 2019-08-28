@@ -200,3 +200,4 @@ class ChoiceOptionEditorView extends React.Component<IChoiceOptionEditorViewProp
 
 const WrappedChoiceOptionEditorView = Form.create<IChoiceOptionEditorViewProps>({ name: 'ChoiceOptionEditorView' })(ChoiceOptionEditorView);
 export default WrappedChoiceOptionEditorView;
+

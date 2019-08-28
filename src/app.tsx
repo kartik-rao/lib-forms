@@ -1,13 +1,18 @@
-import { IFormProps } from '@kartikrao/lib-forms-core';
+import { IFormProps, createFormStore } from '@kartikrao/lib-forms-core';
 import React from 'react';
 import { render } from 'react-dom';
 import { Canvas } from './components/canvas/Canvas';
-import {EditorStore} from './store/EditorStore';
+import {createEditorStore} from "./store/EditorStore";
+import {EditorStoreProvider} from './store/EditorStoreProvider';
 import { Layout } from 'antd';
 
 export function renderForm(selector:string, initialState: IFormProps) {
-    let store = new EditorStore(initialState);
+    const formStore = createFormStore(initialState);
     render(
-        <Layout style={{height: '100vh', overflow: 'hidden'}}><Canvas store={store}/></Layout>, document.querySelector(selector)
+        <Layout style={{height: '100vh', overflow: 'hidden'}}>
+            <EditorStoreProvider formStore={formStore}>
+                <Canvas />
+            </EditorStoreProvider>
+        </Layout>, document.querySelector(selector)
     );
 };

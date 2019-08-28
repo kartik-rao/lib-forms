@@ -15,7 +15,6 @@ export interface IConditionsEditorViewProps extends FormComponentProps, IEditorV
 class ConditionsEditorView extends React.Component<IConditionsEditorViewProps,any> {
     @observable isAdding: boolean;
     @observable isEditing: boolean;
-
     @observable uuid: string;
     @observable field: string;
     @observable condition: string;
