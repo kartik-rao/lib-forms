@@ -36,8 +36,8 @@ const FormPropertiesEditorView =  ({form: {getFieldDecorator, validateFieldsAndS
         }
     }));
 
+    let form = store.showFormEditor ? toJS(store.formStore.form) : null;
     return useObserver(() => {
-        let form = store.showFormEditor ? toJS(store.formStore.form) : null;
         return form && <Form {...formItemLayout} onSubmit={(e) => localStore.handleSubmit(e)} layout={"horizontal"}>
             <Form.Item required={true} label="Name">
                     {

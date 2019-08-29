@@ -19,7 +19,7 @@ const genRandom = () => {
 export const Canvas : React.FC<any> = () => {
     const store = React.useContext(editorStoreContext);
     if(!store) throw new Error("Store is null");
-    const factory = new Factory(store.formStore);
+
     const localStore = useLocalStore(() => ({
         siderCollapsed: false,
         onSiderCollapse : function (siderCollapsed) {
@@ -51,7 +51,7 @@ export const Canvas : React.FC<any> = () => {
             let id = genRandom();
             if (type == "Page") {
                 let nextPageNum = form.content.pages.length;
-                let page = this.factory.makePages({
+                let page = Factory.makePages(store.formStore, {
                     id   : `${nextPageNum}`,
                     title: `Page ${nextPageNum}`,
                     name : `Page ${nextPageNum}`,
@@ -62,7 +62,7 @@ export const Canvas : React.FC<any> = () => {
                 let [dParentId] = destination.droppableId.split('|');
                 if (type == "Section") {
                     let page = this.itemMap[dParentId] as Page;
-                    let section = factory.makeSections({
+                    let section = Factory.makeSections(store.formStore, {
                         id: `${id}`,
                         name: `Section_${id}`,
                         columns: []
@@ -71,7 +71,7 @@ export const Canvas : React.FC<any> = () => {
                 }
                 if (type == "Column") {
                     let section = this.itemMap[dParentId] as Section;
-                    let column = factory.makeColumns({
+                    let column = Factory.makeColumns(store.formStore, {
                         id: `${id}`,
                         name: `Column_${id}`,
                         fields: []
@@ -80,7 +80,7 @@ export const Canvas : React.FC<any> = () => {
                 }
                 if (type == "Field") {
                     let column = this.itemMap[dParentId] as Column;
-                    let field = factory.makeFields({
+                    let field = Factory.makeFields(store.formStore, {
                         id: `${id}`,
                         name: `Field_${id}`,
                         label: `Untitled ${result.draggableId}`,

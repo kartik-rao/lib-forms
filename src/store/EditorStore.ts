@@ -9,9 +9,9 @@ export const createEditorStore = () => {
         selectedColumn: <Column> null,
         showFormEditor: <boolean> null,
         formStore: <FormStoreType> null,
+        factory: <Factory> null,
         setFormStore: function(store: FormStoreType) {
             this.formStore = store;
-            this.factory = new Factory(store);
         },
         get availableConditionSources() : {key:string, id: string, label: string, name: string}[] {
             let fieldList = [];
@@ -46,7 +46,7 @@ export const createEditorStore = () => {
             return this.selectedField.condition ? this.selectedField.condition.predicates.length : 0;
         },
         addCondition : function(c: ICondition) {
-            this.selectedField.setCondition(this.factory.makeCondition(c));
+            this.selectedField.setCondition(Factory.makeCondition(this.formStore, c));
         },
         removePredicate: function(uuid: string) {
             let {condition} = this.selectedField;
@@ -64,11 +64,11 @@ export const createEditorStore = () => {
         },
         addPredicate : function (p: IPredicate) {
             if (!this.selectedField.condition) {
-                let condition = this.factory.makeCondition({predicates: [p]});
+                let condition = Factory.makeCondition(this.formStore, {predicates: [p]});
                 this.selectedField.setCondition(condition);
                 return;
             }
-            this.selectedField.condition.addPredicates(...this.factory.makePredicates(p));
+            this.selectedField.condition.addPredicates(...Factory.makePredicates(this.formStore, p));
         },
         setCondition : function (c: ICondition) {
             this.selectedField.setCondition(c);

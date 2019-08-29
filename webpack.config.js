@@ -70,7 +70,7 @@ module.exports = {
         "moment-timezone": "moment"
     },
     plugins: [
-        new CleanWebpackPlugin(),
+        // new CleanWebpackPlugin(),
         new CheckerPlugin(),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-au/),
         new MiniCssExtractPlugin({

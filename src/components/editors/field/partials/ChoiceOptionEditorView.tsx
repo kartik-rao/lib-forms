@@ -52,19 +52,17 @@ const ChoiceOptionEditorView : React.FC<IChoiceOptionEditorViewProps & FormCompo
             this.searchInput = node;
         },
         getColumnSearchProps: (dataIndex) => ({
-            filterDropdown: ({
-                setSelectedKeys, selectedKeys, confirm, clearFilters,
-            }) => (
+            filterDropdown: ({setSelectedKeys, selectedKeys, confirm, clearFilters}) => (
                     <div style={{ padding: 8 }}>
-                        <Input ref={node => { this.setSearchInput(node); }} placeholder={`Search ${dataIndex}`}
+                        <Input ref={node => { localStore.setSearchInput(node); }} placeholder={`Search ${dataIndex}`}
                             value={selectedKeys[0]} onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-                            onPressEnter={() => this.handleSearch(selectedKeys, confirm)} style={{ width: 188, marginBottom: 8, display: 'block' }}
+                            onPressEnter={() => localStore.handleSearch(selectedKeys, confirm)} style={{ width: 188, marginBottom: 8, display: 'block' }}
                         />
-                        <Button type="primary" onClick={() => this.handleSearch(selectedKeys, confirm)}
+                        <Button type="primary" onClick={() => localStore.handleSearch(selectedKeys, confirm)}
                             icon="search" size="small" style={{ width: 90, marginRight: 8 }}>
                             Search
-            </Button>
-                        <Button onClick={() => this.handleReset(clearFilters)} size="small"
+                        </Button>
+                        <Button onClick={() => localStore.handleReset(clearFilters)} size="small"
                             style={{ width: 90 }}>Reset</Button>
                     </div>
                 ),
@@ -72,20 +70,20 @@ const ChoiceOptionEditorView : React.FC<IChoiceOptionEditorViewProps & FormCompo
             onFilter: (value, record) => record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
             onFilterDropdownVisibleChange: (visible) => {
                 if (visible) {
-                    setTimeout(() => this.searchInput.select());
+                    setTimeout(() => localStore.searchInput.select());
                 }
             },
             render: (text) => (
                 <Highlighter
                     highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-                    searchWords={[this.searchText]}
+                    searchWords={[localStore.searchText]}
                     autoEscape
                     textToHighlight={text.toString()}
                 />
             ),
         }),
         get uniqueValuePattern(): RegExp {
-            let allValues = this.items.map((item) => {
+            let allValues = localStore.items.map((item) => {
                 return item.value;
             });
             return new RegExp(`^((?!(${allValues.join("|")})).)*$`, "gi");
@@ -100,43 +98,43 @@ const ChoiceOptionEditorView : React.FC<IChoiceOptionEditorViewProps & FormCompo
         }
     }));
 
+    let rows = [];
+    localStore.items.forEach((item: ChoiceOption, index: number) => {
+        rows.push({ index: index, label: item.label, value: item.value, key: index });
+    });
+
+    let columns = [{
+        title: '',
+        key: "operate",
+        render: (text, record, index) =>
+            <span style={{ float: 'right', marginRight: '20%' }}><Icon className="drag-handle" type="drag" /></span>
+    },
+    {
+        title: 'Label',
+        dataIndex: 'label',
+        key: 'label',
+        sorter: true,
+        ...localStore.getColumnSearchProps('label')
+    },
+    {
+        title: 'Value',
+        dataIndex: 'value',
+        key: 'value',
+        sorter: true,
+        ...localStore.getColumnSearchProps('value')
+    },
+    {
+        title: 'Actions',
+        key: 'action',
+        render: (text, record) => (
+            <span>
+                <Button shape="circle" type="default" onClick={() => { localStore.edit(record); }} icon="tool" size="small" style={{ marginLeft: '5px', marginRight: '5px' }}></Button>
+                <Button shape="circle" type="danger" onClick={() => { localStore.remove(record.index); }} icon="delete" size="small" style={{ marginLeft: '5px', marginRight: '5px' }}></Button>
+            </span>
+        )
+    }];
+
     return useObserver(() => {
-        let rows = [];
-        localStore.items.forEach((item: ChoiceOption, index: number) => {
-            rows.push({ index: index, label: item.label, value: item.value, key: index });
-        });
-
-        let columns = [{
-            title: '',
-            key: "operate",
-            render: (text, record, index) =>
-                <span style={{ float: 'right', marginRight: '20%' }}><Icon className="drag-handle" type="drag" /></span>
-        },
-        {
-            title: 'Label',
-            dataIndex: 'label',
-            key: 'label',
-            sorter: true,
-            ...localStore.getColumnSearchProps('label')
-        },
-        {
-            title: 'Value',
-            dataIndex: 'value',
-            key: 'value',
-            sorter: true,
-            ...localStore.getColumnSearchProps('value')
-        },
-        {
-            title: 'Actions',
-            key: 'action',
-            render: (text, record) => (
-                <span>
-                    <Button shape="circle" type="default" onClick={() => { localStore.edit(record); }} icon="tool" size="small" style={{ marginLeft: '5px', marginRight: '5px' }}></Button>
-                    <Button shape="circle" type="danger" onClick={() => { localStore.remove(record.index); }} icon="delete" size="small" style={{ marginLeft: '5px', marginRight: '5px' }}></Button>
-                </span>
-            ),
-        }];
-
         return <Card size="small" bodyStyle={{ padding: 0 }} bordered={false}>
             {localStore.items.length == 0 && <Empty description={
                 <span>No options on this field</span>

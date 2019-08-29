@@ -1,4 +1,4 @@
-import { Column, Field, Form, GenericConstraint, ICondition, IPredicate, Page, Section } from "@kartikrao/lib-forms-core";
+import { Column, Factory, Field, Form, GenericConstraint, ICondition, IPredicate, Page, Section } from "@kartikrao/lib-forms-core";
 export declare const createEditorStore: () => {
     selectedField: Field;
     selectedPage: Page;
@@ -34,6 +34,7 @@ export declare const createEditorStore: () => {
         setFieldTouched: (id: string) => void;
         setFieldError: (id: string, error: any) => void;
     };
+    factory: Factory;
     setFormStore: (store: {
         errors: import("mobx").IObservableObject;
         values: import("mobx").IObservableObject;

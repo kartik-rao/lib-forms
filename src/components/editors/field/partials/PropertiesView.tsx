@@ -68,12 +68,13 @@ const PropertiesView : React.FC<FormComponentProps> = ({form: {getFieldDecorator
         }
     }));
 
+    let fieldPOJO = toJS(store.selectedField) as IFieldProps;
+    let formItems = FieldPropertiesMap[fieldPOJO.inputType];
+
     return useObserver(() => {
-        let field = toJS(store.selectedField) as IFieldProps;
-        let formItems = FieldPropertiesMap[field.inputType];
         return store.selectedField && <Form {...formItemLayout} onSubmit={(e) => localStore.handleSubmit(e)} layout={"horizontal"}>
                 {formItems && formItems.map((item, index) => {
-                    {return asDecoratedProperty(field, getFieldDecorator, getFieldValue, item, index)}
+                    {return asDecoratedProperty(fieldPOJO, getFieldDecorator, getFieldValue, item, index)}
                 })}
                 {!formItems && <Empty description={
                     <span>No editable properties available for this field</span>

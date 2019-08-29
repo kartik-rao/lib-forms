@@ -1,7 +1,7 @@
 import { ChoiceOption, IFieldProps } from "@kartikrao/lib-forms-core";
 import { DatePicker, Form, Input, InputNumber, Select, Switch } from "antd";
 import * as React from "react";
-import * as moment from "moment";
+import moment from "moment";
 
 export const makeProp = (key: string, label: string, type: string, other: any = {}) : IFieldDecoratorConfig => {
     let {options, rules, formatKey, formatValue, help, defaultValue} = other;

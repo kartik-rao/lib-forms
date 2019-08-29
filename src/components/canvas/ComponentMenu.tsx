@@ -3,6 +3,8 @@ import { useLocalStore, useObserver } from 'mobx-react';
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import styled from 'styled-components';
+import { MenuMode } from 'antd/lib/menu';
+import { MenuTheme } from 'antd/lib/menu/MenuContext';
 
 const Container = styled.div`
     padding: 4px;
@@ -24,15 +26,15 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 export const ComponentMenu : React.FC<any> = () => {
     const localStore = useLocalStore(() => ({
         droppableIndex : 0,
-        menuTheme: "light",
-        menuMode: "vertical-left",
+        menuTheme: "light" as MenuTheme,
+        menuMode: "vertical-left" as MenuMode,
         submenuMode: "inline",
         submenuCollapsed: false,
         asDroppableGroup : function({ dropId, dropType, key, title, icon, groups }) {
             return <Droppable droppableId={dropId} type={dropType} isDropDisabled={true}>
                     {(provided, snapshot) => {
                     return <Item isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
-                        <Menu inlineCollapsed={this.submenuCollapsed} mode="inline" theme={this.menuTheme}>
+                        <Menu inlineCollapsed={this.submenuCollapsed} mode={"inline"} theme={this.menuTheme}>
                             <Menu.SubMenu key={key} title={<span>{title}</span>}>
                                     {groups.map((item, key: number) => {
                                         return <Menu.Item key={key} title={item.title}>

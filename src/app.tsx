@@ -1,19 +1,25 @@
-import { createFormStore, IFormProps } from '@kartikrao/lib-forms-core';
+import { createFormStore, Factory } from '@kartikrao/lib-forms-core';
 import { Layout } from 'antd';
 import React from 'react';
 import { render } from 'react-dom';
-import { Canvas } from './components/canvas/Canvas';
-import { EditorStoreProvider } from './store/EditorStoreProvider';
 import "./app.css";
+import { EditorStoreProvider } from './store/EditorStoreProvider';
 
+import {enableLogging} from 'mobx-logger';
+enableLogging();
 // Should EditorStoreProvider be instantiated here ?
 export default async function renderForm(selector:string, initialState: any) {
-    const formStore = createFormStore(initialState);
+    const Canvas = React.lazy(() => import(/* webpackChunkName: "canvas" */ "./components/canvas/Canvas").then((module) => {return {default: module.Canvas}}));
+    const formStore = createFormStore();
+    formStore.setForm(Factory.makeForm(formStore, initialState));
+
     render(
         <Layout style={{height: '100vh', overflow: 'hidden'}}>
-            <EditorStoreProvider formStore={formStore}>
-                <Canvas />
-            </EditorStoreProvider>
+            <React.Suspense fallback="Loading...">
+                <EditorStoreProvider formStore={formStore}>
+                    <Canvas />
+                </EditorStoreProvider>
+            </React.Suspense>
         </Layout>, document.querySelector(selector)
     );
 };
@@ -221,6 +227,9 @@ renderForm("#root", {
     },
     itemLayoutOptions : {
         wrapperCol: {
+            lg:{span: 10}
+        },
+        labelCol: {
             lg:{span: 10}
         }
     }

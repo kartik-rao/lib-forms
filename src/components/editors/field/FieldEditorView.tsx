@@ -24,7 +24,7 @@ export const FieldEditorView : React.FC<any> = () => {
     return useObserver(() => {
         return editorStore.selectedField && <Drawer title={`Field ${editorStore.selectedField.name} (id=${editorStore.selectedField.id||''} class=${editorStore.selectedField.className})`}
         width={700} onClose={() => editorStore.setEditable(null)} visible={editorStore.showFieldEditor}
-        style={{ overflow: 'auto', height: 'calc(80% - 108px)', paddingBottom: '108px' }}>
+        style={{overflow: 'auto', height: '100%'}}>
         {
             <Tabs size="small">
                 <Tabs.TabPane tab="Properties" key="1">

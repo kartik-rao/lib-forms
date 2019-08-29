@@ -5,6 +5,7 @@ import { useLocalStore, useObserver } from "mobx-react";
 import * as React from "react";
 import { editorStoreContext } from "../../../../store/EditorStoreProvider";
 import { ItemLayoutPreview } from "./ItemLayoutPreview";
+import { toJS } from 'mobx';
 
 export interface IItemLayoutViewProps extends FormComponentProps {
     formLayout: string;
@@ -56,7 +57,7 @@ const ItemLayoutView =  (props: IItemLayoutViewProps&FormComponentProps) => {
         isAdding : false,
         isEditing : false,
         selectedDimension : null as ScreenWidth,
-        itemLayout: null as ItemLayoutOptions,
+        itemLayout: new ItemLayoutOptions({}),
         setDimension : function(dimension: ScreenWidth) {
             this.selectedDimension = dimension;
         },
@@ -80,18 +81,25 @@ const ItemLayoutView =  (props: IItemLayoutViewProps&FormComponentProps) => {
             let {labelCol, wrapperCol} = props.itemLayoutOptions;
             let rows = [];
             let dMap = {};
-
-            wrapperCol.used.forEach((d) => {
-                dMap[d] = {
+            labelCol.used.forEach((d) => {
+                if(!dMap[d]) {dMap[d] = {
                     formLayout: props.formLayout,
-                    dimension: d,
-                    labelSpan: labelCol[d].span,
-                    labelOffset: labelCol[d].offset || 0,
-                    wrapperOffset : wrapperCol[d].offset || 0,
-                    wrapperSpan: wrapperCol[d].span,
-                };
-                rows.push(dMap[d]);
+                    dimension: d
+                }}
+                dMap[d]["labelSpan"] = labelCol[d] ? labelCol[d].span : 4,
+                dMap[d]["labelOffset"] = labelCol[d] ? labelCol[d].offset : 0
+            })
+            wrapperCol.used.forEach((d) => {
+                if(!dMap[d]) {dMap[d] = {
+                    formLayout: props.formLayout,
+                    dimension: d
+                }}
+                dMap[d]["wrapperSpan"] = wrapperCol[d] ? wrapperCol[d].span : 8,
+                dMap[d]["wrapperOffset"] = wrapperCol[d] ? wrapperCol[d].offset : 0
             });
+            Object.keys(dMap).forEach((d) => {
+                rows.push(dMap[d]);
+            })
             return rows;
         },
         get availableDimensions() : ScreenWidth[] {
@@ -134,7 +142,7 @@ const ItemLayoutView =  (props: IItemLayoutViewProps&FormComponentProps) => {
             let {itemLayoutOptions} = props;
             itemLayoutOptions.labelCol[record.dimension] = null;
             itemLayoutOptions.wrapperCol[record.dimension] = null;
-            this.props.onSave(itemLayoutOptions);
+            props.onSave(itemLayoutOptions);
         },
         save : function () {
             this.isAdding = false;
@@ -144,52 +152,52 @@ const ItemLayoutView =  (props: IItemLayoutViewProps&FormComponentProps) => {
         }
     }));
 
-    return useObserver(() => {
-        let columns = [{
-            title: 'Dimension',
-            dataIndex: 'dimension',
-            key: 'dimension'
+    let columns = [{
+        title: 'Dimension',
+        dataIndex: 'dimension',
+        key: 'dimension'
+      },
+      {title: 'Label', children: [
+            {
+            title: 'Offset',
+            dataIndex: 'labelOffset',
+            key: 'labelOffset',
           },
-          {title: 'Label', children: [
-                {
+          {
+            title: 'Span',
+            dataIndex: 'labelSpan',
+            key: 'labelSpan',
+          }
+      ]},
+      {
+          title: 'Field',
+          children: [
+              {
                 title: 'Offset',
-                dataIndex: 'labelOffset',
-                key: 'labelOffset',
+                dataIndex: 'wrapperOffset',
+                key: 'wrapperOffset',
               },
               {
                 title: 'Span',
-                dataIndex: 'labelSpan',
-                key: 'labelSpan',
+                dataIndex: 'wrapperSpan',
+                key: 'wrapperSpan',
               }
-          ]},
-          {
-              title: 'Field',
-              children: [
-                  {
-                    title: 'Offset',
-                    dataIndex: 'wrapperOffset',
-                    key: 'wrapperOffset',
-                  },
-                  {
-                    title: 'Span',
-                    dataIndex: 'wrapperSpan',
-                    key: 'wrapperSpan',
-                  }
-              ]
-          },
-          {
-            title: 'Actions',
-            key: 'action',
-            render: (text, record) => (
-                <span>
-                    <Button shape="circle" type="default" onClick={(e) => {localStore.setIsEditing(record);}} icon="tool" size="small"  style={{marginRight: '5px'}}></Button>
-                    <Button shape="circle" type="danger" onClick={(e) => {localStore.confirmRemove(record);}} icon="delete" size="small"></Button>
-                </span>
-            ),
-        }];
+          ]
+      },
+      {
+        title: 'Actions',
+        key: 'action',
+        render: (text, record) => (
+            <span>
+                <Button shape="circle" type="default" onClick={(e) => {localStore.setIsEditing(record);}} icon="tool" size="small"  style={{marginRight: '5px'}}></Button>
+                <Button shape="circle" type="danger" onClick={(e) => {localStore.confirmRemove(record);}} icon="delete" size="small"></Button>
+            </span>
+        ),
+    }];
 
-        let {getFieldDecorator} = props.form;
-        let {labelCol, wrapperCol} = localStore.itemLayout;
+    let {getFieldDecorator} = props.form;
+    console.log("Selected Dimension", localStore.selectedDimension);
+    return useObserver(() => {
         return <Card size="small" bodyStyle={{padding: 0}}>
         <Table title={() =><span>Field Layouts <small>click (+) to see preview</small></span>} size="small" bordered={false} pagination={false} dataSource={localStore.asRows} columns={columns}
             defaultExpandAllRows={false} rowKey='dimension'
@@ -223,7 +231,7 @@ const ItemLayoutView =  (props: IItemLayoutViewProps&FormComponentProps) => {
                     <Form.Item label="Label Offset" help="Left offset for label">
                             {
                             getFieldDecorator('labelOffset', {
-                                initialValue: labelCol[localStore.selectedDimension].offset || 0,
+                                initialValue: localStore.itemLayout.labelCol[localStore.selectedDimension].offset || 0,
                                 rules: [
                                     {type: 'number'}
                                 ]
@@ -233,7 +241,7 @@ const ItemLayoutView =  (props: IItemLayoutViewProps&FormComponentProps) => {
                     <Form.Item label="Label Width" help="Label available width">
                             {
                             getFieldDecorator('labelSpan', {
-                                initialValue: labelCol[localStore.selectedDimension].span || 0,
+                                initialValue: localStore.itemLayout.labelCol[localStore.selectedDimension].span || 0,
                                 rules: [
                                     {type: 'number'}
                                 ]
@@ -243,7 +251,7 @@ const ItemLayoutView =  (props: IItemLayoutViewProps&FormComponentProps) => {
                     <Form.Item label="Field Offset" help="Left offset for fields">
                             {
                             getFieldDecorator('wrapperOffset', {
-                                initialValue: wrapperCol[localStore.selectedDimension].offset || 0,
+                                initialValue: localStore.itemLayout.wrapperCol[localStore.selectedDimension].offset || 0,
                                 rules: [
                                     {type: 'number'}
                                 ]
@@ -253,7 +261,7 @@ const ItemLayoutView =  (props: IItemLayoutViewProps&FormComponentProps) => {
                     <Form.Item label="Field width" help="Field available width">
                             {
                             getFieldDecorator('wrapperSpan', {
-                                initialValue: wrapperCol[localStore.selectedDimension].span || 0,
+                                initialValue: localStore.itemLayout.wrapperCol[localStore.selectedDimension].span || 0,
                                 rules: [
                                     {type: 'number'}
                                 ]

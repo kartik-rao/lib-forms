@@ -15,7 +15,7 @@ const ValidationView = (props: FormComponentProps) => {
     const localStore = useLocalStore(() => ({
         dateFormat : "YYYY-MM-DD" as string,
         ruleType: null as string,
-        properties: null as any,
+        properties: {} as any,
         isEditing: false,
         isAdding: false,
         setRuleType: function (type) {
@@ -107,32 +107,38 @@ const ValidationView = (props: FormComponentProps) => {
         },
         setIsAdding : function (isAdding:boolean) {
             this.isAdding = isAdding;
+        },
+        get availableRules() : {key: string, label: string, value: string}[] {
+            if(!store.selectedField) {return []}
+            return ValidationRuleNames.filter((rule: any) => {
+                let rules = ValidationAllowedRules[store.selectedField.inputType];
+                return rules && rules.length > 0 && rules.indexOf(rule.key) > -1
+            });
+        },
+        get fieldList() : Field[] {
+            let fieldList = [];
+            Object.keys(toJS(store.formStore.idFieldMap)).map((id: string)=> {
+                fieldList.push(store.formStore.idFieldMap[id]);
+            });
+            return fieldList;
+        },
+        get hasValidation() : boolean {
+            if(!store.selectedField) {return false;}
+            return Object.keys(store.selectedField.validator.rule.constraints).length > 0;
         }
     }));
 
     return useObserver(() => {
-        let {selectedField: field} = store;
-        let fieldList = [];
-        let hasValidation = Object.keys(field.validator.rule.constraints).length > 0;
-
-        Object.keys(toJS(store.formStore.idFieldMap)).map((id: string)=> {
-            fieldList.push(store.formStore.idFieldMap[id]);
-        });
-
-        let availableRules = ValidationRuleNames.filter((rule: any) => {
-            let rules = ValidationAllowedRules[field.inputType];
-            return rules && rules.length > 0 && rules.indexOf(rule.key) > -1
-        });
         return <div>
             <Card  size="small" bodyStyle={{padding: '0'}}
-                actions={[<span style={{visibility: availableRules.length>0 ? 'visible' : 'hidden'}}>
+                actions={[<span style={{visibility: localStore.availableRules.length > 0 ? 'visible' : 'hidden'}}>
                     <Button size="small" onClick={() => localStore.setIsAdding(true)}>Add</Button></span>]}>
-                {!hasValidation && <Empty description={
-                    <span>{availableRules.length > 0 ? "No validation set on this field" : "No validation available for this field"}</span>
+                {!localStore.hasValidation && <Empty description={
+                    <span>{localStore.availableRules.length > 0 ? "No validation set on this field" : "No validation available for this field"}</span>
                     }>
                 </Empty>}
-                {!!hasValidation && <ValidationListView
-                    validation={field.validator.rule}
+                {!!localStore.hasValidation && <ValidationListView
+                    validation={store.selectedField.validator.rule}
                     onEdit={localStore.onEdit}
                     onRemove={store.removeValidationRule}/>
                 }
@@ -143,8 +149,8 @@ const ValidationView = (props: FormComponentProps) => {
             <Form layout="horizontal" {...formItemLayout}>
                 <Form.Item label="Rule">
                     <Select onChange={(e) => localStore.setRuleType(e)} style={{ width: 200 }} placeholder="Select a rule to apply" value={localStore.ruleType}>
-                        {availableRules.map((rule: any) => {
-                            return <Select.Option disabled={!!field.validator.rule[rule.value]} key={rule.key} value={rule.value}>{rule.label}</Select.Option>
+                        {localStore.availableRules.map((rule: any) => {
+                            return <Select.Option disabled={!!store.selectedField.validator.rule[rule.value]} key={rule.key} value={rule.value}>{rule.label}</Select.Option>
                         })}
                     </Select>
                 </Form.Item>
@@ -174,8 +180,8 @@ const ValidationView = (props: FormComponentProps) => {
                 { localStore.ruleType == 'equality' && <div>
                     <Form.Item label="Constraint - Matches" help="Value should match field" required>
                         <Select value={localStore.properties.attribute} placeholder="Select a field" onChange={(e) => { localStore.setRuleProperty('attribute', e);}} style={{width: 200}}>
-                            {fieldList.map((f: Field)=> {
-                                return <Select.Option key={f.id} value={f.id} disabled={f.id==field.id}>{f.name} - ({f.type||f.inputType})</Select.Option>
+                            {localStore.fieldList.map((f: Field)=> {
+                                return <Select.Option key={f.id} value={f.id} disabled={f.id==store.selectedField.id}>{f.name} - ({f.type||f.inputType})</Select.Option>
                             })}
                         </Select>
                     </Form.Item>
@@ -301,11 +307,11 @@ const ValidationView = (props: FormComponentProps) => {
                 <Form.Item {...tailFormItemLayout} style={{marginTop: '15px'}}>
                     <Button style={{marginRight: '10px'}} type="primary" htmlType="submit"
                         size="small"
-                        disabled={!this.isRuleValid}
-                        onClick={this.applyRule}>
-                        {this.isEditing == true ? "Apply" : "Add"}
+                        disabled={!localStore.isRuleValid}
+                        onClick={localStore.applyRule}>
+                        {localStore.isEditing == true ? "Apply" : "Add"}
                     </Button>
-                    <Button size="small" type="danger" onClick={() => this.cancel()}>Cancel</Button>
+                    <Button size="small" type="danger" onClick={() => localStore.cancel()}>Cancel</Button>
                 </Form.Item>
             </Form>
         </Card>}

@@ -56,9 +56,8 @@ export const SectionPropertiesEditorView : React.FC<ISectionPropertiesEditorView
     }));
 
     return useObserver(() => {
-        console.log("SPEV.render", store.selectedSection);
         return store.selectedSection ? <Card size="small" bordered={false}>
-            <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
+            <Form {...formItemLayout} onSubmit={(e) => localStore.handleSubmit(e)} layout={"horizontal"}>
                 <Form.Item required={true} label="Name">
                         {
                         props.form.getFieldDecorator('name', {
@@ -76,7 +75,7 @@ export const SectionPropertiesEditorView : React.FC<ISectionPropertiesEditorView
                     }
                 </Form.Item>
                 <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit" style={{marginTop: '15px'}} onClick={this.handleSubmit}>Apply</Button>
+                    <Button type="primary" htmlType="submit" style={{marginTop: '15px'}} onClick={localStore.handleSubmit}>Apply</Button>
                 </Form.Item>
             </Form>
         </Card> : <></>
@@ -84,66 +83,3 @@ export const SectionPropertiesEditorView : React.FC<ISectionPropertiesEditorView
 }
 
 export default Form.create<ISectionPropertiesEditorViewProps>()(SectionPropertiesEditorView);
-
-// @observer
-// class SectionPropertiesEditorViewOld extends React.Component<ISectionPropertiesEditorViewProps, any> {
-
-//     @observable gutter: number;
-
-//     constructor(props: ISectionPropertiesEditorViewProps) {
-//         super(props);
-//     }
-
-//     @action.bound handleSubmit = (e) => {
-//         e.preventDefault();
-//         e.stopPropagation();
-//         let {selectedSection: section} = this.props.store;
-//         this.props.form.validateFieldsAndScroll((err, values) => {
-//             if (!err) {
-//                 notification.info({message: `Section - ${section.name}`,
-//                     description:"Section properties applied successfully"});
-//                 Object.keys(values).forEach((p: string) => {
-//                     section[p] = values[p];
-//                 });
-//             }
-//         });
-//         return;
-//     }
-
-//     render() {
-
-//         let {store} = this.props;
-//         let {selectedSection: section} = store;
-//         let {getFieldDecorator} = this.props.form;
-//         console.log("SPEV.render", store.selectedSection);
-//         if (!section) {
-//             return <></>
-//         }
-//         return  <Card size="small" bordered={false}>
-//             <Form {...formItemLayout} onSubmit={(e) => this.handleSubmit(e)} layout={"horizontal"}>
-//                 <Form.Item required={true} label="Name">
-//                         {
-//                         getFieldDecorator('name', {
-//                             initialValue: section.name,
-//                             rules: [{type: 'string'}]
-//                         })(<Input/>)
-//                     }
-//                 </Form.Item>
-//                 <Form.Item required={true} label="Title">
-//                         {
-//                         getFieldDecorator('title', {
-//                             initialValue: section.title,
-//                             rules: [{type: 'string'}]
-//                         })(<Input/>)
-//                     }
-//                 </Form.Item>
-//                 <Form.Item {...tailFormItemLayout}>
-//                     <Button type="primary" htmlType="submit" style={{marginTop: '15px'}} onClick={this.handleSubmit}>Apply</Button>
-//                 </Form.Item>
-//             </Form>
-//         </Card>
-//     }
-// }
-
-// const WrappedSectionPropertiesEditorView = Form.create<ISectionPropertiesEditorViewProps>({ name: 'SectionPropertiesEditorView' })(SectionPropertiesEditorView);
-// export default WrappedSectionPropertiesEditorView;

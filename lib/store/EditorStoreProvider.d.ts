@@ -35,6 +35,7 @@ export declare const editorStoreContext: React.Context<{
         setFieldTouched: (id: string) => void;
         setFieldError: (id: string, error: any) => void;
     };
+    factory: import("@kartikrao/lib-forms-core").Factory;
     setFormStore: (store: {
         errors: import("mobx").IObservableObject;
         values: import("mobx").IObservableObject;

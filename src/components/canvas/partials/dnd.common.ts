@@ -15,6 +15,7 @@ export const getBadgeStyle = (type: string) => {
         case "Section" : return "geekblue";
         case "Column" : return "gold";
         case "Field" : return "green"
+        default : return "red";
     }
 }
 

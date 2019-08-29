@@ -28,9 +28,10 @@ const FormContentEditorView =  ({form: {getFieldDecorator, validateFieldsAndScro
         }
     }));
 
+    let form = toJS(store.formStore.form);
+    let {formLayoutOptions} = form;
+
     return useObserver(() => {
-        let form = toJS(store.formStore.form);
-        let {formLayoutOptions} = form;
         return <Form {...formItemLayout} onSubmit={(e) => localStore.handleSubmit(e)} layout={"horizontal"}>
         <Form.Item label="Validation disables paging" help="Allow page navigation when validation failures exist on current page">
             {getFieldDecorator('formLayoutOptions.validationDisablesPaging', {
