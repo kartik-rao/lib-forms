@@ -1,12 +1,4 @@
-import * as React from "react";
-import { IEditorView } from "../common/IComponentEditorView";
 import { FormComponentProps } from "antd/lib/form";
-export interface IPageEditorViewProps extends FormComponentProps, IEditorView {
-}
-declare class PageEditorView extends React.Component<IPageEditorViewProps, any> {
-    handleSubmit: (e: any) => void;
-    readonly hasErrors: boolean;
-    render(): JSX.Element;
-}
-declare const WrappedPageEditorView: import("antd/lib/form/interface").ConnectedComponentClass<typeof PageEditorView, Pick<IPageEditorViewProps, "wrappedComponentRef" | "store">>;
-export default WrappedPageEditorView;
+import * as React from "react";
+declare const _default: import("antd/lib/form/interface").ConnectedComponentClass<React.FunctionComponent<FormComponentProps<any>>, Pick<FormComponentProps<any>, "wrappedComponentRef">>;
+export default _default;

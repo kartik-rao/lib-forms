@@ -1,2 +1,2 @@
-import { IFormProps } from '@kartikrao/lib-forms-core';
-export declare function renderForm(selector: string, initialState: IFormProps): void;
+import "./app.css";
+export default function renderForm(selector: string, initialState: any): Promise<void>;
