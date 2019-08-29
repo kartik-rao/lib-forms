@@ -84,6 +84,9 @@ module.exports = {
         })
         // new BundleAnalyzerPlugin()
     ],
+    devServer : {
+        compress: true
+    },
     optimization: {
         runtimeChunk: isDevelopment,
         minimize: !isDevelopment,
