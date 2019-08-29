@@ -1,4 +1,4 @@
-import { Column, Factory, Field, Form, GenericConstraint, ICondition, IPredicate, Page, Section } from "@kartikrao/lib-forms-core";
+import { Column, Factory, Field, GenericConstraint, ICondition, IPredicate, Page, Section } from "@kartikrao/lib-forms-core";
 export declare const createEditorStore: () => {
     selectedField: Field;
     selectedPage: Page;
@@ -6,16 +6,16 @@ export declare const createEditorStore: () => {
     selectedColumn: Column;
     showFormEditor: boolean;
     formStore: {
-        errors: import("mobx").IObservableObject;
-        values: import("mobx").IObservableObject;
-        touched: import("mobx").IObservableObject;
-        currentPage: import("mobx").IObservableValue<number>;
-        debug: import("mobx").IObservableValue<boolean>;
-        form: Form;
-        isReady: import("mobx").IObservableValue<boolean>;
-        submitting: import("mobx").IObservableValue<boolean>;
-        validationDisabled: import("mobx").IObservableValue<boolean>;
-        conditionsDisabled: import("mobx").IObservableValue<boolean>;
+        errors: {};
+        values: {};
+        touched: {};
+        currentPage: number;
+        debug: boolean;
+        form: import("@kartikrao/lib-forms-core").Form;
+        isReady: boolean;
+        submitting: boolean;
+        validationDisabled: boolean;
+        conditionsDisabled: boolean;
         readonly idFieldMap: {
             [key: string]: Field;
         };
@@ -29,23 +29,23 @@ export declare const createEditorStore: () => {
         readonly numPages: number;
         nextPage: () => void;
         prevPage: () => void;
-        setForm: (form: Form) => void;
+        setForm: (form: import("@kartikrao/lib-forms-core").Form) => void;
         setFieldValue: (id: string, value: any) => void;
         setFieldTouched: (id: string) => void;
         setFieldError: (id: string, error: any) => void;
-    };
+    } & import("mobx").IObservableObject;
     factory: Factory;
     setFormStore: (store: {
-        errors: import("mobx").IObservableObject;
-        values: import("mobx").IObservableObject;
-        touched: import("mobx").IObservableObject;
-        currentPage: import("mobx").IObservableValue<number>;
-        debug: import("mobx").IObservableValue<boolean>;
-        form: Form;
-        isReady: import("mobx").IObservableValue<boolean>;
-        submitting: import("mobx").IObservableValue<boolean>;
-        validationDisabled: import("mobx").IObservableValue<boolean>;
-        conditionsDisabled: import("mobx").IObservableValue<boolean>;
+        errors: {};
+        values: {};
+        touched: {};
+        currentPage: number;
+        debug: boolean;
+        form: import("@kartikrao/lib-forms-core").Form;
+        isReady: boolean;
+        submitting: boolean;
+        validationDisabled: boolean;
+        conditionsDisabled: boolean;
         readonly idFieldMap: {
             [key: string]: Field;
         };
@@ -59,11 +59,11 @@ export declare const createEditorStore: () => {
         readonly numPages: number;
         nextPage: () => void;
         prevPage: () => void;
-        setForm: (form: Form) => void;
+        setForm: (form: import("@kartikrao/lib-forms-core").Form) => void;
         setFieldValue: (id: string, value: any) => void;
         setFieldTouched: (id: string) => void;
         setFieldError: (id: string, error: any) => void;
-    }) => void;
+    } & import("mobx").IObservableObject) => void;
     readonly availableConditionSources: {
         key: string;
         id: string;
@@ -97,5 +97,5 @@ export declare const createEditorStore: () => {
     setFormEditorVisible: (visible?: boolean) => void;
     setEditable: (item: Field | Page | Section | Column) => void;
     readonly asJSONForm: any;
-};
+} & import("mobx").IObservableObject;
 export declare type EditorStoreType = ReturnType<typeof createEditorStore>;

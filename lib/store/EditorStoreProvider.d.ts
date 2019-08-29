@@ -7,16 +7,16 @@ export declare const editorStoreContext: React.Context<{
     selectedColumn: import("@kartikrao/lib-forms-core").Column;
     showFormEditor: boolean;
     formStore: {
-        errors: import("mobx").IObservableObject;
-        values: import("mobx").IObservableObject;
-        touched: import("mobx").IObservableObject;
-        currentPage: import("mobx").IObservableValue<number>;
-        debug: import("mobx").IObservableValue<boolean>;
+        errors: {};
+        values: {};
+        touched: {};
+        currentPage: number;
+        debug: boolean;
         form: import("@kartikrao/lib-forms-core").Form;
-        isReady: import("mobx").IObservableValue<boolean>;
-        submitting: import("mobx").IObservableValue<boolean>;
-        validationDisabled: import("mobx").IObservableValue<boolean>;
-        conditionsDisabled: import("mobx").IObservableValue<boolean>;
+        isReady: boolean;
+        submitting: boolean;
+        validationDisabled: boolean;
+        conditionsDisabled: boolean;
         readonly idFieldMap: {
             [key: string]: import("@kartikrao/lib-forms-core").Field;
         };
@@ -34,19 +34,19 @@ export declare const editorStoreContext: React.Context<{
         setFieldValue: (id: string, value: any) => void;
         setFieldTouched: (id: string) => void;
         setFieldError: (id: string, error: any) => void;
-    };
+    } & import("mobx").IObservableObject;
     factory: import("@kartikrao/lib-forms-core").Factory;
     setFormStore: (store: {
-        errors: import("mobx").IObservableObject;
-        values: import("mobx").IObservableObject;
-        touched: import("mobx").IObservableObject;
-        currentPage: import("mobx").IObservableValue<number>;
-        debug: import("mobx").IObservableValue<boolean>;
+        errors: {};
+        values: {};
+        touched: {};
+        currentPage: number;
+        debug: boolean;
         form: import("@kartikrao/lib-forms-core").Form;
-        isReady: import("mobx").IObservableValue<boolean>;
-        submitting: import("mobx").IObservableValue<boolean>;
-        validationDisabled: import("mobx").IObservableValue<boolean>;
-        conditionsDisabled: import("mobx").IObservableValue<boolean>;
+        isReady: boolean;
+        submitting: boolean;
+        validationDisabled: boolean;
+        conditionsDisabled: boolean;
         readonly idFieldMap: {
             [key: string]: import("@kartikrao/lib-forms-core").Field;
         };
@@ -64,7 +64,7 @@ export declare const editorStoreContext: React.Context<{
         setFieldValue: (id: string, value: any) => void;
         setFieldTouched: (id: string) => void;
         setFieldError: (id: string, error: any) => void;
-    }) => void;
+    } & import("mobx").IObservableObject) => void;
     readonly availableConditionSources: {
         key: string;
         id: string;
@@ -98,7 +98,7 @@ export declare const editorStoreContext: React.Context<{
     setFormEditorVisible: (visible?: boolean) => void;
     setEditable: (item: import("@kartikrao/lib-forms-core").Field | import("@kartikrao/lib-forms-core").Page | import("@kartikrao/lib-forms-core").Section | import("@kartikrao/lib-forms-core").Column) => void;
     readonly asJSONForm: any;
-}>;
+} & import("mobx").IObservableObject>;
 export declare const EditorStoreProvider: React.FC<{
     formStore: FormStoreType;
 }>;
