@@ -36,33 +36,3 @@ export const FormEditorView: React.FC<any> = () => {
         </Drawer> : <></>
     });
 }
-
-// @observer
-// export class FormEditorViewOld extends React.Component<any, any> {
-//     render() {
-//         const store = React.useContext(editorStoreContext);
-//         if(!store) throw new Error("Store is null");
-//         let form = store.showFormEditor ? toJS(store.formStore.form) : null;
-//         return form && <Drawer title={`Form "${form.name}" `}
-//             onClose={() => store.setFormEditorVisible(false)} visible={store.showFormEditor == true}
-//             width={700}
-//             style={{ overflow: 'hidden'}}>
-//             {   <Tabs size="small">
-//                     <Tabs.TabPane tab="Settings" key="1">
-//                         <Row><Col span={24}><FormPropertiesEditorView /></Col></Row>
-//                     </Tabs.TabPane>
-//                     <Tabs.TabPane tab="Content" key="2">
-//                         <Row><Col span={24}><FormContentEditorView /></Col></Row>
-//                     </Tabs.TabPane>
-//                     <Tabs.TabPane tab="Layout" key="3">
-//                         <Row>
-//                             <Col span={24}>
-//                                 <FormLayoutView/>
-//                             </Col>
-//                         </Row>
-//                     </Tabs.TabPane>
-//                 </Tabs>
-//             }
-//         </Drawer>
-//     }
-// }

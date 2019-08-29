@@ -36,32 +36,3 @@ export const SectionItem: React.FC<ISectionItemProps> = (props) => {
         )}
       </Draggable>
 }
-
-// @observer
-// export class SectionItemOld extends React.Component<ISectionItemProps, any> {
-//     render() {
-//         let sec = this.props.sec;
-//         let {store} = this.props;
-//         return <Draggable type="Section" draggableId={sec.uuid} index={this.props.index}>
-//         {(provided, snapshot) => (
-//           <Container ref={provided.innerRef} {...provided.draggableProps}
-//           style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-//               <Button type="dashed" shape="circle" onClick={() => store.setEditable(sec)} size="small" icon="edit" className="fl-tree-button"></Button>
-//               <Badge {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Section")} text={`Section - ${sec.name}`}/>
-//                 <Droppable droppableId={`${sec.uuid}|columns`} type="Column">
-//                 {(provided, snapshot) => {
-//                     return <ItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
-//                         {sec.columns.map((col: Column, index) => {
-//                             return <ColumnItem store={this.props.store} key={col.uuid} col={col} index={index}></ColumnItem>
-//                         })}
-//                     { provided.placeholder}
-//                     </ItemList>
-//                 }}
-
-//             </Droppable>
-//             {provided.placeholder}
-//           </Container>
-//         )}
-//       </Draggable>
-//     }
-// }
