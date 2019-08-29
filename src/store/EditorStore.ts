@@ -1,5 +1,5 @@
-import { Column, Factory, Field, Form, FormStoreType, GenericConstraint, ICondition, IPredicate, Page, Predicate, Section } from "@kartikrao/lib-forms-core";
-import { toJS } from "mobx";
+import { Column, Factory, Field, FormStoreType, GenericConstraint, ICondition, IPredicate, Page, Predicate, Section } from "@kartikrao/lib-forms-core";
+import { toJS, observable } from "mobx";
 
 export const createEditorStore = () => {
     const store = {
@@ -129,7 +129,7 @@ export const createEditorStore = () => {
             return toJS(this.formStore.form, {exportMapsAsObjects: true});
         }
     };
-    return store;
+    return observable(store);
 }
 
 export type EditorStoreType = ReturnType<typeof createEditorStore>;
