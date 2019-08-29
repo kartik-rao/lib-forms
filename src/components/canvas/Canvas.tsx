@@ -4,10 +4,7 @@ import { useLocalStore, useObserver } from "mobx-react";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../store/EditorStoreProvider";
-import { FieldEditorView } from "../editors/field/FieldEditorView";
-import { FormEditorView } from "../editors/form/FormEditorView";
-import PageEditorView from "../editors/page/PageEditorView";
-import { SectionEditorView } from "../editors/section/SectionEditorView";
+
 import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
 const { Content } = Layout;
@@ -15,6 +12,11 @@ const { Content } = Layout;
 const genRandom = () => {
     return `${Math.ceil(Math.random() * 1e6)}`;
 }
+
+const FieldEditorView = React.lazy(() => import(/* webpackChunkName: "editors-field" */ "../editors/field/FieldEditorView").then((module) => {return {default: module.FieldEditorView}}));
+const FormEditorView = React.lazy(() => import(/* webpackChunkName: "editors-form" */ "../editors/form/FormEditorView").then((module) => {return {default: module.FormEditorView}}));
+const PageEditorView = React.lazy(() => import(/* webpackChunkName: "editors-page" */ "../editors/page/PageEditorView"));
+const SectionEditorView = React.lazy(() => import(/* webpackChunkName: "editors-section" */ "../editors/section/SectionEditorView").then((module) => {return {default: module.SectionEditorView}}));
 
 export const Canvas : React.FC<any> = () => {
     const store = React.useContext(editorStoreContext);
@@ -175,10 +177,12 @@ export const Canvas : React.FC<any> = () => {
                                 </FormStoreProvider>
                             </div>
                         </Col>
-                        <FieldEditorView />
-                        <FormEditorView />
-                        <PageEditorView />
-                        <SectionEditorView />
+                        <React.Suspense fallback="Loading...">
+                            <FieldEditorView />
+                            <FormEditorView />
+                            <PageEditorView />
+                            <SectionEditorView />
+                        </React.Suspense>
                     </Content>
                 </Layout>
         </DragDropContext>

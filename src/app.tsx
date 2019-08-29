@@ -4,12 +4,12 @@ import React from 'react';
 import { render } from 'react-dom';
 import "./app.css";
 import { EditorStoreProvider } from './store/EditorStoreProvider';
-
+import {Canvas} from "./components/canvas/Canvas"
 import {enableLogging} from 'mobx-logger';
-enableLogging();
+enableLogging({action: true, compute: false});
 // Should EditorStoreProvider be instantiated here ?
 export default async function renderForm(selector:string, initialState: any) {
-    const Canvas = React.lazy(() => import(/* webpackChunkName: "canvas" */ "./components/canvas/Canvas").then((module) => {return {default: module.Canvas}}));
+
     const formStore = createFormStore();
     formStore.setForm(Factory.makeForm(formStore, initialState));
 
