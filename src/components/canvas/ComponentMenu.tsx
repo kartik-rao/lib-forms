@@ -1,18 +1,15 @@
 import { Card, Icon, Menu } from 'antd';
+import { useLocalStore, useObserver } from 'mobx-react';
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import styled from 'styled-components';
-import { useLocalStore } from 'mobx-react';
-import { editorStoreContext } from '../../store/EditorStoreProvider';
 
 const Container = styled.div`
     padding: 4px;
     background-color: white;
 `;
 
-const Item = styled.div`
-
-`;
+const Item = styled.div``;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
     // some basic styles to make the items look a bit nicer
@@ -25,15 +22,13 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 });
 
 export const ComponentMenu : React.FC<any> = () => {
-    const store = React.useContext(editorStoreContext);
-    if(!store) throw new Error("Store is null");
     const localStore = useLocalStore(() => ({
         droppableIndex : 0,
         menuTheme: "light",
         menuMode: "vertical-left",
         submenuMode: "inline",
         submenuCollapsed: false,
-        asDroppableGroup : ({ dropId, dropType, key, title, icon, groups }) => {
+        asDroppableGroup : function({ dropId, dropType, key, title, icon, groups }) {
             return <Droppable droppableId={dropId} type={dropType} isDropDisabled={true}>
                     {(provided, snapshot) => {
                     return <Item isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
@@ -58,7 +53,7 @@ export const ComponentMenu : React.FC<any> = () => {
                 }}
             </Droppable>
         },
-        asDroppable : (dropId, dropType, title, dragType, dragId, icon) => {
+        asDroppable : function (dropId, dropType, title, dragType, dragId, icon) {
             return <Droppable droppableId={dropId} type={dropType} isDropDisabled={true}>
                 {(provided, snapshot) => (
                     <Item isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
@@ -79,7 +74,7 @@ export const ComponentMenu : React.FC<any> = () => {
                 )}
             </Droppable>
         },
-        asDraggableCard : (dropId, dropType, title, dragType, dragId, icon) => {
+        asDraggableCard : function (dropId, dropType, title, dragType, dragId, icon) {
             return <Droppable droppableId={dropId} type={dropType} isDropDisabled={true}>
                 {(provided, snapshot) => (
                     <Item isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
@@ -99,8 +94,8 @@ export const ComponentMenu : React.FC<any> = () => {
             </Droppable>
         }
     }));
-
-    return <Card bordered={false}  title={"Controls"} bodyStyle={{padding: '1px'}}>
+    return useObserver(() => {
+        return <Card bordered={false}  title={"Controls"} bodyStyle={{padding: '1px'}}>
         <Card size="small" bodyStyle={{ fontSize: '12px', padding: '0px', marginBottom: '1px' }} bordered={false} title={<small>Containers</small>}>
             {localStore.asDraggableCard("NewPage", "Page", "Page", "Page", "p1", "layout")}
             {localStore.asDraggableCard("NewSection", "Section", "Section", "Section", "s1", "menu")}
@@ -133,6 +128,7 @@ export const ComponentMenu : React.FC<any> = () => {
             {localStore.asDraggableCard("NewTextField", "Field", "Upload", "Field", "transfer", "file-zip")}
         </Card>
     </Card>
+    });
 }
 
 // export class ComponentMenuX extends React.Component<any, any> {

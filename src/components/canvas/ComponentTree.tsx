@@ -1,6 +1,6 @@
 import { Page } from "@kartikrao/lib-forms-core";
 import { Badge, Button, Card, Divider } from "antd";
-import { useLocalStore } from "mobx-react";
+import { useObserver } from "mobx-react";
 import * as React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../store/EditorStoreProvider";
@@ -10,9 +10,8 @@ import { PageItem } from "./partials/PageItem";
 export const ComponentTree: React.FC<any> = () => {
     const store = React.useContext(editorStoreContext);
     if(!store) throw new Error("Store is null");
-
-    return <Card title={"Layout"} bordered={false} style={{height: '100%'}}
-            bodyStyle={{height:'100%', padding: '10px', overflow: 'auto', paddingBottom:'48px'}}>
+    return useObserver(() => {
+        return <Card title={"Layout"} bordered={false} style={{height: '100%'}} bodyStyle={{height:'100%', padding: '10px', overflow: 'auto', paddingBottom:'48px'}}>
         <Button type="dashed" onClick={() => {store.setFormEditorVisible(true)}} shape="circle" size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
         <Badge status="default" color={getBadgeStyle("Form")} text={`Form - ${store.formStore.form.name}`}/>
         <Droppable droppableId="pages" type="Page">
@@ -29,7 +28,8 @@ export const ComponentTree: React.FC<any> = () => {
         }}
         </Droppable>
         </Card>
-}
+    });
+};
 
 // @observer
 // export class ComponentTreeOld extends React.Component<ComponentTreeProps, any> {

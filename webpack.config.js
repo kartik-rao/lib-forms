@@ -1,19 +1,18 @@
 var path = require('path');
 const webpack = require('webpack');
 const tsImportPluginFactory = require('ts-import-plugin');
-const tsImportPlugin = tsImportPluginFactory({ libraryName:"antd", style: 'css', libraryDirectory: 'es' })
-
 const env = process.env.NODE_ENV || 'development';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CheckerPlugin } = require('awesome-typescript-loader');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const isDevelopment = env == 'development';
 module.exports = {
     mode: env,
     entry: {
-        main : path.join(__dirname, 'src/app.tsx'),
-        style: path.join(__dirname, 'src/app.css')
+        main: path.join(__dirname, 'src/app.tsx')
     },
     target: 'web',
     module: {
@@ -23,15 +22,21 @@ module.exports = {
                 use: {
                     loader: 'awesome-typescript-loader',
                     options : {
+                        bail: true,
                         useCache: true,
                         reportFiles: [
                             'src/**/*.{ts,tsx}'
                         ],
                         getCustomTransformers: () => ({
-                            before: [ tsImportPlugin ]
+                            before: [ tsImportPluginFactory( {
+                                libraryDirectory: 'es',
+                                style: 'css'
+                              }) ]
                         }),
                         compilerOptions: {
-                            module: 'es2015'
+                            module: 'esnext',
+                            allowJs: true,
+                            declaration: false,
                         }
                     }
                 },
@@ -39,23 +44,23 @@ module.exports = {
             },
             { test: /\.png$|\.eot$|\.woff$|\.ttf$/, loader: "url-loader?limit=100000" },
             {
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    allChunks: true, fallback: "style-loader", use: "css-loader"
-                  }),
-                include: /src\/app.css|node_modules\/antd\//
+                test: /src\/app\.css$|node_modules\/antd\/*\.css$/,
+                use: [{ loader: MiniCssExtractPlugin.loader}, 'css-loader']
             }
-        ],
+        ]
     },
     devtool: 'source-map',
     output: {
-        path: path.join(__dirname, 'dist'),
-        filename: '[name].js',
-        library: 'Forms',
-        libraryTarget: 'window',
+        filename: '[name].bundle.js', /* Independent Entry Bundle */
+        chunkFilename: '[name].chunk.js', /* Code splitting generated bundles */
+        path: path.join(__dirname, 'dist')
+    },
+    watchOptions: {
+        ignored: /node_modules/
     },
     resolve: {
         extensions: ['.ts', '.js', '.jsx', '.tsx', '.css'],
+        alias: { mobx: __dirname + "/node_modules/mobx/lib/mobx.es6.js" }
     },
     externals: {
         "antd" : "antd",
@@ -65,18 +70,44 @@ module.exports = {
         "moment-timezone": "moment"
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new CheckerPlugin(),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-au/),
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[name].[id].chunk.css',
+            allChunks: true
+        }),
         new HtmlWebpackPlugin({
-            title: 'lib-forms',
-            hash: true,
             template: 'public/template.html',
-            inject: false}),
-        new ExtractTextPlugin({filename:"style.css", allChunks: true}),
+            filename: "index.html"
+        })
         // new BundleAnalyzerPlugin()
     ],
     optimization: {
-        minimize: false,
-        splitChunks: { chunks: "initial", name: "vendor" }
+        runtimeChunk: isDevelopment,
+        minimize: !isDevelopment,
+        splitChunks: {
+            cacheGroups: {
+                default: false,
+                vendors: false,
+                // vendor chunk
+                vendor: {
+                    // sync + async chunks
+                    chunks: 'all',
+                    // import file path containing node_modules
+                    test: /node_modules/,
+                    priority: 20
+                },
+                common: {
+                    name: 'common',
+                    minChunks: 2,
+                    chunks: 'async',
+                    priority: 10,
+                    reuseExistingChunk: true,
+                    enforce: true
+                }
+            }
+        }
     }
 };

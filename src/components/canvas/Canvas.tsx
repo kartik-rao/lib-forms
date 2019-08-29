@@ -1,6 +1,6 @@
-import { Column, Factory, FormView, Page, Section, FormStoreProvider } from "@kartikrao/lib-forms-core";
+import { Column, Factory, FormStoreProvider, FormView, Page, Section } from "@kartikrao/lib-forms-core";
 import { Col, Icon, Layout, Menu } from 'antd';
-import { useLocalStore } from "mobx-react";
+import { useLocalStore, useObserver } from "mobx-react";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../store/EditorStoreProvider";
@@ -22,11 +22,11 @@ export const Canvas : React.FC<any> = () => {
     const factory = new Factory(store.formStore);
     const localStore = useLocalStore(() => ({
         siderCollapsed: false,
-        onSiderCollapse : (siderCollapsed) => {
+        onSiderCollapse : function (siderCollapsed) {
             this.siderCollapsed = siderCollapsed;
         },
-        toggleSider : () => {
-            this.siderCollapsed = !this.state.siderCollapsed;
+        toggleSider:  function() {
+            this.siderCollapsed = !this.siderCollapsed;
         },
         get itemMap(): any {
             let itemMap = {};
@@ -44,7 +44,7 @@ export const Canvas : React.FC<any> = () => {
             });
             return itemMap;
         },
-        handleNewItem : (result: DropResult) => {
+        handleNewItem : function (result: DropResult) {
             const { destination, type } = result;
             const { form } = store.formStore;
             const dIndex = destination.index;
@@ -93,7 +93,7 @@ export const Canvas : React.FC<any> = () => {
             }
             return;
         },
-        handleMoveItem : (result: DropResult) => {
+        handleMoveItem : function (result: DropResult) {
             const { source, destination, type } = result;
             const { form } = store.formStore;
             const sIndex = source.index;
@@ -137,7 +137,7 @@ export const Canvas : React.FC<any> = () => {
                 }
             }
         },
-        onDragEnd : (result : DropResult) => {
+        onDragEnd : function(result : DropResult) {
             const { source, type } = result;
             if (source.droppableId.startsWith('New')) {
                 this.handleNewItem(result);
@@ -146,8 +146,8 @@ export const Canvas : React.FC<any> = () => {
             }
         }
     }));
-
-    return <Layout className="fl-full-height-nopad">
+    return useObserver(() => {
+        return <Layout className="fl-full-height-nopad">
             <Menu mode="horizontal" theme="light" multiple={true} className="fl-shadow-sides">
                 <Menu.Item title="Form Controls" onClick={localStore.toggleSider} key="controls">
                     <Icon theme={localStore.siderCollapsed ? 'outlined' : 'filled'} type="control" />
@@ -165,7 +165,7 @@ export const Canvas : React.FC<any> = () => {
                     <Content style={{overflow: "hidden", padding: '0'}}>
                         <Col span={8} style={{height: '100%'}}>
                             <div className="fl-full-height fl-grey-box fl-shadow-sides">
-                                <ComponentTree store={this.props.store}/>
+                                <ComponentTree />
                             </div>
                         </Col>
                         <Col span={16} style={{height: '100%'}}>
@@ -175,14 +175,14 @@ export const Canvas : React.FC<any> = () => {
                                 </FormStoreProvider>
                             </div>
                         </Col>
-                        <FieldEditorView store={this.props.store}/>
-                        <FormEditorView store={this.props.store}/>
-                        <PageEditorView store={this.props.store}/>
-                        <SectionEditorView store={this.props.store}/>
+                        <FieldEditorView />
+                        <FormEditorView />
+                        <PageEditorView />
+                        <SectionEditorView />
                     </Content>
                 </Layout>
         </DragDropContext>
         </Layout.Content>
     </Layout>
-
+    });
 }

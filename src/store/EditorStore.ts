@@ -13,7 +13,7 @@ export const createEditorStore = () => {
             this.formStore = store;
             this.factory = new Factory(store);
         },
-        availableConditionSources: function() {
+        get availableConditionSources() : {key:string, id: string, label: string, name: string}[] {
             let fieldList = [];
             Object.keys(this.formStore.idFieldMap).forEach((id: string, index: number) => {
                 fieldList.push({
@@ -25,14 +25,14 @@ export const createEditorStore = () => {
             });
             return fieldList;
         },
-        get availableExpressions() {
+        get availableExpressions() : {value:string, name: string}[]{
             let expressions = [];
             Predicate.PredicateConditions.forEach((p)=>{
                 expressions.push({value:p, name:p});
             });
             return expressions;
         },
-        get availableOperators() {
+        get availableOperators() : {value: string, name: string}[] {
             let operators = [];
             Predicate.PredicateOperators.forEach((o) => {
                 operators.push({value:o, name:o});
