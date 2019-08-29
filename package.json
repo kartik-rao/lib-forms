@@ -9,7 +9,7 @@
     "url": "git@github.com:adinfinity/lib-forms.git"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development node_modules/.bin/webpack-serve --progress --colors --hot --config --status --config webpack.config.js",
+    "start": "cross-env NODE_ENV=development node_modules/.bin/webpack-dev-server --hot --config webpack.config.js --mode development",
     "build": "cross-env NODE_ENV=development tsc",
     "pack": "cross-env NODE_ENV=production node_modules/.bin/webpack",
     "test": "cross-env NODE_ENV=production echo 'No Tests Yet'",
@@ -30,7 +30,7 @@
     "mobx-logger": "^0.7.1",
     "mobx-react": "^6.1.3",
     "moment": "^2.24.0",
-    "@kartikrao/lib-forms-core": "^6.2.1",
+    "@kartikrao/lib-forms-core": "^6.3.0",
     "@kartikrao/lib-logging": "^1.6.0",
     "react-beautiful-dnd": "^11.0.3",
     "moment-timezone": "^0.5.25"
@@ -48,7 +48,7 @@
     "yup": "^0.26.10"
   },
   "devDependencies": {
-    "@kartikrao/lib-forms-core": "^6.2.1",
+    "@kartikrao/lib-forms-core": "^6.3.0",
     "@kartikrao/lib-logging": "^1.6.0",
     "@types/atlaskit__tree": "^4.1.1",
     "@types/draft-js": "^0.10.32",
@@ -63,7 +63,7 @@
     "@types/yup": "^0.26.9",
     "airbnb-browser-shims": "^2.1.0",
     "antd": "^3.22.2",
-    "awesome-typescript-loader": "^5.0.3",
+    "awesome-typescript-loader": "^5.2.1",
     "clean-webpack-plugin": "^3.0.0",
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.11",
@@ -72,7 +72,7 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.11",
     "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^4.0.0-beta.8",
     "jasmine": "^3.3.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^2.0.1",
@@ -91,13 +91,11 @@
     "style-loader": "^0.20.3",
     "terser": "^3.14.1",
     "ts-import-plugin": "^1.5.5",
-    "typescript": "^3.5.1",
-    "wallaby-webpack": "^3.9.13",
-    "webpack": "^4.29.2",
-    "webpack-bundle-analyzer": "^3.3.2",
-    "webpack-cli": "^3.1.1",
-    "webpack-nano": "^0.6.2",
-    "webpack-node-externals": "^1.7.2",
-    "webpack-serve": "^0.3.1"
+    "typescript": "^3.5.3",
+    "webpack": "^4.39.2",
+    "webpack-bundle-analyzer": "^3.4.1",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.1.3",
+    "webpack-node-externals": "^1.7.2"
   }
 }
