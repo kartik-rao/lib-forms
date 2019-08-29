@@ -1,17 +1,22 @@
 {   "compileOnSave": true,
     "compilerOptions": {
+      "esModuleInterop": true,
       "incremental" :false,
       "module": "esnext",
       "target": "es6",
-      "lib": ["es6", "dom"],
-      "jsx": "react",
-      "experimentalDecorators": true,
+      "lib": ["es5", "es2015", "es2016", "dom", "es2015.promise"],
       "forceConsistentCasingInFileNames": true,
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,
-      "outDir": "lib",
+      "outDir": "./lib",
       "declaration": true,
-      "skipLibCheck": true
+      "experimentalDecorators": true,
+      "noImplicitReturns" : true,
+      "noImplicitThis": true,
+      "removeComments": false,
+      "jsx": "react",
+      "skipLibCheck": true,
+      "importHelpers": true
     },
     "include": [
       "src/index.ts",
