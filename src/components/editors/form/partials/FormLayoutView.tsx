@@ -1,16 +1,11 @@
-import { AllScreenWidths, ItemLayoutOptions } from "@kartikrao/lib-forms-core";
+import { AllScreenWidths, ItemLayoutOptions, LayoutOption } from "@kartikrao/lib-forms-core";
 import { Button, Divider, Form, notification, Select } from "antd";
 import { useLocalStore, useObserver } from "mobx-react";
 import * as React from "react";
 import { editorStoreContext } from "../../../../store/EditorStoreProvider";
 import ItemLayoutView from "./ItemLayoutView";
 
-
 type ScreenWidth = "xs"|"sm"|"md"|"lg"|"xl";
-
-// export interface IFormLayoutViewProps extends FormComponentProps {
-//     store: EditorStore;
-// }
 
 const formItemLayout = {
     labelCol: {
@@ -68,12 +63,22 @@ const FormContentEditorView =  ({form: {getFieldDecorator, getFieldValue, valida
         saveItemLayout : function(layout: ItemLayoutOptions)  {
             let {form} = store.formStore;
             AllScreenWidths.map((w: ScreenWidth) => {
-                layout.labelCol[w] && form.itemLayoutOptions.labelCol.add(w, layout.labelCol[w]);
-                layout.wrapperCol[w] && form.itemLayoutOptions.wrapperCol.add(w, layout.wrapperCol[w]);
+                if (layout.labelCol[w]) {
+                    if (!form.itemLayoutOptions.labelCol) {
+                        form.itemLayoutOptions.labelCol = new LayoutOption();
+                    }
+                    form.itemLayoutOptions.labelCol.add(w, layout.labelCol[w])
+                };
+                if (layout.wrapperCol[w]) {
+                    if (!form.itemLayoutOptions.wrapperCol) {
+                        form.itemLayoutOptions.wrapperCol = new LayoutOption();
+                    }
+                    form.itemLayoutOptions.wrapperCol.add(w, layout.wrapperCol[w]);
+                }
             });
             form.formLayoutOptions.labelAlign = this.selectedLabelAlign;
             notification.info({message: `Form - ${form.name}`,
-                    description:"Field layout updated successfully"});
+                description:"Field layout updated successfully"});
         }
     }));
 

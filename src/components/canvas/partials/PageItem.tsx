@@ -25,7 +25,7 @@ export const PageItem: React.FC<IPageItemProps> = (props) => {
             style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                 <Button type="dashed" onClick={() => {store.setEditable(props.page)}} shape="circle" size="small" icon="edit" className="fl-tree-button"></Button>
                 <Badge {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Page")} text={`Page - ${props.page.title}`}/>
-                <Droppable droppableId={`${props.page.uuid}|sections`} type="Section">
+                <Droppable droppableId={`${props.page.uuid}|sections`} type="Section" >
                     {(provided, snapshot) => {
                         return <ItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
                             {props.page.sections.map((sec: Section, index) => {

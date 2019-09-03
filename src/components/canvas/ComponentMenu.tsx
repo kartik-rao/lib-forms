@@ -51,6 +51,7 @@ export const ComponentMenu : React.FC<any> = () => {
                                     })}
                             </Menu.SubMenu>
                         </Menu>
+                        {provided.placeholder}
                     </Item>
                 }}
             </Droppable>
@@ -97,7 +98,7 @@ export const ComponentMenu : React.FC<any> = () => {
         }
     }));
     return useObserver(() => {
-        return <Card bordered={false}  title={"Controls"} bodyStyle={{padding: '1px'}}>
+        return <Card bordered={false}  title={"Palette"} bodyStyle={{padding: '1px'}}>
         <Card size="small" bodyStyle={{ fontSize: '12px', padding: '0px', marginBottom: '1px' }} bordered={false} title={<small>Containers</small>}>
             {localStore.asDraggableCard("NewPage", "Page", "Page", "Page", "p1", "layout")}
             {localStore.asDraggableCard("NewSection", "Section", "Section", "Section", "s1", "menu")}

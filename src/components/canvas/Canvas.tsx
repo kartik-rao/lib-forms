@@ -1,12 +1,16 @@
 import { Column, Factory, FormStoreProvider, FormView, Page, Section } from "@kartikrao/lib-forms-core";
-import { Col, Icon, Layout, Menu } from 'antd';
+import { Col, Icon, Layout, Menu, Card, Empty } from 'antd';
 import { useLocalStore, useObserver } from "mobx-react";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../store/EditorStoreProvider";
-
+import "../../app.css";
 import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
+
+import "@kartikrao/lib-forms-core/src/app.css";
+import Typography from 'antd/lib/typography/Typography';
+
 const { Content } = Layout;
 
 const genRandom = () => {
@@ -24,6 +28,9 @@ export const Canvas : React.FC<any> = () => {
 
     const localStore = useLocalStore(() => ({
         siderCollapsed: false,
+        get hasContent() {
+            return store.formStore.form.content && store.formStore.form.content.pages && store.formStore.form.content.pages.length > 0;
+        },
         onSiderCollapse : function (siderCollapsed) {
             this.siderCollapsed = siderCollapsed;
         },
@@ -48,6 +55,7 @@ export const Canvas : React.FC<any> = () => {
         },
         handleNewItem : function (result: DropResult) {
             const { destination, type } = result;
+            console.log(result);
             const { form } = store.formStore;
             const dIndex = destination.index;
             let id = genRandom();
@@ -171,9 +179,12 @@ export const Canvas : React.FC<any> = () => {
                             </div>
                         </Col>
                         <Col span={16} style={{height: '100%'}}>
-                            <div className="fl-grey-box fl-shadow-sides fl-full-height">
+                            <div className="fl-shadow-sides fl-full-height" style={{backgroundColor: "white"}}>
                                 <FormStoreProvider formStore={store.formStore}>
-                                    <FormView />
+                                    <Card bordered={false} title="Preview" style={{width: "100%", padding: '1px', borderBottom : '1px'}} bodyStyle={{padding: 0}}></Card>
+                                    {localStore.hasContent ? <FormView style={{height: "100%"}}/> : <div style={{height: "100%"}}>
+                                        <Empty description={<span>Add a page to this form.</span>} style={{marginTop: "20%"}}/>
+                                    </div>}
                                 </FormStoreProvider>
                             </div>
                         </Col>

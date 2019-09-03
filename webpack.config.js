@@ -44,7 +44,7 @@ module.exports = {
             },
             { test: /\.png$|\.eot$|\.woff$|\.ttf$/, loader: "url-loader?limit=100000" },
             {
-                test: /src\/app\.css$|node_modules\/antd\/*\.css$/,
+                test: /src\/app\.css$|node_modules\/antd\/*\.css|node_modules\/@kartikrao\/src\/*.css$/,
                 use: [{ loader: MiniCssExtractPlugin.loader}, 'css-loader']
             }
         ]
@@ -85,7 +85,9 @@ module.exports = {
         // new BundleAnalyzerPlugin()
     ],
     devServer : {
-        compress: true
+        compress: true,
+        hot: true,
+        port: 8082
     },
     optimization: {
         runtimeChunk: isDevelopment,

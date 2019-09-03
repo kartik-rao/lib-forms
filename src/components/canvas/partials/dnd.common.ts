@@ -23,5 +23,7 @@ export const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
     userSelect: 'none',
     marginLeft : '12px',
     marginTop : '8px',
+    border : isDragging ? "1px dashed grey" : null,
+    borderRadius : isDragging ? "15px" : null,
     ...draggableStyle
 })

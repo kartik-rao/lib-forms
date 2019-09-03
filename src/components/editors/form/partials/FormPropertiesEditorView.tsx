@@ -25,11 +25,11 @@ const FormPropertiesEditorView =  ({form: {getFieldDecorator, validateFieldsAndS
             validateFieldsAndScroll((err, values) => {
                 if (!err) {
                     notification.info({message: `Form - ${form.name}`, description:"Form properties applied successfully"});
-                    form.desc = values.desc;
+                    form.description = values.desc;
                     form.layout = values.layout;
                     form.content.title = values.content.title;
                     form.content.subtitle = values.content.subtitle;
-                    form.status = {...form.status, ...values.status}
+                    // form.status = {...form.status, ...values.status}
                 }
             });
             return;
@@ -50,7 +50,7 @@ const FormPropertiesEditorView =  ({form: {getFieldDecorator, validateFieldsAndS
             <Form.Item required={true} label="Description">
                     {
                     getFieldDecorator('desc', {
-                        initialValue: form.desc,
+                        initialValue: form.description,
                         rules: [{type: 'string'}]
                     })(<Input/>)
                 }
@@ -71,7 +71,7 @@ const FormPropertiesEditorView =  ({form: {getFieldDecorator, validateFieldsAndS
                     })(<Input/>)
                 }
             </Form.Item>
-            <Form.Item label="Entry Timezone Offset" help="UTC by default, used to mark entry times">
+            {/* <Form.Item label="Entry Timezone Offset" help="UTC by default, used to mark entry times">
                     {
                     getFieldDecorator('status.timezone', {
                         initialValue: form.status.timezone || 'UTC',
@@ -106,7 +106,7 @@ const FormPropertiesEditorView =  ({form: {getFieldDecorator, validateFieldsAndS
                         initialValue: form.status.ends,
                     })(<DatePicker showTime />)
                 }
-            </Form.Item>
+            </Form.Item> */}
             <Form.Item {...tailFormItemLayout}>
                 <Button type="primary" htmlType="submit" style={{marginTop: '15px'}}>Apply</Button>
             </Form.Item>

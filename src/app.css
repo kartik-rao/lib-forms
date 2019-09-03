@@ -120,8 +120,8 @@ body {
 }
 
 .fl-grey-box {
-    border: '1px solid #ededed';
-    padding: '0';
+    border: 1px solid #ededed;
+    padding: 0;
 }
 
 .fl-layout-demo-row {
@@ -149,4 +149,28 @@ tr.ant-table-expanded-row {
 .fl-tree-button {
     margin-right: 10px;
      user-select: none;
+}
+
+.fl-form-item {
+    border : 1px dashed cyan;
+    border-radius: 10px;
+    margin-top : 5px;
+}
+
+.fl-page-item {
+    border : 1px dashed magenta;
+    border-radius: 10px;
+    margin-top : 5px;
+}
+
+.fl-section-item {
+    border : 1px dashed geekblue;
+    border-radius: 10px;
+    margin-top : 5px;
+}
+
+.fl-column-item {
+    border : 1px dashed gold;
+    border-radius: 10px;
+    margin-top : 5px;
 }
