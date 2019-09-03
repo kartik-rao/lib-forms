@@ -88,7 +88,12 @@ export const Canvas : React.FC<any> = () => {
                         name: `Column_${id}`,
                         fields: []
                     })[0];
-                    section.addColumn(column, dIndex)
+                    let numCols = section.columns.length;
+                    let evenWidth = Math.abs(24/(numCols + 1));
+                    section.addColumn(column, dIndex);
+                    section.columns.forEach((c) => {
+                        c.span = evenWidth;
+                    })
                 }
                 if (type == "Field") {
                     let column = this.itemMap[dParentId] as Column;
