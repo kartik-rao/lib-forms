@@ -4,7 +4,7 @@ import { useObserver } from "mobx-react";
 import * as React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../store/EditorStoreProvider";
-import { getBadgeStyle, ItemList } from "./partials/dnd.common";
+import { getBadgeStyle, DraggableItemList, getItemListStyle } from "./partials/dnd.common";
 import { PageItem } from "./partials/PageItem";
 
 export const ComponentTree: React.FC<any> = () => {
@@ -17,15 +17,12 @@ export const ComponentTree: React.FC<any> = () => {
         <Badge status="default" color={getBadgeStyle("Form")} text={`Form - ${store.formStore.form.name}`}/>
         <Droppable droppableId="pages" type="Page">
             {(provided, snapshot) => {
-                return <ItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef}>
+                return <DraggableItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} style={getItemListStyle(snapshot.isDraggingOver, "Form")}>
                     { store.formStore.form.content.pages.map((page: Page, index) => {
-                        return <div key={page.uuid} >
-                            <PageItem key={page.uuid} page={page} index={index}></PageItem>
-                            <Divider style={{margin: '12px 0'}}/>
-                        </div>
+                        return <PageItem key={page.uuid} page={page} index={index}></PageItem>
                     })}
                 {provided.placeholder}
-                </ItemList>
+                </DraggableItemList>
             }}
         </Droppable>
         </Card>

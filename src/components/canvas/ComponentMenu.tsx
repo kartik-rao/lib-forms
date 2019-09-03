@@ -14,12 +14,8 @@ const Container = styled.div`
 const Item = styled.div``;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
-    // some basic styles to make the items look a bit nicer
     userSelect: 'none',
-    // fontSize: '12px',
-    // change background colour if dragging
     background: isDragging ? '#ededed' : '#fff',
-    // styles we need to apply on draggables
     ...draggableStyle
 });
 
@@ -78,8 +74,9 @@ export const ComponentMenu : React.FC<any> = () => {
             </Droppable>
         },
         asDraggableCard : function (dropId, dropType, title, dragType, dragId, icon) {
-            return <Droppable droppableId={dropId} type={dropType} isDropDisabled={true}>
+            return <Droppable isCombineEnabled={false} droppableId={dropId} type={dropType} isDropDisabled={true} ignoreContainerClipping={false}>
                 {(provided, snapshot) => (
+                    <>
                     <Item isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
                         <Draggable type={dragType} draggableId={dragId} index={this.droppableIndex++}>
                             {(provided, snapshot) => (
@@ -87,12 +84,13 @@ export const ComponentMenu : React.FC<any> = () => {
                                     <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
                                         style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                     <span><Icon type={icon}></Icon><br/>{title}</span>
-                                {provided.placeholder}
                                 </Container>
+                                {snapshot.isDragging && <Container><span><Icon type={icon}></Icon><br/>{title}</span></Container>}
                             </Card.Grid>
                         )}
                         </Draggable>
                     </Item>
+                    </>
                 )}
             </Droppable>
         }

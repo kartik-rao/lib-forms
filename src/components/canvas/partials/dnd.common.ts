@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
-export const ItemList = styled.div`
+export const DraggableItemList = styled.div`
     min-height: 50px;
+    flex: 0 0 100px;
 `;
 
-export const Container = styled.div`
-    cursor: 'grab'
+export const DraggableItem = styled.div`
+    cursor: 'grab';
 `;
 
 export const getBadgeStyle = (type: string) => {
@@ -21,9 +22,16 @@ export const getBadgeStyle = (type: string) => {
 
 export const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
     userSelect: 'none',
-    marginLeft : '12px',
-    marginTop : '8px',
-    border : isDragging ? "1px dashed grey" : null,
-    borderRadius : isDragging ? "15px" : null,
+    borderRadius : '10px',
+    border: isDragging ? "2px solid red" : "none",
+    padding: "0.5rem",
     ...draggableStyle
+});
+
+export const getItemListStyle = (isDraggingOver: boolean, type: string) => ({
+    userSelect: 'none',
+    padding : "0.5rem 0.5rem 0",
+    marginTop: "4px",
+    border: isDraggingOver ? "2px solid #52c41a" : "none",
+    borderRadius : '10px'
 })

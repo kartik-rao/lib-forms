@@ -3,7 +3,7 @@ import { Badge, Button } from "antd";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../../store/EditorStoreProvider";
-import { Container, getBadgeStyle, getItemStyle, ItemList } from "./dnd.common";
+import { DraggableItem, getBadgeStyle, getItemStyle, DraggableItemList, getItemListStyle } from "./dnd.common";
 import { FieldItem } from "./FieldItem";
 
 
@@ -18,22 +18,21 @@ export const ColumnItem: React.FC<IColumnItemProps> = (props) => {
     if(!store) throw new Error("Store is null");
     return <Draggable type="Column" draggableId={props.col.uuid} index={props.index}>
         {(provided, snapshot) => (
-          <Container ref={provided.innerRef} {...provided.draggableProps}
-            style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+          <DraggableItem ref={provided.innerRef} {...provided.draggableProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
             <Button type="dashed" shape="circle" onClick={() => store.setEditable(props.col)} size="small" icon="edit" className="fl-tree-button"></Button>
-            <Badge {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Column")} text={`Column - ${props.col.name}`}/>
+            <Badge style={{userSelect: 'none'}} {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Column")} text={`Column - ${props.col.name}`}/>
                 <Droppable droppableId={`${props.col.uuid}|fields`} type="Field">
                     {(provided, snapshot) => {
-                        return <ItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps}>
+                        return <DraggableItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps} style={getItemListStyle(snapshot.isDraggingOver, "Column")}>
                             {props.col.fields.map((f: Field, index) => {
                                 return <FieldItem key={f.uuid} fld={f} index={index}></FieldItem>
                             })}
                         {provided.placeholder}
-                        </ItemList>
+                        </DraggableItemList>
                     }}
                 </Droppable>
             {provided.placeholder}
-          </Container>
+          </DraggableItem>
         )}
       </Draggable>
 }

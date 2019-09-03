@@ -55,8 +55,10 @@ export const Canvas : React.FC<any> = () => {
         },
         handleNewItem : function (result: DropResult) {
             const { destination, type } = result;
-            console.log(result);
             const { form } = store.formStore;
+            if(destination == null) {
+                return;
+            }
             const dIndex = destination.index;
             let id = genRandom();
             if (type == "Page") {
