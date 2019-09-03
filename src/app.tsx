@@ -7,6 +7,7 @@ import {Canvas} from "./components/canvas/Canvas"
 import {enableLogging} from 'mobx-logger';
 enableLogging({action: true, compute: false});
 
+import "./app.css"
 export default async function renderForm(selector:string, initialState: any) {
 
     const formStore = createFormStore();

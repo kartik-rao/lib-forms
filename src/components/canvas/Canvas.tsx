@@ -4,12 +4,11 @@ import { useLocalStore, useObserver } from "mobx-react";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../store/EditorStoreProvider";
-import "../../app.css";
+
 import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
 
-import "@kartikrao/lib-forms-core/src/app.css";
-import Typography from 'antd/lib/typography/Typography';
+import "@kartikrao/lib-forms-core/src/app.css"
 
 const { Content } = Layout;
 
@@ -173,7 +172,7 @@ export const Canvas : React.FC<any> = () => {
             <Layout.Content>
             <DragDropContext onDragEnd={localStore.onDragEnd}>
                 <Layout className="fl-full-height-nopad">
-                    <Layout.Sider trigger={null} collapsed={localStore.siderCollapsed} style={{zIndex: 11}}
+                    <Layout.Sider trigger={null} collapsed={localStore.siderCollapsed} style={{zIndex: 11, background: '#FFFF'}}
                     collapsible={true} onCollapse={localStore.onSiderCollapse} theme={"light"} collapsedWidth={0}>
                         <div className="fl-full-height fl-grey-box fl-shadow-sides">
                             <ComponentMenu />
