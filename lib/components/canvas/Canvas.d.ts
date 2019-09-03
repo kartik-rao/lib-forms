@@ -1,4 +1,6 @@
 import * as React from "react";
-import "../../app.css";
-import "@kartikrao/lib-forms-core/src/app.css";
-export declare const Canvas: React.FC<any>;
+import "@kartikrao/lib-forms-core/lib/forms.core.m.css";
+export interface CanvasProps {
+    onSave?: (formData: any) => void;
+}
+export declare const Canvas: React.FC<CanvasProps>;
