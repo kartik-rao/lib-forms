@@ -6,8 +6,10 @@ import { EditorStoreProvider } from './store/EditorStoreProvider';
 import {Canvas} from "./components/canvas/Canvas"
 import {enableLogging} from 'mobx-logger';
 enableLogging({action: true, compute: false});
+import TestForm from "@kartikrao/lib-forms-core/lib/test-form";
 
-import "./app.css"
+import "./forms.editors.m.css";
+
 export default async function renderForm(selector:string, initialState: any) {
 
     const formStore = createFormStore();
@@ -24,4 +26,4 @@ export default async function renderForm(selector:string, initialState: any) {
     );
 };
 
-renderForm("#root", EmptyForm);
+renderForm("#root", TestForm);

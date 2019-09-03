@@ -46,7 +46,11 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader"],
-                include: /src\/app.css|node_modules\/antd\/|node_modules\/@kartikrao\//
+                include: [
+                    path.resolve(__dirname, 'src'),
+                    path.resolve(__dirname, 'node_modules/antd/dist/antd.css'),
+                    path.resolve(__dirname, 'node_modules/@kartikrao/lib-forms-core/lib/forms.core.m.css')
+                ]
             }
         ]
     },

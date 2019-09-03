@@ -8,7 +8,11 @@ import { editorStoreContext } from "../../store/EditorStoreProvider";
 import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
 
-import "@kartikrao/lib-forms-core/src/app.css"
+import "@kartikrao/lib-forms-core/lib/forms.core.m.css"
+
+export interface CanvasProps {
+    onSave?: (formData: any) => void;
+}
 
 const { Content } = Layout;
 
@@ -21,7 +25,7 @@ const FormEditorView = React.lazy(() => import(/* webpackChunkName: "editors-for
 const PageEditorView = React.lazy(() => import(/* webpackChunkName: "editors-page" */ "../editors/page/PageEditorView"));
 const SectionEditorView = React.lazy(() => import(/* webpackChunkName: "editors-section" */ "../editors/section/SectionEditorView").then((module) => {return {default: module.SectionEditorView}}));
 
-export const Canvas : React.FC<any> = () => {
+export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
     const store = React.useContext(editorStoreContext);
     if(!store) throw new Error("Store is null");
 
@@ -160,6 +164,11 @@ export const Canvas : React.FC<any> = () => {
             } else {
                 this.handleMoveItem(result);
             }
+        },
+        onSave : function () {
+            if(props.onSave) {
+                props.onSave(store.asJSONForm())
+            }
         }
     }));
     return useObserver(() => {
@@ -167,6 +176,9 @@ export const Canvas : React.FC<any> = () => {
             <Menu mode="horizontal" theme="light" multiple={true} className="fl-shadow-sides">
                 <Menu.Item title="Form Controls" onClick={localStore.toggleSider} key="controls">
                     <Icon theme={localStore.siderCollapsed ? 'outlined' : 'filled'} type="control" />
+                </Menu.Item>
+                <Menu.Item title="Save" onClick={localStore.onSave} key="save">
+                    <Icon theme={'filled'} type="save" />
                 </Menu.Item>
             </Menu>
             <Layout.Content>
@@ -185,14 +197,18 @@ export const Canvas : React.FC<any> = () => {
                             </div>
                         </Col>
                         <Col span={16} style={{height: '100%'}}>
-                            <div className="fl-shadow-sides fl-full-height" style={{backgroundColor: "white"}}>
-                                <FormStoreProvider formStore={store.formStore}>
-                                    <Card bordered={false} title="Preview" style={{width: "100%", padding: '1px', borderBottom : '1px'}} bodyStyle={{padding: 0}}></Card>
-                                    {localStore.hasContent ? <FormView style={{height: "100%"}}/> : <div style={{height: "100%"}}>
-                                        <Empty description={<span>Add a page to this form.</span>} style={{marginTop: "20%"}}/>
-                                    </div>}
-                                </FormStoreProvider>
-                            </div>
+                            <Layout style={{height: "100%"}}>
+                                <Layout.Content>
+                                <Card bordered={false} title="Preview" style={{width: "100%", padding: '1px', borderBottom : '1px'}} bodyStyle={{padding: 0}}></Card>
+                                    <div className="fl-shadow-sides fl-full-height" style={{backgroundColor: "white", overflow: "auto", paddingBottom: '65px'}}>
+                                        <FormStoreProvider formStore={store.formStore}>
+                                            {localStore.hasContent ? <FormView style={{height: "100%"}}/> :
+                                                <Empty description={<span>Add a page to this form.</span>} style={{marginTop: "20%"}}/>
+                                            }
+                                        </FormStoreProvider>
+                                    </div>
+                                </Layout.Content>
+                            </Layout>
                         </Col>
                         <React.Suspense fallback="Loading...">
                             <FieldEditorView />
