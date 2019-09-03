@@ -1,4 +1,5 @@
-{   "compileOnSave": true,
+{
+    "compileOnSave": true,
     "compilerOptions": {
       "esModuleInterop": true,
       "incremental" :false,
