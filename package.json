@@ -1,6 +1,6 @@
 {
   "name": "@kartikrao/lib-forms",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "description": "Form edit code",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

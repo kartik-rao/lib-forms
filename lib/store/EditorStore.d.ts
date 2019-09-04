@@ -1,4 +1,4 @@
-import { Column, Factory, Field, GenericConstraint, ICondition, IPredicate, Page, Section } from "@kartikrao/lib-forms-core";
+import { Column, Factory, Field, GenericConstraint, ICondition, IPredicate, Page, Section, IFormProps } from "@kartikrao/lib-forms-core";
 export declare const createEditorStore: () => {
     selectedField: Field;
     selectedPage: Page;
@@ -102,6 +102,6 @@ export declare const createEditorStore: () => {
     readonly showSectionEditor: boolean;
     setFormEditorVisible: (visible?: boolean) => void;
     setEditable: (item: Field | Page | Section | Column) => void;
-    readonly asJSONForm: any;
+    readonly asJSONForm: IFormProps;
 } & import("mobx").IObservableObject;
 export declare type EditorStoreType = ReturnType<typeof createEditorStore>;

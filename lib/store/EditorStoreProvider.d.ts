@@ -103,7 +103,7 @@ export declare const editorStoreContext: React.Context<{
     readonly showSectionEditor: boolean;
     setFormEditorVisible: (visible?: boolean) => void;
     setEditable: (item: import("@kartikrao/lib-forms-core").Field | import("@kartikrao/lib-forms-core").Page | import("@kartikrao/lib-forms-core").Section | import("@kartikrao/lib-forms-core").Column) => void;
-    readonly asJSONForm: any;
+    readonly asJSONForm: import("@kartikrao/lib-forms-core").IFormProps;
 } & import("mobx").IObservableObject>;
 export declare const EditorStoreProvider: React.FC<{
     formStore: FormStoreType;
