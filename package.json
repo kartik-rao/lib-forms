@@ -30,7 +30,7 @@
     "mobx-logger": "^0.7.1",
     "mobx-react": "^6.1.3",
     "moment": "^2.24.0",
-    "@kartikrao/lib-forms-core": "^6.4.7",
+    "@kartikrao/lib-forms-core": "^6.5.0",
     "@kartikrao/lib-logging": "^1.6.0",
     "react-beautiful-dnd": "^11.0.5",
     "moment-timezone": "^0.5.25"
@@ -49,7 +49,7 @@
     "yup": "^0.26.10"
   },
   "devDependencies": {
-    "@kartikrao/lib-forms-core": "^6.4.7",
+    "@kartikrao/lib-forms-core": "^6.5.0",
     "@kartikrao/lib-logging": "^1.6.0",
     "@types/atlaskit__tree": "^4.1.1",
     "@types/draft-js": "^0.10.32",

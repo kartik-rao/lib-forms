@@ -167,7 +167,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
         },
         onSave : function () {
             if(props.onSave) {
-                props.onSave(store.asJSONForm())
+                props.onSave(store.asJSONForm)
             }
         }
     }));

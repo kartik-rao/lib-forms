@@ -1,4 +1,4 @@
-import { Column, Factory, Field, FormStoreType, GenericConstraint, ICondition, IPredicate, Page, Predicate, Section } from "@kartikrao/lib-forms-core";
+import { Column, Factory, Field, FormStoreType, GenericConstraint, ICondition, IPredicate, Page, Predicate, Section, IFormProps } from "@kartikrao/lib-forms-core";
 import { toJS, observable } from "mobx";
 
 export const createEditorStore = () => {
@@ -125,8 +125,8 @@ export const createEditorStore = () => {
                 }
             }
         },
-        get asJSONForm() : any {
-            return toJS(this.formStore.form, {exportMapsAsObjects: true});
+        get asJSONForm() : IFormProps {
+            return toJS(this.formStore.form.asPlainObject, {exportMapsAsObjects: true, recurseEverything: true});
         }
     };
     return observable(store);
