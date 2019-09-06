@@ -8,8 +8,10 @@ export const createEditorStore = () => {
         selectedSection: <Section> null,
         selectedColumn: <Column> null,
         showFormEditor: <boolean> null,
+        showPalette: <boolean> true,
         formStore: <FormStoreType> null,
         factory: <Factory> null,
+        isDirty : <boolean> false,
         setFormStore: function(store: FormStoreType) {
             this.formStore = store;
         },

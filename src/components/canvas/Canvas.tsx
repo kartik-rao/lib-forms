@@ -1,14 +1,12 @@
 import { Column, Factory, FormStoreProvider, FormView, Page, Section } from "@kartikrao/lib-forms-core";
-import { Col, Icon, Layout, Menu, Card, Empty } from 'antd';
+import "@kartikrao/lib-forms-core/lib/forms.core.m.css";
+import { Badge, Card, Col, Empty, Layout } from 'antd';
 import { useLocalStore, useObserver } from "mobx-react";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../store/EditorStoreProvider";
-
 import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
-
-import "@kartikrao/lib-forms-core/lib/forms.core.m.css"
 
 export interface CanvasProps {
     onSave?: (formData: any) => void;
@@ -34,12 +32,6 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
         get hasContent() {
             return store.formStore.form.content && store.formStore.form.content.pages && store.formStore.form.content.pages.length > 0;
         },
-        onSiderCollapse : function (siderCollapsed) {
-            this.siderCollapsed = siderCollapsed;
-        },
-        toggleSider:  function() {
-            this.siderCollapsed = !this.siderCollapsed;
-        },
         get itemMap(): any {
             let itemMap = {};
             store.formStore.form.content.pages.forEach((p) => {
@@ -62,6 +54,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
             if(destination == null) {
                 return;
             }
+            store.isDirty = true;
             const dIndex = destination.index;
             let id = genRandom();
             if (type == "Page") {
@@ -118,6 +111,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
             const { form } = store.formStore;
             const sIndex = source.index;
             const dIndex = destination.index;
+            store.isDirty = true;
             if (type == "Page") {
                 form.swapPages(source.index, destination.index);
             } else {
@@ -167,42 +161,35 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
         },
         onSave : function () {
             if(props.onSave) {
-                props.onSave(store.asJSONForm)
+                props.onSave(store.asJSONForm);
+                store.isDirty = false;
             }
         }
     }));
     return useObserver(() => {
         return <Layout className="fl-full-height-nopad">
-            <Menu mode="horizontal" theme="light" multiple={true} className="fl-shadow-sides">
-                <Menu.Item title="Form Controls" onClick={localStore.toggleSider} key="controls">
-                    <Icon theme={localStore.siderCollapsed ? 'outlined' : 'filled'} type="control" />
-                </Menu.Item>
-                <Menu.Item title="Save" onClick={localStore.onSave} key="save">
-                    <Icon theme={'filled'} type="save" />
-                </Menu.Item>
-            </Menu>
             <Layout.Content>
             <DragDropContext onDragEnd={localStore.onDragEnd}>
                 <Layout className="fl-full-height-nopad">
-                    <Layout.Sider trigger={null} collapsed={localStore.siderCollapsed} style={{zIndex: 11, background: '#FFFF'}}
-                    collapsible={true} onCollapse={localStore.onSiderCollapse} theme={"light"} collapsedWidth={0}>
+                    <Layout.Sider trigger={null} collapsed={!store.showPalette} style={{zIndex: 11, background: '#FFFF'}}
+                    collapsible={true} theme={"light"} collapsedWidth={0}>
                         <div className="fl-full-height fl-grey-box fl-shadow-sides">
                             <ComponentMenu />
                         </div>
                     </Layout.Sider>
                     <Content style={{overflow: "hidden", padding: '0'}}>
-                        <Col span={8} style={{height: '100%'}}>
+                        <Col span={8} className="fl-full-height">
                             <div className="fl-full-height fl-grey-box fl-shadow-sides">
                                 <ComponentTree />
                             </div>
                         </Col>
-                        <Col span={16} style={{height: '100%'}}>
-                            <Layout style={{height: "100%"}}>
+                        <Col span={16} className="fl-full-height">
+                            <Layout className="fl-full-height">
                                 <Layout.Content>
-                                <Card bordered={false} title="Preview" style={{width: "100%", padding: '1px', borderBottom : '1px'}} bodyStyle={{padding: 0}}></Card>
+                                <Card bordered={false} title={<span><Badge status={store.isDirty ? "processing" : "error"}/>Preview</span>} style={{width: "100%", padding: '1px', borderBottom : '1px'}} bodyStyle={{padding: 0}}></Card>
                                     <div className="fl-shadow-sides fl-full-height" style={{backgroundColor: "white", overflow: "auto", paddingBottom: '65px'}}>
                                         <FormStoreProvider formStore={store.formStore}>
-                                            {localStore.hasContent ? <FormView style={{height: "100%"}}/> :
+                                            {localStore.hasContent ? <FormView className="fl-full-height"/> :
                                                 <Empty description={<span>Add a page to this form.</span>} style={{marginTop: "20%"}}/>
                                             }
                                         </FormStoreProvider>
