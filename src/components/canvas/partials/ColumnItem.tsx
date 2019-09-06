@@ -1,9 +1,9 @@
 import { Column, Field } from "@kartikrao/lib-forms-core";
-import { Badge, Button } from "antd";
+import { Button, Tag, Icon } from "antd";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../../store/EditorStoreProvider";
-import { DraggableItem, getBadgeStyle, getItemStyle, DraggableItemList, getItemListStyle } from "./dnd.common";
+import { DraggableItem, DraggableItemList, getBadgeStyle, getItemListStyle, getItemStyle } from "./dnd.common";
 import { FieldItem } from "./FieldItem";
 
 
@@ -11,6 +11,8 @@ export interface IColumnItemProps {
     col: Column;
     key: string;
     index: number;
+    pageIndex: number;
+    sectionIndex: number;
 }
 
 export const ColumnItem: React.FC<IColumnItemProps> = (props) => {
@@ -18,19 +20,21 @@ export const ColumnItem: React.FC<IColumnItemProps> = (props) => {
     if(!store) throw new Error("Store is null");
     return <Draggable type="Column" draggableId={props.col.uuid} index={props.index}>
         {(provided, snapshot) => (
-          <DraggableItem ref={provided.innerRef} {...provided.draggableProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-            <Button type="dashed" shape="circle" onClick={() => store.setEditable(props.col)} size="small" icon="edit" title={`Edit ${props.col.name||"Column"}`} className="fl-tree-button"></Button>
-            <Badge style={{userSelect: 'none'}} {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Column")} text={`Column - ${props.col.name}`}/>
-                <Droppable droppableId={`${props.col.uuid}|fields`} type="Field">
-                    {(provided, snapshot) => {
-                        return <DraggableItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps} style={getItemListStyle(snapshot.isDraggingOver, "Column")}>
-                            {props.col.fields.map((f: Field, index) => {
-                                return <FieldItem key={f.uuid} fld={f} index={index}></FieldItem>
-                            })}
-                        {provided.placeholder}
-                        </DraggableItemList>
-                    }}
-                </Droppable>
+        <DraggableItem ref={provided.innerRef} {...provided.draggableProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+            <span {...provided.dragHandleProps} style={{userSelect: 'none'}}>
+                <Icon type="drag" style={{marginRight: '10px'}}/>
+                <Tag style={{cursor: "pointer"}} onClick={()=>store.setEditable(props.col)} color={getBadgeStyle("Column")}>{`Column - ${props.col.name}`}</Tag>
+            </span>
+            <Droppable droppableId={`${props.col.uuid}|fields`} type="Field">
+                {(provided, snapshot) => {
+                    return <DraggableItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} {...provided.droppableProps} style={getItemListStyle(snapshot.isDraggingOver, "Column")}>
+                        {props.col.fields.map((f: Field, index) => {
+                            return <FieldItem key={f.uuid} fld={f} pageIndex={props.pageIndex} sectionIndex={props.sectionIndex} columnIndex={props.index} index={index}></FieldItem>
+                        })}
+                    {provided.placeholder}
+                    </DraggableItemList>
+                }}
+            </Droppable>
             {provided.placeholder}
           </DraggableItem>
         )}

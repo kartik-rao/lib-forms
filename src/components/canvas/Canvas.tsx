@@ -186,7 +186,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                         <Col span={16} className="fl-full-height">
                             <Layout className="fl-full-height">
                                 <Layout.Content>
-                                <Card bordered={false} title={<span><Badge status={store.isDirty ? "processing" : "error"}/>Preview</span>} style={{width: "100%", padding: '1px', borderBottom : '1px'}} bodyStyle={{padding: 0}}></Card>
+                                <Card bordered={false} title={<span><Badge status={store.isDirty ? "error" : "success"}/>Preview</span>} style={{width: "100%", padding: '1px', borderBottom : '1px'}} bodyStyle={{padding: 0}}></Card>
                                     <div className="fl-shadow-sides fl-full-height" style={{backgroundColor: "white", overflow: "auto", paddingBottom: '65px'}}>
                                         <FormStoreProvider formStore={store.formStore}>
                                             {localStore.hasContent ? <FormView className="fl-full-height"/> :

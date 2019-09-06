@@ -22,8 +22,6 @@ export const getBadgeStyle = (type: string) => {
 
 export const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
     userSelect: 'none',
-    borderRadius : '10px',
-    border: isDragging ? "2px solid red" : "none",
     padding: "0.5rem",
     ...draggableStyle
 });
@@ -32,6 +30,5 @@ export const getItemListStyle = (isDraggingOver: boolean, type: string) => ({
     userSelect: 'none',
     padding : "0.5rem 0.5rem 0",
     marginTop: "4px",
-    border: isDraggingOver ? "2px solid #52c41a" : "none",
-    borderRadius : '10px'
+    border: isDraggingOver ? "1px dashed lightgray" : "none",
 })

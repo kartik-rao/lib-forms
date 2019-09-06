@@ -1,5 +1,5 @@
 import { Field } from "@kartikrao/lib-forms-core";
-import { Badge, Button } from "antd";
+import { Button, Tag, Icon } from "antd";
 import * as React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../../store/EditorStoreProvider";
@@ -9,6 +9,9 @@ export interface IFieldItemProps {
     fld: Field;
     key: string;
     index: number;
+    pageIndex: number;
+    sectionIndex: number;
+    columnIndex: number;
 }
 
 export const FieldItem: React.FC<IFieldItemProps> = (props) => {
@@ -16,10 +19,11 @@ export const FieldItem: React.FC<IFieldItemProps> = (props) => {
     if(!store) throw new Error("Store is null");
     return <Draggable type="Field" draggableId={props.fld.uuid} index={props.index}>
     {(provided, snapshot) => (
-        <DraggableItem ref={provided.innerRef} {...provided.draggableProps}
-                style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-            <Button type="dashed" shape="circle" onClick={() => store.setEditable(props.fld)} title={`Edit ${props.fld.name||"Field"}`} size="small" icon="edit" className="fl-tree-button"></Button>
-            <Badge style={{userSelect: 'none'}} {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Field")} text={`Field - ${props.fld.label}`}/>
+        <DraggableItem ref={provided.innerRef} {...provided.draggableProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+            <span {...provided.dragHandleProps} style={{userSelect: 'none'}}>
+                <Icon type="drag" style={{marginRight: '10px'}}/>
+                <Tag style={{cursor: "pointer"}} onClick={()=>store.setEditable(props.fld)} color={getBadgeStyle("Field")}>{`Field - ${props.fld.label}`}</Tag>
+            </span>
             {provided.placeholder}
         </DraggableItem>
     )}

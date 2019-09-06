@@ -13,7 +13,24 @@ export const createEditorStore = () => {
         factory: <Factory> null,
         isDirty : <boolean> false,
         setFormStore: function(store: FormStoreType) {
+            this.isDirty = false;
             this.formStore = store;
+        },
+        deletePage : function(index: number) {
+            this.formStore.form.removePage(index);
+            this.isDirty = true;
+        },
+        deleteSection : function(pageIndex: number, index: number) {
+            this.formStore.form.content.pages[pageIndex].sections.splice(index, 1);
+            this.isDirty = true;
+        },
+        deleteColumn : function(pageIndex: number, sectionIndex: number, index: number) {
+            this.formStore.form.content.pages[pageIndex].sections[sectionIndex].columns.splice(index, 1);
+            this.isDirty = true;
+        },
+        deleteField : function(pageIndex: number, sectionIndex: number, columnIndex: number, index: number) {
+            this.formStore.form.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields.splice(index, 1);
+            this.isDirty = true;
         },
         get availableConditionSources() : {key:string, id: string, label: string, name: string}[] {
             let fieldList = [];
