@@ -18,7 +18,7 @@ export const FieldItem: React.FC<IFieldItemProps> = (props) => {
     {(provided, snapshot) => (
         <DraggableItem ref={provided.innerRef} {...provided.draggableProps}
                 style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-            <Button type="dashed" shape="circle" onClick={() => store.setEditable(props.fld)} size="small" icon="edit" className="fl-tree-button"></Button>
+            <Button type="dashed" shape="circle" onClick={() => store.setEditable(props.fld)} title={`Edit ${props.fld.name||"Field"}`} size="small" icon="edit" className="fl-tree-button"></Button>
             <Badge style={{userSelect: 'none'}} {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Field")} text={`Field - ${props.fld.label}`}/>
             {provided.placeholder}
         </DraggableItem>

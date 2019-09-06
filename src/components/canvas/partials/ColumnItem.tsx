@@ -19,7 +19,7 @@ export const ColumnItem: React.FC<IColumnItemProps> = (props) => {
     return <Draggable type="Column" draggableId={props.col.uuid} index={props.index}>
         {(provided, snapshot) => (
           <DraggableItem ref={provided.innerRef} {...provided.draggableProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-            <Button type="dashed" shape="circle" onClick={() => store.setEditable(props.col)} size="small" icon="edit" className="fl-tree-button"></Button>
+            <Button type="dashed" shape="circle" onClick={() => store.setEditable(props.col)} size="small" icon="edit" title={`Edit ${props.col.name||"Column"}`} className="fl-tree-button"></Button>
             <Badge style={{userSelect: 'none'}} {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Column")} text={`Column - ${props.col.name}`}/>
                 <Droppable droppableId={`${props.col.uuid}|fields`} type="Field">
                     {(provided, snapshot) => {

@@ -19,7 +19,7 @@ export const SectionItem: React.FC<ISectionItemProps> = (props) => {
     return <Draggable type="Section" draggableId={props.sec.uuid} index={props.index}>
         {(provided, snapshot) => (
           <DraggableItem ref={provided.innerRef} {...provided.draggableProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-              <Button type="dashed" shape="circle" onClick={() => store.setEditable(props.sec)} size="small" icon="edit" className="fl-tree-button"></Button>
+              <Button type="dashed" shape="circle" onClick={() => store.setEditable(props.sec)} size="small" icon="edit" title={`Edit ${props.sec.name||"Section"}`} className="fl-tree-button"></Button>
               <Badge style={{userSelect: 'none'}} {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Section")} text={`Section - ${props.sec.name}`}/>
                 <Droppable droppableId={`${props.sec.uuid}|columns`} type="Column">
                 {(provided, snapshot) => {

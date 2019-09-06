@@ -13,7 +13,7 @@ export const ComponentTree: React.FC<any> = () => {
 
     return useObserver(() => {
         return <Card title={"Layout"} bordered={false} style={{height: '100%'}} bodyStyle={{height:'100%', padding: '10px', overflow: 'auto', paddingBottom:'48px'}}>
-        <Button type="dashed" onClick={() => {store.setFormEditorVisible(true)}} shape="circle" size="small" icon="edit" style={{marginRight: '5px', userSelect: 'none'}}></Button>
+        <Button type="dashed" onClick={() => {store.setFormEditorVisible(true)}} size="small" icon="edit" title={`Edit Form`} shape="circle"  style={{marginRight: '5px', userSelect: 'none'}}></Button>
         <Badge status="default" color={getBadgeStyle("Form")} text={`Form - ${store.formStore.form.name}`}/>
         <Droppable droppableId="pages" type="Page">
             {(provided, snapshot) => {

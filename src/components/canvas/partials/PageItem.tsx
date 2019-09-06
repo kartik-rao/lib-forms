@@ -20,7 +20,7 @@ export const PageItem: React.FC<IPageItemProps> = (props) => {
         {(provided, snapshot) => (
             <DraggableItem ref={provided.innerRef} {...provided.draggableProps}
             style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                <Button type="dashed" onClick={() => {store.setEditable(props.page)}} shape="circle" size="small" icon="edit" className="fl-tree-button"></Button>
+                <Button type="dashed" onClick={() => {store.setEditable(props.page)}} shape="circle" title={`Edit ${title||"Page"}`} size="small" icon="edit" className="fl-tree-button"></Button>
                 <Badge style={{userSelect: 'none'}} {...provided.dragHandleProps} status={snapshot.isDragging ? 'processing': "default"} color={getBadgeStyle("Page")} text={`Page - ${props.page.title}`}/>
                 <Droppable droppableId={`${props.page.uuid}|sections`} type="Section">
                     {(provided, snapshot) => {
