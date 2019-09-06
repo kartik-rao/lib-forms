@@ -5,6 +5,7 @@ export declare const createEditorStore: () => {
     selectedSection: Section;
     selectedColumn: Column;
     showFormEditor: boolean;
+    showPalette: boolean;
     formStore: {
         errors: {};
         values: {};
@@ -38,6 +39,7 @@ export declare const createEditorStore: () => {
         setFieldError: (id: string, error: any) => void;
     } & import("mobx").IObservableObject;
     factory: Factory;
+    isDirty: boolean;
     setFormStore: (store: {
         errors: {};
         values: {};
@@ -70,6 +72,10 @@ export declare const createEditorStore: () => {
         setFieldTouched: (id: string) => void;
         setFieldError: (id: string, error: any) => void;
     } & import("mobx").IObservableObject) => void;
+    deletePage: (index: number) => void;
+    deleteSection: (pageIndex: number, index: number) => void;
+    deleteColumn: (pageIndex: number, sectionIndex: number, index: number) => void;
+    deleteField: (pageIndex: number, sectionIndex: number, columnIndex: number, index: number) => void;
     readonly availableConditionSources: {
         key: string;
         id: string;

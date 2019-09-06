@@ -7,5 +7,4 @@ export declare const getItemListStyle: (isDraggingOver: boolean, type: string) =
     padding: string;
     marginTop: string;
     border: string;
-    borderRadius: string;
 };
