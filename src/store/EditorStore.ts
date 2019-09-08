@@ -17,7 +17,6 @@ export const createEditorStore = () => {
         setFormStore: function(store: FormStoreType) {
             this.isDirty = false;
             this.formStore = store;
-
         },
         resetUndoState: function() {
             UndoStack.splice(0, UndoStack.length);
@@ -30,6 +29,7 @@ export const createEditorStore = () => {
             if (markDirty) {
                 this.isDirty = true;
             }
+            console.log("PUSH <", change, "> | dirty",this.isDirty);
         },
         popUndoState : function() {
             if (this.formStore.form && UndoStack.length > 0) {
