@@ -70,7 +70,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                     name : `Page ${nextPageNum}`,
                     sections: []
                 })[0];
-                updateLog = `Add page at position [${nextPageNum}]`;
+                updateLog = `Added page at position [${nextPageNum}]`;
                 form.addPage(page, dIndex);
             } else {
                 let [dParentId] = destination.droppableId.split('|');
@@ -81,7 +81,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                         name: `Section_${id}`,
                         columns: []
                     })[0];
-                    updateLog = `Add section to page [${page.name}]`;
+                    updateLog = `Added section to page [${page.name}]`;
                     page.addSection(section, dIndex);
                 } else if (type == "Column") {
                     let section = this.itemMap[dParentId] as Section;
@@ -96,7 +96,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                     section.columns.forEach((c) => {
                         c.span = evenWidth;
                     });
-                    updateLog = `Add column to section [${section.name}]`;
+                    updateLog = `Added column to section [${section.name}]`;
                 } else if (type == "Field") {
                     let column = this.itemMap[dParentId] as Column;
                     let field = Factory.makeFields(store.formStore, {
@@ -107,7 +107,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                         componentProps: {},
                         fieldOptions: {}
                     })[0];
-                    updateLog = `Add field [${result.draggableId}] to column [${column.name}]`;
+                    updateLog = `Added field [${result.draggableId}] to column [${column.name}]`;
                     column.addField(field, dIndex);
                 }
             }
@@ -122,7 +122,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
             const dIndex = destination.index;
             let updateLog;
             if (type == "Page") {
-                updateLog = `Move page from position [${source.index+1}] to [${destination.index+1}]`;
+                updateLog = `Moved page from position [${source.index+1}] to [${destination.index+1}]`;
                 form.swapPages(source.index, destination.index);
             } else {
                 let [sParentId] = source.droppableId.split('|');
@@ -131,12 +131,12 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                 if (type == "Section") {
                     let prev = this.itemMap[sParentId] as Page;
                     if (sameParent) {
-                        updateLog = `Move section from position [${sIndex+1}] to [${dIndex+1}]`;
+                        updateLog = `Moved section from position [${sIndex+1}] to [${dIndex+1}]`;
                         prev.swapSections(sIndex, dIndex);
                     } else {
                         let next = this.itemMap[dParentId] as Page;
                         let section = prev.sections[sIndex];
-                        updateLog = `Move section ${section.name} to page [${next.name}] position [${dIndex+1}]`;
+                        updateLog = `Moved section ${section.name} to page [${next.name}] position [${dIndex+1}]`;
                         prev.removeSection(sIndex);
                         next.addSection(section, dIndex);
                     }
@@ -144,11 +144,11 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                     let prev = this.itemMap[sParentId] as Section;
                     if (sameParent) {
                         prev.swapColumns(sIndex, dIndex);
-                        updateLog = `Move column in section [${prev.name}] from position [${sIndex+1}] to [${dIndex+1}]`;
+                        updateLog = `Moved column in section [${prev.name}] from position [${sIndex+1}] to [${dIndex+1}]`;
                     } else {
                         let next = this.itemMap[dParentId] as Section;
                         let column = prev.columns[sIndex];
-                        updateLog = `Move column from section [${prev.name}] to [${next.name}]`;
+                        updateLog = `Moved column from section [${prev.name}] to [${next.name}]`;
                         prev.removeColumn(sIndex);
                         next.addColumn(column, dIndex);
                     }
@@ -156,11 +156,11 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                     let prev = this.itemMap[sParentId] as Column;
                     if (sameParent) {
                         prev.swapFields(sIndex, dIndex);
-                        updateLog = `Move field in column [${prev.name}] from position [${sIndex+1}] to [${dIndex+1}]`;
+                        updateLog = `Moved field in column [${prev.name}] from position [${sIndex+1}] to [${dIndex+1}]`;
                     } else {
                         let next = this.itemMap[dParentId] as Column;
                         let column = prev.fields[sIndex];
-                        updateLog = `Move field from column [${prev.name}] to [${next.name}]`;
+                        updateLog = `Moved field from column [${prev.name}] to [${next.name}]`;
                         prev.removeField(sIndex);
                         next.addField(column, dIndex);
                     }
