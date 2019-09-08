@@ -45,9 +45,9 @@ const FormContentEditorView =  ({form: {getFieldDecorator, getFieldValue, valida
             e.preventDefault();
             e.stopPropagation();
             let {form} = store.formStore;
-            console.log("Submitting");
             validateFieldsAndScroll((err, values) => {
                 if (!err) {
+                    store.pushUndoState(`Form layout edited`)
                     form.layout = this.selectedFormLayout;
                     form.formLayoutOptions.labelAlign = this.selectedLabelAlign;
                     notification.info({message: `Form - ${form.name}`,

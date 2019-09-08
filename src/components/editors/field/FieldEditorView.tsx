@@ -1,4 +1,4 @@
-import { ChoiceOption } from "@kartikrao/lib-forms-core";
+import { ChoiceOption, ISelectProps, IRadioGroupProps, ICheckboxGroupProps } from "@kartikrao/lib-forms-core";
 import { Col, Drawer, Row, Tabs } from "antd";
 import { useLocalStore, useObserver } from "mobx-react";
 import * as React from "react";
@@ -7,13 +7,18 @@ import ChoiceOptionEditorView from "./partials/ChoiceOptionEditorView";
 import ConditionsView from "./partials/ConditionsView";
 import FieldPropertiesView from "./partials/PropertiesView";
 import ValidationView from "./partials/ValidationView";
+import { toJS } from 'mobx';
 
 export const FieldEditorView : React.FC<any> = () => {
     const editorStore = React.useContext(editorStoreContext);
     if(!editorStore) throw new Error("Store is null");
     const localStore = useLocalStore(() => ({
         updateOptions: function(options: ChoiceOption[]) {
-            editorStore.selectedField.componentProps["options"] = options;
+            editorStore.pushUndoState(`Field "${editorStore.selectedField.label || editorStore.selectedField.name}" options edited`);
+            let existing = (editorStore.selectedField.componentProps as ISelectProps|IRadioGroupProps|ICheckboxGroupProps).options;
+            // Replace comes from mobx array
+            existing["replace"](options);
+
         },
         onOk: function () {
             editorStore.setEditable(null);

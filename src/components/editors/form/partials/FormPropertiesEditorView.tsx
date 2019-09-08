@@ -23,12 +23,12 @@ const FormPropertiesEditorView =  ({form: {getFieldDecorator, validateFieldsAndS
             let {form} = store.formStore;
             validateFieldsAndScroll((err, values) => {
                 if (!err) {
-                    notification.info({message: `Form - ${form.name}`, description:"Form properties applied successfully"});
+                    store.pushUndoState(`Form settings edited`);
+                    form.name = values.name;
                     form.description = values.desc;
-                    form.layout = values.layout;
                     form.content.title = values.content.title;
                     form.content.subtitle = values.content.subtitle;
-                    // form.status = {...form.status, ...values.status}
+                    notification.info({message: `Form - ${form.name}`, description:"Form settings updated"});
                 }
             });
             return;

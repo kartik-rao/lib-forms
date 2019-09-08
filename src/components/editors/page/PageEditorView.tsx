@@ -15,10 +15,11 @@ const PageEditorView : React.FC<FormComponentProps> = (props: FormComponentProps
             let {selectedPage: page} = store;
             props.form.validateFieldsAndScroll((err, values) => {
                 if (!err) {
-                    notification.info({message: `Page - ${page.name}`, description:"Page properties applied successfully"});
+                    store.pushUndoState(`Page "${page.name}" properties edited`);
                     Object.keys(values).forEach((p: string) => {
                         page[p] = values[p];
                     });
+                    notification.info({message: `Page - ${page.name}`, description:"Page properties applied successfully"});
                 }
             });
             return;

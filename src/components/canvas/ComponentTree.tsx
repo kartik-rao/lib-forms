@@ -18,7 +18,7 @@ export const ComponentTree: React.FC<any> = () => {
             {(provided, snapshot) => {
                 return <DraggableItemList isDraggingOver={snapshot.isDraggingOver} ref={provided.innerRef} style={getItemListStyle(snapshot.isDraggingOver, "Form")}>
                     { store.formStore.form.content.pages.map((page: Page, index) => {
-                        return <><PageItem key={page.uuid} page={page} index={index}></PageItem></>
+                        return <PageItem key={page.uuid} page={page} index={index}></PageItem>
                     })}
                 {provided.placeholder}
                 </DraggableItemList>

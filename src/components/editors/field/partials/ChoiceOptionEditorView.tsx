@@ -7,6 +7,7 @@ import ReactDragListView from "react-drag-listview";
 import Highlighter from 'react-highlight-words';
 import { editorStoreContext } from "../../../../store/EditorStoreProvider";
 import { formItemLayout, tailFormItemLayout } from "../../common/FormLayoutCommon";
+import { toJS } from 'mobx';
 
 export interface IChoiceOptionEditorViewProps {
     type: string;
@@ -17,36 +18,47 @@ export interface IChoiceOptionEditorViewProps {
 const ChoiceOptionEditorView : React.FC<IChoiceOptionEditorViewProps & FormComponentProps> = (props: IChoiceOptionEditorViewProps & FormComponentProps) => {
     const store = React.useContext(editorStoreContext);
     if (!store) throw new Error("Store is null");
-    let {type, items, onChange} = props;
+    let {type, items} = props;
     const localStore = useLocalStore(() => ({
         type: type,
-        items: items,
+        items: toJS(items) as ChoiceOption[],
         label: null as string,
         value: null as string,
         isEditing: false,
         searchInput: null as any,
         showAdd: false,
         searchText: null as string,
+        isDirty: false,
+        onApply: function() {
+            props.onChange(toJS(this.items));
+            this.isDirty = false;
+        },
         showAddChoiceItem: function (show: boolean) {
             this.showAdd = show;
         },
         move: function (fromIndex: number, toIndex: number) {
             this.items.splice(toIndex, 0, this.items.splice(fromIndex, 1)[0]);
-            onChange(this.items);
+            this.isDirty = true;
+            // onChange(this.items);
         },
         edit: function (record: ChoiceOption) {
             this.isEditing = true;
             this.label = record.label;
             this.value = record.value;
+            this.isDirty = true;
         },
         addChoiceOption: function (e) {
             e.preventDefault();
             e.stopPropagation();
-            (store.selectedField.componentProps as ISelectProps).options.push({label: this.label, value: this.value});
+            this.items.push({label: this.label, value: this.value});
+            this.isDirty = true;
+            // (store.selectedField.componentProps as ISelectProps).options.push();
             this.showAdd = false;
         },
         remove: function (index: number) {
-            (store.selectedField.componentProps as ISelectProps).options.splice(index, 1);
+            this.items.splice(index, 1);
+            this.isDirty = true;
+            //(store.selectedField.componentProps as ISelectProps).options.splice(index, 1);
         },
         setSearchInput: function (node: React.ReactNode) {
             this.searchInput = node;
@@ -138,13 +150,13 @@ const ChoiceOptionEditorView : React.FC<IChoiceOptionEditorViewProps & FormCompo
     }];
 
     return useObserver(() => {
-        return <Card size="small" bodyStyle={{ padding: 0 }} bordered={false}>
+        return <Card size="small" bodyStyle={{ padding: 0 }} extra={<Button disabled={!localStore.isDirty} onClick={localStore.onApply} size="small" type="primary">Save</Button>}>
             {localStore.items.length == 0 && <Empty description={
                 <span>No options on this field</span>
             }>
             </Empty>}
             {localStore.items.length > 0 && <ReactDragListView onDragEnd={localStore.move} handleSelector="i" nodeSelector="tr.ant-table-row">
-                <Table size="small" pagination={localStore.rows.length > 5 ? { position: 'bottom' } : false} dataSource={localStore.rows} columns={columns} rowKey='key'
+                <Table size="small" bordered={false} pagination={localStore.rows.length > 5 ? { position: 'bottom' } : false} dataSource={localStore.rows} columns={columns} rowKey='key'
                     footer={() => localStore.showAdd ? <></> : <Button size="small" onClick={(e) => localStore.showAddChoiceItem(true)}>Add</Button>} />
             </ReactDragListView>
             }
@@ -169,8 +181,8 @@ const ChoiceOptionEditorView : React.FC<IChoiceOptionEditorViewProps & FormCompo
                         })(<Input onChange={(e) => {localStore.value = e.target.value}}/>)}
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
-                        <Button type="danger" style={{ marginRight: '15px' }} onClick={() => localStore.showAddChoiceItem(false)}>Cancel</Button>
-                        <Button type="primary" htmlType="submit">Save</Button>
+                        <Button type="danger" size="small" style={{ marginRight: '15px' }} onClick={() => localStore.showAddChoiceItem(false)}>Cancel</Button>
+                        <Button type="primary" size="small" htmlType="submit">{localStore.isEditing ? "Save" : "Add"}</Button>
                     </Form.Item>
                 </Form></Card>}
         </Card>

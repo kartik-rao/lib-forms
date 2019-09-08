@@ -1,15 +1,18 @@
 import { Column, Factory, FormStoreProvider, FormView, Page, Section } from "@kartikrao/lib-forms-core";
 import "@kartikrao/lib-forms-core/lib/forms.core.m.css";
-import { Badge, Card, Col, Empty, Layout } from 'antd';
+import { Badge, Card, Col, Empty, Layout, Button, Icon, Popconfirm, notification, message } from 'antd';
 import { useLocalStore, useObserver } from "mobx-react";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../store/EditorStoreProvider";
 import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
+import { toJS } from 'mobx';
 
 export interface CanvasProps {
     onSave?: (formData: any) => void;
+    onAbort?: () => void;
+    onClose?: () => void;
 }
 
 const { Content } = Layout;
@@ -54,7 +57,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
             if(destination == null) {
                 return;
             }
-            store.isDirty = true;
+            store.pushUndoState(`Add ${type}`);
             const dIndex = destination.index;
             let id = genRandom();
             if (type == "Page") {
@@ -111,7 +114,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
             const { form } = store.formStore;
             const sIndex = source.index;
             const dIndex = destination.index;
-            store.isDirty = true;
+            store.pushUndoState(`Move ${type}`);
             if (type == "Page") {
                 form.swapPages(source.index, destination.index);
             } else {
@@ -162,10 +165,30 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
         onSave : function () {
             if(props.onSave) {
                 props.onSave(store.asJSONForm);
+                store.resetUndoState();
                 store.isDirty = false;
             }
+        },
+        onClose : function() {
+            if(props.onClose) {
+                props.onClose();
+            }
+        },
+        onUndo: function () {
+            let change = store.popUndoState();
+            message.success(`Undo - ${change}`);
         }
     }));
+
+    const canvasMenu = (
+        <span>
+        <Popconfirm key="close" placement="topLeft" title={store.isDirty ? 'Discard unsaved changes and exit ?' : 'Exit Canvas ?'} onConfirm={localStore.onClose} okText="Yes" cancelText="No">
+            <Button type="danger" size="small" title="Close" style={{marginRight: '10px'}}><Icon type="close"/>Close</Button>
+        </Popconfirm>
+        <Button key="undo" type="default" disabled={!store.isDirty} size="small" title="Undo" style={{marginRight: '10px'}} onClick={localStore.onUndo}><Icon type="undo"/>Undo</Button>
+        <Button key="save" type="primary" disabled={!store.isDirty} size="small" title="Save" style={{marginRight: '10px'}} onClick={localStore.onSave}><Icon type="save"/>Save</Button>
+        </span>
+    );
     return useObserver(() => {
         return <Layout className="fl-full-height-nopad">
             <Layout.Content>
@@ -186,7 +209,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                         <Col span={16} className="fl-full-height">
                             <Layout className="fl-full-height">
                                 <Layout.Content>
-                                <Card bordered={false} title={<span><Badge status={store.isDirty ? "error" : "success"}/>Preview</span>} style={{width: "100%", padding: '1px', borderBottom : '1px'}} bodyStyle={{padding: 0}}></Card>
+                                <Card bordered={false} extra={canvasMenu} title={<span><Badge status={store.isDirty ? "error" : "success"}/>Preview</span>} style={{width: "100%", padding: '1px', borderBottom : '1px'}} bodyStyle={{padding: 0}}></Card>
                                     <div className="fl-shadow-sides fl-full-height" style={{backgroundColor: "white", overflow: "auto", paddingBottom: '65px'}}>
                                         <FormStoreProvider formStore={store.formStore}>
                                             {localStore.hasContent ? <FormView className="fl-full-height"/> :

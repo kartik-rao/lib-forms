@@ -18,10 +18,10 @@ const FormContentEditorView =  ({form: {getFieldDecorator, validateFieldsAndScro
             let {form} = store.formStore;
             validateFieldsAndScroll((err, values) => {
                 if (!err) {
-                    notification.info({message: `Form - ${form.name}`,
-                        description:"Form properties applied successfully"});
-                    form.layout = values.layout;
+                    store.pushUndoState(`Form content options edited`);
                     form.formLayoutOptions = values.formLayoutOptions;
+                    notification.info({message: `Form - ${form.name}`,
+                        description:"Form content options updated"});
                 }
             });
             return;

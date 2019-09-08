@@ -1,7 +1,8 @@
-import { Column, Factory, Field, FormStoreType, GenericConstraint, ICondition, IPredicate, Page, Predicate, Section, IFormProps } from "@kartikrao/lib-forms-core";
-import { toJS, observable } from "mobx";
+import { Column, Factory, Field, FormStoreType, GenericConstraint, ICondition, IFormProps, IPredicate, Page, Predicate, Section } from "@kartikrao/lib-forms-core";
+import { observable, toJS } from "mobx";
 
 export const createEditorStore = () => {
+    let UndoStack = [];
     const store = {
         selectedField: <Field> null,
         selectedPage : <Page> null,
@@ -12,9 +13,35 @@ export const createEditorStore = () => {
         formStore: <FormStoreType> null,
         factory: <Factory> null,
         isDirty : <boolean> false,
+        changelog: [] as string[],
         setFormStore: function(store: FormStoreType) {
             this.isDirty = false;
             this.formStore = store;
+
+        },
+        resetUndoState: function() {
+            UndoStack.splice(0, UndoStack.length);
+        },
+        pushUndoState : function(change: string, markDirty: boolean = true) {
+            if (this.formStore.form) {
+                this.changelog.unshift(change);
+                UndoStack.unshift({value: this.formStore.form.asPlainObject, change: change});
+            }
+            if (markDirty) {
+                this.isDirty = true;
+            }
+        },
+        popUndoState : function() {
+            if (this.formStore.form && UndoStack.length > 0) {
+                let {change, value} = UndoStack.shift();
+                this.changelog.shift();
+                this.formStore.setForm(Factory.makeForm(this.formStore, value))
+                if (UndoStack.length == 0) {
+                    this.isDirty = false;
+                }
+                return change;
+            }
+            return null;
         },
         deletePage : function(index: number) {
             this.formStore.form.removePage(index);

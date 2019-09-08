@@ -17,6 +17,7 @@ export interface IFieldItemProps {
 export const FieldItem: React.FC<IFieldItemProps> = (props) => {
     const store = React.useContext(editorStoreContext);
     if(!store) throw new Error("Store is null");
+
     return <Draggable type="Field" draggableId={props.fld.uuid} index={props.index}>
     {(provided, snapshot) => (
         <DraggableItem ref={provided.innerRef} {...provided.draggableProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
