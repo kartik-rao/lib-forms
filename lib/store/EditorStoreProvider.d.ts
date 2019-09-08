@@ -41,6 +41,7 @@ export declare const editorStoreContext: React.Context<{
     } & import("mobx").IObservableObject;
     factory: import("@kartikrao/lib-forms-core").Factory;
     isDirty: boolean;
+    changelog: string[];
     setFormStore: (store: {
         errors: {};
         values: {};
@@ -73,6 +74,9 @@ export declare const editorStoreContext: React.Context<{
         setFieldTouched: (id: string) => void;
         setFieldError: (id: string, error: any) => void;
     } & import("mobx").IObservableObject) => void;
+    resetUndoState: () => void;
+    pushUndoState: (change: string, markDirty?: boolean) => void;
+    popUndoState: () => any;
     deletePage: (index: number) => void;
     deleteSection: (pageIndex: number, index: number) => void;
     deleteColumn: (pageIndex: number, sectionIndex: number, index: number) => void;

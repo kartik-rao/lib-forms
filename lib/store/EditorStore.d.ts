@@ -1,4 +1,4 @@
-import { Column, Factory, Field, GenericConstraint, ICondition, IPredicate, Page, Section, IFormProps } from "@kartikrao/lib-forms-core";
+import { Column, Factory, Field, GenericConstraint, ICondition, IFormProps, IPredicate, Page, Section } from "@kartikrao/lib-forms-core";
 export declare const createEditorStore: () => {
     selectedField: Field;
     selectedPage: Page;
@@ -40,6 +40,7 @@ export declare const createEditorStore: () => {
     } & import("mobx").IObservableObject;
     factory: Factory;
     isDirty: boolean;
+    changelog: string[];
     setFormStore: (store: {
         errors: {};
         values: {};
@@ -72,6 +73,9 @@ export declare const createEditorStore: () => {
         setFieldTouched: (id: string) => void;
         setFieldError: (id: string, error: any) => void;
     } & import("mobx").IObservableObject) => void;
+    resetUndoState: () => void;
+    pushUndoState: (change: string, markDirty?: boolean) => void;
+    popUndoState: () => any;
     deletePage: (index: number) => void;
     deleteSection: (pageIndex: number, index: number) => void;
     deleteColumn: (pageIndex: number, sectionIndex: number, index: number) => void;
