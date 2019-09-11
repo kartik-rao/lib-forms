@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-export const DraggableItemList = styled.div`
+export const DraggableItemList = styled.div<any>`
     min-height: 50px;
     flex: 0 0 100px;
 `;
 
-export const DraggableItem = styled.div`
+export const DraggableItem = styled.div<any>`
     cursor: 'grab';
 `;
 
