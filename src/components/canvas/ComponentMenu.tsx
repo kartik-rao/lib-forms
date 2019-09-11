@@ -6,12 +6,12 @@ import styled from 'styled-components';
 import { MenuMode } from 'antd/lib/menu';
 import { MenuTheme } from 'antd/lib/menu/MenuContext';
 
-const Container = styled.div`
+const Container = styled.div<any>`
     padding: 4px;
     background-color: white;
 `;
 
-const Item = styled.div``;
+const Item = styled.div<any>``;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
     userSelect: 'none',
