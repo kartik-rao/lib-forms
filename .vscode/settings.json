@@ -7,5 +7,8 @@
         "**/dist/*": true,
         "**/*.d.ts" : {"when": "$(basename).ts"}
     },
-    "editor.quickSuggestionsDelay": 50
+    "editor.quickSuggestionsDelay": 50,
+    "workbench.editor.enablePreview": false,
+    "editor.hover.delay": 500,
+    "editor.minimap.enabled": false
 }
