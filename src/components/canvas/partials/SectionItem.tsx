@@ -1,5 +1,5 @@
 import { Column, Section } from "@kartikrao/lib-forms-core";
-import { Button, Tag, Icon } from "antd";
+import { Button, Tag, Icon, Popconfirm } from "antd";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../../store/EditorStoreProvider";
@@ -23,6 +23,7 @@ export const SectionItem: React.FC<ISectionItemProps> = (props) => {
             <span {...provided.dragHandleProps} style={{userSelect: 'none'}}>
                 <Icon type="drag" style={{marginRight: '10px'}}/>
                 <Tag style={{cursor: "pointer"}} onClick={()=>store.setEditable(props.sec)} color={getBadgeStyle("Section")}>{`Section - ${props.sec.name}`}</Tag>
+                <Popconfirm title="Delete Section ?" onConfirm={() => store.deleteSection(props.pageIndex, props.index)}><Icon type="delete" style={{cursor: "pointer"}}/></Popconfirm>
             </span>
                 <Droppable droppableId={`${props.sec.uuid}|columns`} type="Column">
                 {(provided, snapshot) => {

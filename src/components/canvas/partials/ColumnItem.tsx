@@ -1,5 +1,5 @@
 import { Column, Field } from "@kartikrao/lib-forms-core";
-import { Button, Tag, Icon } from "antd";
+import { Button, Tag, Icon, Popconfirm } from "antd";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../../store/EditorStoreProvider";
@@ -24,6 +24,7 @@ export const ColumnItem: React.FC<IColumnItemProps> = (props) => {
             <span {...provided.dragHandleProps} style={{userSelect: 'none'}}>
                 <Icon type="drag" style={{marginRight: '10px'}}/>
                 <Tag style={{cursor: "pointer"}} onClick={()=>store.setEditable(props.col)} color={getBadgeStyle("Column")}>{`Column - ${props.col.name}`}</Tag>
+                <Popconfirm title="Delete Column ?" onConfirm={() => store.deleteColumn(props.pageIndex, props.sectionIndex, props.index)}><Icon type="delete" style={{cursor: "pointer"}}/></Popconfirm>
             </span>
             <Droppable droppableId={`${props.col.uuid}|fields`} type="Field">
                 {(provided, snapshot) => {

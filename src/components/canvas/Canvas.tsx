@@ -207,8 +207,9 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
         return <span>
             <Badge status={store.isDirty ? "error" : "success"}/>Preview {store.isDirty}
             <Popover content={changeLogContent} title="Changelog" trigger="click" style={{marginLeft:"10px"}}>
-                <Button size="small" style={{marginLeft: '15px'}} disabled={!store.isDirty}><Icon type="ellipsis"/>Changelog</Button>
+                <Button size="small" style={{marginLeft: '15px'}} disabled={!store.isDirty}><Icon type="ellipsis"/>{store.changelog.length > 0 ? "Show Changes" : "Unchanged"}</Button>
             </Popover>
+            <Button key="undo" type="default" disabled={!store.isDirty} size="small" title="Undo" style={{marginLeft: '10px'}} onClick={localStore.onUndo}><Icon type="undo"/>Undo</Button>
         </span>
     });
 
@@ -221,7 +222,6 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
         <Popconfirm key="close" placement="topLeft" title={store.isDirty ? 'Discard unsaved changes and exit ?' : 'Exit Canvas ?'} onConfirm={localStore.onClose} okText="Yes" cancelText="No">
             <Button type="danger" size="small" title="Close" style={{marginRight: '10px'}}><Icon type="close"/>Close</Button>
         </Popconfirm>
-        <Button key="undo" type="default" disabled={!store.isDirty} size="small" title="Undo" style={{marginRight: '10px'}} onClick={localStore.onUndo}><Icon type="undo"/>Undo</Button>
         <Button key="save" type="primary" disabled={!store.isDirty} size="small" title="Save" style={{marginRight: '10px'}} onClick={localStore.onSave}><Icon type="save"/>Save</Button>
         </span>
     });
