@@ -27,7 +27,7 @@ const ConditionsEditorView : React.FC<FormComponentProps> = (props: FormComponen
             e.stopPropagation();
             props.form.validateFieldsAndScroll((err, values) => {
                 if (!err) {
-                    store.pushUndoState(`Field "${store.selectedField.label || store.selectedField.name}" ${this.isEditing ? 'condition edited' : 'condition added'}`);
+                    store.pushUndoState(`Field "${store.selectedField.label || store.selectedField.name}" ${this.isEditing ? 'condition edited' : 'condition added'}.`);
                     if(this.isEditing) {
                         let predicate = store.selectedField.condition.predicates.find((p:Predicate) => {
                             return p.uuid == this.uuid;

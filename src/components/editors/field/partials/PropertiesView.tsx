@@ -56,7 +56,7 @@ const PropertiesView : React.FC<FormComponentProps> = ({form: {getFieldDecorator
                             merge[p] = values[p];
                         }
                     });
-                    store.pushUndoState(`Field ${field.label||field.name} properties undo`);
+                    store.pushUndoState(`Field ${field.id} (${field.label||field.name}) properties updated.`);
                     field.mergeUpdate(merge);
                     notification.info({message: `Field - ${field.label||field.name}`,
                         description:"Field properties applied successfully"});

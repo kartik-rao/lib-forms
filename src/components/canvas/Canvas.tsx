@@ -198,10 +198,15 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
         }
     }));
 
+    const changeLogContent = useObserver(() => {
+        return store.changelog.map((line, i) => {
+            return <p key={i}>{line}</p>
+        })
+    })
     const canvasTitle = useObserver(() => {
         return <span>
             <Badge status={store.isDirty ? "error" : "success"}/>Preview {store.isDirty}
-            <Popover content={store.changelog.join("\n")} title="Changelog" trigger="click" style={{marginLeft:"10px"}}>
+            <Popover content={changeLogContent} title="Changelog" trigger="click" style={{marginLeft:"10px"}}>
                 <Button size="small" style={{marginLeft: '15px'}} disabled={!store.isDirty}><Icon type="ellipsis"/>Changelog</Button>
             </Popover>
         </span>

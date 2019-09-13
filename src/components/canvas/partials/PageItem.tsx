@@ -1,5 +1,5 @@
 import { Page, Section } from "@kartikrao/lib-forms-core";
-import { Button, Tag, Icon } from "antd";
+import { Button, Tag, Icon, Popconfirm } from "antd";
 import * as React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../../store/EditorStoreProvider";
@@ -23,6 +23,7 @@ export const PageItem: React.FC<IPageItemProps> = (props) => {
                 <span {...provided.dragHandleProps} style={{userSelect: 'none'}}>
                     <Icon type="drag" style={{marginRight: '10px'}}/>
                     <Tag style={{cursor: "pointer"}} onClick={()=>store.setEditable(props.page)} color={getBadgeStyle("Page")}>{`Page - ${props.page.title}`}</Tag>
+                    <Popconfirm title="Delete Page ?" onConfirm={() => store.deletePage(props.index)}><Icon type="delete" style={{cursor: "pointer"}}/></Popconfirm>
                 </span>
                 <Droppable droppableId={`${props.page.uuid}|sections`} type="Section">
                     {(provided, snapshot) => {

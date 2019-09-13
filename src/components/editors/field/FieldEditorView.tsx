@@ -14,7 +14,7 @@ export const FieldEditorView : React.FC<any> = () => {
     if(!editorStore) throw new Error("Store is null");
     const localStore = useLocalStore(() => ({
         updateOptions: function(options: ChoiceOption[]) {
-            editorStore.pushUndoState(`Field "${editorStore.selectedField.label || editorStore.selectedField.name}" options edited`);
+            editorStore.pushUndoState(`Field "${editorStore.selectedField.label || editorStore.selectedField.name}" options edited.`);
             let existing = (editorStore.selectedField.componentProps as ISelectProps|IRadioGroupProps|ICheckboxGroupProps).options;
             // Replace comes from mobx array
             existing["replace"](options);
