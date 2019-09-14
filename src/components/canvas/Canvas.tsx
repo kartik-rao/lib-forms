@@ -1,12 +1,13 @@
-import { Column, Factory, FormStoreProvider, FormView, Page, Section } from "@kartikrao/lib-forms-core";
+import { Column, Factory, FormStoreProvider, FormView, Page, Section, Field } from "@kartikrao/lib-forms-core";
 import "@kartikrao/lib-forms-core/lib/forms.core.m.css";
-import { Badge, Button, Card, Col, Empty, Icon, Layout, message, Popconfirm, Popover, Switch } from 'antd';
+import { Badge, Button, Card, Col, Empty, Icon, Layout } from 'antd';
 import { useLocalStore, useObserver } from "mobx-react";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { editorStoreContext } from "../../store/EditorStoreProvider";
 import { ComponentMenu } from "./ComponentMenu";
 import { ComponentTree } from "./ComponentTree";
+import { CanvasMenu } from "./partials/CanvasMenu";
 
 export interface CanvasProps {
     onSave?: (formData: any) => void;
@@ -51,14 +52,12 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
             return itemMap;
         },
         handleNewItem : function (result: DropResult) {
-
             const { destination, type } = result;
             const { form } = store.formStore;
             if(destination == null || !type) {
                 return;
             }
 
-            let updateLog: string;
             const dIndex = destination.index;
             let id = genRandom();
 
@@ -70,7 +69,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                     name : `Page ${nextPageNum}`,
                     sections: []
                 })[0];
-                updateLog = `Added page at position [${nextPageNum}]`;
+                store.pushUndoState(`Added page at position [${nextPageNum}]`);
                 form.addPage(page, dIndex);
             } else {
                 let [dParentId] = destination.droppableId.split('|');
@@ -81,7 +80,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                         name: `Section_${id}`,
                         columns: []
                     })[0];
-                    updateLog = `Added section to page [${page.name}]`;
+                    store.pushUndoState(`Added section to page [${page.name}]`);
                     page.addSection(section, dIndex);
                 } else if (type == "Column") {
                     let section = this.itemMap[dParentId] as Section;
@@ -96,7 +95,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                     section.columns.forEach((c) => {
                         c.span = evenWidth;
                     });
-                    updateLog = `Added column to section [${section.name}]`;
+                    store.pushUndoState(`Added column to section [${section.name}]`);
                 } else if (type == "Field") {
                     let column = this.itemMap[dParentId] as Column;
                     let field = Factory.makeFields(store.formStore, {
@@ -107,12 +106,10 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                         componentProps: {},
                         fieldOptions: {}
                     })[0];
-                    updateLog = `Added field [${result.draggableId}] to column [${column.name}]`;
+                    store.pushUndoState(`Added field [${result.draggableId}] to column [${column.name}]`);
                     column.addField(field, dIndex);
                 }
             }
-            console.log("Handle Add - PUSH")
-            store.pushUndoState(updateLog);
             return;
         },
         handleMoveItem : function (result: DropResult) {
@@ -120,9 +117,9 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
             const { form } = store.formStore;
             const sIndex = source.index;
             const dIndex = destination.index;
-            let updateLog;
+
             if (type == "Page") {
-                updateLog = `Moved page from position [${source.index+1}] to [${destination.index+1}]`;
+                store.pushUndoState(`Moved page from position [${source.index+1}] to [${destination.index+1}]`);
                 form.swapPages(source.index, destination.index);
             } else {
                 let [sParentId] = source.droppableId.split('|');
@@ -131,42 +128,41 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                 if (type == "Section") {
                     let prev = this.itemMap[sParentId] as Page;
                     if (sameParent) {
-                        updateLog = `Moved section from position [${sIndex+1}] to [${dIndex+1}]`;
+                        store.pushUndoState(`Moved section from position [${sIndex+1}] to [${dIndex+1}]`);
                         prev.swapSections(sIndex, dIndex);
                     } else {
                         let next = this.itemMap[dParentId] as Page;
                         let section = prev.sections[sIndex];
-                        updateLog = `Moved section ${section.name} to page [${next.name}] position [${dIndex+1}]`;
+                        store.pushUndoState(`Moved section ${section.name} to page [${next.name}] position [${dIndex+1}]`);
                         prev.removeSection(sIndex);
                         next.addSection(section, dIndex);
                     }
                 } else if (type == "Column") {
                     let prev = this.itemMap[sParentId] as Section;
                     if (sameParent) {
+                        store.pushUndoState(`Moved column in section [${prev.name}] from position [${sIndex+1}] to [${dIndex+1}]`);
                         prev.swapColumns(sIndex, dIndex);
-                        updateLog = `Moved column in section [${prev.name}] from position [${sIndex+1}] to [${dIndex+1}]`;
                     } else {
                         let next = this.itemMap[dParentId] as Section;
                         let column = prev.columns[sIndex];
-                        updateLog = `Moved column from section [${prev.name}] to [${next.name}]`;
+                        store.pushUndoState(`Moved column from section [${prev.name}] to [${next.name}]`);
                         prev.removeColumn(sIndex);
                         next.addColumn(column, dIndex);
                     }
                 } else if (type == "Field") {
                     let prev = this.itemMap[sParentId] as Column;
                     if (sameParent) {
+                        store.pushUndoState(`Moved field in column [${prev.name}] from position [${sIndex+1}] to [${dIndex+1}]`);
                         prev.swapFields(sIndex, dIndex);
-                        updateLog = `Moved field in column [${prev.name}] from position [${sIndex+1}] to [${dIndex+1}]`;
                     } else {
                         let next = this.itemMap[dParentId] as Column;
                         let column = prev.fields[sIndex];
-                        updateLog = `Moved field from column [${prev.name}] to [${next.name}]`;
+                        store.pushUndoState(`Moved field from column [${prev.name}] to [${next.name}]`);
                         prev.removeField(sIndex);
                         next.addField(column, dIndex);
                     }
                 }
             }
-            store.pushUndoState(updateLog);
         },
         onDragEnd : function(result : DropResult) {
             const { source } = result;
@@ -175,54 +171,12 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
             } else {
                 this.handleMoveItem(result);
             }
-        },
-        onSave : function () {
-            if(props.onSave) {
-                props.onSave(store.asJSONForm);
-            }
-        },
-        onClose : function() {
-            if(props.onClose) {
-                props.onClose();
-            }
-        },
-        onUndo: function () {
-            let change = store.popUndoState();
-            message.success(`Undo - ${change}`);
-        },
-        toggleValidation: function() {
-            store.formStore.validationDisabled = !store.formStore.validationDisabled;
-        },
-        toggleConditions: function() {
-            store.formStore.conditionsDisabled = !store.formStore.conditionsDisabled;
         }
     }));
 
-    const changeLogContent = useObserver(() => {
-        return store.changelog.map((line, i) => {
-            return <p key={i}>{line}</p>
-        })
-    })
     const canvasTitle = useObserver(() => {
         return <span>
-            <Badge status={store.isDirty ? "error" : "success"}/>Preview {store.isDirty}
-            <Popover content={changeLogContent} title="Changelog" trigger="click" style={{marginLeft:"10px"}}>
-                <Button size="small" style={{marginLeft: '15px'}} disabled={!store.isDirty}><Icon type="ellipsis"/>{store.changelog.length > 0 ? "Show Changes" : "Unchanged"}</Button>
-            </Popover>
-            <Button key="undo" type="default" disabled={!store.isDirty} size="small" title="Undo" style={{marginLeft: '10px'}} onClick={localStore.onUndo}><Icon type="undo"/>Undo</Button>
-        </span>
-    });
-
-    const canvasMenu = useObserver(() => {
-        return <span>
-            <span style={{float:"left"}}>
-                <span style={{marginRight: "10px"}}>Validation<Switch onChange={localStore.toggleValidation} defaultChecked={!store.formStore.validationDisabled} style={{marginLeft: '5px'}} checkedChildren="ON" unCheckedChildren="OFF"/></span>
-                <span style={{marginRight: "10px"}}>Conditions<Switch onChange={localStore.toggleConditions} defaultChecked={!store.formStore.conditionsDisabled} style={{marginLeft: '5px'}} checkedChildren="ON" unCheckedChildren="OFF"/></span>
-            </span>
-        <Popconfirm key="close" placement="topLeft" title={store.isDirty ? 'Discard unsaved changes and exit ?' : 'Exit Canvas ?'} onConfirm={localStore.onClose} okText="Yes" cancelText="No">
-            <Button type="danger" size="small" title="Close" style={{marginRight: '10px'}}><Icon type="close"/>Close</Button>
-        </Popconfirm>
-        <Button key="save" type="primary" disabled={!store.isDirty} size="small" title="Save" style={{marginRight: '10px'}} onClick={localStore.onSave}><Icon type="save"/>Save</Button>
+            <Badge status={store.isDirty ? "error" : "success"}/>Preview <small style={{fontWeight: "normal"}}> - <i>{store.isDirty ? store.changelog[0] : "Unchanged"}</i></small>
         </span>
     });
 
@@ -231,6 +185,7 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
             <Layout.Content>
             <DragDropContext onDragEnd={localStore.onDragEnd}>
                 <Layout className="fl-full-height-nopad">
+                    <CanvasMenu onSave={props.onSave} onClose={props.onClose}/>
                     <Layout.Sider trigger={null} collapsed={!store.showPalette} style={{zIndex: 11, background: '#FFFF'}}
                     collapsible={true} theme={"light"} collapsedWidth={0}>
                         <div className="fl-full-height fl-grey-box fl-shadow-sides">
@@ -238,15 +193,15 @@ export const Canvas : React.FC<CanvasProps> = (props: CanvasProps) => {
                         </div>
                     </Layout.Sider>
                     <Content style={{overflow: "hidden", padding: '0'}}>
-                        <Col span={8} className="fl-full-height">
+                        {store.showLayout && <Col span={8} className="fl-full-height">
                             <div className="fl-full-height fl-grey-box fl-shadow-sides">
                                 <ComponentTree />
                             </div>
-                        </Col>
-                        <Col span={16} className="fl-full-height">
+                        </Col>}
+                        <Col span={store.previewSpan} className="fl-full-height fl-grey-box">
                             <Layout className="fl-full-height">
                                 <Layout.Content>
-                                <Card bordered={false} extra={canvasMenu} title={canvasTitle} style={{width: "100%", padding: '1px', borderBottom : '1px'}} bodyStyle={{padding: 0}}></Card>
+                                <Card bordered={false} extra={<Button onClick={() => store.toggleShowCanvasMenu()} size="small"> <Icon type="menu"></Icon>Menu</Button>} title={canvasTitle} style={{padding: '1px', borderBottom : '1px'}} bodyStyle={{padding: 0}}></Card>
                                     <div className="fl-shadow-sides fl-full-height" style={{backgroundColor: "white", overflow: "auto", paddingBottom: '65px'}}>
                                         <FormStoreProvider formStore={store.formStore}>
                                             {localStore.hasContent ? <FormView className="fl-full-height"/> :

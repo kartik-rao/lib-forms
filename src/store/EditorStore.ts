@@ -8,12 +8,17 @@ export const createEditorStore = () => {
         selectedPage : <Page> null,
         selectedSection: <Section> null,
         selectedColumn: <Column> null,
+        showCanvasMenu: <boolean> false,
         showFormEditor: <boolean> null,
         showPalette: <boolean> true,
+        showLayout: <boolean> true,
         formStore: <FormStoreType> null,
         factory: <Factory> null,
         isDirty : <boolean> false,
         changelog: [] as string[],
+        toggleShowCanvasMenu : function () {
+            this.showCanvasMenu = !this.showCanvasMenu;
+        },
         setFormStore: function(store: FormStoreType) {
             this.isDirty = false;
             this.formStore = store;
@@ -32,6 +37,7 @@ export const createEditorStore = () => {
             console.log("PUSH <", change, "> | dirty",this.isDirty);
         },
         popUndoState : function() {
+
             if (this.formStore.form && UndoStack.length > 0) {
                 let {change, value} = UndoStack.shift();
                 this.changelog.shift();
@@ -63,6 +69,13 @@ export const createEditorStore = () => {
             this.pushUndoState(`Field ${f.id} (${f.label||f.name}) deleted.`);
             this.formStore.form.content.pages[pageIndex].sections[sectionIndex].columns[columnIndex].fields.splice(index, 1);
             this.isDirty = true;
+        },
+        get previewSpan() : number {
+            let initial = 24;
+            if (this.showLayout) {
+                initial = initial - 8;
+            }
+            return initial;
         },
         get availableConditionSources() : {key:string, id: string, label: string, name: string}[] {
             let fieldList = [];
