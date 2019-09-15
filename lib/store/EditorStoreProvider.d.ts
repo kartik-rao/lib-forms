@@ -5,19 +5,28 @@ export declare const editorStoreContext: React.Context<{
     selectedPage: import("@kartikrao/lib-forms-core").Page;
     selectedSection: import("@kartikrao/lib-forms-core").Section;
     selectedColumn: import("@kartikrao/lib-forms-core").Column;
+    showCanvasMenu: boolean;
     showFormEditor: boolean;
     showPalette: boolean;
+    showLayout: boolean;
     formStore: {
+        env: string;
+        debug: number | boolean;
+        version: string;
+        apiHost: string;
         errors: {};
         values: {};
         touched: {};
         currentPage: number;
-        debug: boolean;
+        showDebug: boolean;
         form: import("@kartikrao/lib-forms-core").Form;
         isReady: boolean;
         submitting: boolean;
         validationDisabled: boolean;
         conditionsDisabled: boolean;
+        preventRedirects: boolean;
+        preventSubmit: boolean;
+        toggleShowDebug: () => void;
         readonly idFieldMap: {
             [key: string]: import("@kartikrao/lib-forms-core").Field;
         };
@@ -42,17 +51,25 @@ export declare const editorStoreContext: React.Context<{
     factory: import("@kartikrao/lib-forms-core").Factory;
     isDirty: boolean;
     changelog: string[];
+    toggleShowCanvasMenu: () => void;
     setFormStore: (store: {
+        env: string;
+        debug: number | boolean;
+        version: string;
+        apiHost: string;
         errors: {};
         values: {};
         touched: {};
         currentPage: number;
-        debug: boolean;
+        showDebug: boolean;
         form: import("@kartikrao/lib-forms-core").Form;
         isReady: boolean;
         submitting: boolean;
         validationDisabled: boolean;
         conditionsDisabled: boolean;
+        preventRedirects: boolean;
+        preventSubmit: boolean;
+        toggleShowDebug: () => void;
         readonly idFieldMap: {
             [key: string]: import("@kartikrao/lib-forms-core").Field;
         };
@@ -81,6 +98,7 @@ export declare const editorStoreContext: React.Context<{
     deleteSection: (pageIndex: number, index: number) => void;
     deleteColumn: (pageIndex: number, sectionIndex: number, index: number) => void;
     deleteField: (pageIndex: number, sectionIndex: number, columnIndex: number, index: number) => void;
+    readonly previewSpan: number;
     readonly availableConditionSources: {
         key: string;
         id: string;

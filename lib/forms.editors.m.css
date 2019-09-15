@@ -173,3 +173,11 @@ tr.ant-table-expanded-row {
     border-radius: 10px;
     margin-top : 5px;
 }
+
+.fl-left-margin-ten {
+    margin-left: 10px;
+}
+
+.fl-right-margin-ten {
+    margin-right: 10px;
+}
