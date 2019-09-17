@@ -70,42 +70,6 @@ const FormPropertiesEditorView =  ({form: {getFieldDecorator, validateFieldsAndS
                     })(<Input/>)
                 }
             </Form.Item>
-            {/* <Form.Item label="Entry Timezone Offset" help="UTC by default, used to mark entry times">
-                    {
-                    getFieldDecorator('status.timezone', {
-                        initialValue: form.status.timezone || 'UTC',
-                        rules: [
-                            {type: 'string'},
-                            {required: true, message: 'A timezone offset is required'}
-                        ]
-                    })(<Select>
-                        {timezones.map((options, index) => {
-                            return <Select.Option key={index} value={options.value}>{options.label}</Select.Option>
-                        })}
-                    </Select>)
-                }
-            </Form.Item>
-            <Form.Item label="Paused" help="Pause this form (will stop collection of entries immediately)">
-                    {
-                    getFieldDecorator('status.paused', {
-                        initialValue: form.status.paused
-                    })(<Switch/>)
-                }
-            </Form.Item>
-            <Form.Item label="Starts" help="Schedule form activation">
-                    {
-                    getFieldDecorator('status.starts', {
-                        initialValue: form.status.starts,
-                    })(<DatePicker showTime />)
-                }
-            </Form.Item>
-            <Form.Item label="Ends" help="Schedule form deactivation">
-                    {
-                    getFieldDecorator('status.ends', {
-                        initialValue: form.status.ends,
-                    })(<DatePicker showTime />)
-                }
-            </Form.Item> */}
             <Form.Item {...tailFormItemLayout}>
                 <Button type="primary" htmlType="submit" style={{marginTop: '15px'}}>Apply</Button>
             </Form.Item>
