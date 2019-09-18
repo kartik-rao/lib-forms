@@ -151,15 +151,10 @@ const ChoiceOptionEditorView : React.FC<IChoiceOptionEditorViewProps & FormCompo
 
     return useObserver(() => {
         return <Card size="small" bodyStyle={{ padding: 0 }} extra={<Button disabled={!localStore.isDirty} onClick={localStore.onApply} size="small" type="primary">Save</Button>}>
-            {localStore.items.length == 0 && <Empty description={
-                <span>No options on this field</span>
-            }>
-            </Empty>}
-            {localStore.items.length > 0 && <ReactDragListView onDragEnd={localStore.move} handleSelector="i" nodeSelector="tr.ant-table-row">
+            <ReactDragListView onDragEnd={localStore.move} handleSelector="i" nodeSelector="tr.ant-table-row">
                 <Table size="small" bordered={false} pagination={localStore.rows.length > 5 ? { position: 'bottom' } : false} dataSource={localStore.rows} columns={columns} rowKey='key'
                     footer={() => localStore.showAdd ? <></> : <Button size="small" onClick={(e) => localStore.showAddChoiceItem(true)}>Add</Button>} />
             </ReactDragListView>
-            }
             {localStore.showAdd && <Card title="Add option" size="small" style={{ marginTop: '15px' }}>
                 <Form {...formItemLayout} layout="horizontal" onSubmit={(e) => localStore.addChoiceOption(e)}>
                     <Form.Item help="Enter the label shown to the user (must be unique)" label="Label">
