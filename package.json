@@ -4,6 +4,7 @@
   "description": "Form edit code",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "files": ["lib/**/*"],
   "repository": {
     "type": "git",
     "url": "git@github.com:adinfinity/lib-forms.git"
