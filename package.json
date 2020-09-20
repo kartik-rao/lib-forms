@@ -4,7 +4,9 @@
   "description": "Form edit code",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "files": ["lib/**/*"],
+  "files": [
+    "lib/**/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:adinfinity/lib-forms.git"
@@ -38,11 +40,11 @@
   },
   "dependencies": {
     "@types/react-beautiful-dnd": "^11.0.3",
-    "draft-js": "^0.10.5",
+    "draft-js": "^0.11.7",
     "formik": "^1.5.0",
     "immutability-helper": "^3.0.0",
     "json-schema-to-yup": "^1.8.8",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.20",
     "prop-types": "^15.7.1",
     "set-value": "^3.0.1",
     "styled-components": "^4.3.1",
@@ -96,8 +98,8 @@
     "typescript": "^3.6.3",
     "webpack": "^4.39.2",
     "webpack-bundle-analyzer": "^3.4.1",
-    "webpack-cli": "^3.3.2",
-    "webpack-dev-server": "^3.1.3",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
     "webpack-node-externals": "^1.7.2"
   }
 }
